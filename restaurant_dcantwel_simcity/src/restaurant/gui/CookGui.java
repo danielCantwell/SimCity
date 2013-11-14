@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import SimCity.gui.Gui;
+
 /**
  * @author Daniel
  * 

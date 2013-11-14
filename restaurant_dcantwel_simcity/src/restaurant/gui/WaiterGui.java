@@ -4,6 +4,8 @@ import restaurant.WaiterAgent;
 
 import java.awt.*;
 
+import SimCity.gui.Gui;
+
 public class WaiterGui implements Gui {
 
 	private static int numWaiter = 0;

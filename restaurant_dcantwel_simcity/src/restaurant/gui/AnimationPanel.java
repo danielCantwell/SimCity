@@ -2,6 +2,7 @@ package restaurant.gui;
 
 import javax.swing.*;
 
+import SimCity.gui.Gui;
 import restaurant.HostAgent;
 import restaurant.HostAgent.Table;
 
