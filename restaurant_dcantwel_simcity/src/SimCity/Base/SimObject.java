@@ -1,5 +1,8 @@
 package SimCity.Base;
-
+/**
+ * @author Brian Chen
+ *
+ */
 public class SimObject {
 	int id;
 	

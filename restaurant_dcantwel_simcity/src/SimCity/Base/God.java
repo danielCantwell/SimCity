@@ -2,11 +2,15 @@ package SimCity.Base;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.Timer;
 
-
+/**
+ * @author Brian Chen
+ *
+ */
 public class God {
 
 	    private static final God INSTANCE = new God();
@@ -16,7 +20,9 @@ public class God {
 	    int hour;
 	    Timer hourTimer;
 	    int hourOffset;
-	    HashMap<Integer, SimObject> simObjects;
+	    HashMap<Integer, SimObject> simObjects; //may remove bc redundant
+	    ArrayList<Building> buildings = new ArrayList<Building>();
+	    ArrayList<Person> persons = new ArrayList<Person>();
 	    
 	    
 	    public int getDay(){ return day;}
