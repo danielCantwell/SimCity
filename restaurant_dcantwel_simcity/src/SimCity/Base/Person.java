@@ -6,6 +6,7 @@ package SimCity.Base;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+import SimCity.Globals.Money;
 import SimCity.gui.Gui;
 import agent.Agent;
 
@@ -39,7 +40,7 @@ public class Person extends Agent {
 	
 	//Stats
 		private int hungerLevel = 5;
-		private Money money;
+		private Money money = 10;
 		private Building building = null;
 		private Building destination = null;
 		private Morality mor = Morality.good;
@@ -86,12 +87,64 @@ public class Person extends Agent {
 	}
 	
 	//Scheduler
-	
+	boolean returnPAEAA = false;
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
-		return false;
+		//if there is an active Role r in roles then return whatever that PAEAA returns
+		for (Role r: roles){
+			if (r.active){
+				 returnPAEAA =  r.pickAndExecuteAnAction();
+			}
+		}
+		
+		if (ps == PersonState.workOver){
+			workOver();
+			return false;
+		}
+		
+		if (ps == PersonState.goingToSleep){
+			goToSleep();
+			return false;
+		}
+		
+		//ifperson not doing anything
+		if (ps == PersonState.idle){
+			//check if he has enough money.
+			if (money.dollars < 5){
+				goToBank();
+				return false;
+			}
+			
+			//Check if he is hungry
+			if (hungerLevel < 3){
+				goToRestaurant();
+				return false;
+			}
+			
+		}
 	}
+	
+	
+	//Actions
+	private void workOver() {
+		for (Role r: roles){
+			r.workOver();
+		}
+	}
+	private void goToSleep() {
+		// TODO Auto-generated method stub
+		
+	}
+	private void goToBank() {
+		// TODO Auto-generated method stub
+		
+	}
+	private void goToRestaurant() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//Utility
 	
 }
 
