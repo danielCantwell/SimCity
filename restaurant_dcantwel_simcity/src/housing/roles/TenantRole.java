@@ -1,6 +1,8 @@
-package SimCity.Base;
+package housing.roles;
 
-import SimCity.gui.TenantGui;
+import housing.gui.TenantGui;
+import SimCity.Base.Person;
+import SimCity.Globals.Money;
 
 /**
  * @author Daniel
@@ -11,6 +13,8 @@ public class TenantRole {
 	/*
 	 * Data
 	 */
+	
+	private Person person;
 	
 	private Money rentOwed;
 	private OwnerRole owner;

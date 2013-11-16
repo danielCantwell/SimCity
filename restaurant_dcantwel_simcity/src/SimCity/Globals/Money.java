@@ -1,7 +1,7 @@
 /**
  * 
  */
-package SimCity.Base;
+package SimCity.Globals;
 
 /**
  * @author Daniel
@@ -12,7 +12,7 @@ public class Money {
 	public int dollars;
 	public int cents;
 
-	Money(int dollars, int cents) {
+	public Money(int dollars, int cents) {
 		this.dollars = dollars;
 		this.cents = cents;
 	}

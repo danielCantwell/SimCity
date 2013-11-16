@@ -1,12 +1,14 @@
 /**
  * 
  */
-package SimCity.Base;
+package housing.roles;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import SimCity.Base.Person;
+import SimCity.Globals.Money;
 import restaurant.WaiterAgent.MyCustomer;
 
 /**
@@ -18,6 +20,8 @@ public class OwnerRole {
 	/*
 	 * Data
 	 */
+	
+	Person person;
 
 	private final Money RENT = new Money(100, 0);
 
@@ -34,7 +38,7 @@ public class OwnerRole {
 
 	// MSG from the God class at a certain time
 	public void msgTimeToCollectRent() {
-		if (apartment) {
+		if (person.getHomeType() == "Apartment") {
 			synchronized (tenants) {
 				for (Tenant tenant : tenants) {
 					tenant.state = TenantState.OwesRent;
