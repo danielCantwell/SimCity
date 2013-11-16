@@ -28,8 +28,8 @@ public class Person extends Agent {
 	
 	private ArrayList<String> inventory = new ArrayList<String>();
 	
-	private enum Morality {good, crook};
-	private enum PersonState {walking,
+	public enum Morality {good, crook};
+	public enum PersonState {walking,
 							  goingToSleep,
 							  sleeping,
 							  idle,
@@ -46,6 +46,22 @@ public class Person extends Agent {
 		private Building destination = null;
 		private Morality mor = Morality.good;
 		private PersonState ps = PersonState.idle;
+
+		//Getters and setters
+		public int getHungerLevel(){return hungerLevel;}
+		public void setHungerLevel(int s){hungerLevel = s;}
+		public void addHungerLevel(int s){hungerLevel += s;}
+		public int getHungerThreshold(){return hungerThreshold;}
+		public Money getMoney(){return money;}
+		public void setMoney(int dollars, int cents){money.dollars = dollars; money.cents = cents;}
+		public void setMoney(Money newMoney){money = newMoney;}
+		public void setMoney(double newMoney){money.dollars = (int)newMoney; money.cents = (int)((newMoney - (int)newMoney)*100);}
+		public Building getBuilding(){return building;}
+		public Building getDestination(){return destination;}
+		public Morality getMorality(){return mor; }
+		public String getHomeType(){ return house;}
+		public PersonState getPersonState() { return ps;}
+		
 		
 	//Messages
 	public void msgCreateRole(Role r){
@@ -65,6 +81,11 @@ public class Person extends Agent {
 	public void msgSleep(){
 		ps = PersonState.goingToSleep;
 		stateChanged();
+	}
+	
+	public void msgEviction() {
+		//set housing to null.. becomes homeless if doesn't pay rent for multiple pay periods
+		house = "";
 	}
 	
 	public void msgEnterBuilding(Building b){
@@ -161,11 +182,6 @@ public class Person extends Agent {
 	void release(){
 		animation.release();
 	}
-	
-	public String getHomeType(){
-		return house;
-	}
-	
 	
 	void createVehicle(){
 		if (vehicle == Vehicle.bus) return;
