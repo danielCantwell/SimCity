@@ -40,7 +40,8 @@ public class Person extends Agent {
 	
 	//Stats
 		private int hungerLevel = 5;
-		private Money money = 10;
+		private int hungerThreshold = 3; 
+		private Money money = new Money(10,0);
 		private Building building = null;
 		private Building destination = null;
 		private Morality mor = Morality.good;
@@ -116,12 +117,12 @@ public class Person extends Agent {
 			}
 			
 			//Check if he is hungry
-			if (hungerLevel < 3){
+			if (hungerLevel < hungerThreshold){
 				goToRestaurant();
 				return false;
 			}
-			
 		}
+		return returnPAEAA;
 	}
 	
 	
@@ -132,19 +133,45 @@ public class Person extends Agent {
 		}
 	}
 	private void goToSleep() {
-		// TODO Auto-generated method stub
-		
+		//animation to home.
 	}
 	private void goToBank() {
-		// TODO Auto-generated method stub
-		
+		//animation to bank.
 	}
 	private void goToRestaurant() {
-		// TODO Auto-generated method stub
-		
+		//animation to restaurant.
 	}
 	
 	//Utility
+	public void goTo(Building b){
+		createVehicle();
+		//Animation for gui stuff here.
+		//Call person gui animation.
+		destination = b;
+	}
+	
+	void acquire(){
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void release(){
+		animation.release();
+	}
+	
+	public String getHomeType(){
+		return house;
+	}
+	
+	
+	void createVehicle(){
+		if (vehicle == Vehicle.bus) return;
+		//changes person gui's image. based on vehicle.
+	}
+	
 	
 }
 
