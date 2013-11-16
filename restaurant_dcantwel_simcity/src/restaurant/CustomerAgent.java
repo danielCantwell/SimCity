@@ -3,6 +3,7 @@ package restaurant;
 import restaurant.gui.CustomerGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
+import SimCity.Base.God;
 import agent.Agent;
 
 import java.util.Timer;
