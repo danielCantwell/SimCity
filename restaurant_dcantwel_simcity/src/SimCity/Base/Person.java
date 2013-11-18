@@ -6,6 +6,7 @@ package SimCity.Base;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+import restaurant.CustomerAgent;
 import SimCity.Globals.Money;
 import SimCity.gui.Gui;
 import agent.Agent;
@@ -65,6 +66,16 @@ public class Person extends Agent {
 		
 		
 	//Messages
+	public void msgMainRole(){
+		switch (job){
+			//case "Host": msgCreateRole(new )
+		
+		}
+		
+		//msgCreateRole(new CustomerAgent());
+	
+	}
+		
 	public void msgCreateRole(Role r){
 		//If there already exists a role r. Turn it on.
 		for(Role ro: roles){
