@@ -46,7 +46,7 @@ public class Person extends Agent {
 		private Building destination = null;
 		private Morality mor = Morality.good;
 		private PersonState ps = PersonState.idle;
-		
+
 		//Getters and setters
 		public int getHungerLevel(){return hungerLevel;}
 		public void setHungerLevel(int s){hungerLevel = s;}
@@ -61,7 +61,6 @@ public class Person extends Agent {
 		public Morality getMorality(){return mor; }
 		public String getHomeType(){ return house;}
 		public PersonState getPersonState() { return ps;}
-		
 		
 		
 	//Messages
@@ -183,7 +182,6 @@ public class Person extends Agent {
 	void release(){
 		animation.release();
 	}
-	
 	
 	void createVehicle(){
 		if (vehicle == Vehicle.bus) return;
