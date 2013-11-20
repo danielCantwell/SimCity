@@ -8,6 +8,7 @@ import housing.gui.TenantGui;
 import housing.interfaces.Owner;
 import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
+import housing.roles.OwnerRole.ApplianceState;
 import SimCity.Base.Person.PersonState;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
@@ -63,6 +64,15 @@ public class TenantRole extends Role implements Tenant{
 			return true;
 		}
 		
+		synchronized(appliances) {
+			for (Appliance a : appliances) {
+				if (a.state == ApplianceState.NeedsFixing) {
+					a.fixAppliance();
+					return true;
+				}
+			}
+		}
+		
 		return false;
 	}
 	
@@ -105,8 +115,10 @@ public class TenantRole extends Role implements Tenant{
 	private void useAppliance(String type) {
 		for (Appliance a : appliances) {
 			if (a.type == type) {
-				if (a.useAppliance() <= 0) {
+				a.useAppliance();
+				if (a.durability <= 0) {
 					owner.msgApplianceBroken(this, a);
+					a.state = ApplianceState.NeedsFixing;
 				}
 			}
 		}
