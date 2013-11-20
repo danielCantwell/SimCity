@@ -8,19 +8,17 @@ import housing.interfaces.Tenant;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import SimCity.Base.Person;
+import SimCity.Base.Role;
 import SimCity.Globals.Money;
-import restaurant.WaiterAgent.MyCustomer;
 
 /**
  * @author Daniel
  * 
  */
-public class OwnerRole implements Owner{
+public class OwnerRole extends Role implements Owner{
 	
 	public OwnerRole() {
 		appliances.add(new Appliance("Fridge", 10));
@@ -30,8 +28,6 @@ public class OwnerRole implements Owner{
 	}
 
 	//-------------------------------------DATA-------------------------------------
-	
-	Person person;
 
 	private final Money RENT = new Money(100, 0);
 
@@ -53,11 +49,12 @@ public class OwnerRole implements Owner{
 	// MSG from setup
 	public void msgAddTenant(Tenant tenant) {
 		myTenants.add(new MyTenant(tenant));
+		tenant.msgHereAreAppliances(appliances);
 	}
 
 	// MSG from the God class at a certain time
 	public void msgTimeToCollectRent() {
-		if (person.getHomeType() == "Apartment") {
+		if (myPerson.getHomeType() == "Apartment") {
 			synchronized (myTenants) {
 				for (MyTenant tenant : myTenants) {
 					tenant.state = TenantState.OwesRent;
@@ -195,6 +192,12 @@ public class OwnerRole implements Owner{
 		void fixAppliance() {
 			durability = initialDurability;
 		}
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

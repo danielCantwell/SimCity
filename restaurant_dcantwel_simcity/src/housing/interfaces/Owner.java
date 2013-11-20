@@ -3,6 +3,9 @@
  */
 package housing.interfaces;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import housing.roles.OwnerRole.Appliance;
 import SimCity.Globals.Money;
 
