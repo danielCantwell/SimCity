@@ -10,6 +10,7 @@ import agent.Agent;
 
 public class bankGuardRole extends Agent {
 	//----------------------------------------------Data-------------------------------------------------
+	bankManagerRole manager;
 	List<String> badObjs = new ArrayList<String>();
 	public List<Entry> custEnter = Collections.synchronizedList(new ArrayList<Entry>());
 	class Entry {
@@ -24,7 +25,7 @@ public class bankGuardRole extends Agent {
 		badObjs.add("knife");
 		badObjs.add("ski mask");
 	}
-	
+
 	//----------------------------------------------Messages-------------------------------------------------
 	public void wantEnter(bankCustomerRole newC) {
 		Entry c = new Entry();
@@ -43,11 +44,12 @@ public class bankGuardRole extends Agent {
 			}
 		}
 	}
-	
+
 	public void workOver() {
 		s = state.leaving;
+		stateChanged();
 	}
-	
+
 	//----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
 		if ( s.equals("leaving")) {
@@ -77,19 +79,22 @@ public class bankGuardRole extends Agent {
 		c.bc.requestSearch();
 		c.s = state.requested;
 	}
-	
+
 	public void Search(Entry c) {
 		for(int i = 0; i < badObjs.size(); i++) {
 			for(int j = 0; j < c.inventory.size(); j++) {
 				if(badObjs.get(1).equals(c.inventory.get(j))) {
 					c.bc.noEnter();
 				}
-				else c.bc.yesEnter();
+				else {
+					c.bc.yesEnter();
+					manager.newClient(c.bc);
+				}
 			}
 		}
 		custEnter.remove(c);
 	}
-	
+
 	public void leaveBank() {
 		//Make GUI call to leave the bank
 	}

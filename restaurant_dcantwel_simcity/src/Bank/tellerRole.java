@@ -19,10 +19,18 @@ public class tellerRole extends Agent {
 		state s;
 		bankCustomerRole cust;
 	}
-	public enum state{ none, withdraw, deposit, leaving };
+	public enum state{ none, added, called, withdraw, deposit, leaving };
 	private state s = state.none;
 	
 	//-----------------------------------------------Messages-------------------------------------------------
+	public void tellerAssigned(bankCustomerRole c) {
+		Client cl = new Client();
+		cl.cust = c;
+		cl.s = state.added;
+		clients.add(cl);
+		stateChanged();
+	}
+	
 	public void foundTeller(int accNum, int money, bankCustomerRole cust) {
 		Client c = new Client();
 		c.accountNum = accNum;
@@ -62,6 +70,13 @@ public class tellerRole extends Agent {
 		}
 		synchronized(clients) {
 			for (Client c : clients) {
+				if(c.s.equals("added")) {
+					callClient(c);
+				}
+			}
+		}
+		synchronized(clients) {
+			for (Client c : clients) {
 				if(c.s.equals("withdraw")) {
 					withdrawDone(c);
 				}
@@ -86,6 +101,11 @@ public class tellerRole extends Agent {
 	}
 
 	//-----------------------------------------------Actions-------------------------------------------------
+	public void callClient(Client c) {
+		c.cust.tellerCalled(this);
+		c.s = state.called;
+	}
+	
 	public void askService(Client c){
 		c.cust.whatService();
 	}
