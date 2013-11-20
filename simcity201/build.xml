@@ -1,4 +1,4 @@
-<project name="agents" default="targets" basedir=".">
+<project name="simcity201" default="targets" basedir=".">
 
   <!-- set global properties for this build -->
     <property name="src" location="src"/>

@@ -1,4 +1,4 @@
-package astar;
+package exterior.astar;
 import  java.util.*;
 
 public class AStarNode implements Node

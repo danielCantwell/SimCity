@@ -1,6 +1,10 @@
+package exterior.gui;
+
 import java.awt.*;
 import java.util.List;
-import astar.*;
+
+import exterior.astar.AStarNode;
+import exterior.astar.*;
 
 public class PersonGui implements Gui {
 	SimCityGui gui;

@@ -1,4 +1,8 @@
+package exterior.gui;
+
 import javax.swing.*;
+
+import exterior.astar.AStarTraversal;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +11,6 @@ import java.util.ArrayList;
 import java.util.concurrent.*; 
 import java.util.List;
 
-import astar.*;
 
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
