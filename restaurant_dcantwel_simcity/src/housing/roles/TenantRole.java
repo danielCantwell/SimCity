@@ -1,41 +1,48 @@
 package housing.roles;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import housing.gui.TenantGui;
 import housing.interfaces.Owner;
 import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
 import SimCity.Base.Person;
 import SimCity.Base.Person.PersonState;
+import SimCity.Base.Role;
 import SimCity.Globals.Money;
 
 /**
  * @author Daniel
  *
  */
-public class TenantRole implements Tenant{
+public class TenantRole extends Role implements Tenant{
 	
 	//-------------------------------------DATA-------------------------------------
-	
-	private Person person;
 	
 	private Money rentOwed;
 	private Owner owner;
 	
 	TenantGui gui;
 	
-	/*
+	
 	public List<Appliance> appliances = Collections
 			.synchronizedList(new ArrayList<Appliance>());
-	*/
+	
 	
 	//-----------------------------------MESSAGES-----------------------------------
+	
+	public void msgHereAreAppliances(List<Appliance> a) {
+		appliances = a;
+	}
 	
 	public void msgPayRent(Money m) {
 		rentOwed = m;
 	}
 	
 	public void msgEvictionNotice() {
-		person.setHomeType("None");
+		myPerson.setHomeType("None");
 	}
 	
 	//-----------------------------------SCHEDULER-----------------------------------
@@ -47,12 +54,12 @@ public class TenantRole implements Tenant{
 			return true;
 		}
 		
-		if (person.getHungerLevel() >= person.getHungerThreshold()) {
+		if (myPerson.getHungerLevel() >= myPerson.getHungerThreshold()) {
 			getFood();
 			return true;
 		}
 		
-		if (person.getPersonState() == PersonState.goingToSleep) {
+		if (myPerson.getPersonState() == PersonState.goingToSleep) {
 			sleep();
 			return true;
 		}
@@ -64,8 +71,8 @@ public class TenantRole implements Tenant{
 	
 	private void tryToPayRent() {
 		gui.DoGoToMailbox();
-		if (person.getMoney().isGreaterThan(rentOwed)) {
-			person.getMoney().subtract(rentOwed);
+		if (myPerson.getMoney().isGreaterThan(rentOwed)) {
+			myPerson.getMoney().subtract(rentOwed);
 			owner.msgHereIsRent(this, rentOwed);
 		}
 		else {
@@ -75,11 +82,11 @@ public class TenantRole implements Tenant{
 	
 	private void getFood() {
 		// If the customer is hungry, but willing to wait a bit, and has enough cash
-		if (rentOwed.isZero() && person.getMoney() >= person.getMoneyThreshold()) {
+		if (rentOwed.isZero() && myPerson.getMoney() >= myPerson.getMoneyThreshold()) {
 			// Leave house to go to Restaurant
 			gui.DoLeaveHouse();
 			// TODO decide which restaurant to go to and how to get there
-			person.msgGoToBuilding(restaurant);
+			//person.msgGoToBuilding(restaurant);
 		}
 		else {
 			gui.DoGoToFridge();
@@ -97,12 +104,18 @@ public class TenantRole implements Tenant{
 	}
 	
 	private void useAppliance(String type) {
-		for (Appliance a : owner.appliances) { // TODO - hack to get appliances from owner
+		for (Appliance a : appliances) {
 			if (a.type == type) {
 				if (a.useAppliance() <= 0) {
 					owner.msgApplianceBroken(this, a);
 				}
 			}
 		}
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 }
