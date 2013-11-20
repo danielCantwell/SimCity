@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 
@@ -196,6 +195,12 @@ public class OwnerRole extends Role implements Owner{
 
 	@Override
 	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void enterBuilding() {
 		// TODO Auto-generated method stub
 		
 	}

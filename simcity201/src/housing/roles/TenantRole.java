@@ -8,7 +8,6 @@ import housing.gui.TenantGui;
 import housing.interfaces.Owner;
 import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
-import SimCity.Base.Person;
 import SimCity.Base.Person.PersonState;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
@@ -82,7 +81,7 @@ public class TenantRole extends Role implements Tenant{
 	
 	private void getFood() {
 		// If the customer is hungry, but willing to wait a bit, and has enough cash
-		if (rentOwed.isZero() && myPerson.getMoney() >= myPerson.getMoneyThreshold()) {
+		if (rentOwed.isZero() && myPerson.getMoney().isGreaterThan(myPerson.getMoneyThreshold())) {
 			// Leave house to go to Restaurant
 			gui.DoLeaveHouse();
 			// TODO decide which restaurant to go to and how to get there
@@ -115,6 +114,12 @@ public class TenantRole extends Role implements Tenant{
 
 	@Override
 	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void enterBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
