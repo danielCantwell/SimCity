@@ -48,10 +48,12 @@ public class Money {
 	/**
 	 * Add m to current money
 	 * @param m - money to add
+	 * @return 
 	 */
-	public void add(Money m) {
+	public Money add(Money m) {
 		dollars += m.dollars;
 		cents += m.cents;
+		return this;
 	}
 	
 	/**
@@ -69,7 +71,7 @@ public class Money {
 	 * Subtract m from current money
 	 * @param m - money to subtract
 	 */
-	public void subtract(Money m) {
+	public Money subtract(Money m) {
 		if (this.isGreaterThan(m)) {
 			dollars -= m.dollars;
 			if (cents >= m.cents) {
@@ -83,6 +85,7 @@ public class Money {
 		else {
 			System.err.println("Invalid money transaction. Cannot subtract that much money.");
 		}
+		return m;
 	}
 	
 	/**

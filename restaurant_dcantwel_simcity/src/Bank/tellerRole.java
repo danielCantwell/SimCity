@@ -118,15 +118,17 @@ public class tellerRole extends Agent {
 	public void withdrawDone(Client c) {
 		if( c.editmoney.isGreaterThan(bankAccs.get(c.accountNum))) {
 			c.money = c.money.add(c.editmoney);
-			bankAccs.put(c.accountNum, bankAccs.get(c.accountNum) - c.editmoney);
+			Money temp = bankAccs.get(c.accountNum);
+			bankAccs.put(c.accountNum, temp.subtract(c.editmoney));
 			c.cust.transactionComplete(c.money);
 			clients.remove(c);
 		}
 	}
 
 	public void depositDone(Client c) {
-		c.money = c.money - c.editmoney;
-		bankAccs.put(c.accountNum, bankAccs.get(c.accountNum) + c.editmoney);
+		c.money = c.money.subtract(c.editmoney);
+		Money temp = bankAccs.get(c.accountNum);
+		bankAccs.put(c.accountNum, temp.add(c.editmoney));
 		c.cust.transactionComplete(c.money);
 		clients.remove(c);
 	}
