@@ -15,7 +15,6 @@ public class bankCustomerRole extends Agent{
 	int accNum;
 	Money money;
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
-	//int money;			//Money is an int right now, will change to Money class
 	private bankGuardRole guard;
 	private tellerRole teller;
 	state s = state.none;
@@ -82,12 +81,13 @@ public class bankCustomerRole extends Agent{
 	}
 	
 	public void chooseService() {
-		if (money.getDollar() > 30) {									//Temporary method for choosing whether to withdraw/deposit
+		if (money.getDollar() > 30) {							//Temporary method for choosing whether to withdraw/deposit
 			teller.requestWithdraw(accNum, wMoney); 			//arbitrary amount to withdraw, can be changed later
 		}
 		else {
 			money.subtract(30, 0);
-			teller.requestDeposit(accNum,money);		//deposits everything over $30
+			teller.requestDeposit(accNum,money);				//deposits everything over $30
+			money.add(30,0);
 		}
 	}
 	

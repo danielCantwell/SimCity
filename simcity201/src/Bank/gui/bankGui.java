@@ -1,7 +1,6 @@
-package Bank;
+package Bank.gui;
 
 import housing.gui.TenantGui;
-
 
 import java.awt.Color;
 import java.awt.Graphics;

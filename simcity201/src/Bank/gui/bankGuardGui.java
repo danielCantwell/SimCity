@@ -1,21 +1,18 @@
-package Bank;
-
-import Bank.bankCustomerRole;
+package Bank.gui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-
+import Bank.bankGuardRole;
 import SimCity.gui.Gui;
 
-public class bankCustomerGui implements Gui {
-
-	private bankCustomerRole customer;
+public class bankGuardGui implements Gui{
+	
+	private bankGuardRole guard;
 	private int xPos, yPos;
 	private int xDest,  yDest;
 	private int xSize = 20, ySize = 20;
-	private final int yCounterPos = 150;
-	private final int xCounterPos = 320;
 	
+	@Override
 	public void updatePosition() {
 		if (xPos < xDest)
 			xPos++;
@@ -27,30 +24,16 @@ public class bankCustomerGui implements Gui {
 		else if (yPos > yDest)
 			yPos--;
 	}
-	//Customer enters the Bank and goes to the guard
+
+	@Override
+	public void draw(Graphics2D g) {
+		g.setColor(Color.GRAY);
+		g.fillRect(xPos, yPos, xSize, ySize);	
+	}
+	
 	public void doEnterBank() {
 		xDest = 440;
 		yDest = 320;
-	}
-	//Customer waits in line
-	public void doWaitLine(int custNum) {
-		//customer waits in his position in line
-	}
-	//Customer goes to the teller
-	public void doGoToTeller() {
-		xDest = xCounterPos;
-		yDest = yCounterPos;
-	}
-	//Customer leaves the Bank
-	public void doLeaveBank() {
-		xDest = 700;
-		yDest = 320;
-	}
-	
-	@Override
-	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
-		g.fillRect(xPos, yPos, xSize, ySize);	
 	}
 
 	@Override
@@ -70,6 +53,5 @@ public class bankCustomerGui implements Gui {
 		// TODO Auto-generated method stub
 		
 	}
-	
 
 }

@@ -1,4 +1,4 @@
-package Bank;
+package Bank.gui;
 
 import Bank.tellerRole;
 
