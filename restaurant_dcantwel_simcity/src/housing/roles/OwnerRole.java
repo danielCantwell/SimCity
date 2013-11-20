@@ -29,15 +29,13 @@ public class OwnerRole implements Owner{
 		appliances.add(new Appliance("Bed", 4));
 	}
 
-	/*
-	 * Data
-	 */
+	//-------------------------------------DATA-------------------------------------
 	
 	Person person;
 
 	private final Money RENT = new Money(100, 0);
 
-	public List<MyTenant> tenants = Collections
+	public List<MyTenant> myTenants = Collections
 			.synchronizedList(new ArrayList<MyTenant>());
 	
 	public List<Appliance> appliances = Collections
@@ -50,15 +48,18 @@ public class OwnerRole implements Owner{
 		Working, NeedsFixing
 	};
 
-	/*
-	 * Messages
-	 */
+	//-----------------------------------MESSAGES-----------------------------------
+	
+	// MSG from setup
+	public void msgAddTenant(Tenant tenant) {
+		myTenants.add(new MyTenant(tenant));
+	}
 
 	// MSG from the God class at a certain time
 	public void msgTimeToCollectRent() {
 		if (person.getHomeType() == "Apartment") {
-			synchronized (tenants) {
-				for (MyTenant tenant : tenants) {
+			synchronized (myTenants) {
+				for (MyTenant tenant : myTenants) {
 					tenant.state = TenantState.OwesRent;
 					tenant.rentOwed.add(RENT);
 					stateChanged();
@@ -69,8 +70,8 @@ public class OwnerRole implements Owner{
 
 	// MSG from a tenant
 	public void msgHereIsRent(Tenant t, Money m) {
-		synchronized (tenants) {
-			for (MyTenant tenant : tenants) {
+		synchronized (myTenants) {
+			for (MyTenant tenant : myTenants) {
 				tenant.rentOwed.subtract(m);
 				if (tenant.rentOwed.isZero()) {
 					tenant.state = TenantState.None;
@@ -85,8 +86,8 @@ public class OwnerRole implements Owner{
 
 	// MSG from a tenant
 	public void msgCannotPayRent(Tenant t) {
-		synchronized (tenants) {
-			for (MyTenant tenant : tenants) {
+		synchronized (myTenants) {
+			for (MyTenant tenant : myTenants) {
 				tenant.state = TenantState.InDebt;
 				stateChanged();
 			}
@@ -95,8 +96,8 @@ public class OwnerRole implements Owner{
 
 	// MSG from a tenant
 	public void msgApplianceBroken(Tenant t, Appliance a) {
-		synchronized (tenants) {
-			for (MyTenant tenant : tenants) {
+		synchronized (myTenants) {
+			for (MyTenant tenant : myTenants) {
 				if (tenant.tenant == t) {
 					tenant.rentOwed.add(20, 0);
 					a.state = ApplianceState.NeedsFixing;
@@ -106,13 +107,11 @@ public class OwnerRole implements Owner{
 		}
 	}
 
-	/*
-	 * Scheduler
-	 */
+	//-----------------------------------SCHEDULER-----------------------------------
 
 	protected boolean pickAndExecuteAnAction() {
-		synchronized (tenants) {
-			for (MyTenant t : tenants) {
+		synchronized (myTenants) {
+			for (MyTenant t : myTenants) {
 				if (t.state == TenantState.OwesRent) {
 					collectRent(t);
 					return true;
@@ -120,8 +119,8 @@ public class OwnerRole implements Owner{
 			}
 		}
 		
-		synchronized (tenants) {
-			for (MyTenant t : tenants) {
+		synchronized (myTenants) {
+			for (MyTenant t : myTenants) {
 				if (t.strikes > 3) {
 					evictTenant(t);
 					return true;
@@ -129,8 +128,8 @@ public class OwnerRole implements Owner{
 			}
 		}
 		
-		synchronized (tenants) {
-			for (MyTenant t : tenants) {
+		synchronized (myTenants) {
+			for (MyTenant t : myTenants) {
 				if (t.state == TenantState.InDebt) {
 					t.strikes++;
 					t.state = TenantState.None;
@@ -151,9 +150,7 @@ public class OwnerRole implements Owner{
 		return false;
 	}
 
-	/*
-	 * Actions
-	 */
+	//------------------------------------ACTIONS------------------------------------
 
 	private void collectRent(MyTenant t) {
 		t.tenant.msgPayRent(RENT);
@@ -162,7 +159,7 @@ public class OwnerRole implements Owner{
 	
 	private void evictTenant(MyTenant t) {
 		t.tenant.msgEvictionNotice();
-		tenants.remove(t);
+		myTenants.remove(t);
 	}
 
 	private class MyTenant {

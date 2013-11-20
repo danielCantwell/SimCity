@@ -12,6 +12,8 @@ import SimCity.Globals.Money;
  */
 public interface Owner {
 	
+	public abstract void msgAddTenant(Tenant t);
+	
 	public abstract void msgTimeToCollectRent();
 	
 	public abstract void msgHereIsRent(Tenant t, Money m);

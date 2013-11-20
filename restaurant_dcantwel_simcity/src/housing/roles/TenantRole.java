@@ -14,9 +14,7 @@ import SimCity.Globals.Money;
  */
 public class TenantRole implements Tenant{
 	
-	/*
-	 * Data
-	 */
+	//-------------------------------------DATA-------------------------------------
 	
 	private Person person;
 	
@@ -30,9 +28,7 @@ public class TenantRole implements Tenant{
 			.synchronizedList(new ArrayList<Appliance>());
 	*/
 	
-	/*
-	 * Messages
-	 */
+	//-----------------------------------MESSAGES-----------------------------------
 	
 	public void msgPayRent(Money m) {
 		rentOwed = m;
@@ -42,9 +38,7 @@ public class TenantRole implements Tenant{
 		person.setHomeType("None");
 	}
 	
-	/*
-	 * Scheduler
-	 */
+	//-----------------------------------SCHEDULER-----------------------------------
 	
 	protected boolean pickAndExecuteAnAction() {
 		
@@ -66,9 +60,7 @@ public class TenantRole implements Tenant{
 		return false;
 	}
 	
-	/*
-	 * Actions
-	 */
+	//------------------------------------ACTIONS------------------------------------
 	
 	private void tryToPayRent() {
 		gui.DoGoToMailbox();

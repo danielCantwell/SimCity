@@ -18,10 +18,10 @@ public class TenantGui implements Gui {
 	
 	private TenantRole tenant = null;
 	
-	private int xSize,		ySize;
+	private int xSize,	ySize;
 	
-	private int xPos,		yPos;
-	private int xDest,		yDest;
+	private int xPos,	yPos;
+	private int xDest,	yDest;
 	
 	private final int xBed  	= 60;
 	private final int yBed		= 110;
