@@ -1,14 +1,18 @@
 package housing.roles;
 
 import housing.gui.TenantGui;
+import housing.interfaces.Owner;
+import housing.interfaces.Tenant;
+import housing.roles.OwnerRole.Appliance;
 import SimCity.Base.Person;
+import SimCity.Base.Person.PersonState;
 import SimCity.Globals.Money;
 
 /**
  * @author Daniel
  *
  */
-public class TenantRole {
+public class TenantRole implements Tenant{
 	
 	/*
 	 * Data
@@ -17,10 +21,7 @@ public class TenantRole {
 	private Person person;
 	
 	private Money rentOwed;
-	private OwnerRole owner;
-	
-	enum State {None, Hungry, Tired};
-	State state;
+	private Owner owner;
 	
 	TenantGui gui;
 	
@@ -38,7 +39,7 @@ public class TenantRole {
 	}
 	
 	public void msgEvictionNotice() {
-		// TODO - tenant is now homeless
+		person.setHomeType("None");
 	}
 	
 	/*
@@ -52,12 +53,12 @@ public class TenantRole {
 			return true;
 		}
 		
-		if (state == State.Hungry) {
+		if (person.getHungerLevel() >= person.getHungerThreshold()) {
 			getFood();
 			return true;
 		}
 		
-		if (state == State.Tired) {
+		if (person.getPersonState() == PersonState.goingToSleep) {
 			sleep();
 			return true;
 		}
@@ -71,31 +72,45 @@ public class TenantRole {
 	
 	private void tryToPayRent() {
 		gui.DoGoToMailbox();
-		if (money.isGreaterThan(rentOwed)) {
-			money.subtract(rentOwed);
+		if (person.getMoney().isGreaterThan(rentOwed)) {
+			person.getMoney().subtract(rentOwed);
 			owner.msgHereIsRent(this, rentOwed);
 		}
 		else {
 			owner.msgCannotPayRent(this);
-			}
 		}
 	}
 	
 	private void getFood() {
 		// If the customer is hungry, but willing to wait a bit, and has enough cash
-		if (state == State.Hungry && rentOwed.isZero() &&
-				hungerLevel < hungerThreshhold && cash > cashThreshhold) {
+		if (rentOwed.isZero() && person.getMoney() >= person.getMoneyThreshold()) {
 			// Leave house to go to Restaurant
 			gui.DoLeaveHouse();
+			// TODO decide which restaurant to go to and how to get there
+			person.msgGoToBuilding(restaurant);
 		}
 		else {
-			gui.DoCookFood();
-			// use appliance . chance to break appliance
+			gui.DoGoToFridge();
+			useAppliance("Fridge");
+			gui.DoGoToStove();
+			useAppliance("Stove");
+			gui.DoGoToTable();
+			useAppliance("Table");
 		}
 	}
 	
 	private void sleep() {
 		gui.DoGoToBed();
-		// sheets need to be cleaned every x # of uses
+		useAppliance("Bed");
+	}
+	
+	private void useAppliance(String type) {
+		for (Appliance a : owner.appliances) { // TODO - hack to get appliances from owner
+			if (a.type == type) {
+				if (a.useAppliance() <= 0) {
+					owner.msgApplianceBroken(this, a);
+				}
+			}
+		}
 	}
 }

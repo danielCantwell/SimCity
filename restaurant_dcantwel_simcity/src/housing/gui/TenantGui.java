@@ -35,6 +35,9 @@ public class TenantGui implements Gui {
 	private final int xStove	= 340;
 	private final int yStove	= 580;
 	
+	private final int xTable	= 210;
+	private final int yTable	= 190;
+	
 	private final int xMail		= 580;
 	private final int yMail		= 55;
 	
@@ -91,10 +94,22 @@ public class TenantGui implements Gui {
 		yDest = yDoor;
 	}
 
-	// Go to the kitchen and cook food
-	public void DoCookFood() {
+	// Go to the fridge
+	public void DoGoToFridge() {
+		xDest = xFridge;
+		yDest = yFridge;
+	}
+	
+	// Go to the stove
+	public void DoGoToStove() {
 		xDest = xStove;
 		yDest = yStove;
+	}
+	
+	// Go to the table
+	public void DoGoToTable() {
+		xDest = xTable;
+		yDest = yTable;
 	}
 
 	// Go to the bed and sleep
