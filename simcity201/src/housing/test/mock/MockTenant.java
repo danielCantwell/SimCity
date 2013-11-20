@@ -3,10 +3,13 @@
  */
 package housing.test.mock;
 
+import java.util.List;
+
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import SimCity.Globals.Money;
 import housing.interfaces.Tenant;
+import housing.roles.OwnerRole.Appliance;
 
 /**
  * @author Daniel
@@ -25,6 +28,11 @@ public class MockTenant implements Tenant {
 	@Override
 	public void msgEvictionNotice() {
 		log.add(new LoggedEvent("Received msgEvictionNotice from owner."));
+	}
+
+	@Override
+	public void msgHereAreAppliances(List<Appliance> a) {
+		log.add(new LoggedEvent("Received msgHereAreAppliances from owner."));
 	}
 
 }
