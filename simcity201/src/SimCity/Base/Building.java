@@ -8,7 +8,7 @@ package SimCity.Base;
  * @author Brian Chen
  *
  */
-public class Building extends SimObject {
+public abstract class Building extends SimObject {
 
 //Superclass of all buildings in our simulation.
 
@@ -18,5 +18,6 @@ public class Building extends SimObject {
 		this.id = id;
 	}
 	
+	public abstract boolean canAdd(String role);
 }
 

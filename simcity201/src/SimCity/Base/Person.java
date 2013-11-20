@@ -64,6 +64,8 @@ public class Person extends Agent {
 		public Morality getMorality(){return mor; }
 		public String getHomeType(){ return house;}
 		public PersonState getPersonState() { return ps;}
+		public String getJob(){ return job;}
+		public void setJob(String job) { this.job = job;}
 		
 		
 	public Person(Gui gui, String job, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
