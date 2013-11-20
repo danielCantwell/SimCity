@@ -17,9 +17,10 @@ public class bankCustomerRole extends Agent{
 	private bankGuardRole guard;
 	private tellerRole teller;
 	state s = state.none;
-	public enum state { none, reqSearch, gaveInv, entered, reqService, leaving};
+	public enum state { none, called, reqSearch, gaveInv, entered, reqService, leaving};
 	
 	//-----------------------------------------------Messages------------------------------------------------
+
 	public void requestSearch() {
 		s = state.reqSearch;
 		stateChanged();
@@ -34,6 +35,10 @@ public class bankCustomerRole extends Agent{
 		s = state.leaving; 		//Leave or possibly throw away bad objects
 	}
 
+	public void tellerCalled(tellerRole t) {
+		s = state.called;
+		teller = t;
+	}
 	public void whatService() {
 		s = state.reqService;
 		stateChanged();
@@ -54,7 +59,7 @@ public class bankCustomerRole extends Agent{
 			giveInv();
 			return true;
 		}
-		if(s.equals("entered")) {
+		if(s.equals("called")) {
 			findTeller();
 		}
 		if(s.equals("reqService")) {
