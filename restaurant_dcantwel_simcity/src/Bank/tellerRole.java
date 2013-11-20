@@ -2,6 +2,7 @@ package Bank;
 
 import java.util.Collections;
 import java.util.*;
+import SimCity.Globals.*;
 import agent.Agent;
 
 /*
@@ -10,12 +11,12 @@ import agent.Agent;
 
 public class tellerRole extends Agent {
 	//-----------------------------------------------Data-------------------------------------------------
-	Map<Integer, Integer> bankAccs = new HashMap<Integer, Integer>();
+	Map<Integer, Money> bankAccs = new HashMap<Integer, Money>();
 	public List<Client> clients = Collections.synchronizedList(new ArrayList<Client>());
 	class Client {
 		int accountNum;
-		int money;
-		int editmoney;
+		Money money;
+		Money editmoney;
 		state s;
 		bankCustomerRole cust;
 	}
@@ -31,7 +32,7 @@ public class tellerRole extends Agent {
 		stateChanged();
 	}
 	
-	public void foundTeller(int accNum, int money, bankCustomerRole cust) {
+	public void foundTeller(int accNum, Money money, bankCustomerRole cust) {
 		Client c = new Client();
 		c.accountNum = accNum;
 		c.money = money;
@@ -39,7 +40,7 @@ public class tellerRole extends Agent {
 		clients.add(c);
 	}
 	
-	public void requestWithdraw(int acc, int money) {
+	public void requestWithdraw(int acc, Money money) {
 		for (Client c : clients) {
 			if (c.accountNum == acc) {
 				c.s = state.withdraw;
@@ -49,7 +50,7 @@ public class tellerRole extends Agent {
 		}
 	}
 	
-	public void requestDeposit(int acc, int money) {
+	public void requestDeposit(int acc, Money money) {
 		for (Client c : clients) {
 			if (c.accountNum == acc) {
 				c.s = state.deposit;
@@ -115,8 +116,8 @@ public class tellerRole extends Agent {
 	}
 
 	public void withdrawDone(Client c) {
-		if( c.editmoney >= bankAccs.get(c.accountNum)) {
-			c.money = c.money + c.editmoney;
+		if( c.editmoney.isGreaterThan(bankAccs.get(c.accountNum))) {
+			c.money = c.money.add(c.editmoney);
 			bankAccs.put(c.accountNum, bankAccs.get(c.accountNum) - c.editmoney);
 			c.cust.transactionComplete(c.money);
 			clients.remove(c);
