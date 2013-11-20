@@ -2,6 +2,7 @@ package Bank;
 
 import java.util.Collections;
 import java.util.*;
+import SimCity.Globals.*;
 import agent.Agent;
 
 /*
@@ -12,11 +13,13 @@ public class bankCustomerRole extends Agent{
 	
 	//-----------------------------------------------Data-------------------------------------------------
 	int accNum;
+	Money money;
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
-	int money;			//Money is an int right now, will change to Money class
+	//int money;			//Money is an int right now, will change to Money class
 	private bankGuardRole guard;
 	private tellerRole teller;
 	state s = state.none;
+	Money wMoney = new Money(20,0);
 	public enum state { none, called, reqSearch, gaveInv, entered, reqService, leaving};
 	
 	//-----------------------------------------------Messages------------------------------------------------
@@ -44,7 +47,7 @@ public class bankCustomerRole extends Agent{
 		stateChanged();
 	}
 
-	public void transactionComplete(int m) {
+	public void transactionComplete(Money m) {
 		money = m;
 		s = state.leaving;
 	}
@@ -79,11 +82,12 @@ public class bankCustomerRole extends Agent{
 	}
 	
 	public void chooseService() {
-		if (money < 30) {									//Temporary method for choosing whether to withdraw/deposit
-			teller.requestWithdraw(accNum, 20); 			//arbitrary amount to withdraw, can be changed later
+		if (money.getDollar() > 30) {									//Temporary method for choosing whether to withdraw/deposit
+			teller.requestWithdraw(accNum, wMoney); 			//arbitrary amount to withdraw, can be changed later
 		}
 		else {
-			teller.requestDeposit(accNum,(money - 30));		//deposits everything over $30
+			money.subtract(30, 0);
+			teller.requestDeposit(accNum,money);		//deposits everything over $30
 		}
 	}
 	
