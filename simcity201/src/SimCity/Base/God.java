@@ -70,4 +70,11 @@ public class God {
 	    public static synchronized God Get() {
 	        return INSTANCE;
 	    }
+	    
+	    
+	    //BUILDING MEDIATOR STUFF
+	    public void EnterBuilding(Building building, Person person){
+	    	
+	    }
+	    
 }

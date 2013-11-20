@@ -153,6 +153,10 @@ public class Person extends Agent {
 			return false;
 		}
 		
+		if (destination != null){
+			goTo(destination);
+		}
+		
 		//ifperson not doing anything
 		if (ps == PersonState.idle){
 			//check if he has enough money.
@@ -192,7 +196,8 @@ public class Person extends Agent {
 		createVehicle();
 		//Animation for gui stuff here.
 		//Call person gui animation.
-		destination = b;
+		God.Get().EnterBuilding(b, this);
+		destination = null;
 	}
 	
 	void acquire(){
