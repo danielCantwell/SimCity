@@ -1,4 +1,4 @@
-package astar;
+package exterior.astar;
 import java.util.*;
 import java.util.concurrent.*;
 

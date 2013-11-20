@@ -39,4 +39,9 @@ public class MockOwner implements Owner {
 		log.add(new LoggedEvent("Received msgApplianceBroken from tenant."));
 	}
 
+	@Override
+	public void msgAddTenant(Tenant t) {
+		log.add(new LoggedEvent("Received msgAddTenant from UI"));
+	}
+
 }

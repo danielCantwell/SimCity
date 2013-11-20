@@ -43,6 +43,7 @@ public class Person extends Agent {
 		private int hungerLevel = 5;
 		private int hungerThreshold = 3; 
 		private Money money = new Money(10,0);
+		private Money moneyThreshold = new Money(9,0);
 		private Building building = null;
 		private Building destination = null;
 		private Morality mor = Morality.good;
@@ -54,6 +55,7 @@ public class Person extends Agent {
 		public void addHungerLevel(int s){hungerLevel += s;}
 		public int getHungerThreshold(){return hungerThreshold;}
 		public Money getMoney(){return money;}
+		public Money getMoneyThreshold() {return moneyThreshold;}
 		public void setMoney(int dollars, int cents){money.dollars = dollars; money.cents = cents;}
 		public void setMoney(Money newMoney){money = newMoney;}
 		public void setMoney(double newMoney){money.dollars = (int)newMoney; money.cents = (int)((newMoney - (int)newMoney)*100);}
@@ -63,6 +65,17 @@ public class Person extends Agent {
 		public String getHomeType(){ return house;}
 		public PersonState getPersonState() { return ps;}
 		
+		
+	public Person(Gui gui, String job, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
+		this.gui = gui;
+		this.job = job;
+		this.vehicle = vehicle;
+		this.mor = morality;
+		this.money = money;
+		this.moneyThreshold = moneyThresh;
+		this.hungerLevel = hunger;
+		this.hungerThreshold = hungerThresh;
+	}
 		
 	//Messages
 	public void msgMainRole(){
@@ -94,7 +107,7 @@ public class Person extends Agent {
 		stateChanged();
 	}
 	
-	public void msgEviction() {
+	public void setHomeType(String home) {
 		//set housing to null.. becomes homeless if doesn't pay rent for multiple pay periods
 		house = "";
 	}
@@ -140,6 +153,10 @@ public class Person extends Agent {
 			return false;
 		}
 		
+		if (destination != null){
+			goTo(destination);
+		}
+		
 		//ifperson not doing anything
 		if (ps == PersonState.idle){
 			//check if he has enough money.
@@ -179,7 +196,8 @@ public class Person extends Agent {
 		createVehicle();
 		//Animation for gui stuff here.
 		//Call person gui animation.
-		destination = b;
+		God.Get().EnterBuilding(b, this);
+		destination = null;
 	}
 	
 	void acquire(){

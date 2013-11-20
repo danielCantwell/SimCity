@@ -1,4 +1,4 @@
-package astar;
+package exterior.astar;
 /**
  * Console class for keyboard input 
  * Invitation to Computer Science, Java Version, 

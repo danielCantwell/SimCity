@@ -1,3 +1,5 @@
+package exterior.gui;
+
 import javax.swing.*;
 
 import java.awt.*;
