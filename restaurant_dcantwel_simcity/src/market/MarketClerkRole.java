@@ -2,6 +2,7 @@ package market;
 
 import java.util.*;
 
+import SimCity.Base.Role;
 import market.gui.MarketClerkGui;
 import market.interfaces.MarketClerk;
 import market.interfaces.MarketManager;
@@ -47,6 +48,12 @@ public class MarketClerkRole extends Role implements MarketClerk {
     }
 
     public void msgHereIsMoney(String name, int amount)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void workOver()
     {
         // TODO Auto-generated method stub
         
