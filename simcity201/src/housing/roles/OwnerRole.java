@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 
@@ -97,7 +96,6 @@ public class OwnerRole extends Role implements Owner{
 			for (MyTenant tenant : myTenants) {
 				if (tenant.tenant == t) {
 					tenant.rentOwed.add(20, 0);
-					a.state = ApplianceState.NeedsFixing;
 					stateChanged();
 				}
 			}
@@ -134,15 +132,6 @@ public class OwnerRole extends Role implements Owner{
 				}
 			}
 		}
-		
-		synchronized(appliances) {
-			for (Appliance a : appliances) {
-				if (a.state == ApplianceState.NeedsFixing) {
-					a.fixAppliance();
-					return true;
-				}
-			}
-		}
 
 		return false;
 	}
@@ -173,29 +162,35 @@ public class OwnerRole extends Role implements Owner{
 	}
 	
 	public class Appliance {
-		String type;
-		ApplianceState state;
-		int initialDurability;
-		int durability;
+		public String type;
+		public ApplianceState state;
+		public int initialDurability;
+		public int durability;
 		
-		Appliance(String type, int durability) {
+		public Appliance(String type, int durability) {
 			this.type = type;
 			this.initialDurability = durability;
 			this.durability = durability;
 		}
 		
-		int useAppliance() {
+		public void useAppliance() {
 			durability--;
-			return durability;
 		}
 		
-		void fixAppliance() {
+		public void fixAppliance() {
 			durability = initialDurability;
+			state = ApplianceState.Working;
 		}
 	}
 
 	@Override
 	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void enterBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
