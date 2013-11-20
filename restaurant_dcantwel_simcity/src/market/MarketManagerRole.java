@@ -30,6 +30,9 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public MarketManagerRole(String name) {
 		super();
 		
+		// initalize inventory
+		inventory.put("Steak", new Inventory(10, 0));
+		
 		this.name = name;
 	}
 
@@ -161,6 +164,36 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     public class Inventory
     {
+        private int amount;
+        private int location;
         
+        Inventory(int amount, int location)
+        {
+            this.amount = amount;
+            this.location = location;
+            gui.updateInventory(name, amount, location);
+        }
+        
+        void changeAmount(int amount)
+        {
+            this.amount = amount;
+            gui.updateInventory(name, amount, location);
+        }
+        
+        void changeLocation(int location)
+        {
+            this.location = location;
+            gui.updateInventory(name, amount, location);
+        }
+        
+        int getAmount()
+        {
+            return amount;
+        }
+        
+        int getLocation()
+        {
+            return location;
+        }
     }
 }
