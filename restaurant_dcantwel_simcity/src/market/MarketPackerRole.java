@@ -1,0 +1,63 @@
+package market;
+
+import java.util.*;
+
+import market.gui.MarketPackerGui;
+import market.interfaces.MarketManager;
+import market.interfaces.MarketPacker;
+
+/**
+ * Market Manager Agent
+ * 
+ * @author Timothy So
+ */
+public class MarketPackerRole extends Role implements MarketPacker {
+	
+	private String name;
+
+	private MarketPackerGui gui; 
+	
+	public MarketPackerRole(String name) {
+		super();
+
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	/** 
+	 * Messages
+	 */
+	
+	public void msgPackage(String name, String choice, int amount)
+	{
+	    
+	}
+
+	/**
+	 * Scheduler. Determine what action is called for, and do it.
+	 */
+	protected boolean pickAndExecuteAnAction() {
+		
+	    
+	    
+		return false;
+		// we have tried all our rules and found
+		// nothing to do. So return false to main loop of abstract agent
+		// and wait.
+	}
+
+	/**
+	 * Actions
+	 */
+
+    /**
+     * Utilities
+     */
+
+	public void setGui(MarketPackerGui gui) {
+		this.gui = gui;
+	}
+}
