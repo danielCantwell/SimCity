@@ -55,6 +55,16 @@ public class Money {
 	}
 	
 	/**
+	 * Add collars and cents to current money
+	 * @param dollars
+	 * @param cents
+	 */
+	public void add(int dollars, int cents) {
+		this.dollars += dollars;
+		this.cents += cents;
+	}
+	
+	/**
 	 * Subtract m from current money
 	 * @param m - money to subtract
 	 */
@@ -72,5 +82,15 @@ public class Money {
 		else {
 			System.err.println("Invalid money transaction. Cannot subtract that much money.");
 		}
+	}
+	
+	/**
+	 * Subtract dollars and cents from current money
+	 * @param dollars
+	 * @param cents
+	 */
+	public void subtract(int dollars, int cents) {
+		this.dollars -= dollars;
+		this.cents -= cents;
 	}
 }

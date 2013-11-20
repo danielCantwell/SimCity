@@ -46,6 +46,11 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	private final int yStovePos		= 600;
 	private final int yStoveSize	= 30;
 	
+	private final int xTablePos		= 200;
+	private final int yTablePos		= 200;
+	private final int xTableSize	= 40;
+	private final int yTableSize	= 40;
+	
 	private final int xMailPos	= 600;
 	private final int xMailSize	= 20;
 	private final int yMailPos	= 50;
@@ -82,6 +87,7 @@ public class HousingAnimation extends JPanel implements ActionListener {
 		g.fillRect(xBedPos, yBedPos, xBedSize, yBedSize);
 		g.fillRect(xFridgePos, yFridgePos, xFridgeSize, yFridgeSize);
 		g.fillRect(xStovePos, yStovePos, xStoveSize, yStoveSize);
+		g.fillRect(xTablePos, yTablePos, xTableSize, yTableSize);
 		g.fillRect(xMailPos, yMailPos, xMailSize, yMailSize);
 
 		for (Gui gui : guis) {
