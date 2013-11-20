@@ -57,6 +57,15 @@ public class God {
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){
 					   if (hour < 24){hour ++;} // hour increments everytime this timer fires.
+					   
+					   if (hour == 6){
+						   wakeUp();
+					   }
+					   
+					   if (hour == 5){
+						   getOffWork();
+					   }
+					   
 					   if (hour >= 24) { //if the hour is 24 hours, then hours is reset back to zero
 						   hour = 0; //and a day is added to the Date.
 						   day ++ ;
@@ -71,10 +80,18 @@ public class God {
 	        return INSTANCE;
 	    }
 	    
+	    public void wakeUp(){
+	    	
+	    }
+	    
+	    public void getOffWork(){
+	    	
+	    }
+	    
 	    
 	    //BUILDING MEDIATOR STUFF
 	    public void EnterBuilding(Building building, Person person){
-	    	
+	    	building.canAdd(person.getJob());
 	    }
 	    
 }
