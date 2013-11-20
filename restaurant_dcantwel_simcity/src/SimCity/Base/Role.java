@@ -9,8 +9,8 @@ package SimCity.Base;
  *
  */
 public abstract class Role {
-	boolean active;
-	Person myPerson;
+	protected boolean active;
+	protected Person myPerson;
 	
 	
 	protected abstract boolean pickAndExecuteAnAction();
