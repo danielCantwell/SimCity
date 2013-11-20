@@ -2,6 +2,7 @@ package market;
 
 import java.util.*;
 
+import SimCity.Base.Role;
 import market.MarketClerkRole.OrderState;
 import market.gui.MarketManagerGui;
 import market.interfaces.MarketManager;
@@ -20,7 +21,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	 * Data
 	 */
 	
-	private HashMap<String, Inventory> inventory;
+	private Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());
 	public List<MyPacker> packers = Collections.synchronizedList(new ArrayList<MyPacker>());
 	public List<MyClerk> clerks = Collections.synchronizedList(new ArrayList<MyClerk>());
     public List<MyDeliveryPerson> deliveryPeople = Collections.synchronizedList(new ArrayList<MyDeliveryPerson>());
@@ -48,24 +49,35 @@ public class MarketManagerRole extends Role implements MarketManager {
 	{
 	    
 	}
+	
 	public void msgFulfillOrder(String name, String choice, int amount)
     {
         
     }
+	
 	public void msgOrderPacked(String name, String choice, int amount)
     {
         
     }
+	
     public void msgHereIsTheMoney(String name, int amount)
     {
         
     }
+    
     public void msgWithdrawalSuccessful(int amount)
     {
         
     }
+    
     public void msgDepositSuccessful()
     {
+        
+    }
+    
+    public void workOver()
+    {
+        // TODO Auto-generated method stub
         
     }
 

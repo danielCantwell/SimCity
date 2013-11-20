@@ -2,6 +2,7 @@ package market;
 
 import java.util.*;
 
+import SimCity.Base.Role;
 import market.gui.MarketPackerGui;
 import market.interfaces.MarketManager;
 import market.interfaces.MarketPacker;
@@ -35,6 +36,12 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	{
 	    
 	}
+	
+    public void workOver()
+    {
+        // TODO Auto-generated method stub
+        
+    }
 
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
