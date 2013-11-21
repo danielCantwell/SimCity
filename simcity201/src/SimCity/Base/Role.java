@@ -9,9 +9,12 @@ package SimCity.Base;
  *
  */
 public abstract class Role {
-	protected boolean active;
+	protected boolean active = false;
 	protected Person myPerson;
 	
+	public void setActive(boolean activate){
+		active = activate;
+	}
 	
 	protected abstract boolean pickAndExecuteAnAction();
 	
@@ -22,5 +25,7 @@ public abstract class Role {
 	protected void stateChanged(){
 		myPerson.stateChanged();
 	}
+	
+	
 }
 

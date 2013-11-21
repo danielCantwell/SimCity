@@ -18,7 +18,7 @@ import agent.Agent;
 public class Person extends Agent {
 	//Data
 	private String house;
-	private String job;
+	private Role mainRole;
 	private enum Vehicle {car, delivery, walk, bus};
 	private Vehicle vehicle = Vehicle.walk;
 	
@@ -64,13 +64,26 @@ public class Person extends Agent {
 		public Morality getMorality(){return mor; }
 		public String getHomeType(){ return house;}
 		public PersonState getPersonState() { return ps;}
-		public String getJob(){ return job;}
-		public void setJob(String job) { this.job = job;}
+		public Role getMainRole(){ return mainRole;}
+		public void setMainRole(String job) { 
+			Role newRole;
+			try {
+				newRole = (Role)Class.forName(job).newInstance();
+				roles.add(newRole);
+				mainRole = newRole;
+			} catch(Exception e){
+				System.out.println ("no class found");
+			}
+		}
+		public void resetActiveRoles(){
+			for (Role r : roles){
+				r.setActive(false);
+			}
+		}
 		
-		
-	public Person(Gui gui, String job, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
+	public Person(Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
 		this.gui = gui;
-		this.job = job;
+		setMainRole(mainRole);
 		this.vehicle = vehicle;
 		this.mor = morality;
 		this.money = money;
@@ -81,13 +94,7 @@ public class Person extends Agent {
 		
 	//Messages
 	public void msgMainRole(){
-		switch (job){
-			//case "Host": msgCreateRole(new )
 		
-		}
-		
-		//msgCreateRole(new CustomerAgent());
-	
 	}
 		
 	public void msgCreateRole(Role r){
@@ -100,6 +107,7 @@ public class Person extends Agent {
 			}		
 		}
 		//If there does not exist that role r then add r to list.
+		r.setActive(true);
 		roles.add(r);
 		stateChanged();
 		return;

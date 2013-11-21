@@ -90,8 +90,21 @@ public class God {
 	    
 	    
 	    //BUILDING MEDIATOR STUFF
-	    public void EnterBuilding(Building building, Person person){
-	    	building.canAdd(person.getJob());
+	    public void EnterBuilding(Building building, Person person, String job){
+	    	if (building.canAdd(person.getMainRole())){ //Don't know if we need this.
+	    		Role newRole;
+				try {
+					newRole = (Role)Class.forName(job).newInstance();
+					newRole.setActive(true);
+					person.msgCreateRole(newRole);
+				} catch(Exception e){
+					System.out.println ("no class found");
+				}
+	    	}
+	    }
+	    
+	    public void ExitBuilding(Person person){
+	    	person.resetActiveRoles();
 	    }
 	    
 }

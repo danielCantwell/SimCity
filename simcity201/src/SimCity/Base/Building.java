@@ -18,6 +18,6 @@ public abstract class Building extends SimObject {
 		this.id = id;
 	}
 	
-	public abstract boolean canAdd(String role);
+	public abstract boolean canAdd(Role role);
 }
 
