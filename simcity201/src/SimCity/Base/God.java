@@ -81,11 +81,15 @@ public class God {
 	    }
 	    
 	    public void wakeUp(){
-	    	
+	    	for(Person p: persons){
+	    		p.msgMorning();
+	    	}
 	    }
 	    
 	    public void getOffWork(){
-	    	
+	    	for (Person p: persons){
+	    		p.msgWorkOver();
+	    	}
 	    }
 	    
 	    
