@@ -17,17 +17,19 @@ import agent.Agent;
  */
 public class Person extends Agent {
 	//Data
-	private String house;
-	private Role mainRole;
-	private enum Vehicle {car, delivery, walk, bus};
-	private Vehicle vehicle = Vehicle.walk;
+	public String house;
+	public Role mainRole;
+	public enum Intent {customer, work};
+	public Intent intent = Intent.customer; //when the person enters a building, is he a customer or going to work.
+	public enum Vehicle {car, delivery, walk, bus};
+	public Vehicle vehicle = Vehicle.walk;
 	
-	private Gui gui;
-	private Semaphore animation = new Semaphore(0, true);
+	public Gui gui;
+	public Semaphore animation = new Semaphore(0, true);
 	
-	private ArrayList<Role> roles = new ArrayList<Role>();
+	public ArrayList<Role> roles = new ArrayList<Role>();
 	
-	private ArrayList<String> inventory = new ArrayList<String>();
+	public ArrayList<String> inventory = new ArrayList<String>();
 	
 	public enum Morality {good, crook};
 	public enum PersonState {walking,
@@ -40,14 +42,14 @@ public class Person extends Agent {
 	
 	
 	//Stats
-		private int hungerLevel = 5;
-		private int hungerThreshold = 3; 
-		private Money money = new Money(10,0);
-		private Money moneyThreshold = new Money(9,0);
-		private Building building = null;
-		private Building destination = null;
-		private Morality mor = Morality.good;
-		private PersonState ps = PersonState.idle;
+	public int hungerLevel = 5;
+	public int hungerThreshold = 3; 
+	public Money money = new Money(10,0);
+	public Money moneyThreshold = new Money(9,0);
+	public Building building = null;
+	public Building destination = null;
+	public Morality mor = Morality.good;
+	public PersonState ps = PersonState.idle;
 
 		//Getters and setters
 		public int getHungerLevel(){return hungerLevel;}
@@ -205,8 +207,9 @@ public class Person extends Agent {
 	public void goTo(Building b){
 		createVehicle();
 		//Animation for gui stuff here.
-		//Call person gui animation.
-		God.Get().EnterBuilding(b, this);
+		//Call person gui animation. acquire my semaphore.
+		if (intent==Intent.work)
+			God.Get().EnterBuilding(b, this, mainRole.getClass().toString());
 		destination = null;
 	}
 	
