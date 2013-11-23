@@ -6,10 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import restaurant.gui.DannyRestaurantAnimationPanel;
 import exterior.gui.AnimationPanel;
 
 /**
@@ -37,6 +39,8 @@ public class God {
 	    
 	    public void addPerson(Person p){ persons.add(p);}
 	    public void removePerson(Person p){ persons.remove(p);}
+	    public void addBuilding(JPanel j){ buildings.add(j);}
+	    public void removeBuildign(JPanel j){ buildings.remove(j);}
 	    
 	    
 	    public int getDay(){ return day;}
@@ -58,9 +62,13 @@ public class God {
 	    	}
 	    }
 	    
-	    public void findRandomRestaurant(){
-	    	for (JPanel building : buildings){
-	    		
+	    public JPanel findRandomRestaurant(){
+	    	while (true){
+		    	Random rndnum = new Random (5);
+		    	int random = rndnum.nextInt();
+		    	if (buildings.get(random) instanceof DannyRestaurantAnimationPanel){
+		    		return buildings.get(random);
+		    	}	
 	    	}
 	    }
 	    

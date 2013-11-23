@@ -26,35 +26,35 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	private final int WINDOW_X = 640;
 	private final int WINDOW_Y = 640;
 	
-	private final int xDoorPos	= 600;
+	private final int xDoorPos	= 620;
 	private final int xDoorSize	= 20;
 	private final int yDoorPos	= 300;
-	private final int yDoorSize	= 50;
+	private final int yDoorSize	= 65;
 	
-	private final int xBedPos	= 50;
-	private final int xBedSize	= 100;
-	private final int yBedPos	= 50;
-	private final int yBedSize	= 60;
+	private final int xBedPos	= 10;
+	private final int xBedSize	= 200;
+	private final int yBedPos	= 10;
+	private final int yBedSize	= 90;
 	
-	private final int xFridgePos	= 100;
-	private final int xFridgeSize	= 30;
-	private final int yFridgePos	= 400;
-	private final int yFridgeSize	= 30;
+	private final int xFridgePos	= 10;
+	private final int xFridgeSize	= 60;
+	private final int yFridgePos	= 570;
+	private final int yFridgeSize	= 60;
 	
 	private final int xStovePos		= 300;
-	private final int xStoveSize	= 100;
-	private final int yStovePos		= 600;
-	private final int yStoveSize	= 30;
+	private final int xStoveSize	= 300;
+	private final int yStovePos		= 570;
+	private final int yStoveSize	= 60;
 	
 	private final int xTablePos		= 200;
-	private final int yTablePos		= 200;
-	private final int xTableSize	= 40;
-	private final int yTableSize	= 40;
+	private final int yTablePos		= 300;
+	private final int xTableSize	= 100;
+	private final int yTableSize	= 100;
 	
 	private final int xMailPos	= 600;
-	private final int xMailSize	= 20;
-	private final int yMailPos	= 50;
-	private final int yMailSize	= 30;
+	private final int xMailSize	= 30;
+	private final int yMailPos	= 150;
+	private final int yMailSize	= 40;
 	
 	static final int TENANT_SPEED = 20;
 	
