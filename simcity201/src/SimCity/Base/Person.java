@@ -19,6 +19,8 @@ public class Person extends Agent {
 	//Data
 	private String house;
 	private Role mainRole;
+	private enum Intent {customer, work};
+	public Intent intent = Intent.customer; //when the person enters a building, is he a customer or going to work.
 	private enum Vehicle {car, delivery, walk, bus};
 	private Vehicle vehicle = Vehicle.walk;
 	
@@ -205,8 +207,9 @@ public class Person extends Agent {
 	public void goTo(Building b){
 		createVehicle();
 		//Animation for gui stuff here.
-		//Call person gui animation.
-		God.Get().EnterBuilding(b, this);
+		//Call person gui animation. acquire my semaphore.
+		if (intent==Intent.work)
+			God.Get().EnterBuilding(b, this, mainRole.getClass().toString());
 		destination = null;
 	}
 	
