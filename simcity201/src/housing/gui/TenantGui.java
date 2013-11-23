@@ -3,6 +3,7 @@
  */
 package housing.gui;
 
+import housing.interfaces.Tenant;
 import housing.roles.TenantRole;
 
 import java.awt.Color;
@@ -16,7 +17,7 @@ import SimCity.gui.Gui;
  */
 public class TenantGui implements Gui {
 	
-	private TenantRole tenant = null;
+	private Tenant tenant = null;
 	
 	private int xSize,	ySize;
 	
@@ -41,7 +42,7 @@ public class TenantGui implements Gui {
 	private final int xMail		= 580;
 	private final int yMail		= 55;
 	
-	public TenantGui(TenantRole tenant) {
+	public TenantGui(Tenant tenant) {
 		this.tenant = tenant;
 	}
 
@@ -86,36 +87,42 @@ public class TenantGui implements Gui {
 	public void DoGoToMailbox() {
 		xDest = xMail;
 		yDest = yMail;
+		System.out.println("Going To Mailbox");
 	}
 
 	// Go to the door and exit
 	public void DoLeaveHouse() {
 		xDest = xDoor;
 		yDest = yDoor;
+		System.out.println("Leaving House");
 	}
 
 	// Go to the fridge
 	public void DoGoToFridge() {
 		xDest = xFridge;
 		yDest = yFridge;
+		System.out.println("Going To Fridge");
 	}
 	
 	// Go to the stove
 	public void DoGoToStove() {
 		xDest = xStove;
 		yDest = yStove;
+		System.out.println("Going To Stove");
 	}
 	
 	// Go to the table
 	public void DoGoToTable() {
 		xDest = xTable;
 		yDest = yTable;
+		System.out.println("Going To Table");
 	}
 
 	// Go to the bed and sleep
 	public void DoGoToBed() {
 		xDest = xBed;
 		yDest = yBed;
+		System.out.println("Going To Bed");
 	}
 
 }

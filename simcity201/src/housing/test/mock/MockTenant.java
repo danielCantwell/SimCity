@@ -17,6 +17,10 @@ import housing.roles.OwnerRole.Appliance;
  */
 public class MockTenant implements Tenant {
 	
+	public MockTenant() {
+		
+	}
+	
 	public EventLog log = new EventLog();
 
 	@Override

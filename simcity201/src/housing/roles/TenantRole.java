@@ -9,6 +9,7 @@ import housing.interfaces.Owner;
 import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
 import housing.roles.OwnerRole.ApplianceState;
+import SimCity.Base.God;
 import SimCity.Base.Person.PersonState;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
@@ -19,12 +20,16 @@ import SimCity.Globals.Money;
  */
 public class TenantRole extends Role implements Tenant{
 	
+	public TenantRole() {
+		
+	}
+	
 	//-------------------------------------DATA-------------------------------------
 	
-	private Money rentOwed;
+	private Money rentOwed = new Money(0, 0);
 	private Owner owner;
 	
-	TenantGui gui;
+	TenantGui gui = new TenantGui(this);
 	
 	
 	public List<Appliance> appliances = Collections
