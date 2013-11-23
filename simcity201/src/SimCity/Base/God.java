@@ -72,7 +72,6 @@ public class God {
 	        //set God variables.
 	        hour = 0;
 	        hourOffset = 1000;
-	        simObjects = new HashMap<Integer, SimObject>();
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){
