@@ -13,11 +13,14 @@ public abstract class Building extends SimObject {
 //Superclass of all buildings in our simulation.
 
 	int x,y;
+	boolean isOpen = false;
 	
 	public Building (int id){
 		this.id = id;
 	}
 	
-	public abstract boolean canAdd(String role);
+	public void setOpen(boolean open){
+		isOpen = open;
+	}
 }
 
