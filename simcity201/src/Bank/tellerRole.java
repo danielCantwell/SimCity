@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.*;
 import SimCity.Globals.*;
 import agent.Agent;
+import Bank.gui.*;
 
 /*
  * Bank Teller Role
@@ -11,6 +12,7 @@ import agent.Agent;
 
 public class tellerRole extends Agent {
 	//-----------------------------------------------Data-------------------------------------------------
+	private tellerGui gui = new tellerGui(this);
 	Map<Integer, Money> bankAccs = new HashMap<Integer, Money>();
 	public List<Client> clients = Collections.synchronizedList(new ArrayList<Client>());
 	class Client {
@@ -22,7 +24,8 @@ public class tellerRole extends Agent {
 	}
 	public enum state{ none, added, called, withdraw, deposit, leaving };
 	private state s = state.none;
-	
+
+
 	//-----------------------------------------------Messages-------------------------------------------------
 	public void tellerAssigned(bankCustomerRole c) {
 		Client cl = new Client();
@@ -31,7 +34,7 @@ public class tellerRole extends Agent {
 		clients.add(cl);
 		stateChanged();
 	}
-	
+
 	public void foundTeller(int accNum, Money money, bankCustomerRole cust) {
 		Client c = new Client();
 		c.accountNum = accNum;
@@ -39,7 +42,7 @@ public class tellerRole extends Agent {
 		c.cust = cust;
 		clients.add(c);
 	}
-	
+
 	public void requestWithdraw(int acc, Money money) {
 		for (Client c : clients) {
 			if (c.accountNum == acc) {
@@ -49,7 +52,7 @@ public class tellerRole extends Agent {
 			}
 		}
 	}
-	
+
 	public void requestDeposit(int acc, Money money) {
 		for (Client c : clients) {
 			if (c.accountNum == acc) {
@@ -63,7 +66,7 @@ public class tellerRole extends Agent {
 	public void workOver() {
 		s = state.leaving;
 	}
-	
+
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
 		if(s.equals("leaving")) {
@@ -106,7 +109,7 @@ public class tellerRole extends Agent {
 		c.cust.tellerCalled(this);
 		c.s = state.called;
 	}
-	
+
 	public void askService(Client c){
 		c.cust.whatService();
 	}
@@ -132,8 +135,15 @@ public class tellerRole extends Agent {
 		c.cust.transactionComplete(c.money);
 		clients.remove(c);
 	}
-	
+
 	public void leaveBank() {
 		//Make GUI call to leave the bank
+	}
+
+	public void setGui(tellerGui gui) {
+		this.gui = gui;
+	}
+	public tellerGui getGui() { 
+		return gui;
 	}
 }

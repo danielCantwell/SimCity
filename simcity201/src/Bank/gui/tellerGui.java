@@ -10,8 +10,8 @@ import SimCity.gui.Gui;
 public class tellerGui implements Gui {
 
 	private tellerRole teller;
-	private int xPos, yPos;
-	private int xDest,  yDest;
+	private int xPos = 30, yPos = 30;
+	private int xDest = 330,  yDest = 30;
 	private int xSize = 20, ySize = 20;
 	private final int yCounterPos = 1;
 	private final int xCounterPos = 1;
@@ -54,7 +54,7 @@ public class tellerGui implements Gui {
 	@Override
 	public boolean isPresent() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

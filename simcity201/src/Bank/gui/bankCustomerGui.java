@@ -10,8 +10,8 @@ import SimCity.gui.Gui;
 public class bankCustomerGui implements Gui {
 
 	private bankCustomerRole customer;
-	private int xPos, yPos;
-	private int xDest,  yDest;
+	private int xPos = 670, yPos = 350;
+	private int xDest = 600,  yDest = 350;
 	private int xSize = 20, ySize = 20;
 	private final int yCounterPos = 150;
 	private final int xCounterPos = 320;
@@ -26,6 +26,10 @@ public class bankCustomerGui implements Gui {
 			yPos++;
 		else if (yPos > yDest)
 			yPos--;
+	}
+	
+	public bankCustomerGui (bankCustomerRole client) {
+		this.customer = client;
 	}
 	//Customer enters the Bank and goes to the guard
 	public void doEnterBank() {
@@ -56,7 +60,7 @@ public class bankCustomerGui implements Gui {
 	@Override
 	public boolean isPresent() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package Bank;
 
-import java.util.Collections;
 import java.util.*;
+import Bank.gui.bankGuardGui;
 import agent.Agent;
 
 /*
@@ -11,6 +11,7 @@ import agent.Agent;
 public class bankGuardRole extends Agent {
 	//----------------------------------------------Data-------------------------------------------------
 	bankManagerRole manager;
+	bankGuardGui gui = new bankGuardGui(this);
 	List<String> badObjs = new ArrayList<String>();
 	public List<Entry> custEnter = Collections.synchronizedList(new ArrayList<Entry>());
 	class Entry {
@@ -97,5 +98,11 @@ public class bankGuardRole extends Agent {
 
 	public void leaveBank() {
 		//Make GUI call to leave the bank
+	}
+	public void setGui(bankGuardGui gui) {
+		this.gui = gui;
+	}
+	public bankGuardGui getGui() { 
+		return gui;
 	}
 }

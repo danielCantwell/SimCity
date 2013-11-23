@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Bank.*;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -21,9 +23,9 @@ public class bankGui extends JPanel implements ActionListener {
 	private final int WINDOW_X = 640;
 	private final int WINDOW_Y = 640;
 	
-	private final int yCounterPos = 150;
+	private final int yCounterPos = 80;
 	private final int yCounterSize = 30;
-	private final int xCounterPos = 320;
+	private final int xCounterPos = 130;
 	private final int xCounterSize = 300;
 	
 	/* Extras I might add in later to make the roles more realistic.
@@ -37,13 +39,17 @@ public class bankGui extends JPanel implements ActionListener {
 	*/
 	
 	private final int tellerSpeed = 20;
-	
+	private tellerRole teller = new tellerRole();
+	private bankGuardRole guard = new bankGuardRole();
+	private bankCustomerRole cust = new bankCustomerRole();;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
 	public bankGui() {
 		setSize(WINDOW_X, WINDOW_Y);
 		setVisible(true);
-
+		addGui(teller.getGui());
+		addGui(cust.getGui());
+		addGui(guard.getGui());
 		Timer timer = new Timer(tellerSpeed, this);
 		timer.start();
 	}
@@ -55,13 +61,13 @@ public class bankGui extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.WHITE);
+		g2.setColor(Color.DARK_GRAY);
 		g2.fillRect(0, 0, WINDOW_X, WINDOW_Y);
 		
-		g.setColor(Color.WHITE);
-		g.fillRect(xCounterSize, yCounterSize, xCounterPos, yCounterPos);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(xCounterPos, yCounterPos, xCounterSize, yCounterSize);
 		//g.fillRect(xVaultSize, yVaultSize, xVaultPos, yVaultPos);
-		
+
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();
@@ -75,9 +81,13 @@ public class bankGui extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void addGui(tellerGui tGui, bankCustomerGui bcGui, bankGuardGui gGui) {
+	public void addGui(tellerGui tGui){ 
 		guis.add(tGui);
+	}
+	public void addGui(bankCustomerGui bcGui) {
 		guis.add(bcGui);
+	}
+	public void addGui(bankGuardGui gGui) {
 		guis.add(gGui);
 	}
 }

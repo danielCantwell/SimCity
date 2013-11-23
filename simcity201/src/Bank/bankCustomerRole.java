@@ -1,7 +1,11 @@
 package Bank;
 
 import java.util.Collections;
+
+import Bank.gui.*;
+
 import java.util.*;
+
 import SimCity.Globals.*;
 import agent.Agent;
 
@@ -13,6 +17,7 @@ public class bankCustomerRole extends Agent{
 	
 	//-----------------------------------------------Data-------------------------------------------------
 	int accNum;
+	private bankCustomerGui gui = new bankCustomerGui(this);
 	Money money;
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
 	private bankGuardRole guard;
@@ -93,5 +98,12 @@ public class bankCustomerRole extends Agent{
 	
 	public void leaveBank() {
 		// make GUI call to leave bank 
+	}
+	
+	public void setGui(bankCustomerGui gui) {
+		this.gui = gui;
+	}
+	public bankCustomerGui getGui() { 
+		return gui;
 	}
 }
