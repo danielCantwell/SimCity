@@ -3,14 +3,14 @@ package Bank;
 import java.util.Collections;
 import java.util.*;
 import SimCity.Globals.*;
-import agent.Agent;
+import SimCity.Base.*;
 import Bank.gui.*;
 
 /*
  * Bank Teller Role
  */
 
-public class tellerRole extends Agent {
+public class tellerRole extends Role {
 	//-----------------------------------------------Data-------------------------------------------------
 	private tellerGui gui = new tellerGui(this);
 	Map<Integer, Money> bankAccs = new HashMap<Integer, Money>();

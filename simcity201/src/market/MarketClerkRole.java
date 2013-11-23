@@ -110,4 +110,10 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	        state = OrderState.Pending;
 	    }
 	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 }

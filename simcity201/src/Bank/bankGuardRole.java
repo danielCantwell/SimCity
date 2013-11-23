@@ -2,13 +2,13 @@ package Bank;
 
 import java.util.*;
 import Bank.gui.bankGuardGui;
-import agent.Agent;
+import SimCity.Base.*;
 
 /*
  * Bank Guard Role
  */
 
-public class bankGuardRole extends Agent {
+public class bankGuardRole extends Role {
 	//----------------------------------------------Data-------------------------------------------------
 	bankManagerRole manager;
 	bankGuardGui gui = new bankGuardGui(this);
