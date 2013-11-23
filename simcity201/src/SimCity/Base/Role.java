@@ -12,9 +12,8 @@ public abstract class Role {
 	protected boolean active = false;
 	protected Person myPerson;
 	
-	public void setActive(boolean activate){
-		active = activate;
-	}
+	public void setActive(boolean activate){active = activate;System.out.println(active);}
+	public boolean getActive(){return active;}
 	
 	protected abstract boolean pickAndExecuteAnAction();
 	
@@ -27,6 +26,8 @@ public abstract class Role {
 	}
 	
 	protected void stateChanged(){
+		System.out.println("ROLE: myPerson is " + myPerson.toString());
+		System.out.println(myPerson.roles.get(0).toString());
 		myPerson.stateChanged();
 	}
 	

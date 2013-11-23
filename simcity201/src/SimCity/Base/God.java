@@ -148,8 +148,7 @@ public class God {
 					newRole = (Role)Class.forName(job).newInstance();
 					newRole.setActive(true);
 					newRole.setPerson(person);
-					person.msgCreateRole(newRole);
-					newRole.enterBuilding();
+					person.msgCreateRole(newRole, true);
 				} catch(Exception e){
 					e.printStackTrace();
 					System.out.println ("God: no class found");

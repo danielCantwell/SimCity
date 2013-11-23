@@ -18,6 +18,10 @@ public abstract class Building extends SimObject {
 	protected boolean isOpen = false;
 	protected JPanel buildingPanel;
 	
+	public Building(){
+		
+	}
+	
 	public Building (int id, JPanel jp){
 		this.id = id;
 		buildingPanel = jp;

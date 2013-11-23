@@ -8,6 +8,7 @@ import java.util.*;
 
 import SimCity.Globals.*;
 import SimCity.Base.*;
+import SimCity.Buildings.B_Bank;
 
 /*
  * Bank Customer Role
@@ -22,13 +23,16 @@ public class bankCustomerRole extends Role{
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
 	private bankGuardRole guard;
 	private tellerRole teller;
-	state s = state.none;
+	public state s = state.none;
 	Money wMoney = new Money(20,0);
 	public enum state { none, enter, waiting, called, reqSearch, gaveInv, entered, reqService, leaving};
+
 
 	//-----------------------------------------------Messages------------------------------------------------
 	public void enterBuilding() {
 		s = state.enter;
+		System.out.println(this.toString()+ " has entered the building.");
+		System.out.println("BankCustomer's my customer" + myPerson.toString());
 		stateChanged();
 		System.out.println("Customer: has entered the building");
 	}
@@ -72,10 +76,20 @@ public class bankCustomerRole extends Role{
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
+		System.out.println(this.toString() + " is performing an action");
+		
 		if(s.equals("enter")) {
+			System.out.println("in enter paeaa");
 			openDoor();
 			return true;
 		}
+		
+		if (s == state.enter){
+			System.out.println("in enter -2 paeaa");
+			openDoor();
+			return true;
+		}
+		
 		if(s.equals("leaving")) {
 			leaveBank();
 			return true;
@@ -95,6 +109,7 @@ public class bankCustomerRole extends Role{
 
 	//-----------------------------------------------Actions-------------------------------------------------
 	public void openDoor() {
+		System.out.println("opened door");
 		guard.wantEnter(this);
 		s = state.waiting;
 	}

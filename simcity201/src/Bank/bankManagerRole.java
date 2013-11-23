@@ -5,6 +5,11 @@ import java.util.*;
 import SimCity.Base.*;
 
 public class bankManagerRole extends Role{
+	
+	bankGuardRole guard;
+	public bankGuardRole getGuard(){return guard;}
+	public void setGuard(bankGuardRole bg){guard = bg;}
+	
 	//----------------------------------------------Data-------------------------------------------------
 	List<Teller> tellers = Collections.synchronizedList(new ArrayList<Teller>());
 	
@@ -58,6 +63,7 @@ public class bankManagerRole extends Role{
 
 	@Override
 	protected void enterBuilding() {
+		System.out.println("I am a bank manager");
 		stateChanged();
 	}
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 import restaurant.CustomerAgent;
+import Bank.bankCustomerRole;
 import SimCity.Globals.Money;
 import SimCity.gui.Gui;
 import agent.Agent;
@@ -71,8 +72,10 @@ public class Person extends Agent {
 			Role newRole;
 			try {
 				newRole = (Role)Class.forName(job).newInstance();
+				newRole.setPerson(this);
 				roles.add(newRole);
 				mainRole = newRole;
+				
 			} catch(Exception e){
 				e.printStackTrace();
 				System.out.println ("no class found");
@@ -107,7 +110,8 @@ public class Person extends Agent {
 	
 	public Person(String mainRole){
 		//setMainRole(mainRole);
-		God.Get().EnterBuilding(null, this, mainRole);
+		//God.Get().EnterBuilding(null, this, mainRole);
+		setMainRole(mainRole);
 		this.vehicle = Vehicle.walk;
 		this.mor = Morality.good;
 		this.money = new Money(5,10);
@@ -121,19 +125,22 @@ public class Person extends Agent {
 		
 	}
 		
-	public void msgCreateRole(Role r){
+	public void msgCreateRole(Role r, boolean enterBuilding){
 		//If there already exists a role r. Turn it on.
 		for(Role ro: roles){
-			if (ro.getClass() == r.getClass()){
-				r.active = true;
-				stateChanged();
+			if (ro.getClass().equals(r.getClass())){
+				ro.setActive(true);
+				ro.enterBuilding();
 				return;
 			}		
 		}
 		//If there does not exist that role r then add r to list.
 		r.setActive(true);
 		roles.add(r);
-		stateChanged();
+		if (enterBuilding){
+			r.enterBuilding();
+		}
+		//stateChanged();
 		return;
 	}
 	public void msgSleep(){
@@ -170,10 +177,17 @@ public class Person extends Agent {
 	boolean returnPAEAA = false;
 	@Override
 	protected boolean pickAndExecuteAnAction() {
+		if (roles.get(0) instanceof bankCustomerRole){
+			System.out.println(roles.get(0).getActive());
+			bankCustomerRole bcr = (bankCustomerRole)roles.get(0);
+			System.out.println(bcr.s.toString());
+		}
 		//if there is an active Role r in roles then return whatever that PAEAA returns
 		for (Role r: roles){
-			if (r.active){
+			if (r.getActive()){
+				
 				 returnPAEAA =  r.pickAndExecuteAnAction();
+				 return returnPAEAA;
 			}
 		}
 		

@@ -1,8 +1,10 @@
 package Bank;
 
 import java.util.*;
+
 import Bank.gui.bankGuardGui;
 import SimCity.Base.*;
+import SimCity.Buildings.B_Bank;
 
 /*
  * Bank Guard Role
@@ -25,6 +27,9 @@ public class bankGuardRole extends Role {
 		badObjs.add("gun");
 		badObjs.add("knife");
 		badObjs.add("ski mask");
+		
+		B_Bank curBank = (B_Bank)God.Get().getBuilding(0);
+		manager = curBank.getBankManager();
 	}
 
 	//----------------------------------------------Messages-------------------------------------------------
