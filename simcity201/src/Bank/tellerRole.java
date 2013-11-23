@@ -22,11 +22,16 @@ public class tellerRole extends Agent {
 		state s;
 		bankCustomerRole cust;
 	}
-	public enum state{ none, added, called, withdraw, deposit, leaving };
+	public enum state{ none, ready, added, called, withdraw, deposit, leaving };
 	private state s = state.none;
 
 
 	//-----------------------------------------------Messages-------------------------------------------------
+	public void enterBuilding() {
+		s = state.ready;
+		stateChanged();
+	}
+	
 	public void tellerAssigned(bankCustomerRole c) {
 		Client cl = new Client();
 		cl.cust = c;
@@ -69,14 +74,20 @@ public class tellerRole extends Agent {
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
+		if(s.equals("ready")) {
+			goToCounter();
+			return true;
+		}
 		if(s.equals("leaving")) {
 			leaveBank();
+			return true;
 		}
 		synchronized(clients) {
 			for (Client c : clients) {
 				if(c.s.equals("added")) {
 					callClient(c);
 				}
+				return true;
 			}
 		}
 		synchronized(clients) {
@@ -136,6 +147,10 @@ public class tellerRole extends Agent {
 		clients.remove(c);
 	}
 
+	public void goToCounter() {
+		//Make GUI call to walk to the counter
+	}
+	
 	public void leaveBank() {
 		//Make GUI call to leave the bank
 	}

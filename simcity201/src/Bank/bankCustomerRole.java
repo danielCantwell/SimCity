@@ -14,7 +14,7 @@ import agent.Agent;
  */
 
 public class bankCustomerRole extends Agent{
-	
+
 	//-----------------------------------------------Data-------------------------------------------------
 	int accNum;
 	private bankCustomerGui gui = new bankCustomerGui(this);
@@ -24,20 +24,24 @@ public class bankCustomerRole extends Agent{
 	private tellerRole teller;
 	state s = state.none;
 	Money wMoney = new Money(20,0);
-	public enum state { none, called, reqSearch, gaveInv, entered, reqService, leaving};
-	
+	public enum state { none, enter, waiting, called, reqSearch, gaveInv, entered, reqService, leaving};
+
 	//-----------------------------------------------Messages------------------------------------------------
+	public void enterBuilding() {
+		s = state.enter;
+		stateChanged();
+	}
 
 	public void requestSearch() {
 		s = state.reqSearch;
 		stateChanged();
 	}
-	
+
 	public void yesEnter() {
 		s = state.entered;
 		stateChanged();
 	}
-	
+
 	public void noEnter() {
 		s = state.leaving; 		//Leave or possibly throw away bad objects
 	}
@@ -55,9 +59,13 @@ public class bankCustomerRole extends Agent{
 		money = m;
 		s = state.leaving;
 	}
-	
+
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
+		if(s.equals("enter")) {
+			openDoor();
+			return true;
+		}
 		if(s.equals("leaving")) {
 			leaveBank();
 			return true;
@@ -74,17 +82,22 @@ public class bankCustomerRole extends Agent{
 		}
 		return false;
 	}
-	
+
 	//-----------------------------------------------Actions-------------------------------------------------
+	public void openDoor() {
+		guard.wantEnter(this);
+		s = state.waiting;
+	}
+
 	public void giveInv() {
 		guard.allowSearch(this, inventory);
 		s = state.gaveInv;
 	}
-	
+
 	public void findTeller() {
 		teller.foundTeller(accNum, money, this);
 	}
-	
+
 	public void chooseService() {
 		if (money.getDollar() > 30) {							//Temporary method for choosing whether to withdraw/deposit
 			teller.requestWithdraw(accNum, wMoney); 			//arbitrary amount to withdraw, can be changed later
@@ -95,11 +108,11 @@ public class bankCustomerRole extends Agent{
 			money.add(30,0);
 		}
 	}
-	
+
 	public void leaveBank() {
 		// make GUI call to leave bank 
 	}
-	
+
 	public void setGui(bankCustomerGui gui) {
 		this.gui = gui;
 	}

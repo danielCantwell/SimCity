@@ -12,7 +12,7 @@ public class tellerGui implements Gui {
 	private tellerRole teller;
 	private int xPos = 30, yPos = 30;
 	private int xDest = 330,  yDest = 30;
-	private int xSize = 20, ySize = 20;
+	private int xSize = 30, ySize = 30;
 	private final int yCounterPos = 1;
 	private final int xCounterPos = 1;
 	

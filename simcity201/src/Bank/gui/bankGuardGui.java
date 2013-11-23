@@ -10,7 +10,7 @@ public class bankGuardGui implements Gui{
 	private bankGuardRole guard;
 	private int xPos = 650, yPos = 350;
 	private int xDest = 570,  yDest = 350;
-	private int xSize = 20, ySize = 20;
+	private int xSize = 30, ySize = 30;
 	
 	@Override
 	public void updatePosition() {

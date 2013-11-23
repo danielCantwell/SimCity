@@ -19,7 +19,7 @@ public class bankGuardRole extends Agent {
 		state s;
 		bankCustomerRole bc;
 	}
-	public enum state { none, entered, requested, complied, searched, leaving };
+	public enum state { none, ready, onD, offD, entered, requested, complied, searched, leaving };
 	private state s = state.none;
 	public bankGuardRole() {
 		badObjs.add("gun");
@@ -28,6 +28,11 @@ public class bankGuardRole extends Agent {
 	}
 
 	//----------------------------------------------Messages-------------------------------------------------
+	public void enterBuilding() {
+		s = state.ready;
+		stateChanged();
+	}
+		
 	public void wantEnter(bankCustomerRole newC) {
 		Entry c = new Entry();
 		c.s = state.entered;
@@ -53,8 +58,13 @@ public class bankGuardRole extends Agent {
 
 	//----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
+		if( s.equals("ready")) {
+			enterBank();
+			return true;
+		}
 		if ( s.equals("leaving")) {
 			leaveBank();
+			return true;
 		}
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
@@ -96,8 +106,14 @@ public class bankGuardRole extends Agent {
 		custEnter.remove(c);
 	}
 
+	public void enterBank() {
+		//Make GUI call to enter bank
+		s = state.onD;
+	}
+	
 	public void leaveBank() {
 		//Make GUI call to leave the bank
+		s = state.offD;
 	}
 	public void setGui(bankGuardGui gui) {
 		this.gui = gui;
