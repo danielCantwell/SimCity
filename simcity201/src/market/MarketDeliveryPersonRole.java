@@ -86,6 +86,12 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		this.gui = gui;
 	}
 
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/*
 	 * public HostGui getGui() { return hostGui; }
 	 */

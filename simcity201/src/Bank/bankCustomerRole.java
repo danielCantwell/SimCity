@@ -7,13 +7,13 @@ import Bank.gui.*;
 import java.util.*;
 
 import SimCity.Globals.*;
-import agent.Agent;
+import SimCity.Base.*;
 
 /*
  * Bank Customer Role
  */
 
-public class bankCustomerRole extends Agent{
+public class bankCustomerRole extends Role{
 
 	//-----------------------------------------------Data-------------------------------------------------
 	int accNum;
@@ -58,6 +58,11 @@ public class bankCustomerRole extends Agent{
 	public void transactionComplete(Money m) {
 		money = m;
 		s = state.leaving;
+	}
+
+	@Override
+	public void workOver() {
+		// make GUI call to leave Bank
 	}
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
@@ -119,4 +124,5 @@ public class bankCustomerRole extends Agent{
 	public bankCustomerGui getGui() { 
 		return gui;
 	}
+
 }
