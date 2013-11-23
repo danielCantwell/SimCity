@@ -67,7 +67,7 @@ public class TenantGui implements Gui {
 	@Override
 	public boolean isPresent() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

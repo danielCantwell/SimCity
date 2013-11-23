@@ -132,7 +132,7 @@ public class TenantRole extends Role implements Tenant{
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		gui.DoGoToTable();
+		stateChanged();
 	}
 }
