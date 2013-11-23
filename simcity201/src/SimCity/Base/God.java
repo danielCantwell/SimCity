@@ -5,13 +5,11 @@ import housing.roles.OwnerRole;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import restaurant.gui.DannyRestaurantAnimationPanel;
+import SimCity.Buildings.B_Restaurant;
 import exterior.gui.AnimationPanel;
 
 /**
@@ -34,13 +32,13 @@ public class God {
 	    boolean isWeekend = false;
 	    Timer hourTimer;
 	    int hourOffset;
-	    ArrayList<JPanel> buildings = new ArrayList<JPanel>();
+	    ArrayList<Building> buildings = new ArrayList<Building>();
 	    ArrayList<Person> persons = new ArrayList<Person>();
 	    
 	    public void addPerson(Person p){ persons.add(p);}
 	    public void removePerson(Person p){ persons.remove(p);}
-	    public void addBuilding(JPanel j){ buildings.add(j);}
-	    public void removeBuildign(JPanel j){ buildings.remove(j);}
+	    public void addBuilding(Building j){ buildings.add(j);}
+	    public void removeBuildign(Building j){ buildings.remove(j);}
 	    
 	    
 	    public int getDay(){ return day;}
@@ -62,13 +60,13 @@ public class God {
 	    	}
 	    }
 	    
-	    public JPanel findRandomRestaurant(){
+	    public Building findRandomRestaurant(){
 	    	while (true){
 		    	Random rndnum = new Random (5);
 		    	int random = rndnum.nextInt();
-		    	if (buildings.get(random) instanceof DannyRestaurantAnimationPanel){
+		    	if (buildings.get(random) instanceof B_Restaurant){
 		    		return buildings.get(random);
-		    	}	
+		    	}
 	    	}
 	    }
 	    

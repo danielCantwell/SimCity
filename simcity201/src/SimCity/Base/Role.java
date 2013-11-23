@@ -26,6 +26,5 @@ public abstract class Role {
 		myPerson.stateChanged();
 	}
 	
-	
 }
 
