@@ -99,8 +99,7 @@ public class TenantRole extends Role implements Tenant{
 		if (rentOwed.isZero() && myPerson.getMoney().isGreaterThan(myPerson.getMoneyThreshold())) {
 			// Leave house to go to Restaurant
 			gui.DoLeaveHouse();
-			// TODO decide which restaurant to go to and how to get there
-			//person.msgGoToBuilding(restaurant);
+			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant());
 		}
 		else {
 			gui.DoGoToFridge();
