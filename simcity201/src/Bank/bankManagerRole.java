@@ -25,11 +25,13 @@ public class bankManagerRole extends Role{
 		t.busy = state.no;
 		tellers.add(t);
 		stateChanged();
+		System.out.println("Manager: New teller has been added");
 	}
 	
 	public void newClient(bankCustomerRole c) {
 		clients.add(c);
 		stateChanged();
+		System.out.println("Manager: New customer has been added");
 	}
 	
 	//----------------------------------------------Scheduler-------------------------------------------------
@@ -56,8 +58,7 @@ public class bankManagerRole extends Role{
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		stateChanged();
 	}
 
 	@Override

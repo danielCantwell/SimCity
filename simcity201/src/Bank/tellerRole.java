@@ -29,7 +29,7 @@ public class tellerRole extends Role {
 	//-----------------------------------------------Messages-------------------------------------------------
 	public void enterBuilding() {
 		s = state.ready;
-		System.out.println("I am a teller");
+		System.out.println("Teller: I am a teller");
 		stateChanged();
 	}
 	
@@ -39,6 +39,7 @@ public class tellerRole extends Role {
 		cl.s = state.added;
 		clients.add(cl);
 		stateChanged();
+		System.out.println("Teller: New customer assigned to me");
 	}
 
 	public void foundTeller(int accNum, Money money, bankCustomerRole cust) {
@@ -47,6 +48,7 @@ public class tellerRole extends Role {
 		c.money = money;
 		c.cust = cust;
 		clients.add(c);
+		System.out.println("Teller: Customer has come to me");
 	}
 
 	public void requestWithdraw(int acc, Money money) {

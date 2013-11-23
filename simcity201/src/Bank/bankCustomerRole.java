@@ -30,16 +30,19 @@ public class bankCustomerRole extends Role{
 	public void enterBuilding() {
 		s = state.enter;
 		stateChanged();
+		System.out.println("Customer: has entered the building");
 	}
 
 	public void requestSearch() {
 		s = state.reqSearch;
 		stateChanged();
+		System.out.println("Customer: is asking guard to search");
 	}
 
 	public void yesEnter() {
 		s = state.entered;
 		stateChanged();
+		System.out.println("Customer: Guard gave permission to enter");
 	}
 
 	public void noEnter() {
@@ -49,10 +52,12 @@ public class bankCustomerRole extends Role{
 	public void tellerCalled(tellerRole t) {
 		s = state.called;
 		teller = t;
+		System.out.println("Customer: Teller has called customer to come");
 	}
 	public void whatService() {
 		s = state.reqService;
 		stateChanged();
+		System.out.println("Customer: Teller asked which service");
 	}
 
 	public void transactionComplete(Money m) {
