@@ -22,6 +22,10 @@ public abstract class Role {
 	
 	public abstract void workOver(); //what do you do when the work is over.
 	
+	public void setPerson(Person person){
+		myPerson = person;
+	}
+	
 	protected void stateChanged(){
 		myPerson.stateChanged();
 	}

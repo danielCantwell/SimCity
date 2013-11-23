@@ -67,4 +67,10 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	public void setGui(MarketPackerGui gui) {
 		this.gui = gui;
 	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 }

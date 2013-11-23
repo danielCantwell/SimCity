@@ -208,4 +208,10 @@ public class MarketManagerRole extends Role implements MarketManager {
             return location;
         }
     }
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 }

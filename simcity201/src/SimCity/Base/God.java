@@ -39,11 +39,13 @@ public class God {
 	    public void removePerson(Person p){ persons.remove(p);}
 	    public void addBuilding(Building j){ buildings.add(j);}
 	    public void removeBuildign(Building j){ buildings.remove(j);}
-	    
+	    public Building getBuilding(int id){
+			return buildings.get(id);
+	    }
 	    
 	    public int getDay(){ return day;}
 	    public int getHour(){return hour;}
-	    public Person Find(int id){
+	    public Person getPerson(int id){
 			return persons.get(id);
 	    }
 	    public void assignID(SimObject s){
@@ -145,9 +147,12 @@ public class God {
 				try {
 					newRole = (Role)Class.forName(job).newInstance();
 					newRole.setActive(true);
+					newRole.setPerson(person);
 					person.msgCreateRole(newRole);
+					newRole.enterBuilding();
 				} catch(Exception e){
-					System.out.println ("no class found");
+					e.printStackTrace();
+					System.out.println ("God: no class found");
 				}
 	    }
 	    

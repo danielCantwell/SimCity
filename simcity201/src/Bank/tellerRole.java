@@ -29,6 +29,7 @@ public class tellerRole extends Role {
 	//-----------------------------------------------Messages-------------------------------------------------
 	public void enterBuilding() {
 		s = state.ready;
+		System.out.println("I am a teller");
 		stateChanged();
 	}
 	

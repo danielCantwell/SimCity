@@ -74,6 +74,7 @@ public class Person extends Agent {
 				roles.add(newRole);
 				mainRole = newRole;
 			} catch(Exception e){
+				e.printStackTrace();
 				System.out.println ("no class found");
 			}
 		}
@@ -92,6 +93,27 @@ public class Person extends Agent {
 		this.moneyThreshold = moneyThresh;
 		this.hungerLevel = hunger;
 		this.hungerThreshold = hungerThresh;
+	}
+	
+	public Person(String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
+		setMainRole(mainRole);
+		this.vehicle = vehicle;
+		this.mor = morality;
+		this.money = money;
+		this.moneyThreshold = moneyThresh;
+		this.hungerLevel = hunger;
+		this.hungerThreshold = hungerThresh;
+	}
+	
+	public Person(String mainRole){
+		//setMainRole(mainRole);
+		God.Get().EnterBuilding(null, this, mainRole);
+		this.vehicle = Vehicle.walk;
+		this.mor = Morality.good;
+		this.money = new Money(5,10);
+		this.moneyThreshold = new Money(1, 0);
+		this.hungerLevel = 10;
+		this.hungerThreshold = 4;
 	}
 		
 	//Messages
