@@ -91,18 +91,18 @@ public class bankCustomerRole extends Role{
 			return true;
 		}
 		
-		if(s.equals("leaving")) {
+		if(s == state.leaving) {
 			leaveBank();
 			return true;
 		}
-		if(s.equals("reqSearch")) {
+		if(s == state.reqSearch) {
 			giveInv();
 			return true;
 		}
-		if(s.equals("called")) {
+		if(s == state.called) {
 			findTeller();
 		}
-		if(s.equals("reqService")) {
+		if(s == state.reqService) {
 			chooseService();
 		}
 		return false;

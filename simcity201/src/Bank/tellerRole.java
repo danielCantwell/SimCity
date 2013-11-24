@@ -77,17 +77,17 @@ public class tellerRole extends Role {
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
-		if(s.equals("ready")) {
+		if(s == state.ready) {
 			goToCounter();
 			return true;
 		}
-		if(s.equals("leaving")) {
+		if(s == state.leaving) {
 			leaveBank();
 			return true;
 		}
 		synchronized(clients) {
 			for (Client c : clients) {
-				if(c.s.equals("added")) {
+				if(c.s == state.added) {
 					callClient(c);
 				}
 				return true;
@@ -95,10 +95,10 @@ public class tellerRole extends Role {
 		}
 		synchronized(clients) {
 			for (Client c : clients) {
-				if(c.s.equals("withdraw")) {
+				if(c.s == state.withdraw) {
 					withdrawDone(c);
 				}
-				else if (c.s.equals("deposit")) {
+				else if (c.s == state.deposit) {
 					depositDone(c);
 				}
 				return true;

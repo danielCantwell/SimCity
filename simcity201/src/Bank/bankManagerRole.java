@@ -43,7 +43,7 @@ public class bankManagerRole extends Role{
 	public boolean pickAndExecuteAnAction() {
 		synchronized(tellers) {
 			for (Teller t : tellers) {
-				if (t.busy.equals("no") && !clients.isEmpty()) {
+				if (t.busy == state.no && !clients.isEmpty()) {
 					callTeller(clients.get(0), t);
 				}
 				return true;

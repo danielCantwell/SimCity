@@ -69,17 +69,17 @@ public class bankGuardRole extends Role {
 
 	//----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
-		if( s.equals("ready")) {
+		if( s == state.ready) {
 			enterBank();
 			return true;
 		}
-		if ( s.equals("leaving")) {
+		if ( s== state.leaving) {
 			leaveBank();
 			return true;
 		}
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
-				if (c.s.equals("complied")) {
+				if (c.s == state.complied) {
 					Search(c);
 					return true;
 				}
@@ -87,7 +87,7 @@ public class bankGuardRole extends Role {
 		}
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
-				if (c.s.equals("entered")) {
+				if (c.s == state.entered) {
 					askSearch(c);
 					return true;
 				}
