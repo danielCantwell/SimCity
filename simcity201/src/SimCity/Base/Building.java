@@ -16,10 +16,22 @@ public abstract class Building extends SimObject {
 	protected boolean isOpen = false;
 	protected JPanel buildingPanel;
 	
+	//Use if no jpanel but want to test building assigning ids.
 	public Building(){
-		
+		super();
 	}
 	
+	//Obsolete constructor.
+	public Building(int id){
+		this.id = id;
+	}
+	
+	//!!!!USE THIS CONSTRUCTOR.
+	public Building(JPanel jp){
+		super();
+		buildingPanel = jp;
+	}
+	//Obsolete constructor
 	public Building (int id, JPanel jp){
 		this.id = id;
 		buildingPanel = jp;

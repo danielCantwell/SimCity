@@ -31,7 +31,8 @@ public class TenantRole extends Role implements Tenant{
 	private Owner owner;
 	
 	TenantGui gui = new TenantGui(this);
-	
+	enum Time { msgSleep, sleeping, awake};
+	Time sleepTime = Time.awake;
 	
 	public List<Appliance> appliances = Collections
 			.synchronizedList(new ArrayList<Appliance>());
@@ -52,12 +53,22 @@ public class TenantRole extends Role implements Tenant{
 	}
 	
 	public void msgMorning() {
-		
+		sleepTime = Time.awake;
+		stateChanged();
+	}
+	
+	public void msgSleeping(){
+		sleepTime = Time.msgSleep;
+		stateChanged();
 	}
 	
 	//-----------------------------------SCHEDULER-----------------------------------
 	
 	public boolean pickAndExecuteAnAction() {
+		
+		if (sleepTime == Time.sleeping){
+			return false;
+		}
 		
 		if (!rentOwed.isZero()) {
 			tryToPayRent();
@@ -69,7 +80,7 @@ public class TenantRole extends Role implements Tenant{
 			return true;
 		}
 		
-		if (myPerson.getPersonState() == TimeState.msgGoToSleep) {
+		if (sleepTime == Time.msgSleep) {
 			sleep();
 			return true;
 		}

@@ -16,13 +16,16 @@ public class B_Restaurant extends Building{
 
 	@Override
 	public String getManagerString() {
-		return "restaurant.HostRole";
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String getCustomerString() {
 		// TODO Auto-generated method stub
-		return "restaurant.CustomerRole";
+		return null;
 	}
+
+
 
 }

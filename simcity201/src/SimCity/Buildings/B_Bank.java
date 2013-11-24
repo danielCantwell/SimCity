@@ -36,10 +36,8 @@ public class B_Bank extends Building{
 		super(id, jp);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public B_Bank(int id){
-		
-	}
+
+
 	@Override
 	public String getManagerString() {
 		return "Bank.bankManagerRole";
@@ -48,5 +46,7 @@ public class B_Bank extends Building{
 	public String getCustomerString() {
 		return "Bank.bankCustomerRole";
 	}
+
+	
 
 }

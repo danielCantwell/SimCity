@@ -304,7 +304,7 @@ public class Person extends Agent {
 			if (r.getActive()){
 				if (r instanceof TenantRole){
 					TenantRole tr = (TenantRole)r;
-					//tr.msgSleeping();
+					tr.msgSleeping();
 					return;
 				}
 			}

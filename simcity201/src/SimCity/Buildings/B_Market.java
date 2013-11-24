@@ -24,13 +24,18 @@ public class B_Market extends Building{
 	public B_Market(int id){
 		
 	}
+
 	@Override
 	public String getManagerString() {
-		return "Bank.bankManagerRole";
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 	@Override
 	public String getCustomerString() {
-		return "Bank.bankCustomerRole";
+		// TODO Auto-generated method stub
+		return null;
 	}
+	
 
 }

@@ -20,12 +20,16 @@ public class B_House extends Building{
 
 	@Override
 	public String getManagerString() {
-		return "House.OwnerRole";
+		// TODO Auto-generated method stub
+		return "housing.OwnerRole";
 	}
 
 	@Override
 	public String getCustomerString() {
-		return "House.TenantRole";
+		// TODO Auto-generated method stub
+		return "housing.TenantRole";
 	}
+
+	
 
 }
