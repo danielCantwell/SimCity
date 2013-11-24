@@ -12,8 +12,8 @@ public class MarketDeliveryPersonGui implements Gui {
 
 	private MarketDeliveryPersonRole role = null;
 
-	private int xPos = -20, yPos = -20;// default waiter position
-	private int xDestination = -20, yDestination = -20;// default start position
+    private int xPos = 40, yPos = 100;// default waiter position
+    private int xDestination = xPos, yDestination = yPos;// default start position
 
 	private enum State { none };
 

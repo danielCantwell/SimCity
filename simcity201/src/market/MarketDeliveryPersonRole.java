@@ -5,6 +5,7 @@ import java.util.*;
 import SimCity.Base.Role;
 import market.gui.MarketClerkGui;
 import market.gui.MarketDeliveryPersonGui;
+import market.gui.MarketManagerGui;
 import market.interfaces.MarketDeliveryPerson;
 import market.interfaces.MarketManager;
 
@@ -16,7 +17,7 @@ import market.interfaces.MarketManager;
 public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPerson{
 	
 	private String name;
-	private MarketDeliveryPersonGui gui;
+	private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
 	
 	/**
 	 * Data
@@ -37,19 +38,19 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 	 * Messages
 	 */
 
-    public void msgWantFood(String name, String choice, int amount)
+    public void msgMakeDelivery(String name, String choice, int amount)
     {
         // TODO Auto-generated method stub
         
     }
     
-    public void msgGiveToCustomer(String name, String choice, int amount)
+    public void guiArrivedAtMarket()
     {
         // TODO Auto-generated method stub
         
     }
 
-    public void msgHereIsMoney(String name, int amount)
+    public void guiArrivedAtDestination()
     {
         // TODO Auto-generated method stub
         
@@ -86,15 +87,14 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		this.gui = gui;
 	}
 
+    public MarketDeliveryPersonGui getGui() { return gui; }
+
 	@Override
 	protected void enterBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
-
-	/*
-	 * public HostGui getGui() { return hostGui; }
-	 */
+	
 	
 
     /**

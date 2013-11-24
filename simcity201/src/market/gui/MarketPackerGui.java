@@ -12,8 +12,8 @@ public class MarketPackerGui implements Gui {
 
 	private MarketPackerRole role = null;
 
-	private int xPos = -20, yPos = -20;// default waiter position
-	private int xDestination = -20, yDestination = -20;// default start position
+    private int xPos = 200, yPos = 200;// default waiter position
+    private int xDestination = xPos, yDestination = yPos;// default start position
 
 	private enum State { none };
 

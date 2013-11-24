@@ -2,7 +2,10 @@ package market.gui;
 
 import javax.swing.*;
 
+import market.MarketClerkRole;
+import market.MarketDeliveryPersonRole;
 import market.MarketManagerRole;
+import market.MarketPackerRole;
 import SimCity.gui.Gui;
 
 import java.awt.*;
@@ -36,9 +39,10 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	private Image bufferImage;
 	private Dimension bufferSize;
 
-	private MarketManagerRole managerRole = new MarketManagerRole("Bob");
-
-	private int NTABLES = 0;
+	private MarketManagerRole managerRole = new MarketManagerRole("Manny");
+	private MarketClerkRole clerkRole = new MarketClerkRole("Clark");
+    private MarketPackerRole packerRole = new MarketPackerRole("Parker");
+    private MarketDeliveryPersonRole deliveryPersonRole = new MarketDeliveryPersonRole("Pearson");
 
 	//public List<MarketPackerGui> packers = Collections.synchronizedList(new ArrayList<MarketPackerGui>());
 	//public List<MarketClerkGui> clerks = Collections.synchronizedList(new ArrayList<MarketClerkGui>());
@@ -53,6 +57,9 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 		this.name = name;
 
 		addGui(managerRole.getGui());
+        addGui(clerkRole.getGui());
+        addGui(packerRole.getGui());
+        addGui(deliveryPersonRole.getGui());
 		
 		bufferSize = this.getSize();
 	}
@@ -68,6 +75,17 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
+		g2.setColor(Color.YELLOW);
+		// counter
+		g2.fillRect(0, 150, 190, 10);
+        g2.fillRect(180, 160, 10, 200);
+        g2.fillRect(180, 360, 500, 10);
+        
+        // shelves
+        g2.fillRect(200, 40, 160, 20);
+        g2.fillRect(400, 40, 160, 20);
+        g2.fillRect(400, 100, 160, 20);
+		
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();
@@ -85,10 +103,10 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 		g2.drawString(name, 20, 20);
 	}
 
-	/*public void addGui(MarketPackerGui gui) {
+	public void addGui(MarketPackerGui gui) {
 		guis.add(gui);
 	}
-
+	
 	public void addGui(MarketClerkGui gui) {
 		guis.add(gui);
 	}
@@ -96,7 +114,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	public void addGui(MarketDeliveryPersonGui gui) {
 		guis.add(gui);
 	}
-	
+	/*
     public void addGui(MarketCustomerGui gui) {
         guis.add(gui);
     }*/

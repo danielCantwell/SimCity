@@ -3,6 +3,7 @@ package market;
 import java.util.*;
 
 import SimCity.Base.Role;
+import market.gui.MarketManagerGui;
 import market.gui.MarketPackerGui;
 import market.interfaces.MarketManager;
 import market.interfaces.MarketPacker;
@@ -16,7 +17,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	
 	private String name;
 
-	private MarketPackerGui gui; 
+	private MarketPackerGui gui = new MarketPackerGui(this); 
 	
 	public MarketPackerRole(String name) {
 		super();
@@ -66,6 +67,11 @@ public class MarketPackerRole extends Role implements MarketPacker {
 
 	public void setGui(MarketPackerGui gui) {
 		this.gui = gui;
+	}
+	
+	public MarketPackerGui getGui()
+	{
+	    return gui;
 	}
 
 	@Override

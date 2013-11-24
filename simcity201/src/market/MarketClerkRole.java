@@ -4,6 +4,7 @@ import java.util.*;
 
 import SimCity.Base.Role;
 import market.gui.MarketClerkGui;
+import market.gui.MarketManagerGui;
 import market.interfaces.MarketClerk;
 import market.interfaces.MarketManager;
 
@@ -15,7 +16,7 @@ import market.interfaces.MarketManager;
 public class MarketClerkRole extends Role implements MarketClerk {
 	
 	private String name;
-	private MarketClerkGui gui;
+	private MarketClerkGui gui = new MarketClerkGui(this);
 	
 	/**
 	 * Data
@@ -84,10 +85,8 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		this.gui = gui;
 	}
 
-	/*
-	 * public HostGui getGui() { return hostGui; }
-	 */
 	
+	public MarketClerkGui getGui() { return gui; }
 
     /**
      * Inner Classes

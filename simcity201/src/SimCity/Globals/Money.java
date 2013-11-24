@@ -101,4 +101,9 @@ public class Money {
 	public int getDollar() {
 		return dollars;
 	}
+	
+	public boolean equals(Money other)
+	{
+	    return (dollars == other.dollars && cents == other.cents);
+	}
 }
