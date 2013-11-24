@@ -42,10 +42,10 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	private Image bufferImage;
 	private Dimension bufferSize;
 
-	private MarketManagerRole managerRole;
-	private MarketClerkRole clerkRole;
-    private MarketPackerRole packerRole;
-    private MarketDeliveryPersonRole deliveryPersonRole;
+	private Person manager;
+    private Person clerk;
+    private Person packer;
+    private Person deliveryPerson;
     
     private List<Person> people = Collections.synchronizedList(new ArrayList<Person>());
 
@@ -54,43 +54,42 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	//public List<MarketDeliveryPersonGui> deliveryPeople = Collections.synchronizedList(new ArrayList<MarketDeliveryPersonGui>());
 
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-
 	public MarketAnimationPanel(String name) {
 		setSize(WINDOWX, WINDOWY);
 		setVisible(true);
-        Timer timer = new Timer(1, this);
+        Timer timer = new Timer(10, this);
         timer.start();
 		
 		this.name = name;
         
-        Person manager = new Person("market.MarketManagerRole");
+        manager = new Person("market.MarketManagerRole");
         addGui(manager.gui);
         //manager.msgCreateRole(managerRole);
-        managerRole = (MarketManagerRole) manager.mainRole;
         manager.startThread();
 
-        Person clerk = new Person("market.MarketClerkRole");
+        clerk = new Person("market.MarketClerkRole");
         addGui(clerk.gui);
-        //clerk.msgCreateRole(clerkRole);
+        ((MarketClerkRole) clerk.mainRole).setManager((MarketManagerRole) manager.mainRole);
         clerk.startThread();
         
-        Person packer = new Person("market.MarketPackerRole");
+        packer = new Person("market.MarketPackerRole");
         addGui(packer.gui);
-        //packer.msgCreateRole(packerRole);
-        packerRole = (MarketPackerRole) packer.mainRole;
+        ((MarketPackerRole) packer.mainRole).setManager((MarketManagerRole) manager.mainRole);
         packer.startThread();
         
-        Person deliveryPerson = new Person("market.MarketDeliveryPersonRole");
+        deliveryPerson = new Person("market.MarketDeliveryPersonRole");
         addGui(deliveryPerson.gui);
-        //deliveryPerson.msgCreateRole(deliveryPersonRole);
+        ((MarketDeliveryPersonRole) deliveryPerson.mainRole).setManager((MarketManagerRole) manager.mainRole);
         deliveryPerson.startThread();
 
         initializeLocations();
         
-        managerRole.addClerk((MarketClerkRole) clerk.mainRole);
-        managerRole.addPacker((MarketPackerRole) packer.mainRole);
-        managerRole.addDeliveryPerson((MarketDeliveryPersonRole) deliveryPerson.mainRole);
-        managerRole.msgWantFood("Chano's", "Steak", 10);
+        ((MarketManagerRole) manager.mainRole).addClerk((MarketClerkRole) clerk.mainRole);
+        ((MarketManagerRole) manager.mainRole).addPacker((MarketPackerRole) packer.mainRole);
+        ((MarketManagerRole) manager.mainRole).addDeliveryPerson((MarketDeliveryPersonRole) deliveryPerson.mainRole);
+        ((MarketManagerRole) manager.mainRole).msgWantFood("Chano's", "Steak", 10);
+        ((MarketManagerRole) manager.mainRole).msgWantFood("La Barca", "Salad", 10);
+        ((MarketManagerRole) manager.mainRole).msgWantFood("No Tomatoes", "Tomatoes", 10);
 		bufferSize = this.getSize();
 	}
 
@@ -191,10 +190,10 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
             locations.put(locCount, new Point(i, 110));
             locCount++;
         }
-        managerRole.getGui().setLocations(locations);
-        managerRole.initializeInventory();
+        ((MarketManagerGui) manager.gui).setLocations(locations);
+        ((MarketManagerRole) manager.mainRole).initializeInventory();
         
         // test
-        packerRole.getGui().setLocations(locations);
+        ((MarketPackerGui) packer.gui).setLocations(locations);
     }
 }

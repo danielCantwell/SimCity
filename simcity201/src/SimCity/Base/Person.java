@@ -108,8 +108,9 @@ public class Person extends Agent {
 	}
 	
 	public Person(String mainRole){
-		setMainRole(mainRole);
+		//setMainRole(mainRole);
 		God.Get().EnterBuilding(null, this, mainRole);
+		this.mainRole = this.roles.get(0);
 		this.vehicle = Vehicle.walk;
 		this.mor = Morality.good;
 		this.money = new Money(5,10);

@@ -2,6 +2,7 @@ package market;
 
 import java.awt.Point;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import SimCity.Base.Person;
 import SimCity.Base.Role;
@@ -33,6 +34,9 @@ public class MarketPackerRole extends Role implements MarketPacker {
     public AgentState state;
     public enum AgentLocation { Counter, Item, Transit };
     public AgentLocation location;
+    public int destination;
+    
+    public Semaphore inTransit = new Semaphore(0, true);
     
     /**
      * Constructors
@@ -43,6 +47,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 		
 		state = AgentState.Idle;
 		location = AgentLocation.Counter;
+		destination = -1;
 	}
 
 	/** 
@@ -59,12 +64,14 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	public void msgGuiArrivedAtCounter()
 	{
 	    location = AgentLocation.Counter;
+	    inTransit.release();
         stateChanged();
 	}
 	
 	public void msgGuiArrivedAtItem()
 	{
         location = AgentLocation.Item;
+        inTransit.release();
         stateChanged();
 	}
 
@@ -89,35 +96,63 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	    {
 	        if (state == AgentState.Packing)
 	        {
-	            for (Order o : orders)
+	            Order order = null;
+                synchronized(orders)
                 {
-                    if (o.state == OrderState.Ready)
+    	            for (Order o : orders)
                     {
-                        giveOrder(o);
+                        if (o.state == OrderState.Ready)
+                        {
+                            order = o;
+                        }
                     }
+                }
+                if (order != null)
+                {
+                    giveOrder(order);
+                    return true;
                 }
 	        }
 	        else if (state == AgentState.Idle)
 	        {
-	            for (Order o : orders)
-	            {
-	                if (o.state == OrderState.Pending)
-	                {
-	                    pack(o);
-	                }
+	            Order order = null;
+                synchronized(orders)
+                {
+    	            for (Order o : orders)
+    	            {
+    	                if (o.state == OrderState.Pending)
+    	                {
+    	                    order = o;
+    	                }
+    	            }
+                }
+                if (order != null)
+                {
+                    pack(order);
+                    return true;
 	            }
 	        }
 	    }
-	    else
+	    else if (location == AgentLocation.Item)
 	    {
     	    if (state == AgentState.Packing)
     	    {
-    	        for (Order o : orders)
+                Order order = null;
+                synchronized(orders)
                 {
-                    if (o.state == OrderState.Ready)
+        	        for (Order o : orders)
                     {
-                        returnToCounter();
+                        if (o.state == OrderState.Processing && o.location == destination)
+                        {
+                            order = o;
+                        }
                     }
+                }
+                if (order != null)
+                {
+                    grabItem(order);
+                    returnToCounter();
+                    return true;
                 }
     	    }
 	    }
@@ -135,6 +170,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	private void giveOrder(Order order)
 	{
 	    manager.msgOrderPacked(order.name, order.choice, order.amount);
+	    orders.remove(order);
 	    state = AgentState.Idle;
 	}
 	
@@ -144,13 +180,38 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	    order.state = OrderState.Processing;
 	    
 	    location = AgentLocation.Transit;
+	    destination = order.location;
 	    gui.DoGoToItem(order.location);
+        try
+        {
+            inTransit.acquire();
+        }
+        catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	}
+	
+	private void grabItem(Order order)
+	{
+	    manager.msgGrabbingItem(order.choice, order.amount);
+	    order.state = OrderState.Ready;
 	}
 	
 	private void returnToCounter()
 	{
         location = AgentLocation.Transit;
 	    gui.DoGoToCounter();
+	    try
+        {
+            inTransit.acquire();
+        }
+        catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 	
     /**

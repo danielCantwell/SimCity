@@ -23,10 +23,10 @@ public class MarketPackerGui implements Gui {
 
 	private enum State { none };
 
-	private enum Action { none };
+	private enum Action { Idle, Fetching, Returning };
 
 	private State state = State.none;
-	private Action action = Action.none;
+	private Action action = Action.Idle;
 
 	static final int xPersonSize = 20;
 	static final int yPersonSize = 20;
@@ -50,7 +50,15 @@ public class MarketPackerGui implements Gui {
 
 			if (xPos == xDestination && yPos == yDestination)
 			{
-				   
+				   if (action == Action.Fetching)
+				   {
+				       role.msgGuiArrivedAtItem();
+				   }
+				   else if (action == Action.Returning)
+				   {
+				       role.msgGuiArrivedAtCounter();
+				   }
+				   action = Action.Idle;
 			}
 		}
 	}
@@ -64,12 +72,14 @@ public class MarketPackerGui implements Gui {
     {
         xDestination = locations.get(location).x;
         yDestination = locations.get(location).y;
+        action = Action.Fetching;
     }
 
     public void DoGoToCounter()
     {
         xDestination = counterLoc.x;
         yDestination = counterLoc.y;
+        action = Action.Returning;
     }
 
 	public boolean isPresent() {

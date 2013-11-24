@@ -76,6 +76,7 @@ public class MarketManagerRole extends Role implements MarketManager {
                 }
             }
         }
+        System.out.println("Recieved " + name + " order.");
         stateChanged();
     }
 	
@@ -107,6 +108,13 @@ public class MarketManagerRole extends Role implements MarketManager {
         money.subtract(amount);
         stateChanged();
     }
+    
+    public void msgGrabbingItem(String item, int amount)
+    {
+        inventory.get(item).amount -= amount;
+        gui.updateInventory(item, inventory.get(item).amount, inventory.get(item).location);
+        stateChanged();
+    }
 
     @Override
     protected void enterBuilding() {
@@ -130,7 +138,6 @@ public class MarketManagerRole extends Role implements MarketManager {
 
         synchronized(orders)
         {
-            System.out.println("# of orders: " + orders.size() + ".");
     	    for (Order o : orders)
     	    {
     	        if (o.state == OrderState.Pending)
@@ -233,6 +240,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         {
             myDP.deliveryPerson.msgMakeDelivery(order.name, order.choice, order.amount);
             order.state = OrderState.Ready;
+            orders.remove(order);
         }
     }
     
@@ -253,6 +261,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         {
             myClerk.clerk.msgGiveToCustomer(order.name, order.choice, order.amount);
             order.state = OrderState.Ready;
+            orders.remove(order);
         }
     }
 	
