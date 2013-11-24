@@ -73,6 +73,8 @@ public class Person extends Agent {
 				newRole = (Role)Class.forName(job).newInstance();
 				roles.add(newRole);
 				mainRole = newRole;
+				mainRole.active = true;
+				mainRole.myPerson = this;
 			} catch(Exception e){
 				e.printStackTrace();
 				System.out.println ("no class found");
@@ -106,7 +108,7 @@ public class Person extends Agent {
 	}
 	
 	public Person(String mainRole){
-		//setMainRole(mainRole);
+		setMainRole(mainRole);
 		God.Get().EnterBuilding(null, this, mainRole);
 		this.vehicle = Vehicle.walk;
 		this.mor = Morality.good;
@@ -126,12 +128,14 @@ public class Person extends Agent {
 		for(Role ro: roles){
 			if (ro.getClass() == r.getClass()){
 				r.active = true;
+                r.myPerson = this;
 				stateChanged();
 				return;
 			}		
 		}
 		//If there does not exist that role r then add r to list.
 		r.setActive(true);
+        r.myPerson = this;
 		roles.add(r);
 		stateChanged();
 		return;
@@ -251,7 +255,5 @@ public class Person extends Agent {
 		if (vehicle == Vehicle.bus) return;
 		//changes person gui's image. based on vehicle.
 	}
-	
-	
 }
 

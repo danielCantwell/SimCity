@@ -32,8 +32,6 @@ public class MarketManagerGui implements Gui {
 
 	public MarketManagerGui(MarketManagerRole role) {
 		this.role = role;
-		
-		initializeLocations();
 	}
 
 	public void updatePosition() {
@@ -103,39 +101,9 @@ public class MarketManagerGui implements Gui {
 		return yPos;
 	}
 	
-	public void initializeLocations()
+	public void setLocations(Map<Integer, Point> locations)
 	{
-	    int locCount = 0;
-	    for (int i = 200; i < 360; i+=20)
-	    {
-    	    locations.put(locCount, new Point(i, 40));
-    	    locCount++;
-	    }
-        for (int i = 200; i < 360; i+=20)
-        {
-            locations.put(locCount, new Point(i, 50));
-            locCount++;
-        }
-        for (int i = 400; i < 560; i+=20)
-        {
-            locations.put(locCount, new Point(i, 40));
-            locCount++;
-        }
-        for (int i = 400; i < 560; i+=20)
-        {
-            locations.put(locCount, new Point(i, 50));
-            locCount++;
-        }
-        for (int i = 400; i < 560; i+=20)
-        {
-            locations.put(locCount, new Point(i, 100));
-            locCount++;
-        }
-        for (int i = 400; i < 560; i+=20)
-        {
-            locations.put(locCount, new Point(i, 110));
-            locCount++;
-        }
+	    this.locations = locations;
 	}
     
     public class Inventory

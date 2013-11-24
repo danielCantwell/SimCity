@@ -3,6 +3,7 @@ package market;
 import java.util.*;
 
 import Bank.tellerRole;
+import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import market.gui.MarketManagerGui;
@@ -15,7 +16,6 @@ import market.interfaces.MarketManager;
  */
 public class MarketManagerRole extends Role implements MarketManager {
 	
-	public String name;
 	private MarketManagerGui gui = new MarketManagerGui(this);
 	
 	/**
@@ -34,29 +34,12 @@ public class MarketManagerRole extends Role implements MarketManager {
     public Money money;
     public int accountNumber;
     
-	public MarketManagerRole(String name) {
+    /**
+     * Constructors
+     */
+    
+	public MarketManagerRole() {
 		super();
-
-        this.name = name;
-        
-		// initialize inventory
-		addItemToInventory("Steak", new Money(7, 00), 10, 0);
-        addItemToInventory("Chicken", new Money(5, 00), 10, 29);
-        addItemToInventory("Pizza", new Money(4, 00), 10, 2);
-        addItemToInventory("Salad", new Money(3, 00), 10, 6);
-        
-        addItemToInventory("Salmon", new Money(7, 00), 10, 37);
-        addItemToInventory("Tomatoes", new Money(5, 00), 10, 14);
-        addItemToInventory("Bread", new Money(4, 00), 10, 38);
-        addItemToInventory("Salt", new Money(3, 00), 10, 24);
-        addItemToInventory("Pepper", new Money(7, 00), 10, 43);
-        addItemToInventory("Onions", new Money(5, 00), 10, 30);
-        addItemToInventory("Sausage", new Money(4, 00), 10, 12);
-        addItemToInventory("Ice Cream", new Money(3, 00), 10, 8);
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	/** 
@@ -66,50 +49,63 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public void msgWantFood(String name, String choice, int amount)
 	{
 	    Order o = new Order(name, choice, amount, OrderType.Restaurant);
-	    o.state = OrderState.Processing;
+	    o.state = OrderState.Pending;
 	    orders.add(o);
+	    System.out.println("Order " + name + " added.");
+        stateChanged();
 	}
 	
 	public void msgFulfillOrder(String name, String choice, int amount)
     {
         Order o = new Order(name, choice, amount, OrderType.Customer);
-        o.state = OrderState.Processing;
+        o.state = OrderState.Pending;
         orders.add(o);   
+        stateChanged();
     }
 	
 	public void msgOrderPacked(String name, String choice, int amount)
     {
 	    Order other = new Order(name, choice, amount, OrderType.None);
-        for (Order order : orders)
+        synchronized(orders)
         {
-            if (order.equals(other))
+            for (Order order : orders)
             {
-                order.state = OrderState.Ready;
+                if (order.equals(other))
+                {
+                    order.state = OrderState.Ready;
+                }
             }
         }
+        stateChanged();
     }
 	
     public void msgHereIsTheMoney(String name, Money amount)
     {
         money.add(amount);
-        for (Order o : orders)
+        synchronized(orders)
         {
-            if (o.name.equals(name) && o.getCost().equals(amount))
+            for (Order o : orders)
             {
-                orders.remove(o);
-                break;
+                if (o.name.equals(name) && o.getCost().equals(amount))
+                {
+                    orders.remove(o);
+                    break;
+                }
             }
         }
+        stateChanged();
     }
     
     public void msgWithdrawalSuccessful(Money amount)
     {
         money.add(amount);
+        stateChanged();
     }
     
     public void msgDepositSuccessful(Money amount)
     {
         money.subtract(amount);
+        stateChanged();
     }
 
     @Override
@@ -128,7 +124,60 @@ public class MarketManagerRole extends Role implements MarketManager {
 	 */
 	protected boolean pickAndExecuteAnAction() {
 		
+	    // if money > MAX_AMOUNT
 	    
+	    // if money < MIN_AMOUNT
+
+        synchronized(orders)
+        {
+            System.out.println("# of orders: " + orders.size() + ".");
+    	    for (Order o : orders)
+    	    {
+    	        if (o.state == OrderState.Pending)
+    	        {
+    	            synchronized(packers)
+    	            {
+        	            for (MyPacker packer : packers)
+        	            {
+        	                if (packer.state == PackerState.Idle)
+        	                {
+        	                    startOrder(o);
+        	                    return true;
+        	                }
+        	            }
+    	            }
+    	        }
+    	    }
+        }
+
+        synchronized(orders)
+        {
+    	    for (Order o : orders)
+            {
+                if (o.state == OrderState.Ready)
+                {
+                    if (o.type == OrderType.Restaurant)
+                    {
+                        synchronized(deliveryPeople)
+                        {
+                            for (MyDeliveryPerson dP : deliveryPeople)
+                            {
+                                if (dP.state == DeliveryPersonState.Idle)
+                                {
+                                    deliverOrder(o);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    else if (o.type == OrderType.Customer)
+                    {
+                        giveOrder(o);
+                        return true;
+                    }
+                }
+            }
+        }
 	    
 		return false;
 		// we have tried all our rules and found
@@ -156,7 +205,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         int minOrder = Integer.MAX_VALUE;
         for (MyPacker mP : packers)
         {
-            if (mP.orderCount < minOrder)
+            if (mP.state == PackerState.Idle && mP.orderCount < minOrder)
             {
                 minOrder = mP.orderCount;
                 myPacker = mP;
@@ -164,7 +213,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         }
         if (myPacker != null)
         {
-            myPacker.packer.msgPackage(order.name, order.choice, order.amount);
+            myPacker.packer.msgPackage(order.name, order.choice, order.amount, inventory.get(order.choice).location);
             order.state = OrderState.Processing;
         }
     }
@@ -211,9 +260,42 @@ public class MarketManagerRole extends Role implements MarketManager {
      * Utilities
      */
 	
+    public void initializeInventory()
+    {
+        // initialize inventory
+        addItemToInventory("Steak", new Money(7, 00), 10, 0);
+        addItemToInventory("Chicken", new Money(5, 00), 10, 29);
+        addItemToInventory("Pizza", new Money(4, 00), 10, 2);
+        addItemToInventory("Salad", new Money(3, 00), 10, 6);
+        
+        addItemToInventory("Salmon", new Money(7, 00), 10, 37);
+        addItemToInventory("Tomatoes", new Money(5, 00), 10, 14);
+        addItemToInventory("Bread", new Money(4, 00), 10, 38);
+        addItemToInventory("Salt", new Money(3, 00), 10, 24);
+        addItemToInventory("Pepper", new Money(7, 00), 10, 43);
+        addItemToInventory("Onions", new Money(5, 00), 10, 30);
+        addItemToInventory("Sausage", new Money(4, 00), 10, 12);
+        addItemToInventory("Ice Cream", new Money(3, 00), 10, 8);
+    }
+    
 	public void addItemToInventory(String name, Money price, int amount, int location)
 	{
         inventory.put(name, new Inventory(name, price, amount, location));
+	}
+	
+	public void addPacker(MarketPackerRole r)
+	{
+	    packers.add(new MyPacker(r));
+	}
+	
+	public void addDeliveryPerson(MarketDeliveryPersonRole r)
+	{
+        deliveryPeople.add(new MyDeliveryPerson(r));
+	}
+	
+	public void addClerk(MarketClerkRole r)
+	{
+        clerks.add(new MyClerk(r));
 	}
 
 	public void setGui(MarketManagerGui gui) {
@@ -223,6 +305,11 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	public MarketManagerGui getGui() { return gui; }
 	
+	public void setPerson(Person person)
+	{
+	    super.setPerson(person);
+	    person.gui = gui;
+	}
 
     /**
      * Inner Classes

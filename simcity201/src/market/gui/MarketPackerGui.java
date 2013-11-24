@@ -1,6 +1,9 @@
 package market.gui;
 
 import java.awt.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import market.MarketManagerRole;
 import market.MarketPackerRole;
@@ -12,8 +15,11 @@ public class MarketPackerGui implements Gui {
 
 	private MarketPackerRole role = null;
 
-    private int xPos = 200, yPos = 200;// default waiter position
+    private int xPos = 200, yPos = 200;// default counter location.
     private int xDestination = xPos, yDestination = yPos;// default start position
+    
+    private Map<Integer, Point> locations = Collections.synchronizedMap(new HashMap<Integer, Point>());
+    private Point counterLoc = new Point(xPos, yPos);
 
 	private enum State { none };
 
@@ -54,6 +60,18 @@ public class MarketPackerGui implements Gui {
 		g.fillRect(xPos, yPos, xPersonSize, yPersonSize);
 	}
 
+    public void DoGoToItem(int location)
+    {
+        xDestination = locations.get(location).x;
+        yDestination = locations.get(location).y;
+    }
+
+    public void DoGoToCounter()
+    {
+        xDestination = counterLoc.x;
+        yDestination = counterLoc.y;
+    }
+
 	public boolean isPresent() {
 		return true;
 	}
@@ -65,6 +83,11 @@ public class MarketPackerGui implements Gui {
 	public int getYPos() {
 		return yPos;
 	}
+    
+    public void setLocations(Map<Integer, Point> locations)
+    {
+        this.locations = locations;
+    }
 
     @Override
     public void pause()

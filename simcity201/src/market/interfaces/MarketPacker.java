@@ -7,5 +7,5 @@ public interface MarketPacker
 	 */
 	
     // MESSAGES
-    void msgPackage(String name, String choice, int amount);
+    void msgPackage(String name, String choice, int amount, int location);
 }

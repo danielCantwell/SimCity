@@ -2,6 +2,7 @@ package market;
 
 import java.util.*;
 
+import SimCity.Base.Person;
 import SimCity.Base.Role;
 import market.gui.MarketClerkGui;
 import market.gui.MarketManagerGui;
@@ -15,21 +16,16 @@ import market.interfaces.MarketManager;
  */
 public class MarketClerkRole extends Role implements MarketClerk {
 	
-	private String name;
 	private MarketClerkGui gui = new MarketClerkGui(this);
 	
 	/**
 	 * Data
 	 */
 	
-	public MarketClerkRole(String name) {
+    public MarketManagerRole manager;
+	
+	public MarketClerkRole() {
 		super();
-		
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	/** 
@@ -39,19 +35,22 @@ public class MarketClerkRole extends Role implements MarketClerk {
     public void msgGiveToCustomer(String name, String food, int amount)
     {
         // TODO Auto-generated method stub
-        
+
+        stateChanged();
     }
 
     public void msgWantFood(String name, String choice, int amount)
     {
         // TODO Auto-generated method stub
-        
+
+        stateChanged();
     }
 
     public void msgHereIsMoney(String name, int amount)
     {
         // TODO Auto-generated method stub
-        
+
+        stateChanged();
     }
 
     public void workOver()
@@ -84,9 +83,20 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	public void setGui(MarketClerkGui gui) {
 		this.gui = gui;
 	}
-
 	
 	public MarketClerkGui getGui() { return gui; }
+
+    @Override
+    protected void enterBuilding() {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    public void setPerson(Person person)
+    {
+        super.setPerson(person);
+        person.gui = gui;
+    }
 
     /**
      * Inner Classes
@@ -109,10 +119,9 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	        state = OrderState.Pending;
 	    }
 	}
-
-	@Override
-	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
-	}
+    
+    public void setManager(MarketManagerRole manager)
+    {
+        this.manager = manager;
+    }
 }

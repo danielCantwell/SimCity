@@ -2,6 +2,7 @@ package market;
 
 import java.util.*;
 
+import SimCity.Base.Person;
 import SimCity.Base.Role;
 import market.gui.MarketClerkGui;
 import market.gui.MarketDeliveryPersonGui;
@@ -16,22 +17,16 @@ import market.interfaces.MarketManager;
  */
 public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPerson{
 	
-	private String name;
 	private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
 	
 	/**
 	 * Data
 	 */
-	
-	
-	public MarketDeliveryPersonRole(String name) {
-		super();
-		
-		this.name = name;
-	}
 
-	public String getName() {
-		return name;
+    public MarketManagerRole manager;
+	
+	public MarketDeliveryPersonRole() {
+		super();
 	}
 
 	/** 
@@ -62,6 +57,12 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
         
     }
 
+    @Override
+    protected void enterBuilding() {
+        // TODO Auto-generated method stub
+        
+    }
+
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
@@ -88,13 +89,17 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 	}
 
     public MarketDeliveryPersonGui getGui() { return gui; }
+    
+    public void setManager(MarketManagerRole manager)
+    {
+        this.manager = manager;
+    }
 
-	@Override
-	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+    public void setPerson(Person person)
+    {
+        super.setPerson(person);
+        person.gui = gui;
+    }
 	
 
     /**
