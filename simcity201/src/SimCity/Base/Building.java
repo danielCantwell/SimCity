@@ -4,10 +4,8 @@
 package SimCity.Base;
 
 import javax.swing.JPanel;
-
-
 /**
- * @author Brian Chen
+ * @author Brian
  *
  */
 public abstract class Building extends SimObject {
@@ -30,5 +28,9 @@ public abstract class Building extends SimObject {
 	public void setOpen(boolean open){
 		isOpen = open;
 	}
+	
+	public abstract String getManagerString();
+	public abstract String getCustomerString();
+	
 }
 

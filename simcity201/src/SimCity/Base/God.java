@@ -9,11 +9,12 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_Restaurant;
 import exterior.gui.AnimationPanel;
-
 /**
- * @author Brian Chen
+ * @author Brian
  *
  */
 public class God {
@@ -38,9 +39,36 @@ public class God {
 	    public void addPerson(Person p){ persons.add(p);}
 	    public void removePerson(Person p){ persons.remove(p);}
 	    public void addBuilding(Building j){ buildings.add(j);}
-	    public void removeBuildign(Building j){ buildings.remove(j);}
+	    public void removeBuilding(Building j){ buildings.remove(j);}
 	    public Building getBuilding(int id){
 			return buildings.get(id);
+	    }
+	    
+	    public enum BuildingType{
+	    	Bank,
+	    	House,
+	    	Market,
+	    	Restaurant;
+	    }
+	    
+	    public Building findBuildingOfType(BuildingType bt){
+	    	if (bt == BuildingType.Bank){
+	    		//Find a bank
+	    		for(Building b : buildings){
+	    			if (b instanceof B_Bank) return b;
+	    		}
+	    	}else
+	    	if (bt == BuildingType.Market){
+	    		//Find a bank
+	    		for(Building b : buildings){
+	    			if (b instanceof B_Market) return b;
+	    		}
+	    	}else
+	    	if (bt == BuildingType.Restaurant){
+	    		//Find a bank
+	    		findRandomRestaurant();
+	    	}
+	    	return null;
 	    }
 	    
 	    public int getDay(){ return day;}
@@ -153,10 +181,12 @@ public class God {
 					e.printStackTrace();
 					System.out.println ("God: no class found");
 				}
+				person.msgEnterBuilding(building);
 	    }
 	    
 	    public void ExitBuilding(Person person){
 	    	person.resetActiveRoles();
+	    	person.msgExitBuilding();
 	    }
 	    
 }

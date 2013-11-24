@@ -12,10 +12,11 @@ import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Buildings.B_Bank;
 import restaurant.gui.RestaurantGui;
-
+/**
+ * @author Brian
+ *
+ */
 public class Main{
-	
-	
 
 	public static void main(String[] args) {
 		God.Get();
@@ -39,22 +40,22 @@ public class Main{
 		bankGuardRole bgr = (bankGuardRole)guard.roles.get(0);
 		bankCustomerRole bcr = (bankCustomerRole)bankCustomer.roles.get(0);
 		
-		bcr
+		bgr.setBank((B_Bank)God.Get().getBuilding(0));
 		
 		bmr.setActive(true);
 		tr.setActive(true);
 		bgr.setActive(true);
 		bcr.setActive(true);
 		
-		System.out.println("kahlkdjfhlak" + bankCustomer.roles.get(0).getActive());
+		bcr.setGuard(bgr);
 		
 		//Setup people and bank
 		
 		bmr.newTeller(tr);
 		bmr.setGuard(bgr);
 		
-		System.out.println("main customer: " + bankCustomer.toString() + "main role: "+ bcr.toString());
-		System.out.println();
+		System.out.println ("##--------Setup complete--------## \n");
+		
 		God.Get().EnterBuilding(God.Get().getBuilding(0), bankCustomer, "Bank.bankCustomerRole");
 		
 

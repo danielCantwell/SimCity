@@ -12,6 +12,7 @@ import SimCity.Buildings.B_Bank;
 
 public class bankGuardRole extends Role {
 	//----------------------------------------------Data-------------------------------------------------
+	B_Bank curBank;
 	bankManagerRole manager;
 	bankGuardGui gui = new bankGuardGui(this);
 	List<String> badObjs = new ArrayList<String>();
@@ -28,8 +29,13 @@ public class bankGuardRole extends Role {
 		badObjs.add("knife");
 		badObjs.add("ski mask");
 		
-		B_Bank curBank = (B_Bank)God.Get().getBuilding(0);
-		manager = curBank.getBankManager();
+		//B_Bank curBank = (B_Bank)God.Get().getBuilding(0);
+		//manager = curBank.getBankManager();
+	}
+	
+	public void setBank(B_Bank bank){
+		curBank = bank;
+		manager = bank.getBankManager();
 	}
 
 	//----------------------------------------------Messages-------------------------------------------------

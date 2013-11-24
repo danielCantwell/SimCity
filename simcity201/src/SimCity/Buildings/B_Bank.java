@@ -10,7 +10,10 @@ import Bank.bankManagerRole;
 import Bank.bankManagerRole.Teller;
 import Bank.tellerRole;
 import SimCity.Base.Building;
-
+/**
+ * @author Brian
+ *
+ */
 public class B_Bank extends Building{
 	
 	bankManagerRole bankManager;
@@ -27,6 +30,7 @@ public class B_Bank extends Building{
 	public void addTeller(tellerRole t){ tellers.add(t);}
 	public tellerRole getTeller(int id){ return tellers.get(id);}
 	
+	
 
 	public B_Bank(int id, JPanel jp) {
 		super(id, jp);
@@ -35,6 +39,14 @@ public class B_Bank extends Building{
 	
 	public B_Bank(int id){
 		
+	}
+	@Override
+	public String getManagerString() {
+		return "Bank.bankManagerRole";
+	}
+	@Override
+	public String getCustomerString() {
+		return "Bank.bankCustomerRole";
 	}
 
 }

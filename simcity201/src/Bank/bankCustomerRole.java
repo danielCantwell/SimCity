@@ -27,12 +27,14 @@ public class bankCustomerRole extends Role{
 	Money wMoney = new Money(20,0);
 	public enum state { none, enter, waiting, called, reqSearch, gaveInv, entered, reqService, leaving};
 
+	public void setGuard(bankGuardRole bg){
+		guard = bg;
+	}
 
 	//-----------------------------------------------Messages------------------------------------------------
 	public void enterBuilding() {
 		s = state.enter;
-		System.out.println(this.toString()+ " has entered the building.");
-		System.out.println("BankCustomer's my customer" + myPerson.toString());
+		
 		stateChanged();
 		System.out.println("Customer: has entered the building");
 	}
@@ -76,16 +78,15 @@ public class bankCustomerRole extends Role{
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	public boolean pickAndExecuteAnAction() {
-		System.out.println(this.toString() + " is performing an action");
 		
 		if(s.equals("enter")) {
-			System.out.println("in enter paeaa");
+			
 			openDoor();
 			return true;
 		}
 		
 		if (s == state.enter){
-			System.out.println("in enter -2 paeaa");
+			
 			openDoor();
 			return true;
 		}

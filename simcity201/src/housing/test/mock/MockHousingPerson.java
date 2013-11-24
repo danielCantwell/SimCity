@@ -20,8 +20,8 @@ public class MockHousingPerson extends Person {
 	public MockHousingPerson(Gui gui, String mainRole, Vehicle vehicle,
 			Morality morality, Money money, Money moneyThresh, int hunger,
 			int hungerThresh) {
-		super(gui, mainRole, vehicle, morality, money, moneyThresh, hunger,
-				hungerThresh);
+		super("Danny", gui, mainRole, vehicle, morality, money, moneyThresh, hunger,
+				hungerThresh, "apartment");
 	}
 	
 	@Override
@@ -42,11 +42,11 @@ public class MockHousingPerson extends Person {
 		return super.getHungerThreshold();
 	}
 	
-	@Override
+	/*@Override
 	public PersonState getPersonState() {
 		log.add(new LoggedEvent("Received getPersonState from tenant."));
 		return super.getPersonState();
-	}
+	}*/
 	
 	@Override
 	public Money getMoney() {

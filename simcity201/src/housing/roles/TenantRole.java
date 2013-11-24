@@ -10,8 +10,9 @@ import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
 import housing.roles.OwnerRole.ApplianceState;
 import SimCity.Base.God;
-import SimCity.Base.Person.PersonState;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
+import SimCity.Base.Person.TimeState;
 import SimCity.Globals.Money;
 
 /**
@@ -64,7 +65,7 @@ public class TenantRole extends Role implements Tenant{
 			return true;
 		}
 		
-		if (myPerson.getPersonState() == PersonState.goingToSleep) {
+		if (myPerson.getPersonState() == TimeState.msgGoToSleep) {
 			sleep();
 			return true;
 		}
@@ -99,7 +100,7 @@ public class TenantRole extends Role implements Tenant{
 		if (rentOwed.isZero() && myPerson.getMoney().isGreaterThan(myPerson.getMoneyThreshold())) {
 			// Leave house to go to Restaurant
 			gui.DoLeaveHouse();
-			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant());
+			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(), Intent.customer);
 		}
 		else {
 			gui.DoGoToFridge();
