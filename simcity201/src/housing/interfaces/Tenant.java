@@ -20,5 +20,7 @@ public interface Tenant {
 	public abstract void msgPayRent(Money m);
 	
 	public abstract void msgEvictionNotice();
+	
+	public abstract void msgMorning();
 
 }

@@ -24,6 +24,10 @@ public class MockHousingPerson extends Person {
 				hungerThresh);
 	}
 	
+	public MockHousingPerson(String mainRole) {
+		super(mainRole);
+	}
+	
 	@Override
 	public void setHomeType(String home) {
 		log.add(new LoggedEvent("Received setHomeType from tenant. Type = " + home ));

@@ -34,5 +34,10 @@ public class MockTenant implements Tenant {
 	public void msgHereAreAppliances(List<Appliance> a) {
 		log.add(new LoggedEvent("Received msgHereAreAppliances from owner."));
 	}
+	
+	@Override
+	public void msgMorning() {
+		log.add(new LoggedEvent("Received msgMorning from god."));
+	}
 
 }

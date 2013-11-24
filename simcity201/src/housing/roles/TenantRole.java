@@ -50,9 +50,13 @@ public class TenantRole extends Role implements Tenant{
 		myPerson.setHomeType("None");
 	}
 	
+	public void msgMorning() {
+		
+	}
+	
 	//-----------------------------------SCHEDULER-----------------------------------
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		if (!rentOwed.isZero()) {
 			tryToPayRent();
