@@ -30,7 +30,9 @@ public class B_Bank extends Building{
 	public void addTeller(tellerRole t){ tellers.add(t);}
 	public tellerRole getTeller(int id){ return tellers.get(id);}
 	
-	
+	public B_Bank(int id){
+		super(id);
+	}
 
 	public B_Bank(int id, JPanel jp) {
 		super(id, jp);

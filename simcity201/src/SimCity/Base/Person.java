@@ -3,11 +3,16 @@
  */
 package SimCity.Base;
 
+import housing.roles.OwnerRole;
 import housing.roles.TenantRole;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
+
+import javax.swing.Timer;
 
 import restaurant.CustomerAgent;
 import sun.misc.Queue;
@@ -241,7 +246,10 @@ public class Person extends Agent {
 		//if there is an active Role r in roles then return whatever that PAEAA returns
 		for (Role r: roles){
 			if (r.getActive()){
-				
+				//I need to do this active role shit to supress the hunger decremation while at work.
+				//Hunger level WILL decrease if the person is in a house.
+					if (r instanceof TenantRole) hasActiveRole = false;
+					else hasActiveRole = true;
 				 returnPAEAA =  r.pickAndExecuteAnAction();
 				 //This means that only one role will activate.
 				 return returnPAEAA;
@@ -290,7 +298,7 @@ public class Person extends Agent {
 			if (r.getActive()){
 				if (r instanceof TenantRole){
 					TenantRole tr = (TenantRole)r;
-					//tr.msgMorning();
+					tr.msgMorning();
 					timeState = TimeState.none;
 					return;
 				}
@@ -313,7 +321,7 @@ public class Person extends Agent {
 	}
 	
 	//Utility
-	public void goTo(Action action){
+	private void goTo(Action action){
 		Building b = myHouse;
 		createVehicle();
 		//Handling which action
@@ -368,7 +376,29 @@ public class Person extends Agent {
 	
 	void createVehicle(){
 		if (vehicle == Vehicle.bus) return;
+		if (vehicle == Vehicle.car)return;
+		if (vehicle == Vehicle.walk);
 		//changes person gui's image. based on vehicle.
+		
+	}
+	
+	Timer hungerTimer;
+	int hungerOffset = 10000;
+	boolean hasActiveRole = false;
+	void setUpHungerTimer(){
+		 hungerTimer = new Timer(hungerOffset, new ActionListener() {
+		 public void actionPerformed(ActionEvent e){
+			 if (hasActiveRole) return;
+			   if(hungerLevel > 0){
+				   hungerLevel --;
+			   }
+			   if (hungerLevel <= 0){
+				   hungerLevel = 0;
+			   }
+			   //Implement dying here if we have time.
+		 }
+      });
+      hungerTimer.start();
 	}
 	
 	

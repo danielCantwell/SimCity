@@ -21,7 +21,7 @@ public class Main{
 	public static void main(String[] args) {
 		God.Get();
 		//Create a bank
-		God.Get().addBuilding(new B_Bank());
+		God.Get().addBuilding(new B_Bank(0));
 		
 		//Create people for bank
 		Person manager = new Person("Bank.bankManagerRole");
