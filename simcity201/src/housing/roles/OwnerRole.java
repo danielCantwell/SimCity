@@ -28,7 +28,7 @@ public class OwnerRole extends Role implements Owner{
 
 	//-------------------------------------DATA-------------------------------------
 
-	private final Money RENT = new Money(100, 0);
+	public final Money RENT = new Money(100, 0);
 
 	public List<MyTenant> myTenants = Collections
 			.synchronizedList(new ArrayList<MyTenant>());
@@ -36,10 +36,10 @@ public class OwnerRole extends Role implements Owner{
 	public List<Appliance> appliances = Collections
 			.synchronizedList(new ArrayList<Appliance>());
 
-	enum TenantState {
+	public enum TenantState {
 		None, OwesRent, Notified, InDebt
 	};
-	enum ApplianceState {
+	public enum ApplianceState {
 		Working, NeedsFixing
 	};
 
@@ -69,6 +69,7 @@ public class OwnerRole extends Role implements Owner{
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
 				tenant.rentOwed.subtract(m);
+				myPerson.money.add(m);
 				if (tenant.rentOwed.isZero()) {
 					tenant.state = TenantState.None;
 				}
@@ -104,7 +105,7 @@ public class OwnerRole extends Role implements Owner{
 
 	//-----------------------------------SCHEDULER-----------------------------------
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.state == TenantState.OwesRent) {
@@ -138,25 +139,25 @@ public class OwnerRole extends Role implements Owner{
 
 	//------------------------------------ACTIONS------------------------------------
 
-	private void collectRent(MyTenant t) {
+	public void collectRent(MyTenant t) {
 		t.tenant.msgPayRent(RENT);
 		t.state = TenantState.Notified;
 	}
 	
-	private void evictTenant(MyTenant t) {
+	public void evictTenant(MyTenant t) {
 		t.tenant.msgEvictionNotice();
 		myTenants.remove(t);
 	}
 
-	private class MyTenant {
-		Tenant tenant;
-		TenantState state = TenantState.None;
-		Money rentOwed;
+	public class MyTenant {
+		public Tenant tenant;
+		public TenantState state = TenantState.None;
+		public Money rentOwed = new Money(0,0);
 
 		// If in debt for > 3 pay periods, tenant is kicked out
-		int strikes = 0;
+		public int strikes = 0;
 
-		MyTenant(Tenant t) {
+		public MyTenant(Tenant t) {
 			tenant = t;
 		}
 	}

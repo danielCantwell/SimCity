@@ -8,7 +8,7 @@ package SimCity.Base;
  */
 public abstract class Role {
 	protected boolean active = false;
-	protected Person myPerson;
+	public Person myPerson;
 	
 	public void setActive(boolean activate){active = activate;}
 	public boolean getActive(){return active;}

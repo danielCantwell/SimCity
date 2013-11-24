@@ -45,6 +45,18 @@ public class Money {
 		return false;
 	}
 	
+	public boolean isGreaterThan(int dollars, int cents) {
+		if (this.dollars > dollars) {
+			return true;
+		}
+		else if (this.dollars == dollars) {
+			if (this.cents >= cents) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Add m to current money
 	 * @param m - money to add
