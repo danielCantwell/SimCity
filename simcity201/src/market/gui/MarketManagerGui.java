@@ -125,14 +125,12 @@ public class MarketManagerGui implements Gui {
         }
     }
 
-    @Override
     public void pause()
     {
         // TODO Auto-generated method stub
         
     }
 
-    @Override
     public void restart()
     {
         // TODO Auto-generated method stub
