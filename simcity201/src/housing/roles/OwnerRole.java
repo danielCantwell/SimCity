@@ -71,15 +71,15 @@ public class OwnerRole extends Role implements Owner {
 	public void msgHereIsRent(Tenant t, Money m) {
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
-				tenant.rentOwed.subtract(m);
 				myPerson.money.add(m);
+				tenant.rentOwed.subtract(m);
 				if (tenant.rentOwed.isZero()) {
 					tenant.state = TenantState.None;
 					System.out.println("Owner received rent from tenant");
 				} else {
 					tenant.state = TenantState.InDebt;
 					System.out
-							.println("Owner did not receive rent from tenant");
+							.println("Owner did not receive full rent from tenant");
 				}
 				stateChanged();
 				break;

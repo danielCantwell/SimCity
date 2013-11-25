@@ -24,8 +24,6 @@ public class OwnerTest extends TestCase {
 	MockTenant mtTwo;
 
 	MockHousingPerson ownerPerson;
-	MockHousingPerson tenantPersonOne;
-	MockHousingPerson tenantPersonTwo;
 
 	/**
 	 * This method is run before each test. You can use it to instantiate the
@@ -36,20 +34,13 @@ public class OwnerTest extends TestCase {
 		owner = new OwnerRole();
 		mtOne = new MockTenant();
 		mtTwo = new MockTenant();
-		ownerPerson = new MockHousingPerson(null,
-				"housing.roles.OwnerRole", null, null, new Money(100, 0),
-				new Money(12, 0), 8, 5);
-		tenantPersonOne = new MockHousingPerson(null,
-				"housing.roles.TenantRole", null, null, new Money(230, 0),
-				new Money(12, 0), 8, 5);
-		tenantPersonTwo = new MockHousingPerson(null,
-				"housing.roles.TenantRole", null, null, new Money(80, 0),
-				new Money(12, 0), 8, 5);
+		ownerPerson = new MockHousingPerson(null, "housing.roles.OwnerRole",
+				null, null, new Money(100, 0), new Money(12, 0), 8, 5);
 
 		owner.myPerson = ownerPerson;
 	}
 
-	public void testOneTenantPaysRent() {
+	public void testOneTenant() {
 		try {
 			setUp();
 		} catch (Exception e) {
@@ -97,12 +88,91 @@ public class OwnerTest extends TestCase {
 						+ "Tenant owes $"
 						+ owner.myTenants.get(0).rentOwed.dollars + "."
 						+ owner.myTenants.get(0).rentOwed.cents));
-		
+
 		// Receive Message
 		owner.msgHereIsRent(mtOne, owner.myTenants.get(0).rentOwed);
 		// Check Post Conditions
-		//assertEquals("Owner should have added rent to his money, from 100 to 200.", 200, owner.myPerson.money.dollars);
-		//assertEquals("Tenant should have subtracted rent from his money, from 230 to 130.", 130, )
+		assertEquals(
+				"Owner should have added rent to his money, from 100 to 200.",
+				200, owner.myPerson.money.dollars);
+		assertEquals("Tenant should not owe any rent. He does.", 0,
+				owner.myTenants.get(0).rentOwed.dollars);
+
+		// PickAndExecuteAnAction should return false
+		assertFalse(owner.pickAndExecuteAnAction());
+
+		// Receive Message
+		owner.msgTimeToCollectRent();
+		// Check Post Conditions
+		assertEquals("Tenant state should be OwesRent. It's not.",
+				TenantState.OwesRent, owner.myTenants.get(0).state);
+		assertEquals("Tenant's rentOwed should be zero. It's not.",
+				owner.RENT.dollars, owner.myTenants.get(0).rentOwed.dollars);
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertTrue(
+				"Tenant One should have logged \"Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(0).rentOwed.dollars + "."
+						+ owner.myTenants.get(0).rentOwed.cents
+						+ "\" but didn't. His log reads instead: "
+						+ mtOne.log.getLastLoggedEvent().toString(),
+				mtOne.log.containsString("Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(0).rentOwed.dollars + "."
+						+ owner.myTenants.get(0).rentOwed.cents));
+
+		// Receive Message
+		owner.msgHereIsRent(mtOne, new Money(50, 0));
+		// Check Post Conditions
+		assertEquals(
+				"Owner should have added rent to his money, from 200 to 250.",
+				250, owner.myPerson.money.dollars);
+		assertEquals("Tenant should owe $50 in rent. He doesn't.", 50,
+				owner.myTenants.get(0).rentOwed.dollars);
+
+		// PickAndExecuteAnAction should return false
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertEquals("Tenant should have one strike. He doesn't.", 1, owner.myTenants.get(0).strikes);
+		assertEquals("Tenant state should be none.", TenantState.None, owner.myTenants.get(0).state);
+		
+		assertFalse(owner.pickAndExecuteAnAction());
+
+		// Receive Message
+		owner.msgTimeToCollectRent();
+		// Check Post Conditions
+		assertEquals("Tenant state should be OwesRent. It's not.",
+				TenantState.OwesRent, owner.myTenants.get(0).state);
+		assertEquals("Tenant's rentOwed should be $150. It's not.",
+				owner.RENT.dollars + 50, owner.myTenants.get(0).rentOwed.dollars);
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertTrue(
+				"Tenant One should have logged \"Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(0).rentOwed.dollars + "."
+						+ owner.myTenants.get(0).rentOwed.cents
+						+ "\" but didn't. His log reads instead: "
+						+ mtOne.log.getLastLoggedEvent().toString(),
+				mtOne.log.containsString("Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(0).rentOwed.dollars + "."
+						+ owner.myTenants.get(0).rentOwed.cents));
+
+		// Receive Message
+		owner.msgHereIsRent(mtOne, new Money(0, 0));
+		// Check Post Conditions
+		assertEquals(
+				"Owner should not have added rent to his money.",
+				250, owner.myPerson.money.dollars);
+		assertEquals("Tenant should owe $50 in rent. He doesn't.", 50,
+				owner.myTenants.get(0).rentOwed.dollars);
+
 	}
 
 }
