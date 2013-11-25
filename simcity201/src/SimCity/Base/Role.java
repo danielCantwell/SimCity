@@ -16,6 +16,9 @@ public abstract class Role {
 	protected abstract boolean pickAndExecuteAnAction();
 	
 	protected abstract void enterBuilding(); //what do you do as soon as you enter the building.
+	protected void exitBuilding(Person p){
+		p.building.ExitBuilding(p);
+	}
 	
 	public abstract void workOver(); //what do you do when the work is over.
 	
