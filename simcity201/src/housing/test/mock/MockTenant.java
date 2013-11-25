@@ -17,6 +17,8 @@ import housing.roles.OwnerRole.Appliance;
  */
 public class MockTenant implements Tenant {
 	
+	public MockHousingPerson myPerson;
+	
 	public EventLog log = new EventLog();
 
 	@Override
