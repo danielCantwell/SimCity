@@ -3,16 +3,14 @@ package exterior.gui;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.concurrent.*; 
 import java.util.List;
 
 import exterior.astar.*;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class AnimationPanel extends JPanel implements ActionListener, MouseListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
     private final int WINDOWX = 1920;
@@ -82,6 +80,30 @@ public class AnimationPanel extends JPanel implements ActionListener {
         }
         
     	addCommands();
+    	
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                System.out.println(":MOUSE_RELEASED_EVENT:");
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println("----------------------------------\n:MOUSE_PRESSED_EVENT:");
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                System.out.println(":MOUSE_EXITED_EVENT:");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                System.out.println(":MOUSE_ENTER_EVENT:");
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(":MOUSE_CLICK_EVENT:");
+            }
+        });
+
     }
 
 	public void actionPerformed(ActionEvent e) {
