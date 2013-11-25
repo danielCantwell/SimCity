@@ -28,7 +28,7 @@ public abstract class Role {
 	}
 	
 	protected void Do(String s){
-		myPerson.Do(s);
+		System.out.println(this.getClass().toString() + s);
 	}
 	
 }
