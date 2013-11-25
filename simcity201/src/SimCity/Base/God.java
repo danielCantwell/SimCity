@@ -99,7 +99,7 @@ public class God {
 	    public Building findRandomRestaurant(){
 	    	while (true){
 		    	Random rndnum = new Random (buildings.size());
-		    	int random = rndnum.nextInt() % buildings.size();
+		    	int random = Math.abs(rndnum.nextInt(buildings.size()) % buildings.size());
 		    	
 		    	if (buildings.get(random) instanceof B_Restaurant){
 		    		return buildings.get(random);
