@@ -152,7 +152,7 @@ public class OwnerRole extends Role implements Owner {
 	// ------------------------------------ACTIONS------------------------------------
 
 	public void collectRent(MyTenant t) {
-		t.tenant.msgPayRent(RENT);
+		t.tenant.msgPayRent(t.rentOwed);
 		t.state = TenantState.Notified;
 	}
 
