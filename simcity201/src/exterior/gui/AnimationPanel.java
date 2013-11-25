@@ -5,9 +5,7 @@ import javax.swing.*;
 import exterior.astar.AStarTraversal;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.concurrent.*; 
 import java.util.List;
@@ -19,6 +17,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WINDOWX = 1920;
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
+    private final int CITY_SIZE = 4;
     private final char[][] MAP = new char[][] {
     		
     	/* Map legend:
@@ -83,6 +82,32 @@ public class AnimationPanel extends JPanel implements ActionListener {
         }
         
     	addCommands();
+    	
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
+            		//System.out.println(getBuildingRect(i).toString());
+            		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
+            			System.out.println("MOUSE PRESS ON BUILDING: " + i);
+            			gui.cardLayout.show(gui.buildingPanels, "" + i);
+            		}
+            	}
+            }
+        });
+
     }
 
 	public void actionPerformed(ActionEvent e) {
@@ -135,6 +160,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setGui(SimCityGui g) {
     	gui = g;
+    }
+    
+    private Rectangle getBuildingRect(int buildingNumber) {
+    	return new Rectangle(((buildingNumber % CITY_SIZE) * 7 + 3)*TILESIZE, ((buildingNumber / CITY_SIZE) * 7 + 3)*TILESIZE, TILESIZE*3, TILESIZE*3);
     }
     
     protected void addCommands()

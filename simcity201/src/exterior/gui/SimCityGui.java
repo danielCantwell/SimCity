@@ -10,11 +10,9 @@ import java.awt.*;
  */
 public class SimCityGui extends JFrame {
 	AnimationPanel animationPanel = new AnimationPanel();
-
-    /**
-     * Constructor for RestaurantGui class.
-     * Sets up all the gui components.
-     */
+	CardLayout cardLayout = new CardLayout();
+	JPanel buildingPanels = new JPanel();
+	
     public SimCityGui() {
         int WINDOWX = 1920;
         int WINDOWY = 1920; //1472;
@@ -29,11 +27,24 @@ public class SimCityGui extends JFrame {
 
     	JScrollPane scrollPane = new JScrollPane(animationPanel);
     	add(scrollPane, BorderLayout.CENTER);
+    	
+    	buildingPanels.setLayout(cardLayout);
+    	buildingPanels.setMinimumSize(new Dimension(500, 250));
+    	buildingPanels.setMaximumSize(new Dimension(500, 250));
+    	buildingPanels.setPreferredSize(new Dimension(500, 250));
+    	buildingPanels.setBackground(Color.yellow);
+    	
+    	//Create the BuildingPanel for each Building object
+    	for (int i = 0; i < 16; i++) {
+    		JPanel buildingPanel = new JPanel();
+    		JLabel tempLabel = new JLabel("" + i);
+    		buildingPanel.add(tempLabel);
+    		buildingPanels.add(buildingPanel, "" + i);	
+    	}
+    	
+    	add(BorderLayout.EAST, buildingPanels);
     }
     
-    /**
-     * Main routine to get gui started
-     */
     public static void main(String[] args) {
         SimCityGui gui = new SimCityGui();
         gui.setTitle("SimCity 201: Team 33");
