@@ -4,7 +4,7 @@ package SimCity.Base;
  *
  */
 public class SimObject {
-	int id;
+	protected int id;
 	
 	public SimObject(){
 		id = 0;

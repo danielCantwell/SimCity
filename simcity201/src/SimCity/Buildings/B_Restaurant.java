@@ -14,7 +14,7 @@ public class B_Restaurant extends Building{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public B_Restaurant(JPanel jp, int xCoord, int yCoord){
+	public B_Restaurant(int id, JPanel jp, int xCoord, int yCoord){
 		this.id = id;
 		buildingPanel = jp;
 		x = xCoord;
