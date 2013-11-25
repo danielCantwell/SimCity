@@ -143,9 +143,11 @@ public class bankCustomerRole extends Role{
 			teller.requestWithdraw(accNum, money); 			//arbitrary amount to withdraw, can be changed later
 		}
 		else {
-			Money temp =  wMoney.subtract(30, 0);
-			teller.requestDeposit(accNum,temp);				//deposits everything over $30
-			//wMoney.add(30,0);
+			wMoney.subtract(30, 0);
+			teller.requestDeposit(accNum,wMoney);				//deposits everything over $30
+			wMoney.add(30,0);
+			System.out.println(wMoney.getDollar());
+
 		}
 	}
 
