@@ -12,7 +12,6 @@ import housing.roles.OwnerRole.ApplianceState;
 import SimCity.Base.God;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
-import SimCity.Base.Person.TimeState;
 import SimCity.Globals.Money;
 
 /**
@@ -116,6 +115,7 @@ public class TenantRole extends Role implements Tenant{
 			// Leave house to go to Restaurant
 			gui.DoLeaveHouse();
 			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(), Intent.customer);
+			exitBuilding(myPerson);
 		}
 		else {
 			gui.DoGoToFridge();
@@ -130,6 +130,7 @@ public class TenantRole extends Role implements Tenant{
 	private void sleep() {
 		gui.DoGoToBed();
 		useAppliance("Bed");
+		sleepTime = Time.sleeping;
 	}
 	
 	private void useAppliance(String type) {
@@ -146,8 +147,7 @@ public class TenantRole extends Role implements Tenant{
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		// Do Nothing
 	}
 
 	@Override

@@ -186,14 +186,12 @@ public class OwnerRole extends Role implements Owner{
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		// Do Nothing
 	}
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		// Do Nothing
 	}
 
 }
