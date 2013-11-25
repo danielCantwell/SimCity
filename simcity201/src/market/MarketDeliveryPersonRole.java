@@ -17,26 +17,26 @@ import market.interfaces.MarketManager;
  */
 public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPerson{
 	
-	private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
-	
-	/**
-	 * Data
-	 */
+		private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
+		
+		/**
+		 * Data
+		 */
 
     public MarketManagerRole manager;
 	
-	public MarketDeliveryPersonRole() {
-		super();
-	}
-
-	/** 
-	 * Messages
-	 */
+		public MarketDeliveryPersonRole() {
+			super();
+		}
+	
+		/** 
+		 * Messages
+		 */
 
     public void msgMakeDelivery(String name, String choice, int amount)
     {
         // TODO Auto-generated method stub
-        
+    	
     }
     
     public void guiArrivedAtMarket()
@@ -63,30 +63,30 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
         
     }
 
-	/**
-	 * Scheduler. Determine what action is called for, and do it.
-	 */
-	protected boolean pickAndExecuteAnAction() {
-		
-	    
-	    
-		return false;
-		// we have tried all our rules and found
-		// nothing to do. So return false to main loop of abstract agent
-		// and wait.
-	}
-
-	/**
-	 * Actions
-	 */
+		/**
+		 * Scheduler. Determine what action is called for, and do it.
+		 */
+		protected boolean pickAndExecuteAnAction() {
+			
+		    
+		    
+			return false;
+			// we have tried all our rules and found
+			// nothing to do. So return false to main loop of abstract agent
+			// and wait.
+		}
+	
+		/**
+		 * Actions
+		 */
 
     /**
      * Utilities
      */
 
-	public void setGui(MarketDeliveryPersonGui gui) {
-		this.gui = gui;
-	}
+		public void setGui(MarketDeliveryPersonGui gui) {
+			this.gui = gui;
+		}
 
     public MarketDeliveryPersonGui getGui() { return gui; }
     
