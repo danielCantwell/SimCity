@@ -44,19 +44,25 @@ public class TenantRole extends Role implements Tenant{
 	}
 	
 	public void msgPayRent(Money m) {
+		System.out.println("Tenant owes rent");
 		rentOwed = m;
+		stateChanged();
 	}
 	
 	public void msgEvictionNotice() {
+		System.out.println("Tenant is evicted");
 		myPerson.setHomeType("None");
+		stateChanged();
 	}
 	
 	public void msgMorning() {
+		System.out.println("Tenant is waking up");
 		sleepTime = Time.awake;
 		stateChanged();
 	}
 	
 	public void msgSleeping(){
+		System.out.println("Tenant is going to sleep");
 		sleepTime = Time.msgSleep;
 		stateChanged();
 	}
@@ -99,6 +105,7 @@ public class TenantRole extends Role implements Tenant{
 	//------------------------------------ACTIONS------------------------------------
 	
 	private void tryToPayRent() {
+		System.out.println("Tenant is trying to pay rent");
 		gui.DoGoToMailbox();
 		if (myPerson.getMoney().isGreaterThan(rentOwed)) {
 			myPerson.getMoney().subtract(rentOwed);
@@ -110,14 +117,17 @@ public class TenantRole extends Role implements Tenant{
 	}
 	
 	private void getFood() {
+		System.out.println("Tenant is getting food");
 		// If the customer is hungry, but willing to wait a bit, and has enough cash
 		if (rentOwed.isZero() && myPerson.getMoney().isGreaterThan(myPerson.getMoneyThreshold())) {
 			// Leave house to go to Restaurant
+			System.out.println("Tenant is going to a restaurant");
 			gui.DoLeaveHouse();
 			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(), Intent.customer);
 			exitBuilding(myPerson);
 		}
 		else {
+			System.out.println("Tenant is going to cook food");
 			gui.DoGoToFridge();
 			useAppliance("Fridge");
 			gui.DoGoToStove();
@@ -128,6 +138,7 @@ public class TenantRole extends Role implements Tenant{
 	}
 	
 	private void sleep() {
+		System.out.println("Tenant is going to bed");
 		gui.DoGoToBed();
 		useAppliance("Bed");
 		sleepTime = Time.sleeping;
@@ -136,6 +147,7 @@ public class TenantRole extends Role implements Tenant{
 	private void useAppliance(String type) {
 		for (Appliance a : appliances) {
 			if (a.type == type) {
+				System.out.println("Tenant is using appliance: " + type);
 				a.useAppliance();
 				if (a.durability <= 0) {
 					owner.msgApplianceBroken(this, a);
@@ -152,6 +164,7 @@ public class TenantRole extends Role implements Tenant{
 
 	@Override
 	protected void enterBuilding() {
+		System.out.println("Tenant is entering building");
 		gui.DoGoToTable();
 		stateChanged();
 	}

@@ -17,8 +17,8 @@ import SimCity.Globals.Money;
  * @author Daniel
  * 
  */
-public class OwnerRole extends Role implements Owner{
-	
+public class OwnerRole extends Role implements Owner {
+
 	public OwnerRole() {
 		appliances.add(new Appliance("Fridge", 10));
 		appliances.add(new Appliance("Stove", 8));
@@ -26,27 +26,29 @@ public class OwnerRole extends Role implements Owner{
 		appliances.add(new Appliance("Bed", 4));
 	}
 
-	//-------------------------------------DATA-------------------------------------
+	// -------------------------------------DATA-------------------------------------
 
 	public final Money RENT = new Money(100, 0);
 
 	public List<MyTenant> myTenants = Collections
 			.synchronizedList(new ArrayList<MyTenant>());
-	
+
 	public List<Appliance> appliances = Collections
 			.synchronizedList(new ArrayList<Appliance>());
 
 	public enum TenantState {
 		None, OwesRent, Notified, InDebt
 	};
+
 	public enum ApplianceState {
 		Working, NeedsFixing
 	};
 
-	//-----------------------------------MESSAGES-----------------------------------
-	
+	// -----------------------------------MESSAGES-----------------------------------
+
 	// MSG from setup
 	public void msgAddTenant(Tenant tenant) {
+		System.out.println("Owner added a tenant");
 		myTenants.add(new MyTenant(tenant));
 		tenant.msgHereAreAppliances(appliances);
 	}
@@ -54,6 +56,7 @@ public class OwnerRole extends Role implements Owner{
 	// MSG from the God class at a certain time
 	public void msgTimeToCollectRent() {
 		if (myPerson.getHomeType() == "Apartment") {
+			System.out.println("Owner is collecting rent from tenants");
 			synchronized (myTenants) {
 				for (MyTenant tenant : myTenants) {
 					tenant.state = TenantState.OwesRent;
@@ -72,11 +75,14 @@ public class OwnerRole extends Role implements Owner{
 				myPerson.money.add(m);
 				if (tenant.rentOwed.isZero()) {
 					tenant.state = TenantState.None;
-				}
-				else {
+					System.out.println("Owner received rent from tenant");
+				} else {
 					tenant.state = TenantState.InDebt;
+					System.out
+							.println("Owner did not receive rent from tenant");
 				}
 				stateChanged();
+				break;
 			}
 		}
 	}
@@ -85,8 +91,12 @@ public class OwnerRole extends Role implements Owner{
 	public void msgCannotPayRent(Tenant t) {
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
-				tenant.state = TenantState.InDebt;
-				stateChanged();
+				if (tenant.tenant == t) {
+					System.out.println("Owner has a tenant who cannot pay rent");
+					tenant.state = TenantState.InDebt;
+					stateChanged();
+					break;
+				}
 			}
 		}
 	}
@@ -96,14 +106,16 @@ public class OwnerRole extends Role implements Owner{
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
 				if (tenant.tenant == t) {
+					System.out.println("Owner has a tenant who broke a " + a.type);
 					tenant.rentOwed.add(20, 0);
 					stateChanged();
+					break;
 				}
 			}
 		}
 	}
 
-	//-----------------------------------SCHEDULER-----------------------------------
+	// -----------------------------------SCHEDULER-----------------------------------
 
 	public boolean pickAndExecuteAnAction() {
 		synchronized (myTenants) {
@@ -114,7 +126,7 @@ public class OwnerRole extends Role implements Owner{
 				}
 			}
 		}
-		
+
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.strikes > 3) {
@@ -123,7 +135,7 @@ public class OwnerRole extends Role implements Owner{
 				}
 			}
 		}
-		
+
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.state == TenantState.InDebt) {
@@ -137,13 +149,13 @@ public class OwnerRole extends Role implements Owner{
 		return false;
 	}
 
-	//------------------------------------ACTIONS------------------------------------
+	// ------------------------------------ACTIONS------------------------------------
 
 	public void collectRent(MyTenant t) {
 		t.tenant.msgPayRent(RENT);
 		t.state = TenantState.Notified;
 	}
-	
+
 	public void evictTenant(MyTenant t) {
 		t.tenant.msgEvictionNotice();
 		myTenants.remove(t);
@@ -152,7 +164,7 @@ public class OwnerRole extends Role implements Owner{
 	public class MyTenant {
 		public Tenant tenant;
 		public TenantState state = TenantState.None;
-		public Money rentOwed = new Money(0,0);
+		public Money rentOwed = new Money(0, 0);
 
 		// If in debt for > 3 pay periods, tenant is kicked out
 		public int strikes = 0;
@@ -161,23 +173,23 @@ public class OwnerRole extends Role implements Owner{
 			tenant = t;
 		}
 	}
-	
+
 	public class Appliance {
 		public String type;
 		public ApplianceState state;
 		public int initialDurability;
 		public int durability;
-		
+
 		public Appliance(String type, int durability) {
 			this.type = type;
 			this.initialDurability = durability;
 			this.durability = durability;
 		}
-		
+
 		public void useAppliance() {
 			durability--;
 		}
-		
+
 		public void fixAppliance() {
 			durability = initialDurability;
 			state = ApplianceState.Working;
