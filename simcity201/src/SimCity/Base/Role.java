@@ -20,6 +20,8 @@ public abstract class Role {
 		p.building.ExitBuilding(p);
 	}
 	
+	protected abstract void setUpRole(Person p);
+	
 	public abstract void workOver(); //what do you do when the work is over.
 	
 	public void setPerson(Person person){
