@@ -1,7 +1,10 @@
 package exterior.gui;
 
+import housing.gui.HousingAnimation;
+
 import javax.swing.*;
 
+import Bank.gui.bankGui;
 import SimCity.Base.Building;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
@@ -44,30 +47,35 @@ public class SimCityGui extends JFrame {
     	
     	//Create the BuildingPanel for each Building object
     	for (int i = 0; i < 16; i++) {
-    		JPanel buildingPanel = new JPanel();
-    		JLabel tempLabel = new JLabel("" + i);
-    		buildingPanel.add(tempLabel);
-    		buildingPanels.add(buildingPanel, "" + i);	
-    		
     		// Add Apartments:
     		if (i == 0 || i == 1 || i == 4) {
-            	buildingList.add(new B_House(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		HousingAnimation buildingPanel = new HousingAnimation();
+        		buildingPanels.add(buildingPanel, "" + i);	
+            	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
     		}
     		// Add Banks:
     		if (i == 2 || i == 8) {
-            	buildingList.add(new B_House(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		bankGui buildingPanel = new bankGui();
+        		buildingPanels.add(buildingPanel, "" + i);	
+            	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
     		}
     		// Add Markets:
     		if (i == 3 || i == 5) {
-            	buildingList.add(new B_Market(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		JPanel buildingPanel = new JPanel();
+        		buildingPanels.add(buildingPanel, "" + i);	
+            	buildingList.add(new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
     		}
     		// Add Restaurants:
     		if (i == 6 || i == 7 || i == 9 || i == 10 || i == 11) {
-            	buildingList.add(new B_Restaurant(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		JPanel buildingPanel = new JPanel();
+        		buildingPanels.add(buildingPanel, "" + i);	
+            	buildingList.add(new B_Restaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
     		}
     		// Add Houses:
     		if (i == 12 || i == 13 || i == 14 || i == 15) {
-            	buildingList.add(new B_House(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		HousingAnimation buildingPanel = new HousingAnimation();
+        		buildingPanels.add(buildingPanel, "" + i);	
+            	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
     		}
     	}
     	
