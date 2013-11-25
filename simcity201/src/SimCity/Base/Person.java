@@ -150,8 +150,6 @@ public class Person extends Agent {
 	}
 	
 	public Person(String mainRole){
-		//setMainRole(mainRole);
-		//God.Get().EnterBuilding(null, this, mainRole);
 		this.name = "Brian";
 		setMainRole(mainRole);
 		this.vehicle = Vehicle.walk;
@@ -195,6 +193,9 @@ public class Person extends Agent {
 		building = null;
 	}
 	
+	//No idea if this works. Scary as shit.
+	//Call this function to go to queue to go to a building. The person will only go to a building if he is in the exterior world.
+	//If the person is in the interior world, the person will continue to do whatever he is currently doing.
 	public void msgGoToBuilding(Building b, Intent i){
 		if (b instanceof B_Bank){ addAction(Action.goBank.setIntent(i));}
 		else if (b instanceof B_House){ addAction(Action.goHome.setIntent(i));}
@@ -354,11 +355,11 @@ public class Person extends Agent {
 		
 		//Call person gui animation. acquire my semaphore.
 		if (action.intent == Intent.work)
-			God.Get().EnterBuilding(b, this, mainRole.getClass().toString());
+			b.EnterBuilding(this, mainRole.getClass().toString());
 		else if (action.intent == Intent.customer)
 			{
 				destination = null;
-				God.Get().EnterBuilding(b, this, b.getCustomerString());
+				b.EnterBuilding(this, b.getCustomerString());
 			}
 	}
 	

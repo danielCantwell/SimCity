@@ -15,7 +15,18 @@ public class B_House extends Building{
 	
 	public B_House(int id, JPanel jp) {
 		super(id, jp);
-		// TODO Auto-generated constructor stub
+		tag = "B_House";
+	}
+	
+	public B_House(JPanel jp){
+		
+	}
+	public B_House(JPanel jp, int xCoord, int yCoord){
+		super();
+		buildingPanel = jp;
+		x = xCoord;
+		y = yCoord;
+		tag = "B_House";
 	}
 
 	@Override

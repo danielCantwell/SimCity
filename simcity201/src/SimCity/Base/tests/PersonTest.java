@@ -3,9 +3,12 @@
  */
 package SimCity.Base.tests;
 
+import SimCity.Base.God;
+import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
+import SimCity.Buildings.B_Bank;
 import SimCity.Globals.Money;
 import housing.roles.OwnerRole;
 import housing.test.mock.MockTenant;
@@ -58,6 +61,24 @@ public class PersonTest extends TestCase {
 		assertTrue("Hunger threshold should be 3, thats when hes hunry", person.hungerThreshold == 3);
 		assertTrue("Person's house should be initialized to string house", person.house.equals("house"));
 		assertTrue("Person's inventory should be initialized to have nothing in it. ", person.inventory.size() == 0);
+	}
+	
+	public void test_PersonEntersBank(){
+		set();
+		//Lets set up a god class so that the person can enter the bank. First we need to create a bank!
+		God.Get();
+		B_Bank bank= new B_Bank(25);
+		God.Get().addBuilding(bank); //I'm making a bank.
+		assertTrue("God should have a bank in its list.", God.Get().buildings.size() == 1 && God.Get().buildings.get(0) instanceof B_Bank);
+		assertTrue("The bank's ID should be 0 and the bank's tag should be B_Bank", God.Get().buildings.get(0).getID()==25 && God.Get().buildings.get(0).getTag().equals("B_Bank"));
+		
+		//Let's make sure the god can find the bank.
+		assertTrue("Can god find the bank using the findType function?", God.Get().findBuildingOfType(BuildingType.Bank) == God.Get().buildings.get(0));
+		assertTrue ("Can god find the bank using the findbyid function?", God.Get().getBuilding(25) == God.Get().buildings.get(0));
+		
+		//At this point the bank should be pretty much set up and ready to go. Let's add the person to the bank.
+		
+		
 	}
 	
 	

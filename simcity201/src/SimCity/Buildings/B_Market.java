@@ -25,16 +25,22 @@ public class B_Market extends Building{
 		
 	}
 
+	public B_Market(JPanel jp, int xCoord, int yCoord){
+		super();
+		buildingPanel = jp;
+		x = xCoord;
+		y = yCoord;
+		tag = "B_Market";
+	}
+	
 	@Override
 	public String getManagerString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "market.MarketManagerRole";
 	}
 
 	@Override
 	public String getCustomerString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "market.MarketDeliveryPersonRole";
 	}
 	
 

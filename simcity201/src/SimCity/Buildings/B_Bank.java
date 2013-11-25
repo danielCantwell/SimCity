@@ -32,11 +32,19 @@ public class B_Bank extends Building{
 	
 	public B_Bank(int id){
 		super(id);
+		tag = "B_Bank";
 	}
 
 	public B_Bank(int id, JPanel jp) {
 		super(id, jp);
-		// TODO Auto-generated constructor stub
+		tag = "B_Bank";
+	}
+	public B_Bank(JPanel jp, int xCoord, int yCoord){
+		super();
+		buildingPanel = jp;
+		x = xCoord;
+		y = yCoord;
+		tag = "B_Bank";
 	}
 
 

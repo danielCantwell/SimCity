@@ -28,20 +28,26 @@ public class God {
 	    public AnimationPanel getAnimationPanel(AnimationPanel anim) { return animationPanel;}
 	    
 	    //List of God thingies
-	    int day;
-	    int hour;
-	    boolean isWeekend = false;
+	    public int day;
+	    public int hour;
+	    public boolean isWeekend = false;
 	    Timer hourTimer;
-	    int hourOffset;
-	    ArrayList<Building> buildings = new ArrayList<Building>();
-	    ArrayList<Person> persons = new ArrayList<Person>();
+	    public int hourOffset;
+	    public ArrayList<Building> buildings = new ArrayList<Building>();
+	    public ArrayList<Person> persons = new ArrayList<Person>();
 	    
 	    public void addPerson(Person p){ persons.add(p);}
 	    public void removePerson(Person p){ persons.remove(p);}
 	    public void addBuilding(Building j){ buildings.add(j);}
 	    public void removeBuilding(Building j){ buildings.remove(j);}
 	    public Building getBuilding(int id){
-			return buildings.get(id);
+			for (Building b: buildings){
+				if (b.getID() == id){
+					return b;
+				}
+			}
+			System.out.println("Could not find building");
+			return null;
 	    }
 	    
 	    public enum BuildingType{
@@ -140,11 +146,13 @@ public class God {
 						   catch(Exception e1){};
 					   }
 					   
-					   if (day % 6 == 0 || day % 7 == 0){
-						   //notifyBankClosed();
+					   if (day % 6 == 0 || day % 7 == 0 && !banksClosed){
+						   notifyBanksClosed();
 						   isWeekend = true;
 					   }
 					   else {
+						   if (banksClosed)
+							   	notifyBanksOpen();
 						   isWeekend = false;
 					   }
 				   }
@@ -168,7 +176,27 @@ public class God {
 	    	}
 	    }
 	    
+	    public boolean banksClosed = false;
+	    private void notifyBanksClosed(){
+	    	banksClosed = true;
+	    	for (Building b: buildings){
+	    		if (b.getTag().equals("B_Bank")){
+	    			B_Bank bank = (B_Bank)b;
+	    			bank.setOpen(false);
+	    		}
+	    	}
+	    }
+	    private void notifyBanksOpen(){
+	    	banksClosed = false;
+	    	for (Building b: buildings){
+	    		if (b.getTag().equals("B_Bank")){
+	    			B_Bank bank = (B_Bank)b;
+	    			bank.setOpen(true);
+	    		}
+	    	}
+	    }
 	    
+	  /*  
 	    //BUILDING MEDIATOR STUFF
 	    public void EnterBuilding(Building building, Person person, String job){
 	    		Role newRole;
@@ -188,5 +216,6 @@ public class God {
 	    	person.resetActiveRoles();
 	    	person.msgExitBuilding();
 	    }
+	    */
 	    
 }

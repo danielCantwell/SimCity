@@ -56,7 +56,7 @@ public class Main{
 		
 		System.out.println ("##--------Setup complete--------## \n");
 		
-		God.Get().EnterBuilding(God.Get().getBuilding(0), bankCustomer, "Bank.bankCustomerRole");
+		God.Get().getBuilding(0).EnterBuilding(bankCustomer, "Bank.bankCustomerRole");
 		
 
 	    /*RestaurantGui gui = new RestaurantGui();

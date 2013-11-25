@@ -13,10 +13,17 @@ public class B_Restaurant extends Building{
 		super(id, jp);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public B_Restaurant(JPanel jp, int xCoord, int yCoord){
+		super();
+		buildingPanel = jp;
+		x = xCoord;
+		y = yCoord;
+		tag = "B_Restaurant";
+	}
 
 	@Override
 	public String getManagerString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
