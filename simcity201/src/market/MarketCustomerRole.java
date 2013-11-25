@@ -2,17 +2,18 @@ package market;
 
 import SimCity.Base.Person;
 import SimCity.Base.Role;
-import market.gui.MarketClerkGui;
-import market.interfaces.MarketClerk;
+import SimCity.Globals.Money;
+import market.gui.MarketCustomerGui;
+import market.interfaces.MarketCustomer;
 
 /**
  * Market Manager Agent
  * 
  * @author Timothy So
  */
-public class MarketClerkRole extends Role implements MarketClerk {
+public class MarketCustomerRole extends Role implements MarketCustomer {
 	
-		private MarketClerkGui gui = new MarketClerkGui(this);
+		private MarketCustomerGui gui = new MarketCustomerGui(this);
 		
 		/**
 		 * Data
@@ -20,7 +21,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		
 	    public MarketManagerRole manager;
 		
-		public MarketClerkRole() {
+		public MarketCustomerRole() {
 			super();
 		}
 	
@@ -28,21 +29,21 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		 * Messages
 		 */
 
-    public void msgGiveToCustomer(int id, String food, int amount)
+    public void msgHereIsYourFood(String food, int amount, Money price)
     {
         // TODO Auto-generated method stub
 
         stateChanged();
     }
 
-    public void msgWantFood(int id, String choice, int amount)
+    public void msgGuiArrivedAtClerk()
     {
         // TODO Auto-generated method stub
 
         stateChanged();
     }
 
-    public void msgHereIsMoney(int id, int amount)
+    public void msgGuiArrivedAtDoor()
     {
         // TODO Auto-generated method stub
 
@@ -76,11 +77,11 @@ public class MarketClerkRole extends Role implements MarketClerk {
      * Utilities
      */
 
-		public void setGui(MarketClerkGui gui) {
+		public void setGui(MarketCustomerGui gui) {
 			this.gui = gui;
 		}
 	
-		public MarketClerkGui getGui() { return gui; }
+		public MarketCustomerGui getGui() { return gui; }
 
     @Override
     protected void enterBuilding() {
@@ -93,11 +94,6 @@ public class MarketClerkRole extends Role implements MarketClerk {
         super.setPerson(person);
         person.gui = gui;
     }
-    
-    public void setManager(MarketManagerRole manager)
-    {
-        this.manager = manager;
-    }
 
     /**
      * Inner Classes
@@ -107,14 +103,14 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		
 		public class Order
 		{
-				int id;
+		    String name;
 		    String choice;
 		    int amount;
 		    OrderState state;
 		    
-		    Order(int id, String choice, int amount)
+		    Order(String name, String choice, int amount)
 		    {
-		        this.id = id;
+		        this.name = name;
 		        this.choice = choice;
 		        this.amount = amount;
 		        state = OrderState.Pending;

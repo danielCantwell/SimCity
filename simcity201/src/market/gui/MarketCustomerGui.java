@@ -2,18 +2,18 @@ package market.gui;
 
 import java.awt.*;
 
-import market.MarketDeliveryPersonRole;
+import market.MarketCustomerRole;
 import SimCity.gui.Gui;
 
-public class MarketDeliveryPersonGui implements Gui {
+public class MarketCustomerGui implements Gui {
 
-	private boolean pause = false;
-
-		private MarketDeliveryPersonRole role = null;
-
-    private int xPos = 40, yPos = 100;// default waiter position
-    private int xDestination = xPos, yDestination = yPos;// default start position
-
+		private boolean pause = false;
+	
+		private MarketCustomerRole role = null;
+	
+		private int xPos = 200, yPos = 300;// default waiter position
+		private int xDestination = xPos, yDestination = yPos;// default start position
+	
 		private enum State { none };
 	
 		private enum Action { none };
@@ -24,7 +24,7 @@ public class MarketDeliveryPersonGui implements Gui {
 		static final int xPersonSize = 20;
 		static final int yPersonSize = 20;
 	
-		public MarketDeliveryPersonGui(MarketDeliveryPersonRole role) {
+		public MarketCustomerGui(MarketCustomerRole role) {
 			this.role = role;
 		}
 	

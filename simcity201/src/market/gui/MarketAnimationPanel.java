@@ -2,17 +2,19 @@ package market.gui;
 
 import javax.swing.*;
 
+import exterior.gui.SimCityGui;
 import market.MarketClerkRole;
 import market.MarketDeliveryPersonRole;
 import market.MarketManagerRole;
 import market.MarketPackerRole;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Buildings.B_Restaurant;
 import SimCity.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -21,46 +23,51 @@ import java.util.Map;
 
 public class MarketAnimationPanel extends JPanel implements ActionListener {
 
-	/**
-	 * 
-	 * @author Timothy So
-	 * The inner view of a market building for SimCity201, Team 33
-	 *
-	 */
-	private static final long serialVersionUID = 6251178680876605372L;
+		/**
+		 * 
+		 * @author Timothy So
+		 * The inner view of a market building for SimCity201, Team 33
+		 *
+		 */
+		private static final long serialVersionUID = 6251178680876605372L;
+		
+		private SimCityGui cityGui;
+		
+		private String name;
+		
+		private final int WINDOWX = 640;
+		private final int WINDOWY = 640;
+		
+		private final int xPersonSize	= 20;
+		private final int yPersonSize	= 20;
 	
-	private String name;
+		static final int SPEED = 5;
 	
-	private final int WINDOWX = 680;
-	private final int WINDOWY = 680;
+		private Image bufferImage;
+		private Dimension bufferSize;
 	
-	private final int xPersonSize	= 20;
-	private final int yPersonSize	= 20;
-
-	static final int SPEED = 5;
-
-	private Image bufferImage;
-	private Dimension bufferSize;
-
-	private Person manager;
+		private Person manager;
     private Person clerk;
     private Person packer;
     private Person deliveryPerson;
     
+    private B_Restaurant chanos;
+    
     private List<Person> people = Collections.synchronizedList(new ArrayList<Person>());
 
-	//public List<MarketPackerGui> packers = Collections.synchronizedList(new ArrayList<MarketPackerGui>());
-	//public List<MarketClerkGui> clerks = Collections.synchronizedList(new ArrayList<MarketClerkGui>());
-	//public List<MarketDeliveryPersonGui> deliveryPeople = Collections.synchronizedList(new ArrayList<MarketDeliveryPersonGui>());
-
-	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-	public MarketAnimationPanel(String name) {
-		setSize(WINDOWX, WINDOWY);
-		setVisible(true);
-        Timer timer = new Timer(10, this);
-        timer.start();
-		
-		this.name = name;
+		//public List<MarketPackerGui> packers = Collections.synchronizedList(new ArrayList<MarketPackerGui>());
+		//public List<MarketClerkGui> clerks = Collections.synchronizedList(new ArrayList<MarketClerkGui>());
+		//public List<MarketDeliveryPersonGui> deliveryPeople = Collections.synchronizedList(new ArrayList<MarketDeliveryPersonGui>());
+	
+		private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+		public MarketAnimationPanel(String name)
+		{
+				setSize(WINDOWX, WINDOWY);
+				setVisible(true);
+		        Timer timer = new Timer(10, this);
+		        timer.start();
+				
+				this.name = name;
         
         manager = new Person("market.MarketManagerRole");
         addGui(manager.gui);
@@ -87,10 +94,12 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         ((MarketManagerRole) manager.mainRole).addClerk((MarketClerkRole) clerk.mainRole);
         ((MarketManagerRole) manager.mainRole).addPacker((MarketPackerRole) packer.mainRole);
         ((MarketManagerRole) manager.mainRole).addDeliveryPerson((MarketDeliveryPersonRole) deliveryPerson.mainRole);
-        ((MarketManagerRole) manager.mainRole).msgWantFood("Chano's", "Steak", 10);
-        ((MarketManagerRole) manager.mainRole).msgWantFood("La Barca", "Salad", 10);
-        ((MarketManagerRole) manager.mainRole).msgWantFood("No Tomatoes", "Tomatoes", 10);
-		bufferSize = this.getSize();
+        
+    		/*chanos = (B_Restaurant) God.Get().findRandomRestaurant();
+        ((MarketManagerRole) manager.mainRole).msgWantFood(chanos.getID(), "Steak", 10);
+        ((MarketManagerRole) manager.mainRole).msgWantFood(chanos.getID(), "Salad", 10);
+        ((MarketManagerRole) manager.mainRole).msgWantFood(chanos.getID(), "Tomatoes", 10);
+        */bufferSize = this.getSize();
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -108,7 +117,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 		// counter
 		g2.fillRect(0, 150, 190, 10);
         g2.fillRect(180, 160, 10, 200);
-        g2.fillRect(180, 360, 500, 10);
+        g2.fillRect(180, 360, 460, 10);
         
         // shelves
         g2.fillRect(200, 40, 160, 20);

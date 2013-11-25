@@ -1,5 +1,7 @@
 package market.interfaces;
 
+import SimCity.Globals.Money;
+
 public interface MarketCustomer
 {
 	/**
@@ -7,7 +9,7 @@ public interface MarketCustomer
 	 */
 	
     // MESSAGES
-    void msgWantFood(String name, String choice, int amount);
-    void msgGiveToCustomer(String name, String choice, int amount);
-    void msgHereIsMoney(String name, int amount);
+    void msgHereIsYourFood(String food, int amount, Money price);
+    void msgGuiArrivedAtClerk();
+    void msgGuiArrivedAtDoor();
 }

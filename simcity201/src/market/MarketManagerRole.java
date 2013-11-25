@@ -3,6 +3,7 @@ package market;
 import java.util.*;
 
 import Bank.tellerRole;
+import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
@@ -16,17 +17,17 @@ import market.interfaces.MarketManager;
  */
 public class MarketManagerRole extends Role implements MarketManager {
 	
-	private MarketManagerGui gui = new MarketManagerGui(this);
-	
-	/**
-	 * Data
-	 */
-	
-	public tellerRole teller;
-	
-	public Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());
-	public List<MyPacker> packers = Collections.synchronizedList(new ArrayList<MyPacker>());
-	public List<MyClerk> clerks = Collections.synchronizedList(new ArrayList<MyClerk>());
+		private MarketManagerGui gui = new MarketManagerGui(this);
+		
+		/**
+		 * Data
+		 */
+		
+		public tellerRole teller;
+		
+		public Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());
+		public List<MyPacker> packers = Collections.synchronizedList(new ArrayList<MyPacker>());
+		public List<MyClerk> clerks = Collections.synchronizedList(new ArrayList<MyClerk>());
     public List<MyDeliveryPerson> deliveryPeople = Collections.synchronizedList(new ArrayList<MyDeliveryPerson>());
 
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
@@ -38,34 +39,34 @@ public class MarketManagerRole extends Role implements MarketManager {
      * Constructors
      */
     
-	public MarketManagerRole() {
-		super();
-	}
+		public MarketManagerRole() {
+			super();
+		}
 
-	/** 
-	 * Messages
-	 */
-	
-	public void msgWantFood(String name, String choice, int amount)
-	{
-	    Order o = new Order(name, choice, amount, OrderType.Restaurant);
-	    o.state = OrderState.Pending;
-	    orders.add(o);
-	    System.out.println("Order " + name + " added.");
-        stateChanged();
-	}
-	
-	public void msgFulfillOrder(String name, String choice, int amount)
+		/** 
+		 * Messages
+		 */
+		
+		public void msgWantFood(int id, String choice, int amount)
+		{
+		    Order o = new Order(id, choice, amount, OrderType.Restaurant);
+		    o.state = OrderState.Pending;
+		    orders.add(o);
+		    System.out.println("Order " + God.Get().getBuilding(id) + " added.");
+	        stateChanged();
+		}
+		
+		public void msgFulfillOrder(int id, String choice, int amount)
     {
-        Order o = new Order(name, choice, amount, OrderType.Customer);
+        Order o = new Order(id, choice, amount, OrderType.Customer);
         o.state = OrderState.Pending;
         orders.add(o);   
         stateChanged();
     }
 	
-	public void msgOrderPacked(String name, String choice, int amount)
+		public void msgOrderPacked(int id, String choice, int amount)
     {
-	    Order other = new Order(name, choice, amount, OrderType.None);
+	    Order other = new Order(id, choice, amount, OrderType.None);
         synchronized(orders)
         {
             for (Order order : orders)
@@ -76,18 +77,18 @@ public class MarketManagerRole extends Role implements MarketManager {
                 }
             }
         }
-        System.out.println("Recieved " + name + " order.");
+        System.out.println("Recieved " + choice + ".");
         stateChanged();
     }
 	
-    public void msgHereIsTheMoney(String name, Money amount)
+    public void msgHereIsTheMoney(int id, Money amount)
     {
         money.add(amount);
         synchronized(orders)
         {
             for (Order o : orders)
             {
-                if (o.name.equals(name) && o.getCost().equals(amount))
+                if (o.id == id && o.getCost().equals(amount))
                 {
                     orders.remove(o);
                     break;
@@ -127,79 +128,79 @@ public class MarketManagerRole extends Role implements MarketManager {
         // TODO Auto-generated method stub   
     }
 
-	/**
-	 * Scheduler. Determine what action is called for, and do it.
-	 */
-	protected boolean pickAndExecuteAnAction() {
-		
-	    // if money > MAX_AMOUNT
-	    
-	    // if money < MIN_AMOUNT
-
-        synchronized(orders)
-        {
-    	    for (Order o : orders)
-    	    {
-    	        if (o.state == OrderState.Pending)
-    	        {
-    	            synchronized(packers)
-    	            {
-        	            for (MyPacker packer : packers)
-        	            {
-        	                if (packer.state == PackerState.Idle)
-        	                {
-        	                    startOrder(o);
-        	                    return true;
-        	                }
-        	            }
-    	            }
-    	        }
-    	    }
-        }
-
-        synchronized(orders)
-        {
-    	    for (Order o : orders)
-            {
-                if (o.state == OrderState.Ready)
-                {
-                    if (o.type == OrderType.Restaurant)
-                    {
-                        synchronized(deliveryPeople)
-                        {
-                            for (MyDeliveryPerson dP : deliveryPeople)
-                            {
-                                if (dP.state == DeliveryPersonState.Idle)
-                                {
-                                    deliverOrder(o);
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    else if (o.type == OrderType.Customer)
-                    {
-                        giveOrder(o);
-                        return true;
-                    }
-                }
-            }
-        }
-	    
-		return false;
-		// we have tried all our rules and found
-		// nothing to do. So return false to main loop of abstract agent
-		// and wait.
-	}
-
-	/**
-	 * Actions
-	 */
-
-	private void deposit(Money amount)
-	{
-	    teller.requestDeposit(accountNumber, amount);
-	}
+		/**
+		 * Scheduler. Determine what action is called for, and do it.
+		 */
+		protected boolean pickAndExecuteAnAction() {
+			
+		    // if money > MAX_AMOUNT
+		    
+		    // if money < MIN_AMOUNT
+	
+	        synchronized(orders)
+	        {
+	    	    for (Order o : orders)
+	    	    {
+	    	        if (o.state == OrderState.Pending)
+	    	        {
+	    	            synchronized(packers)
+	    	            {
+	        	            for (MyPacker packer : packers)
+	        	            {
+	        	                if (packer.state == PackerState.Idle)
+	        	                {
+	        	                    startOrder(o);
+	        	                    return true;
+	        	                }
+	        	            }
+	    	            }
+	    	        }
+	    	    }
+	        }
+	
+	        synchronized(orders)
+	        {
+	    	    for (Order o : orders)
+	            {
+	                if (o.state == OrderState.Ready)
+	                {
+	                    if (o.type == OrderType.Restaurant)
+	                    {
+	                        synchronized(deliveryPeople)
+	                        {
+	                            for (MyDeliveryPerson dP : deliveryPeople)
+	                            {
+	                                if (dP.state == DeliveryPersonState.Idle)
+	                                {
+	                                    deliverOrder(o);
+	                                    return true;
+	                                }
+	                            }
+	                        }
+	                    }
+	                    else if (o.type == OrderType.Customer)
+	                    {
+	                        giveOrder(o);
+	                        return true;
+	                    }
+	                }
+	            }
+	        }
+		    
+			return false;
+			// we have tried all our rules and found
+			// nothing to do. So return false to main loop of abstract agent
+			// and wait.
+		}
+	
+		/**
+		 * Actions
+		 */
+	
+		private void deposit(Money amount)
+		{
+		    teller.requestDeposit(accountNumber, amount);
+		}
 	
     private void withdraw(Money amount)
     {
@@ -220,7 +221,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         }
         if (myPacker != null)
         {
-            myPacker.packer.msgPackage(order.name, order.choice, order.amount, inventory.get(order.choice).location);
+            myPacker.packer.msgPackage(order.id, order.choice, order.amount, inventory.get(order.choice).location);
             order.state = OrderState.Processing;
         }
     }
@@ -238,7 +239,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         }
         if (myDP != null)
         {
-            myDP.deliveryPerson.msgMakeDelivery(order.name, order.choice, order.amount);
+            myDP.deliveryPerson.msgMakeDelivery(order.id, order.choice, order.amount);
             order.state = OrderState.Ready;
             orders.remove(order);
         }
@@ -259,7 +260,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         }
         if (myClerk != null)
         {
-            myClerk.clerk.msgGiveToCustomer(order.name, order.choice, order.amount);
+            myClerk.clerk.msgGiveToCustomer(order.id, order.choice, order.amount);
             order.state = OrderState.Ready;
             orders.remove(order);
         }
@@ -287,58 +288,58 @@ public class MarketManagerRole extends Role implements MarketManager {
         addItemToInventory("Ice Cream", new Money(3, 00), 10, 8);
     }
     
-	public void addItemToInventory(String name, Money price, int amount, int location)
-	{
-        inventory.put(name, new Inventory(name, price, amount, location));
-	}
+		public void addItemToInventory(String name, Money price, int amount, int location)
+		{
+	        inventory.put(name, new Inventory(name, price, amount, location));
+		}
+		
+		public void addPacker(MarketPackerRole r)
+		{
+		    packers.add(new MyPacker(r));
+		}
+		
+		public void addDeliveryPerson(MarketDeliveryPersonRole r)
+		{
+	        deliveryPeople.add(new MyDeliveryPerson(r));
+		}
+		
+		public void addClerk(MarketClerkRole r)
+		{
+	        clerks.add(new MyClerk(r));
+		}
 	
-	public void addPacker(MarketPackerRole r)
-	{
-	    packers.add(new MyPacker(r));
-	}
+		public void setGui(MarketManagerGui gui) {
+			this.gui = gui;
+		}
 	
-	public void addDeliveryPerson(MarketDeliveryPersonRole r)
-	{
-        deliveryPeople.add(new MyDeliveryPerson(r));
-	}
-	
-	public void addClerk(MarketClerkRole r)
-	{
-        clerks.add(new MyClerk(r));
-	}
-
-	public void setGui(MarketManagerGui gui) {
-		this.gui = gui;
-	}
-
-	
-	public MarketManagerGui getGui() { return gui; }
-	
-	public void setPerson(Person person)
-	{
-	    super.setPerson(person);
-	    person.gui = gui;
-	}
+		
+		public MarketManagerGui getGui() { return gui; }
+		
+		public void setPerson(Person person)
+		{
+		    super.setPerson(person);
+		    person.gui = gui;
+		}
 
     /**
      * Inner Classes
      */
 	
-	public enum PackerState { Idle, Packing };
-	
-	public class MyPacker 
-	{
-		MarketPackerRole packer;
-		PackerState state;
-		int orderCount;
+		public enum PackerState { Idle, Packing };
 		
-		MyPacker(MarketPackerRole packer) 
+		public class MyPacker 
 		{
-			this.packer = packer;
-			state = PackerState.Idle;
-			orderCount = 0;
+			MarketPackerRole packer;
+			PackerState state;
+			int orderCount;
+			
+			MyPacker(MarketPackerRole packer) 
+			{
+				this.packer = packer;
+				state = PackerState.Idle;
+				orderCount = 0;
+			}
 		}
-	}
     
     public enum ClerkState { Idle, Busy };
     
@@ -374,15 +375,15 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     public class Order
     {
-        String name;
+    		int id;
         String choice;
         int amount;
         OrderState state;
         OrderType type;
         
-        Order(String name, String choice, int amount, OrderType type)
+        Order(int id, String choice, int amount, OrderType type)
         {
-            this.name = name;
+            this.id = id;
             this.choice = choice;
             this.amount = amount;
             this.type = type;
@@ -391,12 +392,12 @@ public class MarketManagerRole extends Role implements MarketManager {
         
         public boolean equals(Order other)
         {
-            return other.name.equals(name) && other.choice.equals(choice) && other.amount == amount;
+            return other.id == id && other.choice.equals(choice) && other.amount == amount;
         }
         
         public Money getCost()
         {
-            return inventory.get(name).getCost(amount);
+            return inventory.get(choice).getCost(amount);
         }
     }
     

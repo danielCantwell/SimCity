@@ -3,7 +3,6 @@ package market.gui;
 import java.awt.*;
 
 import market.MarketClerkRole;
-import market.MarketManagerRole;
 import SimCity.gui.Gui;
 
 public class MarketClerkGui implements Gui {

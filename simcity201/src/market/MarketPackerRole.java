@@ -1,18 +1,11 @@
 package market;
 
-import java.awt.Point;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import SimCity.Base.Person;
 import SimCity.Base.Role;
-import SimCity.Globals.Money;
-import market.MarketManagerRole.Order;
-import market.MarketManagerRole.OrderState;
-import market.MarketManagerRole.OrderType;
-import market.gui.MarketManagerGui;
 import market.gui.MarketPackerGui;
-import market.interfaces.MarketManager;
 import market.interfaces.MarketPacker;
 
 /**
@@ -54,10 +47,10 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	 * Messages
 	 */
 	
-	public void msgPackage(String name, String choice, int amount, int location)
+	public void msgPackage(int id, String choice, int amount, int location)
 	{
 	    System.out.println("Recieved msg to pack order");
-	    orders.add(new Order(name, choice, amount, location));
+	    orders.add(new Order(id, choice, amount, location));
 	    stateChanged();
 	}
 	
@@ -169,7 +162,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 
 	private void giveOrder(Order order)
 	{
-	    manager.msgOrderPacked(order.name, order.choice, order.amount);
+	    manager.msgOrderPacked(order.id, order.choice, order.amount);
 	    orders.remove(order);
 	    state = AgentState.Idle;
 	}
@@ -245,15 +238,15 @@ public class MarketPackerRole extends Role implements MarketPacker {
     
     public class Order
     {
-        String name;
+    		int id;
         String choice;
         int amount;
         int location;
         OrderState state;
         
-        Order(String name, String choice, int amount, int location)
+        Order(int id, String choice, int amount, int location)
         {
-            this.name = name;
+            this.id = id;
             this.choice = choice;
             this.amount = amount;
             this.location = location;
@@ -262,7 +255,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
         
         public boolean equals(Order other)
         {
-            return other.name.equals(name) && other.choice.equals(choice) && other.amount == amount && other.location == location;
+            return other.id == id && other.choice.equals(choice) && other.amount == amount && other.location == location;
         }
     }
 }

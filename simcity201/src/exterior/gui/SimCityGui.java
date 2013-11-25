@@ -4,6 +4,7 @@ import housing.gui.HousingAnimation;
 
 import javax.swing.*;
 
+import market.gui.MarketAnimationPanel;
 import Bank.gui.bankGui;
 import SimCity.Base.Building;
 import SimCity.Buildings.B_Bank;
@@ -61,7 +62,7 @@ public class SimCityGui extends JFrame {
     		}
     		// Add Markets:
     		if (i == 3 || i == 5) {
-        		JPanel buildingPanel = new JPanel();
+        		MarketAnimationPanel buildingPanel = new MarketAnimationPanel("Ralph's");
         		buildingPanels.add(buildingPanel, "" + i);	
             	buildingList.add(new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
     		}
