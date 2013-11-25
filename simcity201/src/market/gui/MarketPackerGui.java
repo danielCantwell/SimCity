@@ -1,6 +1,9 @@
 package market.gui;
 
 import java.awt.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import market.MarketManagerRole;
 import market.MarketPackerRole;
@@ -12,15 +15,18 @@ public class MarketPackerGui implements Gui {
 
 	private MarketPackerRole role = null;
 
-	private int xPos = -20, yPos = -20;// default waiter position
-	private int xDestination = -20, yDestination = -20;// default start position
+    private int xPos = 200, yPos = 200;// default counter location.
+    private int xDestination = xPos, yDestination = yPos;// default start position
+    
+    private Map<Integer, Point> locations = Collections.synchronizedMap(new HashMap<Integer, Point>());
+    private Point counterLoc = new Point(xPos, yPos);
 
 	private enum State { none };
 
-	private enum Action { none };
+	private enum Action { Idle, Fetching, Returning };
 
 	private State state = State.none;
-	private Action action = Action.none;
+	private Action action = Action.Idle;
 
 	static final int xPersonSize = 20;
 	static final int yPersonSize = 20;
@@ -44,7 +50,15 @@ public class MarketPackerGui implements Gui {
 
 			if (xPos == xDestination && yPos == yDestination)
 			{
-				   
+				   if (action == Action.Fetching)
+				   {
+				       role.msgGuiArrivedAtItem();
+				   }
+				   else if (action == Action.Returning)
+				   {
+				       role.msgGuiArrivedAtCounter();
+				   }
+				   action = Action.Idle;
 			}
 		}
 	}
@@ -53,6 +67,20 @@ public class MarketPackerGui implements Gui {
 		g.setColor(Color.RED);
 		g.fillRect(xPos, yPos, xPersonSize, yPersonSize);
 	}
+
+    public void DoGoToItem(int location)
+    {
+        xDestination = locations.get(location).x;
+        yDestination = locations.get(location).y;
+        action = Action.Fetching;
+    }
+
+    public void DoGoToCounter()
+    {
+        xDestination = counterLoc.x;
+        yDestination = counterLoc.y;
+        action = Action.Returning;
+    }
 
 	public boolean isPresent() {
 		return true;
@@ -65,15 +93,18 @@ public class MarketPackerGui implements Gui {
 	public int getYPos() {
 		return yPos;
 	}
+    
+    public void setLocations(Map<Integer, Point> locations)
+    {
+        this.locations = locations;
+    }
 
-    @Override
     public void pause()
     {
         // TODO Auto-generated method stub
         
     }
 
-    @Override
     public void restart()
     {
         // TODO Auto-generated method stub

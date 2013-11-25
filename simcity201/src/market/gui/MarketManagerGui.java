@@ -14,8 +14,8 @@ public class MarketManagerGui implements Gui {
 
 	private MarketManagerRole role = null;
 
-	private int xPos = 50, yPos = 50;// default manager position
-	private int xDestination = 50, yDestination = 50;// default start position
+    private int xPos = 300, yPos = 100;// default waiter position
+    private int xDestination = xPos, yDestination = yPos;// default start position
 
 	private Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());
 	private Map<Integer, Point> locations = Collections.synchronizedMap(new HashMap<Integer, Point>());
@@ -32,8 +32,6 @@ public class MarketManagerGui implements Gui {
 
 	public MarketManagerGui(MarketManagerRole role) {
 		this.role = role;
-		
-		initializeLocations();
 	}
 
 	public void updatePosition() {
@@ -74,13 +72,21 @@ public class MarketManagerGui implements Gui {
 		g.fillRect(xPos, yPos, xPersonSize, yPersonSize);
 		
 		g.setColor(Color.GRAY);
-		for (Inventory i : inventory.values())
-		{
-		    if (i.amount > 0)
-		    {
-		        g.fillRect(i.xLocation, i.yLocation, 20, 20);
-		    }
-		}
+        for (Inventory i : inventory.values())
+        {
+            if (i.amount > 0)
+            {
+                g.fillRect(i.xLocation, i.yLocation, 10, 10);
+            }
+        }
+        g.setColor(Color.BLACK);
+        for (Inventory i : inventory.values())
+        {
+            if (i.amount > 0)
+            {
+                g.drawRect(i.xLocation, i.yLocation, 10, 10);
+            }
+        }
 	}
 
 	public boolean isPresent() {
@@ -95,12 +101,9 @@ public class MarketManagerGui implements Gui {
 		return yPos;
 	}
 	
-	public void initializeLocations()
+	public void setLocations(Map<Integer, Point> locations)
 	{
-	    locations.put(0, new Point(100, 40));
-        locations.put(1, new Point(140, 40));
-        locations.put(2, new Point(180, 40));
-        locations.put(3, new Point(220, 40));
+	    this.locations = locations;
 	}
     
     public class Inventory

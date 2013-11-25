@@ -120,7 +120,8 @@ public class Person extends Agent {
 				newRole.setPerson(this);
 				roles.add(newRole);
 				mainRole = newRole;
-				
+				mainRole.active = true;
+				mainRole.myPerson = this;
 			} catch(Exception e){
 				e.printStackTrace();
 				System.out.println ("no class found");
@@ -188,6 +189,7 @@ public class Person extends Agent {
 		}
 		//If there does not exist that role r then add r to list.
 		r.setActive(true);
+        r.myPerson = this;
 		roles.add(r);
 		if (enterBuilding){
 			r.enterBuilding();
@@ -420,7 +422,5 @@ public class Person extends Agent {
       });
       hungerTimer.start();
 	}
-	
-	
 }
 
