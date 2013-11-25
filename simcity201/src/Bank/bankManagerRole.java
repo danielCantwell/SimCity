@@ -6,7 +6,11 @@ import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import Bank.interfaces.Teller;
 import SimCity.Base.*;
-
+/**
+ * Manager Role
+ * @author Eric
+ *
+ */
 public class bankManagerRole extends Role implements  Manager{
 	
 	Guard guard;

@@ -8,8 +8,9 @@ import Bank.interfaces.Manager;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 
-/*
+/**
  * Bank Guard Role
+ * @author Eric
  */
 
 public class bankGuardRole extends Role implements Guard {
