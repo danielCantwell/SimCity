@@ -136,9 +136,11 @@ public class OwnerTest extends TestCase {
 		// PickAndExecuteAnAction should return false
 		assertTrue(owner.pickAndExecuteAnAction());
 		// Check Post Conditions
-		assertEquals("Tenant should have one strike. He doesn't.", 1, owner.myTenants.get(0).strikes);
-		assertEquals("Tenant state should be none.", TenantState.None, owner.myTenants.get(0).state);
-		
+		assertEquals("Tenant should have one strike. He doesn't.", 1,
+				owner.myTenants.get(0).strikes);
+		assertEquals("Tenant state should be none.", TenantState.None,
+				owner.myTenants.get(0).state);
+
 		assertFalse(owner.pickAndExecuteAnAction());
 
 		// Receive Message
@@ -147,7 +149,8 @@ public class OwnerTest extends TestCase {
 		assertEquals("Tenant state should be OwesRent. It's not.",
 				TenantState.OwesRent, owner.myTenants.get(0).state);
 		assertEquals("Tenant's rentOwed should be $150. It's not.",
-				owner.RENT.dollars + 50, owner.myTenants.get(0).rentOwed.dollars);
+				owner.RENT.dollars + 50,
+				owner.myTenants.get(0).rentOwed.dollars);
 
 		// PickAndExecuteAnAction should return true
 		assertTrue(owner.pickAndExecuteAnAction());
@@ -167,11 +170,12 @@ public class OwnerTest extends TestCase {
 		// Receive Message
 		owner.msgHereIsRent(mtOne, new Money(0, 0));
 		// Check Post Conditions
-		assertEquals(
-				"Owner should not have added rent to his money.",
-				250, owner.myPerson.money.dollars);
-		assertEquals("Tenant should owe $50 in rent. He doesn't.", 50,
+		assertEquals("Owner should not have added rent to his money.", 250,
+				owner.myPerson.money.dollars);
+		assertEquals("Tenant should owe $150 in rent. He doesn't.", 150,
 				owner.myTenants.get(0).rentOwed.dollars);
+		assertEquals("Tenant state should be InDebt. It's not.",
+				TenantState.InDebt, owner.myTenants.get(0).state);
 
 	}
 
