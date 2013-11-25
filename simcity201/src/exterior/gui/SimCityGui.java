@@ -7,6 +7,7 @@ import javax.swing.*;
 import market.gui.MarketAnimationPanel;
 import Bank.gui.bankGui;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
@@ -48,37 +49,47 @@ public class SimCityGui extends JFrame {
     	
     	//Create the BuildingPanel for each Building object
     	for (int i = 0; i < 16; i++) {
+    		Building b = null;
+    		JPanel buildingPanel = null;
     		// Add Apartments:
     		if (i == 0 || i == 1 || i == 4) {
-        		HousingAnimation buildingPanel = new HousingAnimation();
-        		buildingPanels.add(buildingPanel, "" + i);	
-            	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		buildingPanel = new HousingAnimation();
+      			b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Banks:
     		if (i == 2 || i == 8) {
-        		bankGui buildingPanel = new bankGui();
-        		buildingPanels.add(buildingPanel, "" + i);	
-            	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		buildingPanel = new bankGui();
+            b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Markets:
     		if (i == 3 || i == 5) {
-        		MarketAnimationPanel buildingPanel = new MarketAnimationPanel("Ralph's");
-        		buildingPanels.add(buildingPanel, "" + i);	
-            	buildingList.add(new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		buildingPanel = new MarketAnimationPanel("Ralph's");
+            b = new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Restaurants:
     		if (i == 6 || i == 7 || i == 9 || i == 10 || i == 11) {
-        		JPanel buildingPanel = new JPanel();
-        		buildingPanels.add(buildingPanel, "" + i);	
-            	buildingList.add(new B_Restaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		buildingPanel = new JPanel();
+            b = new B_Restaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Houses:
     		if (i == 12 || i == 13 || i == 14 || i == 15) {
-        		HousingAnimation buildingPanel = new HousingAnimation();
-        		buildingPanels.add(buildingPanel, "" + i);	
-            	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+        		buildingPanel = new HousingAnimation();
+        		b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+    		}
+    		if (b != null && buildingPanel != null)
+    		{
+    			buildingPanels.add(buildingPanel, "" + i);
+    			buildingList.add(b);
+    			God.Get().addBuilding(b);
+    		}
+    		else
+    		{
+    			System.err.println("Building not initialized correctly in SimCityGui.java!");
     		}
     	}
+    	
+    	// Debug
+    	//((MarketAnimationPanel) buildingList.get(5).buildingPanel).debugTestRestaurant();
     	
     	add(BorderLayout.EAST, buildingPanels);
     }
