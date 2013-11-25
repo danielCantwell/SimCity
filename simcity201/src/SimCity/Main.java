@@ -42,6 +42,7 @@ public class Main{
 		bankGuardRole bgr = (bankGuardRole)guard.roles.get(0);
 		bankCustomerRole bcr = (bankCustomerRole)bankCustomer.roles.get(0);
 		
+		bank.setBankManager(bmr);
 		bgr.setBank((B_Bank)God.Get().getBuilding(0));
 		
 		bmr.setActive(true);

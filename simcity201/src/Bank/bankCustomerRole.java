@@ -44,7 +44,6 @@ public class bankCustomerRole extends Role{
 	public void requestSearch() {
 		s = state.reqSearch;
 		stateChanged();
-		System.out.println("Customer: is asking guard to search");
 	}
 
 	public void yesEnter() {
@@ -58,9 +57,10 @@ public class bankCustomerRole extends Role{
 	}
 
 	public void tellerCalled(Teller t) {
+		System.out.println("Customer: Teller has called customer to come");
 		s = state.called;
 		teller = t;
-		System.out.println("Customer: Teller has called customer to come");
+		stateChanged();
 	}
 	public void whatService() {
 		s = state.reqService;
@@ -120,6 +120,7 @@ public class bankCustomerRole extends Role{
 	public void giveInv() {
 		guard.allowSearch(this, inventory);
 		s = state.gaveInv;
+		System.out.println("Customer: is asking guard to search");
 	}
 
 	public void findTeller() {
