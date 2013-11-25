@@ -7,8 +7,9 @@ import SimCity.Base.*;
 import Bank.gui.*;
 import Bank.interfaces.Teller;
 
-/*
+/**
  * Bank Teller Role
+ * @author Eric
  */
 
 public class tellerRole extends Role implements Teller {
@@ -23,7 +24,7 @@ public class tellerRole extends Role implements Teller {
 		state s;
 		bankCustomerRole cust;
 	}
-	public enum state{ none, ready, added, called, withdraw, deposit, leaving };
+	public enum state{ none, ready, added, noAcc, yesAcc, setUp, askedService, called, withdraw, deposit, leaving };
 	private state s = state.none;
 
 
@@ -52,7 +53,14 @@ public class tellerRole extends Role implements Teller {
 		c.money = money;
 		c.cust = cust;
 		clients.add(c);
-		System.out.println("Teller: Customer has come to me");
+		if(bankAccs.get(c.accountNum) != null) {
+			c.s = state.yesAcc;
+		} 
+		else {
+			c.s = state.noAcc;
+		}
+		System.out.println("Teller: Customer has come to me accNum: "+accNum+c.s);
+		stateChanged();
 	}
 
 	@Override
@@ -61,6 +69,7 @@ public class tellerRole extends Role implements Teller {
 			if (c.accountNum == acc) {
 				c.s = state.withdraw;
 				c.editmoney = money;
+				System.out.println("Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
 				stateChanged();
 			}
 		}
@@ -70,11 +79,12 @@ public class tellerRole extends Role implements Teller {
 	public void requestDeposit(int acc, Money money) {
 		for (Client c : clients) {
 			if (c.accountNum == acc) {
-				c.s = state.deposit;
 				c.editmoney = money;
-				stateChanged();
-			}
+				c.s = state.deposit;
+				System.out.println("Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
+			}	
 		}
+		stateChanged();
 	}
 
 	@Override
@@ -97,30 +107,32 @@ public class tellerRole extends Role implements Teller {
 			for (Client c : clients) {
 				if(c.s == state.added) {
 					callClient(c);
+					return true;
 				}
-				return true;
+			}
+		}
+		synchronized(clients) {
+			for (Client c : clients) {
+				if(c.s == state.yesAcc) {
+					askService(c);
+					return true;
+				}
+				else if(c.s == state.noAcc){
+					accSetUp(c);
+					return true;
+				}
 			}
 		}
 		synchronized(clients) {
 			for (Client c : clients) {
 				if(c.s == state.withdraw) {
 					withdrawDone(c);
+					return true;
 				}
 				else if (c.s == state.deposit) {
 					depositDone(c);
+					return true;
 				}
-				return true;
-			}
-		}
-		synchronized(clients) {
-			for (Client c : clients) {
-				if(bankAccs.get(c.accountNum) != null) {
-					askService(c);
-				} 
-				else {
-					accSetUp(c);
-				}
-				return true;
 			}
 		}
 		return false;
@@ -134,10 +146,12 @@ public class tellerRole extends Role implements Teller {
 
 	public void askService(Client c){
 		c.cust.whatService();
+		c.s = state.askedService;
 	}
 
 	public void accSetUp(Client c) {
 		bankAccs.put(c.accountNum, c.money);
+		c.s = state.yesAcc;
 	}
 	
 	public void withdrawDone(Client c) {
@@ -146,15 +160,18 @@ public class tellerRole extends Role implements Teller {
 			Money temp = bankAccs.get(c.accountNum);
 			bankAccs.put(c.accountNum, temp.subtract(c.editmoney));
 			c.cust.transactionComplete(c.money);
+			System.out.println("Customer current total: $"+c.money.dollars);
 			clients.remove(c);
 		}
 	}
 
 	public void depositDone(Client c) {
+		System.out.println("###"+c.editmoney.getDollar()+"####"+c.money.getDollar());
 		c.money = c.money.subtract(c.editmoney);
 		Money temp = bankAccs.get(c.accountNum);
 		bankAccs.put(c.accountNum, temp.add(c.editmoney));
 		c.cust.transactionComplete(c.money);
+		System.out.println("Customer current total: $"+c.money.dollars);
 		clients.remove(c);
 	}
 

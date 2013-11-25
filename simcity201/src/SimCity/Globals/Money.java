@@ -105,9 +105,10 @@ public class Money {
 	 * @param dollars
 	 * @param cents
 	 */
-	public void subtract(int dollars, int cents) {
+	public Money subtract(int dollars, int cents) {
 		this.dollars -= dollars;
 		this.cents -= cents;
+		return this;
 	}
 	
 	public int getDollar() {

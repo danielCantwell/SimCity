@@ -93,6 +93,7 @@ public class Person extends Agent {
 	public Building destination = null;
 	public Morality mor = Morality.good;
 	public TimeState timeState = TimeState.none;
+	private int accNum;
 
 		//Getters and setters
 		public void setHouse(B_House house){myHouse = house;}
@@ -106,6 +107,7 @@ public class Person extends Agent {
 		public void setMoney(int dollars, int cents){money.dollars = dollars; money.cents = cents;}
 		public void setMoney(Money newMoney){money = newMoney;}
 		public void setMoney(double newMoney){money.dollars = (int)newMoney; money.cents = (int)((newMoney - (int)newMoney)*100);}
+		public int getAccNum(){return accNum;}
 		public Building getBuilding(){return building;}
 		public Building getDestination(){return destination;}
 		public Morality getMorality(){return mor; }
@@ -167,7 +169,8 @@ public class Person extends Agent {
 		setMainRole(mainRole);
 		this.vehicle = Vehicle.walk;
 		this.mor = Morality.good;
-		this.money = new Money(5,10);
+		this.money = new Money(100,10);
+		this.accNum = 1;
 		this.moneyThreshold = new Money(1, 0);
 		this.hungerLevel = 10;
 		this.hungerThreshold = 4;

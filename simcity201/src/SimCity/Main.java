@@ -55,6 +55,9 @@ public class Main{
 		//bcr.setActive(true);
 		
 		bcr.setGuard(bgr);
+		bcr.setPerson(bankCustomer);
+		bcr.setMoney(bankCustomer.getMoney());
+		bcr.setAccNum(bankCustomer.getAccNum());
 		
 		//Setup people and bank
 		

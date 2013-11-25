@@ -12,31 +12,42 @@ import SimCity.Globals.*;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 
-/*
+/**
  * Bank Customer Role
+ * @author Eric
+ * 
  */
 
 public class bankCustomerRole extends Role{
 
 	//-----------------------------------------------Data-------------------------------------------------
+	
+	Money wMoney;
 	int accNum;
 	private bankCustomerGui gui = new bankCustomerGui(this);
-	Money money;
+	Money money = new Money(20,0);
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
 	private Guard guard;
 	private Teller teller;
 	public state s = state.none;
-	Money wMoney = new Money(20,0);
 	public enum state { none, enter, waiting, called, reqSearch, gaveInv, entered, reqService, leaving};
 
 	public void setGuard(Guard bg){
 		guard = bg;
 	}
-
+	
+	public void setMoney(Money m) {
+		wMoney = myPerson.getMoney();
+		System.out.println("This Customer has :$"+wMoney.dollars+"."+wMoney.cents);
+	}
+	
+	public void setAccNum(int a) {
+		accNum = myPerson.getAccNum();
+		System.out.println("This Customer's account number: "+accNum);
+	}
 	//-----------------------------------------------Messages------------------------------------------------
 	public void enterBuilding() {
 		s = state.enter;
-		
 		stateChanged();
 		System.out.println("Customer: has entered the building");
 	}
@@ -124,17 +135,19 @@ public class bankCustomerRole extends Role{
 	}
 
 	public void findTeller() {
-		teller.foundTeller(accNum, money, this);
+		teller.foundTeller(accNum, wMoney, this);
 	}
 
 	public void chooseService() {
-		if (money.getDollar() > 30) {							//Temporary method for choosing whether to withdraw/deposit
-			teller.requestWithdraw(accNum, wMoney); 			//arbitrary amount to withdraw, can be changed later
+		if (wMoney.getDollar() < 30) {							//Temporary method for choosing whether to withdraw/deposit
+			teller.requestWithdraw(accNum, money); 			//arbitrary amount to withdraw, can be changed later
 		}
 		else {
-			money.subtract(30, 0);
-			teller.requestDeposit(accNum,money);				//deposits everything over $30
-			money.add(30,0);
+			wMoney.subtract(30, 0);
+			teller.requestDeposit(accNum,wMoney);				//deposits everything over $30
+			wMoney.add(30,0);
+			System.out.println(wMoney.getDollar());
+
 		}
 	}
 
