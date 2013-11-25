@@ -10,12 +10,13 @@ import java.util.List;
 
 import exterior.astar.*;
 
-public class AnimationPanel extends JPanel implements ActionListener, MouseListener {
+public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
     private final int WINDOWX = 1920;
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
+    private final int CITY_SIZE = 4;
     private final char[][] MAP = new char[][] {
     		
     	/* Map legend:
@@ -84,23 +85,25 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                System.out.println(":MOUSE_RELEASED_EVENT:");
             }
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("----------------------------------\n:MOUSE_PRESSED_EVENT:");
             }
             @Override
             public void mouseExited(MouseEvent e) {
-                System.out.println(":MOUSE_EXITED_EVENT:");
             }
             @Override
             public void mouseEntered(MouseEvent e) {
-                System.out.println(":MOUSE_ENTER_EVENT:");
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(":MOUSE_CLICK_EVENT:");
+            	for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
+            		//System.out.println(getBuildingRect(i).toString());
+            		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
+            			System.out.println("MOUSE PRESS ON BUILDING: " + i);
+            			gui.cardLayout.show(gui.buildingPanels, "" + i);
+            		}
+            	}
             }
         });
 
@@ -156,6 +159,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
     public void setGui(SimCityGui g) {
     	gui = g;
+    }
+    
+    private Rectangle getBuildingRect(int buildingNumber) {
+    	return new Rectangle(((buildingNumber % CITY_SIZE) * 7 + 3)*TILESIZE, ((buildingNumber / CITY_SIZE) * 7 + 3)*TILESIZE, TILESIZE*3, TILESIZE*3);
     }
     
     protected void addCommands()

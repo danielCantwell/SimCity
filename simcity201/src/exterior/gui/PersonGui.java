@@ -5,9 +5,6 @@ import java.util.List;
 import exterior.astar.AStarNode;
 import exterior.astar.*;
 import java.util.Random;
-import java.util.concurrent.Semaphore;
-
-import exterior.astar.*;
 
 public class PersonGui implements Gui {
 	private boolean isPresent = false;
