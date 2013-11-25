@@ -2,13 +2,9 @@ package exterior.gui;
 
 import java.awt.*;
 import java.util.List;
-
 import exterior.astar.AStarNode;
 import exterior.astar.*;
 import java.util.Random;
-import java.util.concurrent.Semaphore;
-
-import exterior.astar.*;
 
 public class PersonGui implements Gui {
 	private boolean isPresent = false;
@@ -56,7 +52,7 @@ public class PersonGui implements Gui {
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, SPRITE_SIZE, SPRITE_SIZE);
+		g.fillRect(xPos + 16, yPos + 16, SPRITE_SIZE/2, SPRITE_SIZE/2);
 	}
 	
     public boolean isPresent() {
