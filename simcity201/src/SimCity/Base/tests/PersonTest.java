@@ -6,6 +6,9 @@ package SimCity.Base.tests;
 import SimCity.Base.God;
 import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person;
+import SimCity.Base.Person.Action;
+import SimCity.Base.Person.GoAction;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
 import SimCity.Buildings.B_Bank;
@@ -77,7 +80,19 @@ public class PersonTest extends TestCase {
 		assertTrue ("Can god find the bank using the findbyid function?", God.Get().getBuilding(25) == God.Get().buildings.get(0));
 		
 		//At this point the bank should be pretty much set up and ready to go. Let's add the person to the bank.
+		person.msgGoToBuilding(bank, Intent.customer);
 		
+		//Ok now we need to check if the action was put in the person's actionlist.
+		assertTrue("Does the person's action list contain one item?" , person.actions.size() == 1);
+		assertTrue("Is that action of type goBank", person.actions.get(0).getGoAction() == GoAction.goBank);
+		assertTrue("Does that goBank action have an intent of customer??", person.actions.get(0).getIntent() == Intent.customer);
+		
+		//Now what if we added a second action but it is work this time!
+		person.msgGoToBuilding(bank, Intent.work);
+		assertTrue("Are there now 2 things in the action list of the person?", person.actions.size() == 2);
+		assertTrue("Are they both of type bank?", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(1).getGoAction() == Person.GoAction.goBank);
+		assertTrue("Is the first action's intent customer", person.actions.get(0).getIntent() == Intent.customer);
+		assertTrue("Is the second action's intent work?", person.actions.get(1).getIntent() == Intent.work);
 		
 	}
 	

@@ -58,19 +58,30 @@ public class Person extends Agent {
 								sleeping;
 							};
 	
-	public enum Action{
+	//A GoAction is simply a way to figure out where the person wants to go.				
+	public enum GoAction {
 		goHome,
 		goRestaurant,
 		goMarket,
 		goBank,
 		goSleep;
-		
+	}
+	
+	//This is an inner class that holds a GoAction and an Intent.
+	//How to use? The goAction tells you where to go and the intent tells you why you are going.
+	public class Action{
+		GoAction goAction = GoAction.goHome;
 		Intent intent = Intent.customer;
-		public Action setIntent(Intent i) { intent = i; return this;}
+		
+		public Action(GoAction g, Intent i){
+			goAction = g;
+			intent = i;
+		}
+		public GoAction getGoAction(){return goAction;}
 		public Intent getIntent(){return intent;}
 	}
 	
-	LinkedList <Action> actions = new LinkedList<Action>();
+	public LinkedList <Action> actions = new LinkedList<Action>();
 	
 	
 	//Stats
@@ -197,10 +208,10 @@ public class Person extends Agent {
 	//Call this function to go to queue to go to a building. The person will only go to a building if he is in the exterior world.
 	//If the person is in the interior world, the person will continue to do whatever he is currently doing.
 	public void msgGoToBuilding(Building b, Intent i){
-		if (b instanceof B_Bank){ addAction(Action.goBank.setIntent(i));}
-		else if (b instanceof B_House){ addAction(Action.goHome.setIntent(i));}
-		else if (b instanceof B_Restaurant){ addAction(Action.goRestaurant.setIntent(i));}
-		else if (b instanceof B_Market){ addAction(Action.goMarket.setIntent(i));}
+		if (b instanceof B_Bank){ addAction(new Action(GoAction.goBank, i));}
+		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
+		else if (b instanceof B_Restaurant){ addAction(new Action(GoAction.goRestaurant, i));}
+		else if (b instanceof B_Market){ addAction(new Action(GoAction.goMarket, i));}
 		stateChanged();
 	}
 	
@@ -268,20 +279,20 @@ public class Person extends Agent {
 		}
 		
 		//if the person leaves a building and has nothing to do.
-		if (timeState == TimeState.none){
+		if (timeState == TimeState.none && actions.size() == 0){
 			//check if he has enough money.
 			if (money.dollars < 5){
-				goTo(Action.goBank.setIntent(Intent.customer));
+				goTo(new Action(GoAction.goBank, Intent.customer));
 				return false;
 			}
 			
 			//Check if he is hungry
 			if (hungerLevel < hungerThreshold){
-				goTo(Action.goRestaurant.setIntent(Intent.customer));
+				goTo(new Action(GoAction.goRestaurant, Intent.customer));
 				return false;
 			}
 			
-			goTo(Action.goHome.setIntent(Intent.customer));
+			goTo(new Action(GoAction.goHome, Intent.customer));
 		}
 		return returnPAEAA;
 	}
@@ -326,22 +337,22 @@ public class Person extends Agent {
 		Building b = myHouse;
 		createVehicle();
 		//Handling which action
-		if (action == Action.goBank){
+		if (action.getGoAction() == GoAction.goBank){
 			//Choose a bank to go.
 			b = God.Get().findBuildingOfType(BuildingType.Bank);
 			Do("Going to bank");
 		}else
-		if (action == Action.goHome){
+		if (action.getGoAction() == GoAction.goHome){
 			//Go to your home.
 			b = myHouse;
 			Do("Going home");
 		}else
-		if (action == Action.goMarket){
+		if (action.getGoAction() == GoAction.goMarket){
 			//Go to your market.
 			b = God.Get().findBuildingOfType(BuildingType.Market);
 			Do("going to market");
 		}else
-		if (action == Action.goRestaurant){
+		if (action.getGoAction() == GoAction.goRestaurant){
 			//Go to restaurant
 			b = God.Get().findBuildingOfType(BuildingType.Restaurant);
 			Do("Going to restaurant");
