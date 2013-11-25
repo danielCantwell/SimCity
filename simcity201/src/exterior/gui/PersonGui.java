@@ -2,32 +2,34 @@ package exterior.gui;
 
 import java.awt.*;
 import java.util.List;
+<<<<<<< HEAD
 
 import exterior.astar.AStarNode;
 import exterior.astar.*;
+=======
+import java.util.Random;
+import java.util.concurrent.Semaphore;
+>>>>>>> exterior
+
+import exterior.astar.*;
 
 public class PersonGui implements Gui {
-	SimCityGui gui;
-
+	private boolean isPresent = false;
 	private int xPos, yPos;
 	private int xDestination, yDestination, iDestination;
-    private final int SPRITE_SIZE = 32;
+    private final int SPRITE_SIZE = 64;
+    private final int CITY_SIZE = 4;
 	private enum Command {none, traveling};
 	private Command command = Command.none;
-	private boolean isPresent = false;
 	private AStarTraversal aStar;
 	private Position currentPosition; 
 	
 	public PersonGui(SimCityGui gui, AStarTraversal aStar) {
-		xPos = 0;
-		yPos = 0;
-		xDestination = 0;
-		yDestination = 0;
-		currentPosition = new Position(0,0);
-		this.gui = gui;
 		this.aStar = aStar;
-		
-		DoTravel(2, 7);
+		Random rand = new Random();
+		int start = rand.nextInt(15);
+		int end = rand.nextInt(15);
+		DoTravel(start, end);
 	}
 
 	public void updatePosition() {
@@ -45,13 +47,13 @@ public class PersonGui implements Gui {
 			if (command == Command.traveling) {
 				command = Command.none;
 		    	guiMoveFromCurrentPositionTo(new Position(getBuildingX(iDestination), getBuildingY(iDestination)));
-				//isPresent = false;
-				//agent.msgAnimationFinishedGoToSeat();
 			} 
 		}
-		if (xPos == getBuildingX(iDestination) && yPos == getBuildingY(iDestination)) {
+		if (xPos == getBuildingX(iDestination)*SPRITE_SIZE && yPos == getBuildingY(iDestination)*SPRITE_SIZE) {
 			isPresent = false;
+            currentPosition.release(aStar.getGrid());
 			command = Command.none;
+			//agent.msgAnimationFinishedGoToSeat();
 		}
 	}
 
@@ -66,23 +68,37 @@ public class PersonGui implements Gui {
 
     public void DoTravel(int position, int destination) {
     	isPresent = true;
-    	xPos = getBuildingX(position)*32;
-    	yPos = getBuildingY(position)*32;
+    	xPos = getBuildingX(position)*SPRITE_SIZE;
+    	yPos = getBuildingY(position)*SPRITE_SIZE;
+    	xDestination = getBuildingX(position)*SPRITE_SIZE;
+    	yDestination = getBuildingY(position)*SPRITE_SIZE;
+    	iDestination = destination;
     	currentPosition = new Position(getBuildingX(position), getBuildingY(position));
     	guiMoveFromCurrentPositionTo(new Position(getBuildingX(destination), getBuildingY(destination)));
-    	iDestination = destination;
     }
     
     public int getBuildingX(int position) {
-    	return ((position % 4) * 7 + 4);
+    	return ((position % CITY_SIZE) * 7) + 4;
     }
     
     public int getBuildingY(int position) {
-    	return ((position / 4) * 7 + 6);
+    	return ((position / CITY_SIZE) * 7) + 6;
     }
 
     void guiMoveFromCurrentPositionTo(Position to){
     	if (command != Command.traveling) {
+    		
+    	/*
+		Semaphore[][] grid = aStar.getGrid();
+        for (int y = 0; y < 30; y++) {
+            for (int x = 0; x < 30; x++) {
+            	System.out.print(grid[x][y].availablePermits() + " ");
+            }
+            	System.out.println("");
+            }
+        System.out.println("====");
+        */
+         
         AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
         List<Position> path = aStarNode.getPath();
         boolean firstStep = true;
@@ -93,18 +109,18 @@ public class PersonGui implements Gui {
                 firstStep = false;
                 continue;
             }
-
+            
             //Try and get lock for the next step.
             int attempts = 1;
             gotPermit = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
-
+            
             //Did not get lock. Lets make n attempts.
             while (!gotPermit && attempts < 3) {
                 try { Thread.sleep(1000); }
                 catch (Exception e){}
 
                 gotPermit = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
-                attempts ++;
+                attempts ++;     
             }
 
             //Did not get lock after trying n attempts. So recalculating path.            
@@ -115,10 +131,10 @@ public class PersonGui implements Gui {
 
             //Got the required lock. Lets move.
             currentPosition.release(aStar.getGrid());
-            currentPosition = new Position(tmpPath.getX(), tmpPath.getY ());
-            xDestination = currentPosition.getX() * 32;
-            yDestination = currentPosition.getY() * 32;
-            
+            currentPosition = new Position(tmpPath.getX(), tmpPath.getY());
+            //System.out.println("new pos: " + currentPosition.getX() + " " + currentPosition.getY());
+            xDestination = currentPosition.getX() * SPRITE_SIZE;
+            yDestination = currentPosition.getY() * SPRITE_SIZE;
             command = Command.traveling;
             break;
         }

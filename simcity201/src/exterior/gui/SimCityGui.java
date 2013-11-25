@@ -17,7 +17,7 @@ public class SimCityGui extends JFrame {
      */
     public SimCityGui() {
         int WINDOWX = 1920;
-        int WINDOWY = 1920;
+        int WINDOWY = 1920; //1472;
     	setBounds(0, 0, WINDOWX, WINDOWY);
     	setLayout(new BorderLayout());
     	
