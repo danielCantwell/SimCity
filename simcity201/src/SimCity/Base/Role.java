@@ -27,5 +27,9 @@ public abstract class Role {
 		myPerson.stateChanged();
 	}
 	
+	protected void Do(String s){
+		myPerson.Do(s);
+	}
+	
 }
 

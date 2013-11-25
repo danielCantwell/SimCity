@@ -208,6 +208,7 @@ public class Person extends Agent {
 	//Call this function to go to queue to go to a building. The person will only go to a building if he is in the exterior world.
 	//If the person is in the interior world, the person will continue to do whatever he is currently doing.
 	public void msgGoToBuilding(Building b, Intent i){
+		Do("msgGoToBuilding "+ b.toString());
 		if (b instanceof B_Bank){ addAction(new Action(GoAction.goBank, i));}
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
 		else if (b instanceof B_Restaurant){ addAction(new Action(GoAction.goRestaurant, i));}
@@ -233,7 +234,7 @@ public class Person extends Agent {
 	//Scheduler
 	boolean returnPAEAA = false;
 	@Override
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		//Handle time of day first thing!!
 		
@@ -275,7 +276,7 @@ public class Person extends Agent {
 		//pop the first thing off the action
 		if (actions.size() > 0){	
 			goTo(actions.pop());
-			return true;
+			return false; //might be true
 		}
 		
 		//if the person leaves a building and has nothing to do.
@@ -292,7 +293,7 @@ public class Person extends Agent {
 				return false;
 			}
 			
-			goTo(new Action(GoAction.goHome, Intent.customer));
+			//goTo(new Action(GoAction.goHome, Intent.customer));
 		}
 		return returnPAEAA;
 	}
@@ -336,6 +337,7 @@ public class Person extends Agent {
 	private void goTo(Action action){
 		Building b = myHouse;
 		createVehicle();
+		
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
 			//Choose a bank to go.
@@ -359,6 +361,9 @@ public class Person extends Agent {
 		}
 		
 		//Animation for gui stuff here.
+		//############################# Animate to the fucking building here. ##########################################
+		
+		System.out.println("I should be walking to the building here using my animation");
 		
 		if (b == null){
 			System.out.println ("Person: error no building found");

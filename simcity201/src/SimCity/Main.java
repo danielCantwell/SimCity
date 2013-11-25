@@ -10,6 +10,7 @@ import Bank.bankManagerRole;
 import Bank.tellerRole;
 import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_Bank;
 import restaurant.gui.RestaurantGui;
 /**
@@ -21,7 +22,8 @@ public class Main{
 	public static void main(String[] args) {
 		God.Get();
 		//Create a bank
-		God.Get().addBuilding(new B_Bank(0));
+		B_Bank bank = new B_Bank(0);
+		God.Get().addBuilding(bank);
 		
 		//Create people for bank
 		Person manager = new Person("Bank.bankManagerRole");
@@ -45,7 +47,7 @@ public class Main{
 		bmr.setActive(true);
 		tr.setActive(true);
 		bgr.setActive(true);
-		bcr.setActive(true);
+		//bcr.setActive(true);
 		
 		bcr.setGuard(bgr);
 		
@@ -56,9 +58,8 @@ public class Main{
 		
 		System.out.println ("##--------Setup complete--------## \n");
 		
-		God.Get().getBuilding(0).EnterBuilding(bankCustomer, "Bank.bankCustomerRole");
+		bankCustomer.msgGoToBuilding(bank, Intent.customer);
 		
-
 	    /*RestaurantGui gui = new RestaurantGui();
 	    gui.setTitle("csci201 Restaurant");
 	    gui.setVisible(true);

@@ -45,6 +45,7 @@ public class bankGuardRole extends Role {
 	}
 		
 	public void wantEnter(bankCustomerRole newC) {
+		Do(newC + "wants to enter");
 		Entry c = new Entry();
 		c.s = state.entered;
 		c.bc = newC;
@@ -103,13 +104,16 @@ public class bankGuardRole extends Role {
 	}
 
 	public void Search(Entry c) {
+		
 		for(int i = 0; i < badObjs.size(); i++) {
 			for(int j = 0; j < c.inventory.size(); j++) {
 				if(badObjs.get(1).equals(c.inventory.get(j))) {
+					System.out.println ("Bank Guard: Customer Can Enter");
 					c.bc.noEnter();
 				}
 				else {
 					c.bc.yesEnter();
+					System.out.println ("Bank Guard: Customer Cannot Enter");
 					manager.newClient(c.bc);
 				}
 			}

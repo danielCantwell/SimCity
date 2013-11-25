@@ -94,6 +94,14 @@ public class PersonTest extends TestCase {
 		assertTrue("Is the first action's intent customer", person.actions.get(0).getIntent() == Intent.customer);
 		assertTrue("Is the second action's intent work?", person.actions.get(1).getIntent() == Intent.work);
 		
+		//Now lets try the scheduler see if anything breaks
+		person.pickAndExecuteAnAction();
+		
+		//There should now be only one thing in the actions list.
+		assertTrue("After PAEAA, the action list should be of size 1.", person.actions.size() == 1);
+		assertTrue("That action should have a GoAction of goBank and an intent of work.", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(0).getIntent() == Intent.work);
+		
+		
 	}
 	
 	

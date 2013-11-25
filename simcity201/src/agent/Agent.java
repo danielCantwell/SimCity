@@ -46,7 +46,7 @@ public abstract class Agent {
     /**
      * The simulated action code
      */
-    protected void Do(String msg) {
+    public void Do(String msg) {
         print(msg, null);
     }
 
