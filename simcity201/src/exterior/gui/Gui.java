@@ -1,3 +1,5 @@
+package exterior.gui;
+
 import java.awt.*;
 
 public interface Gui {
