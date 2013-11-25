@@ -2,14 +2,11 @@ package exterior.gui;
 
 import java.awt.*;
 import java.util.List;
-<<<<<<< HEAD
 
 import exterior.astar.AStarNode;
 import exterior.astar.*;
-=======
 import java.util.Random;
 import java.util.concurrent.Semaphore;
->>>>>>> exterior
 
 import exterior.astar.*;
 
