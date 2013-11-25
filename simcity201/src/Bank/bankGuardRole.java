@@ -107,13 +107,13 @@ public class bankGuardRole extends Role {
 		
 		for(int i = 0; i < badObjs.size(); i++) {
 			for(int j = 0; j < c.inventory.size(); j++) {
-				if(badObjs.get(1).equals(c.inventory.get(j))) {
-					System.out.println ("Bank Guard: Customer Can Enter");
+				if(badObjs.get(i).equals(c.inventory.get(j))) {
+					System.out.println ("Bank Guard: Customer Cannot Enter");
 					c.bc.noEnter();
 				}
 				else {
 					c.bc.yesEnter();
-					System.out.println ("Bank Guard: Customer Cannot Enter");
+					System.out.println ("Bank Guard: Customer Can Enter");
 					manager.newClient(c.bc);
 				}
 			}
