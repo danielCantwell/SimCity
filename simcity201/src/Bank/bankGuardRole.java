@@ -3,6 +3,8 @@ package Bank;
 import java.util.*;
 
 import Bank.gui.bankGuardGui;
+import Bank.interfaces.Guard;
+import Bank.interfaces.Manager;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 
@@ -10,14 +12,14 @@ import SimCity.Buildings.B_Bank;
  * Bank Guard Role
  */
 
-public class bankGuardRole extends Role {
+public class bankGuardRole extends Role implements Guard {
 	//----------------------------------------------Data-------------------------------------------------
 	B_Bank curBank;
-	bankManagerRole manager;
+	Manager manager;
 	bankGuardGui gui = new bankGuardGui(this);
 	List<String> badObjs = new ArrayList<String>();
 	public List<Entry> custEnter = Collections.synchronizedList(new ArrayList<Entry>());
-	class Entry {
+	public class Entry {
 		List<String> inventory;
 		state s;
 		bankCustomerRole bc;
@@ -33,17 +35,29 @@ public class bankGuardRole extends Role {
 		//manager = curBank.getBankManager();
 	}
 	
+	/* (non-Javadoc)
+	 * @see Bank.Guard#setBank(SimCity.Buildings.B_Bank)
+	 */
+	@Override
 	public void setBank(B_Bank bank){
 		curBank = bank;
 		manager = bank.getBankManager();
 	}
 
 	//----------------------------------------------Messages-------------------------------------------------
+	/* (non-Javadoc)
+	 * @see Bank.Guard#enterBuilding()
+	 */
+	@Override
 	public void enterBuilding() {
 		s = state.ready;
 		stateChanged();
 	}
 		
+	/* (non-Javadoc)
+	 * @see Bank.Guard#wantEnter(Bank.bankCustomerRole)
+	 */
+	@Override
 	public void wantEnter(bankCustomerRole newC) {
 		Do(newC + "wants to enter");
 		Entry c = new Entry();
@@ -53,6 +67,10 @@ public class bankGuardRole extends Role {
 		stateChanged();
 	}
 
+	/* (non-Javadoc)
+	 * @see Bank.Guard#allowSearch(Bank.bankCustomerRole, java.util.List)
+	 */
+	@Override
 	public void allowSearch(bankCustomerRole newC, List<String> inventory) {
 		for (Entry c : custEnter) {
 			if(c.bc == newC) {
@@ -63,12 +81,20 @@ public class bankGuardRole extends Role {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see Bank.Guard#workOver()
+	 */
+	@Override
 	public void workOver() {
 		s = state.leaving;
 		stateChanged();
 	}
 
 	//----------------------------------------------Scheduler-------------------------------------------------
+	/* (non-Javadoc)
+	 * @see Bank.Guard#pickAndExecuteAnAction()
+	 */
+	@Override
 	public boolean pickAndExecuteAnAction() {
 		if( s == state.ready) {
 			enterBank();
@@ -98,11 +124,19 @@ public class bankGuardRole extends Role {
 	}
 
 	//-----------------------------------------------Actions-------------------------------------------------
+	/* (non-Javadoc)
+	 * @see Bank.Guard#askSearch(Bank.bankGuardRole.Entry)
+	 */
+	@Override
 	public void askSearch(Entry c) {
 		c.bc.requestSearch();
 		c.s = state.requested;
 	}
 
+	/* (non-Javadoc)
+	 * @see Bank.Guard#Search(Bank.bankGuardRole.Entry)
+	 */
+	@Override
 	public void Search(Entry c) {
 		
 		for(int i = 0; i < badObjs.size(); i++) {
@@ -121,18 +155,34 @@ public class bankGuardRole extends Role {
 		custEnter.remove(c);
 	}
 
+	/* (non-Javadoc)
+	 * @see Bank.Guard#enterBank()
+	 */
+	@Override
 	public void enterBank() {
 		//Make GUI call to enter bank
 		s = state.onD;
 	}
 	
+	/* (non-Javadoc)
+	 * @see Bank.Guard#leaveBank()
+	 */
+	@Override
 	public void leaveBank() {
 		//Make GUI call to leave the bank
 		s = state.offD;
 	}
+	/* (non-Javadoc)
+	 * @see Bank.Guard#setGui(Bank.gui.bankGuardGui)
+	 */
+	@Override
 	public void setGui(bankGuardGui gui) {
 		this.gui = gui;
 	}
+	/* (non-Javadoc)
+	 * @see Bank.Guard#getGui()
+	 */
+	@Override
 	public bankGuardGui getGui() { 
 		return gui;
 	}

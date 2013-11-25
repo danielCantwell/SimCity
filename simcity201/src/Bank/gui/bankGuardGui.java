@@ -2,12 +2,13 @@ package Bank.gui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import Bank.bankGuardRole;
+
+import Bank.interfaces.Guard;
 import SimCity.gui.Gui;
 
 public class bankGuardGui implements Gui{
 	
-	private bankGuardRole guard;
+	private Guard guard;
 	private int xPos = 650, yPos = 350;
 	private int xDest = 570,  yDest = 350;
 	private int xSize = 30, ySize = 30;
@@ -25,7 +26,7 @@ public class bankGuardGui implements Gui{
 			yPos--;
 	}
 
-	public bankGuardGui(bankGuardRole guard) {
+	public bankGuardGui(Guard guard) {
 		this.guard = guard;
 	}
 	

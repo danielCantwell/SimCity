@@ -2,28 +2,35 @@ package Bank;
 
 import java.util.*;
 
+import Bank.interfaces.Guard;
+import Bank.interfaces.Manager;
+import Bank.interfaces.Teller;
 import SimCity.Base.*;
 
-public class bankManagerRole extends Role{
+public class bankManagerRole extends Role implements  Manager{
 	
-	bankGuardRole guard;
-	public bankGuardRole getGuard(){return guard;}
-	public void setGuard(bankGuardRole bg){guard = bg;}
+	Guard guard;
+	
+	@Override
+	public Guard getGuard(){return guard;}
+	
+	@Override
+	public void setGuard(Guard bg){guard = bg;}
 	
 	//----------------------------------------------Data-------------------------------------------------
 	List<Teller> tellers = Collections.synchronizedList(new ArrayList<Teller>());
 	
-	public static final int NCounters = 2;
 	public class Teller {
 		int tellerNum;
-		tellerRole teller;
+		Bank.interfaces.Teller teller;
 		state busy;
 	}
 	private enum state { yes, no };
 	List<bankCustomerRole>clients = Collections.synchronizedList(new ArrayList<bankCustomerRole>());
 		
 	//----------------------------------------------Messages-------------------------------------------------
-	public void newTeller(tellerRole teller) {
+	@Override
+	public void newTeller(Bank.interfaces.Teller teller) {
 		Teller t = new Teller();
 		t.teller = teller;
 		t.tellerNum = tellers.size();
@@ -32,7 +39,8 @@ public class bankManagerRole extends Role{
 		stateChanged();
 		System.out.println("Manager: New teller has been added");
 	}
-	
+
+	@Override
 	public void newClient(bankCustomerRole c) {
 		clients.add(c);
 		stateChanged();
@@ -40,6 +48,7 @@ public class bankManagerRole extends Role{
 	}
 	
 	//----------------------------------------------Scheduler-------------------------------------------------
+	@Override
 	public boolean pickAndExecuteAnAction() {
 		synchronized(tellers) {
 			for (Teller t : tellers) {
@@ -55,6 +64,7 @@ public class bankManagerRole extends Role{
 	
 	//----------------------------------------------Actions-------------------------------------------------
 	
+	@Override
 	public void callTeller(bankCustomerRole c, Teller t) {
 		t.teller.tellerAssigned(c);
 		tellers.remove(t);
@@ -67,7 +77,6 @@ public class bankManagerRole extends Role{
 		stateChanged();
 	}
 
-	@Override
 	public void workOver() {
 		// TODO Auto-generated method stub
 		

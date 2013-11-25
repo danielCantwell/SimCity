@@ -1,21 +1,22 @@
 package Bank;
 
-import java.util.Collections;
 import java.util.*;
+
 import SimCity.Globals.*;
 import SimCity.Base.*;
 import Bank.gui.*;
+import Bank.interfaces.Teller;
 
 /*
  * Bank Teller Role
  */
 
-public class tellerRole extends Role {
+public class tellerRole extends Role implements Teller {
 	//-----------------------------------------------Data-------------------------------------------------
 	private tellerGui gui = new tellerGui(this);
 	Map<Integer, Money> bankAccs = new HashMap<Integer, Money>();
 	public List<Client> clients = Collections.synchronizedList(new ArrayList<Client>());
-	class Client {
+	public class Client {
 		int accountNum;
 		Money money;
 		Money editmoney;
@@ -27,12 +28,14 @@ public class tellerRole extends Role {
 
 
 	//-----------------------------------------------Messages-------------------------------------------------
+	@Override
 	public void enterBuilding() {
 		s = state.ready;
 		System.out.println("Teller: I am a teller");
 		stateChanged();
 	}
-	
+
+	@Override
 	public void tellerAssigned(bankCustomerRole c) {
 		Client cl = new Client();
 		cl.cust = c;
@@ -42,6 +45,7 @@ public class tellerRole extends Role {
 		System.out.println("Teller: New customer assigned to me");
 	}
 
+	@Override
 	public void foundTeller(int accNum, Money money, bankCustomerRole cust) {
 		Client c = new Client();
 		c.accountNum = accNum;
@@ -51,6 +55,7 @@ public class tellerRole extends Role {
 		System.out.println("Teller: Customer has come to me");
 	}
 
+	@Override
 	public void requestWithdraw(int acc, Money money) {
 		for (Client c : clients) {
 			if (c.accountNum == acc) {
@@ -61,6 +66,7 @@ public class tellerRole extends Role {
 		}
 	}
 
+	@Override
 	public void requestDeposit(int acc, Money money) {
 		for (Client c : clients) {
 			if (c.accountNum == acc) {
@@ -71,11 +77,13 @@ public class tellerRole extends Role {
 		}
 	}
 
+	@Override
 	public void workOver() {
 		s = state.leaving;
 	}
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
+	@Override
 	public boolean pickAndExecuteAnAction() {
 		if(s == state.ready) {
 			goToCounter();
@@ -131,7 +139,7 @@ public class tellerRole extends Role {
 	public void accSetUp(Client c) {
 		bankAccs.put(c.accountNum, c.money);
 	}
-
+	
 	public void withdrawDone(Client c) {
 		if( c.editmoney.isGreaterThan(bankAccs.get(c.accountNum))) {
 			c.money = c.money.add(c.editmoney);
@@ -150,18 +158,24 @@ public class tellerRole extends Role {
 		clients.remove(c);
 	}
 
+	@Override
 	public void goToCounter() {
 		//Make GUI call to walk to the counter
 	}
-	
+
+	@Override
 	public void leaveBank() {
 		//Make GUI call to leave the bank
 	}
 
+	@Override
 	public void setGui(tellerGui gui) {
 		this.gui = gui;
 	}
+
+	@Override
 	public tellerGui getGui() { 
 		return gui;
 	}
+
 }

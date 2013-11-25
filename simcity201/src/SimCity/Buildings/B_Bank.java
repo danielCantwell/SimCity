@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import Bank.bankGuardRole;
-import Bank.bankManagerRole;
 import Bank.bankManagerRole.Teller;
+import Bank.interfaces.Guard;
+import Bank.interfaces.Manager;
 import Bank.tellerRole;
 import SimCity.Base.Building;
 /**
@@ -16,19 +16,19 @@ import SimCity.Base.Building;
  */
 public class B_Bank extends Building{
 	
-	bankManagerRole bankManager;
-	bankGuardRole bankGuard;
+	Manager bankManager;
+	Guard bankGuard;
 	
 	List<tellerRole> tellers = new ArrayList<tellerRole>();
 	
-	public bankManagerRole getBankManager(){return bankManager;}
-	public bankGuardRole getBankGuard(){return bankGuard;}
+	public Manager getBankManager(){return bankManager;}
+	public Guard getBankGuard(){return bankGuard;}
 	public List<tellerRole> getTellers(){return tellers;}
 	
-	public void setBankManager(bankManagerRole bmr){bankManager = bmr;}
-	public void setBankGuard(bankGuardRole bgr){bankGuard = bgr;}
+	public void setBankManager(Manager bmr){bankManager = bmr;}
+	public void setBankGuard(Guard bgr){bankGuard = bgr;}
 	public void addTeller(tellerRole t){ tellers.add(t);}
-	public tellerRole getTeller(int id){ return tellers.get(id);}
+	public Bank.interfaces.Teller getTeller(int id){ return tellers.get(id);}
 	
 	public B_Bank(int id){
 		super(id);

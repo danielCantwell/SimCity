@@ -3,6 +3,8 @@ package Bank;
 import java.util.Collections;
 
 import Bank.gui.*;
+import Bank.interfaces.Guard;
+import Bank.interfaces.Teller;
 
 import java.util.*;
 
@@ -21,13 +23,13 @@ public class bankCustomerRole extends Role{
 	private bankCustomerGui gui = new bankCustomerGui(this);
 	Money money;
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
-	private bankGuardRole guard;
-	private tellerRole teller;
+	private Guard guard;
+	private Teller teller;
 	public state s = state.none;
 	Money wMoney = new Money(20,0);
 	public enum state { none, enter, waiting, called, reqSearch, gaveInv, entered, reqService, leaving};
 
-	public void setGuard(bankGuardRole bg){
+	public void setGuard(Guard bg){
 		guard = bg;
 	}
 
@@ -55,7 +57,7 @@ public class bankCustomerRole extends Role{
 		s = state.leaving; 		//Leave or possibly throw away bad objects
 	}
 
-	public void tellerCalled(tellerRole t) {
+	public void tellerCalled(Teller t) {
 		s = state.called;
 		teller = t;
 		System.out.println("Customer: Teller has called customer to come");

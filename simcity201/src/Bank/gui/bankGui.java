@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 
 import Bank.*;
+import Bank.interfaces.Guard;
+import Bank.interfaces.Teller;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -39,8 +41,8 @@ public class bankGui extends JPanel implements ActionListener {
 	*/
 	
 	private final int tellerSpeed = 20;
-	private tellerRole teller = new tellerRole();
-	private bankGuardRole guard = new bankGuardRole();
+	private Teller teller = new tellerRole();
+	private Guard guard = new bankGuardRole();
 	private bankCustomerRole cust = new bankCustomerRole();;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
