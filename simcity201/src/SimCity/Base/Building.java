@@ -31,8 +31,8 @@ public abstract class Building extends SimObject {
 	}
 	
 	//!!!!USE THIS CONSTRUCTOR.
-	public Building(JPanel jp, int xCoord, int yCoord){
-		super();
+	public Building(int id, JPanel jp, int xCoord, int yCoord){
+		this.id = id;
 		buildingPanel = jp;
 		x = xCoord;
 		y = yCoord;
