@@ -1,12 +1,8 @@
 package market.gui;
 
 import java.awt.*;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import market.MarketDeliveryPersonRole;
-import market.MarketManagerRole;
 import SimCity.gui.Gui;
 
 public class MarketDeliveryPersonGui implements Gui {

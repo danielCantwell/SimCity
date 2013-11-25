@@ -7,5 +7,5 @@ public interface MarketDeliveryPerson
 	 */
 	
     // MESSAGES
-    public void msgMakeDelivery(String name, String choice, int amount);
+    public void msgMakeDelivery(int id, String choice, int amount);
 }

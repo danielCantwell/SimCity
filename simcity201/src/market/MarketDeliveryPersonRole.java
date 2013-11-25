@@ -2,13 +2,14 @@ package market;
 
 import java.util.*;
 
+import exterior.gui.SimCityGui;
+import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
-import market.gui.MarketClerkGui;
+import SimCity.Base.Person.Intent;
 import market.gui.MarketDeliveryPersonGui;
-import market.gui.MarketManagerGui;
 import market.interfaces.MarketDeliveryPerson;
-import market.interfaces.MarketManager;
 
 /**
  * Market Manager Agent
@@ -17,6 +18,7 @@ import market.interfaces.MarketManager;
  */
 public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPerson{
 	
+		private SimCityGui cityGui;
 		private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
 		
 		/**
@@ -24,6 +26,9 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		 */
 
     public MarketManagerRole manager;
+    public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
+    public enum AgentLocation { Market, Destination, InTransit };
+    public AgentLocation location;
 	
 		public MarketDeliveryPersonRole() {
 			super();
@@ -33,7 +38,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		 * Messages
 		 */
 
-    public void msgMakeDelivery(String name, String choice, int amount)
+    public void msgMakeDelivery(int id, String choice, int amount)
     {
         // TODO Auto-generated method stub
     	
@@ -80,6 +85,12 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		 * Actions
 		 */
 
+		private void goToDestination(Order order)
+		{
+				Building dest = God.Get().getPerson(order.id).building;
+				myPerson.msgGoToBuilding(dest, Intent.customer);
+		}
+		
     /**
      * Utilities
      */
@@ -106,4 +117,21 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
      * Inner Classes
      */
 	
+		public enum OrderState { Pending, Processing, Ready };
+		
+		public class Order
+		{
+				int id;
+		    String choice;
+		    int amount;
+		    OrderState state;
+		    
+		    Order(int id, String choice, int amount)
+		    {
+		        this.id = id;
+		        this.choice = choice;
+		        this.amount = amount;
+		        state = OrderState.Pending;
+		    }
+		}
 }

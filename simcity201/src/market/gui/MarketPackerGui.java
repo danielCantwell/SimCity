@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import market.MarketManagerRole;
 import market.MarketPackerRole;
 import SimCity.gui.Gui;
 

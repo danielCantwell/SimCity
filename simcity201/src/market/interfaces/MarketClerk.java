@@ -7,7 +7,7 @@ public interface MarketClerk
 	 */
 	
     // MESSAGES
-    void msgWantFood(String name, String choice, int amount);
-    void msgGiveToCustomer(String name, String choice, int amount);
-    void msgHereIsMoney(String name, int amount);
+    void msgWantFood(int id, String choice, int amount);
+    void msgGiveToCustomer(int id, String choice, int amount);
+    void msgHereIsMoney(int id, int amount);
 }

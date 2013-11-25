@@ -1,20 +1,17 @@
 package SimCity.Buildings;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JPanel;
 
-import Bank.bankGuardRole;
-import Bank.bankManagerRole;
-import Bank.bankManagerRole.Teller;
-import Bank.tellerRole;
+import market.MarketManagerRole;
+
 import SimCity.Base.Building;
 /**
  * @author Brian
  *
  */
 public class B_Market extends Building{
+	
+	private MarketManagerRole managerRole;
 	
 	public B_Market(int id, JPanel jp) {
 		super(id, jp);
@@ -33,6 +30,13 @@ public class B_Market extends Building{
 		tag = "B_Market";
 	}
 	
+	public void setManager(MarketManagerRole m){
+		managerRole = m;
+	}
+	public MarketManagerRole getManager(){
+		return managerRole;
+	}
+	
 	@Override
 	public String getManagerString() {
 		return "market.MarketManagerRole";
@@ -40,7 +44,7 @@ public class B_Market extends Building{
 
 	@Override
 	public String getCustomerString() {
-		return "market.MarketDeliveryPersonRole";
+		return "market.MarketCustomerRole";
 	}
 	
 

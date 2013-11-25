@@ -1,13 +1,9 @@
 package market;
 
-import java.util.*;
-
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import market.gui.MarketClerkGui;
-import market.gui.MarketManagerGui;
 import market.interfaces.MarketClerk;
-import market.interfaces.MarketManager;
 
 /**
  * Market Manager Agent
@@ -32,21 +28,21 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		 * Messages
 		 */
 
-    public void msgGiveToCustomer(String name, String food, int amount)
+    public void msgGiveToCustomer(int id, String food, int amount)
     {
         // TODO Auto-generated method stub
 
         stateChanged();
     }
 
-    public void msgWantFood(String name, String choice, int amount)
+    public void msgWantFood(int id, String choice, int amount)
     {
         // TODO Auto-generated method stub
 
         stateChanged();
     }
 
-    public void msgHereIsMoney(String name, int amount)
+    public void msgHereIsMoney(int id, int amount)
     {
         // TODO Auto-generated method stub
 
@@ -111,14 +107,14 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		
 		public class Order
 		{
-		    String name;
+				int id;
 		    String choice;
 		    int amount;
 		    OrderState state;
 		    
-		    Order(String name, String choice, int amount)
+		    Order(int id, String choice, int amount)
 		    {
-		        this.name = name;
+		        this.id = id;
 		        this.choice = choice;
 		        this.amount = amount;
 		        state = OrderState.Pending;
