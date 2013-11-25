@@ -99,7 +99,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
             	for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
-            		//System.out.println(getBuildingRect(i).toString());
             		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
             			System.out.println("MOUSE PRESS ON BUILDING: " + i);
             			gui.cardLayout.show(gui.buildingPanels, "" + i);

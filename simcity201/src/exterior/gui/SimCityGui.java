@@ -2,7 +2,14 @@ package exterior.gui;
 
 import javax.swing.*;
 
+import SimCity.Base.Building;
+import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_House;
+import SimCity.Buildings.B_Market;
+import SimCity.Buildings.B_Restaurant;
+
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Main GUI class.
@@ -10,6 +17,7 @@ import java.awt.*;
  */
 public class SimCityGui extends JFrame {
 	AnimationPanel animationPanel = new AnimationPanel();
+	ArrayList<Building> buildingList = new ArrayList<Building>();
 	CardLayout cardLayout = new CardLayout();
 	JPanel buildingPanels = new JPanel();
 	
@@ -40,6 +48,27 @@ public class SimCityGui extends JFrame {
     		JLabel tempLabel = new JLabel("" + i);
     		buildingPanel.add(tempLabel);
     		buildingPanels.add(buildingPanel, "" + i);	
+    		
+    		// Add Apartments:
+    		if (i == 0 || i == 1 || i == 4) {
+            	buildingList.add(new B_House(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+    		}
+    		// Add Banks:
+    		if (i == 2 || i == 8) {
+            	buildingList.add(new B_House(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+    		}
+    		// Add Markets:
+    		if (i == 3 || i == 5) {
+            	buildingList.add(new B_Market(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+    		}
+    		// Add Restaurants:
+    		if (i == 6 || i == 7 || i == 9 || i == 10 || i == 11) {
+            	buildingList.add(new B_Restaurant(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+    		}
+    		// Add Houses:
+    		if (i == 12 || i == 13 || i == 14 || i == 15) {
+            	buildingList.add(new B_House(buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+    		}
     	}
     	
     	add(BorderLayout.EAST, buildingPanels);
