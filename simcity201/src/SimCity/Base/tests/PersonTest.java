@@ -12,6 +12,7 @@ import SimCity.Base.Person.Intent;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import housing.roles.OwnerRole;
 import housing.test.mock.MockTenant;
@@ -34,7 +35,7 @@ public class PersonTest extends TestCase {
 	 */
 	public void setUp() throws Exception {
 		super.setUp();
-		person = new Person("Briiiannn", null, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(60,3), new Money(10, 0), 10, 3, "house");
+		person = new Person("Briiiannn", null, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(60,3), new Money(10, 0), 10, 3, "house", new B_House(25, null));
 	}
 	
 	public void set(){
@@ -101,7 +102,9 @@ public class PersonTest extends TestCase {
 		assertTrue("After PAEAA, the action list should be of size 1.", person.actions.size() == 1);
 		assertTrue("That action should have a GoAction of goBank and an intent of work.", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(0).getIntent() == Intent.work);
 		
-		
+		person.pickAndExecuteAnAction();
+		assertTrue("After PAEAA the action list should be of size 0.", person.actions.size() == 0);
+		//assert
 	}
 	
 	

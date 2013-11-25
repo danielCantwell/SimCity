@@ -39,8 +39,8 @@ public class B_Bank extends Building{
 		super(id, jp);
 		tag = "B_Bank";
 	}
-	public B_Bank(JPanel jp, int xCoord, int yCoord){
-		super();
+	public B_Bank(int id, JPanel jp, int xCoord, int yCoord){
+		this.id = id;
 		buildingPanel = jp;
 		x = xCoord;
 		y = yCoord;

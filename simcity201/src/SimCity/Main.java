@@ -1,4 +1,7 @@
 package SimCity;
+import housing.roles.OwnerRole;
+import housing.roles.TenantRole;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_House;
 import restaurant.gui.RestaurantGui;
 /**
  * @author Brian
@@ -22,9 +26,9 @@ public class Main{
 	public static void main(String[] args) {
 		God.Get();
 		//Create a bank
-		B_Bank bank = new B_Bank(0);
-		God.Get().addBuilding(bank);
-		
+		//B_Bank bank = new B_Bank(0);
+		//God.Get().addBuilding(bank);
+		/*
 		//Create people for bank
 		Person manager = new Person("Bank.bankManagerRole");
 		Person teller = new Person("Bank.tellerRole");
@@ -60,6 +64,32 @@ public class Main{
 		System.out.println ("##--------Setup complete--------## \n");
 		
 		bankCustomer.msgGoToBuilding(bank, Intent.customer);
+		*/
+		
+		B_House myHome = new B_House(25, null);
+		God.Get().addBuilding(myHome);
+
+		Person owner = new Person("housing.roles.OwnerRole");
+		Person tenant = new Person("housing.roles.TenantRole");
+		
+		
+		OwnerRole or= (OwnerRole)owner.mainRole;
+		TenantRole tr= (TenantRole)tenant.mainRole;
+		
+		or.setPerson(owner);
+		tr.setPerson(tenant);
+		
+		myHome.setOwner(or);
+		owner.setHouse(myHome);
+		tenant.setHouse(myHome);
+		
+//		/owner.msgGoToBuilding(myHome, Intent.work);
+		tenant.msgGoToBuilding(myHome, Intent.customer);
+		
+		owner.startThread();
+		tenant.startThread();
+		
+		
 		
 	    /*RestaurantGui gui = new RestaurantGui();
 	    gui.setTitle("csci201 Restaurant");

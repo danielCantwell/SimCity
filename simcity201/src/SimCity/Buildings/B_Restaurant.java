@@ -15,7 +15,7 @@ public class B_Restaurant extends Building{
 	}
 	
 	public B_Restaurant(JPanel jp, int xCoord, int yCoord){
-		super();
+		this.id = id;
 		buildingPanel = jp;
 		x = xCoord;
 		y = yCoord;

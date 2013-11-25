@@ -25,8 +25,8 @@ public class B_Market extends Building{
 		
 	}
 
-	public B_Market(JPanel jp, int xCoord, int yCoord){
-		super();
+	public B_Market(int id, JPanel jp, int xCoord, int yCoord){
+		this.id = id;
 		buildingPanel = jp;
 		x = xCoord;
 		y = yCoord;

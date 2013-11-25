@@ -6,6 +6,7 @@ package housing.test.mock;
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import SimCity.Base.Person;
+import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import SimCity.gui.Gui;
 
@@ -21,7 +22,7 @@ public class MockHousingPerson extends Person {
 			Morality morality, Money money, Money moneyThresh, int hunger,
 			int hungerThresh) {
 		super("Danny", gui, mainRole, vehicle, morality, money, moneyThresh, hunger,
-				hungerThresh, "apartment");
+				hungerThresh, "apartment", new B_House(25, null));
 	}
 	
 	public MockHousingPerson(String mainRole) {

@@ -134,8 +134,8 @@ public class Person extends Agent {
 		public void setIntent(Intent i){intent = i;}
 		public Intent getIntent(){return intent;}
 		
-		
-	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType){
+	//use this constructor
+	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house){
 		this.gui = gui;
 		setMainRole(mainRole);
 		this.vehicle = vehicle;
@@ -144,8 +144,9 @@ public class Person extends Agent {
 		this.moneyThreshold = moneyThresh;
 		this.hungerLevel = hunger;
 		this.hungerThreshold = hungerThresh;
-		house = houseType; 
+		this.house = houseType; 
 		this.name = name;
+		myHouse = house;
 	}
 	
 	public Person(String name, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
@@ -359,14 +360,16 @@ public class Person extends Agent {
 			b = God.Get().findBuildingOfType(BuildingType.Restaurant);
 			Do("Going to restaurant");
 		}
+		else b = null;
 		
 		//Animation for gui stuff here.
-		//############################# Animate to the fucking building here. ##########################################
+		//############################# Animate to the  building here. ##########################################
 		
 		System.out.println("I should be walking to the building here using my animation");
 		
 		if (b == null){
 			System.out.println ("Person: error no building found");
+			return;
 		}
 		
 		//Call person gui animation. acquire my semaphore.
