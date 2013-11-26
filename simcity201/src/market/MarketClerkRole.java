@@ -1,7 +1,14 @@
 package market;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
+import market.MarketCustomerRole.Order;
 import market.gui.MarketClerkGui;
 import market.interfaces.MarketClerk;
 
@@ -12,40 +19,69 @@ import market.interfaces.MarketClerk;
  */
 public class MarketClerkRole extends Role implements MarketClerk {
 	
-		private MarketClerkGui gui = new MarketClerkGui(this);
-		
-		/**
-		 * Data
-		 */
-		
-	    public MarketManagerRole manager;
-		
-		public MarketClerkRole() {
-			super();
-		}
+	private static final int MAX_DOLLARS = 100;
+    private static final int MAX_CENTS = 0;
+    private static final int DOLLARS_TO_KEEP = 25;
+    private static final int CENTS_TO_KEEP = 0;
+
+    private MarketClerkGui gui = new MarketClerkGui(this);
 	
-		/** 
-		 * Messages
-		 */
+	/**
+	 * Data
+	 */
+	
+    public MarketManagerRole manager;
+    public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
+    
+    public Money money = new Money(0, 0);
+	    
+	public MarketClerkRole() {
+		super();
+	}
 
-    public void msgGiveToCustomer(int id, String food, int amount)
-    {
-        // TODO Auto-generated method stub
-
-        stateChanged();
-    }
+	/** 
+	 * Messages
+	 */
 
     public void msgWantFood(int id, String choice, int amount)
     {
-        // TODO Auto-generated method stub
-
+        orders.add(new Order(id, choice, amount));
         stateChanged();
     }
 
-    public void msgHereIsMoney(int id, int amount)
+    public void msgGiveToCustomer(int id, String food, int amount)
     {
-        // TODO Auto-generated method stub
+        synchronized(orders)
+        {
+            for (Order o : orders)
+            {
+                if (o.equals(new Order(id, food, amount)))
+                {
+                    o.state = OrderState.Ready;
+                }
+            }
+        }
+        stateChanged();
+    }
 
+    public void msgHereIsMoney(int id, Money price)
+    {
+        Order order = null;
+        synchronized(orders)
+        {
+            for (Order o : orders)
+            {
+                if (o.id == id && o.state == OrderState.Payment)
+                {
+                    order = o;
+                }
+            }
+        }
+        if (order != null)
+        {
+            money.add(price);
+            orders.remove(order);
+        }
         stateChanged();
     }
 
@@ -55,32 +91,91 @@ public class MarketClerkRole extends Role implements MarketClerk {
         
     }
 
-		/**
-		 * Scheduler. Determine what action is called for, and do it.
-		 */
-		protected boolean pickAndExecuteAnAction() {
-			
-		    
-		    
-			return false;
-			// we have tried all our rules and found
-			// nothing to do. So return false to main loop of abstract agent
-			// and wait.
-		}
-	
-		/**
-		 * Actions
-		 */
+	/**
+	 * Scheduler. Determine what action is called for, and do it.
+	 */
+	protected boolean pickAndExecuteAnAction() {
+		
+	    if (money.isGreaterThan(new Money(MAX_DOLLARS, MAX_CENTS)))
+	    {
+	        storeMoney(new Money(DOLLARS_TO_KEEP, CENTS_TO_KEEP));
+	        return true;
+	    }
+	    else
+	    {
+	        Order order = null;
+	        synchronized(orders)
+	        {
+	            for (Order o : orders)
+	            {
+	                if (o.state == OrderState.Pending)
+	                {
+	                    order = o;
+	                }
+	            }
+	        }
+	        if (order != null)
+	        {
+                makeOrder(order);
+                return true;
+	        }
+            synchronized(orders)
+            {
+                for (Order o : orders)
+                {
+                    if (o.state == OrderState.Ready)
+                    {
+                        order = o;
+                    }
+                }
+            }
+            if (order != null)
+            {
+                giveOrder(order);
+                return true;
+            }
+	    }
+	    
+		return false;
+		// we have tried all our rules and found
+		// nothing to do. So return false to main loop of abstract agent
+		// and wait.
+	}
 
+	/**
+	 * Actions
+	 */
+
+	private void makeOrder(Order order)
+	{
+	    order.state = OrderState.Processing;
+	    manager.msgFulfillOrder(order.id, order.choice, order.amount);
+	}
+	
+	private void giveOrder(Order order)
+	{
+	    MarketCustomerRole customer = (MarketCustomerRole)God.Get().getPerson(order.id).mainRole;
+	    customer.msgHereIsYourFood(order.choice, order.amount, manager.getPriceOf(order.choice));
+	}
+	
+	private void storeMoney(Money amountToKeep)
+	{
+	    if (money.isGreaterThan(amountToKeep))
+	    {
+	        manager.msgHereIsTheMoney(-1, money.subtract(amountToKeep));
+	        money = amountToKeep;
+	    }
+	}
+	
     /**
      * Utilities
      */
 
-		public void setGui(MarketClerkGui gui) {
-			this.gui = gui;
-		}
-	
-		public MarketClerkGui getGui() { return gui; }
+	public void setGui(MarketClerkGui gui) {
+		this.gui = gui;
+	}
+
+	public MarketClerkGui getGui() { return gui; }
 
     @Override
     protected void enterBuilding() {
@@ -102,21 +197,26 @@ public class MarketClerkRole extends Role implements MarketClerk {
      * Inner Classes
      */
 	
-		public enum OrderState { Pending, Processing, Ready };
-		
-		public class Order
-		{
-				int id;
-		    String choice;
-		    int amount;
-		    OrderState state;
-		    
-		    Order(int id, String choice, int amount)
-		    {
-		        this.id = id;
-		        this.choice = choice;
-		        this.amount = amount;
-		        state = OrderState.Pending;
-		    }
-		}
+	public enum OrderState { Pending, Processing, Ready, Payment };
+	
+	public class Order
+	{
+		int id;
+	    String choice;
+	    int amount;
+	    OrderState state;
+	    
+	    Order(int id, String choice, int amount)
+	    {
+	        this.id = id;
+	        this.choice = choice;
+	        this.amount = amount;
+	        state = OrderState.Pending;
+	    }
+        
+        public boolean equals(Order other)
+        {
+            return id == other.id && choice.equals(other.choice) && amount == other.amount;
+        }
+	}
 }
