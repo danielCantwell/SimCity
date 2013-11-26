@@ -1,7 +1,6 @@
 package Bank.test;
 
 import SimCity.Globals.Money;
-import housing.roles.OwnerRole;
 import Bank.tellerRole;
 import junit.framework.TestCase;
 import Bank.test.mock.*;
