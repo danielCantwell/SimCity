@@ -25,10 +25,13 @@ public class SimCityGui extends JFrame {
 	ArrayList<Building> buildingList = new ArrayList<Building>();
 	CardLayout cardLayout = new CardLayout();
 	JPanel buildingPanels = new JPanel();
+	public JFrame buildingFrame;
 	
     public SimCityGui() {
         int WINDOWX = 1920;
         int WINDOWY = 1920; //1472;
+        int BFRAMEX = 640;
+        int BFRAMEY = 640;
     	setBounds(0, 0, WINDOWX, WINDOWY);
     	setLayout(new BorderLayout());
     	
@@ -88,14 +91,24 @@ public class SimCityGui extends JFrame {
     		}
     	}
     	
-    	add(BorderLayout.EAST, buildingPanels);
+    	buildingFrame = new JFrame();
+    	buildingFrame.add(buildingPanels);
+    	buildingFrame.setTitle("Building");
+    	buildingFrame.setVisible(false);
+        buildingFrame.setResizable(false);
+        buildingFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        
+    	Dimension bframeDim = new Dimension(BFRAMEX, BFRAMEY);
+    	buildingFrame.setPreferredSize(bframeDim);
+    	buildingFrame.setMinimumSize(bframeDim);
+    	buildingFrame.setMaximumSize(bframeDim);
     }
     
     public static void main(String[] args) {
         SimCityGui gui = new SimCityGui();
         gui.setTitle("SimCity 201: Team 33");
         gui.setVisible(true);
-        gui.setResizable(false);
+        gui.setResizable(true);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
