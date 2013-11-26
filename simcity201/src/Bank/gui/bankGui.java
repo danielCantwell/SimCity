@@ -41,7 +41,7 @@ public class bankGui extends JPanel implements ActionListener {
 	private final int yCouches = 1;
 	*/
 	
-	private final int tellerSpeed = 20;
+	private final int tellerSpeed = 3;
 	//private Teller teller = new tellerRole();
 	//private Guard guard = new bankGuardRole();
 	//private Customer cust = new bankCustomerRole();;

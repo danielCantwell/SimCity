@@ -7,8 +7,8 @@ public class SimObject {
 	protected int id;
 	
 	public SimObject(){
-		id = 0;
-		God.Get().assignID(this);
+//		/id = 0;
+		//God.Get().assignID(this);
 	}
 	
 	public int getID(){	

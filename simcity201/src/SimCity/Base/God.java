@@ -45,7 +45,7 @@ public class God {
 	    public void addBuilding(Building j){ buildings.add(j);}
 	    public void removeBuilding(Building j){ buildings.remove(j);}
 	    public Building getBuilding(int id){
-			for (Building b: buildings){
+			for (Building b: simGui.buildingList){
 				if (b.getID() == id){
 					return b;
 				}
@@ -85,19 +85,6 @@ public class God {
 	    public int getHour(){return hour;}
 	    public Person getPerson(int id){
 			return persons.get(id);
-	    }
-	    public void assignID(SimObject s){
-	    	int newID = 0;
-	    	while(true){
-				try {
-					persons.get(newID);
-					newID ++;
-				}
-				catch(Exception e){
-					s.id = newID;
-					break;
-				}
-	    	}
 	    }
 	    
 	    //Fix this laters
