@@ -83,8 +83,8 @@ public class bankManagerRole extends Role implements  Manager{
 	}
 
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		// GUI call to leave bank
+		exitBuilding(myPerson);
 	}
 
 }

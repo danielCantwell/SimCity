@@ -189,6 +189,7 @@ public class tellerRole extends Role implements Teller {
 
 	@Override
 	public void leaveBank() {
+		exitBuilding(myPerson);
 		//Make GUI call to leave the bank
 	}
 
