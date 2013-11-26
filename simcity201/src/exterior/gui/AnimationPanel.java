@@ -1,19 +1,25 @@
 package exterior.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import SimCity.Base.Building;
 import exterior.astar.AStarTraversal;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.*; 
 import java.util.List;
+
 import exterior.astar.*;
 
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
+    private final boolean SHOW_RECT = false;
     private final int WINDOWX = 1920;
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
@@ -61,6 +67,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     private Semaphore[][] pedestrianGrid = new Semaphore[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
     
+	private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
+	private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
+	private ImageIcon iconPedL = new ImageIcon("images/a_pedestrian_l.gif");
+	private ImageIcon iconPedU = new ImageIcon("images/a_pedestrian_u.gif");
+	private ImageIcon iconRoad = new ImageIcon("images/t_road.png");
+	private ImageIcon iconSide = new ImageIcon("images/t_side_r.png");
+	private ImageIcon iconCrossV = new ImageIcon("images/t_cross_v.png");
+	private ImageIcon iconCrossH = new ImageIcon("images/t_cross_h.png");
+	
     public AnimationPanel() {
         setSize(WINDOWX, WINDOWY);
         setVisible(true);
@@ -106,7 +121,20 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	}
             }
         });
-
+        
+        this.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+        	public void mouseDragged(MouseEvent e) {      		
+        	}
+        	@Override
+        	public void mouseMoved(MouseEvent e) {
+            	for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
+            		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
+            			//System.out.println("MOUSE ON BUILDING: " + i);
+            		}
+            	}
+        	}
+        });
     }
 
 	public void actionPerformed(ActionEvent e) {
@@ -122,20 +150,39 @@ public class AnimationPanel extends JPanel implements ActionListener {
         for (int y = 0; y < WINDOWY/TILESIZE; y++) {
         for (int x = 0; x < WINDOWX/TILESIZE; x++) {
         	if (MAP[x][y] == 'R') {
-        		g2.setColor(Color.DARK_GRAY);
-        		g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		if (SHOW_RECT) {
+        			g2.setColor(Color.DARK_GRAY);
+        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		}
+
+        		iconRoad.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
         	}
         	if (MAP[x][y] == 'S') {
-        		g2.setColor(Color.LIGHT_GRAY);
-        		g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		if (SHOW_RECT) {
+        			g2.setColor(Color.LIGHT_GRAY);
+        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		}
+
+        		iconSide.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
         	}
         	if (MAP[x][y] == 'C') {
-        		g2.setColor(Color.GRAY);
-        		g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		if (SHOW_RECT) {
+        			g2.setColor(Color.GRAY);
+        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		}
+        		
+        		if (MAP[x-1][y] == 'C' || MAP[x+1][y] == 'C') {
+        			iconCrossH.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
+        		} 
+        		if (MAP[x][y-1] == 'C' || MAP[x][y+1] == 'C') {
+        			iconCrossV.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
+        		} 
         	}
         	if (MAP[x][y] == 'B') {
-        		g2.setColor(Color.ORANGE);
-        		g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		if (SHOW_RECT) {
+        			g2.setColor(Color.ORANGE);
+        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
+        		}
         	}
         }
         }
@@ -149,6 +196,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
+                if (gui.getRotation() == 0) {
+                	iconPedR.paintIcon(this, g, gui.getX() + 16, gui.getY() + 32);
+                } else if (gui.getRotation() == 1) {
+                	iconPedD.paintIcon(this, g, gui.getX() + 32, gui.getY() + 16);
+                } else if (gui.getRotation() == 2) {
+                	iconPedL.paintIcon(this, g, gui.getX() + 16, gui.getY() + 00);
+                } else if (gui.getRotation() == 3) {
+                	iconPedU.paintIcon(this, g, gui.getX() + 00, gui.getY() + 16);
+                }
             }
         }
     }

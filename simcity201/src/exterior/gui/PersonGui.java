@@ -2,13 +2,16 @@ package exterior.gui;
 
 import java.awt.*;
 import java.util.List;
-import exterior.astar.AStarNode;
+
 import exterior.astar.*;
+
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 
 public class PersonGui implements Gui {
 	private boolean isPresent = false;
-	private int xPos, yPos;
+	private int xPos, yPos, rotation;
 	private int xDestination, yDestination, iDestination;
     private final int SPRITE_SIZE = 64;
     private final int CITY_SIZE = 4;
@@ -26,15 +29,22 @@ public class PersonGui implements Gui {
 	}
 
 	public void updatePosition() {
-		if (xPos < xDestination)
-			xPos++;
-		else if (xPos > xDestination)
-			xPos--;
-
-		if (yPos < yDestination)
-			yPos++;
-		else if (yPos > yDestination)
-			yPos--;
+		if (xPos < xDestination) {
+			xPos+=2;
+			rotation = 0;
+		}
+		else if (xPos > xDestination) {
+			xPos-=2;
+			rotation = 2;
+		}
+		if (yPos < yDestination) {
+			yPos+=2;
+			rotation = 1;
+		}
+		else if (yPos > yDestination) {
+			yPos-=2;
+			rotation = 3;
+		}
 
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command == Command.traveling) {
@@ -51,8 +61,10 @@ public class PersonGui implements Gui {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos + 16, yPos + 16, SPRITE_SIZE/2, SPRITE_SIZE/2);
+		if (SHOW_RECT) {
+			g.setColor(Color.GREEN);
+			g.fillRect(xPos + 16, yPos + 16, SPRITE_SIZE/2, SPRITE_SIZE/2);
+		}
 	}
 	
     public boolean isPresent() {
@@ -133,4 +145,19 @@ public class PersonGui implements Gui {
         }
     }
     }
+
+	@Override
+	public int getX() {
+		return xPos;
+	}
+
+	@Override
+	public int getY() {
+		return yPos;
+	}
+
+	@Override
+	public int getRotation() {
+		return rotation;
+	}
 }

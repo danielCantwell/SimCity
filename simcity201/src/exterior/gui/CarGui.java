@@ -5,7 +5,7 @@ import java.awt.*;
 public class CarGui implements Gui {
 	SimCityGui gui;
 
-	private int xPos, yPos;
+	private int xPos, yPos, rotation;
 	private int xDestination, yDestination, iDestination;
     private final int SPRITE_SIZE = 20;
 	private enum Command {noCommand, seekX, seekY, seekDest};
@@ -107,4 +107,19 @@ public class CarGui implements Gui {
     		}
     	}
     }
+    
+	@Override
+	public int getX() {
+		return xPos;
+	}
+
+	@Override
+	public int getY() {
+		return yPos;
+	}
+
+	@Override
+	public int getRotation() {
+		return 0;
+	}
 }
