@@ -18,13 +18,6 @@ import SimCity.gui.Gui;
 public class MockHousingPerson extends Person {
 	
 	public EventLog log = new EventLog();
-
-	public MockHousingPerson(PersonGui gui, String mainRole, Vehicle vehicle,
-			Morality morality, Money money, Money moneyThresh, int hunger,
-			int hungerThresh) {
-		super("Danny", gui, mainRole, vehicle, morality, money, moneyThresh, hunger,
-				hungerThresh, "apartment", new B_House(25, null));
-	}
 	
 	public MockHousingPerson(String mainRole) {
 		super(mainRole);
