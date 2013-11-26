@@ -18,17 +18,17 @@ import market.interfaces.MarketManager;
  */
 public class MarketManagerRole extends Role implements MarketManager {
 	
-		private MarketManagerGui gui = new MarketManagerGui(this);
-		
-		/**
-		 * Data
-		 */
-		
-		public tellerRole teller;
-		
-		public Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());
-		public List<MyPacker> packers = Collections.synchronizedList(new ArrayList<MyPacker>());
-		public List<MyClerk> clerks = Collections.synchronizedList(new ArrayList<MyClerk>());
+	private MarketManagerGui gui = new MarketManagerGui(this);
+	
+	/**
+	 * Data
+	 */
+	
+	public tellerRole teller;
+	
+	public Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());
+	public List<MyPacker> packers = Collections.synchronizedList(new ArrayList<MyPacker>());
+	public List<MyClerk> clerks = Collections.synchronizedList(new ArrayList<MyClerk>());
     public List<MyDeliveryPerson> deliveryPeople = Collections.synchronizedList(new ArrayList<MyDeliveryPerson>());
 
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
@@ -269,7 +269,6 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
     /**
      * Utilities
-     * @param gui 
      */
 	
     public void initializeInventory(MarketManagerGui gui)
@@ -291,37 +290,42 @@ public class MarketManagerRole extends Role implements MarketManager {
         addItemToInventory("Ice Cream", new Money(3, 00), 10, 8);
     }
     
-		public void addItemToInventory(String name, Money price, int amount, int location)
-		{
-	        inventory.put(name, new Inventory(name, price, amount, location));
-		}
-		
-		public void addPacker(MarketPackerRole r)
-		{
-		    packers.add(new MyPacker(r));
-		}
-		
-		public void addDeliveryPerson(MarketDeliveryPersonRole r)
-		{
-	        deliveryPeople.add(new MyDeliveryPerson(r));
-		}
-		
-		public void addClerk(MarketClerkRole r)
-		{
-	        clerks.add(new MyClerk(r));
-		}
+	public void addItemToInventory(String name, Money price, int amount, int location)
+	{
+        inventory.put(name, new Inventory(name, price, amount, location));
+	}
 	
-		public void setGui(MarketManagerGui gui) {
-			this.gui = gui;
-		}
+	public void addPacker(MarketPackerRole r)
+	{
+	    packers.add(new MyPacker(r));
+	}
 	
-		
-		public MarketManagerGui getGui() { return gui; }
-		
-		public void setPerson(Person person)
-		{
-		    super.setPerson(person);
-		}
+	public void addDeliveryPerson(MarketDeliveryPersonRole r)
+	{
+        deliveryPeople.add(new MyDeliveryPerson(r));
+	}
+	
+	public void addClerk(MarketClerkRole r)
+	{
+        clerks.add(new MyClerk(r));
+	}
+
+	public void setGui(MarketManagerGui gui) {
+		this.gui = gui;
+	}
+
+	
+	public MarketManagerGui getGui() { return gui; }
+	
+	public void setPerson(Person person)
+	{
+	    super.setPerson(person);
+	}
+	
+	public Money getPriceOf(String food)
+	{
+	    return inventory.get(food).price;
+	}
 
     /**
      * Inner Classes

@@ -13,21 +13,21 @@ import market.interfaces.MarketCustomer;
  */
 public class MarketCustomerRole extends Role implements MarketCustomer {
 	
-		private MarketCustomerGui gui = new MarketCustomerGui(this);
-		
-		/**
-		 * Data
-		 */
-		
-	    public MarketManagerRole manager;
-		
-		public MarketCustomerRole() {
-			super();
-		}
+	private MarketCustomerGui gui = new MarketCustomerGui(this);
 	
-		/** 
-		 * Messages
-		 */
+	/**
+	 * Data
+	 */
+	
+    public MarketManagerRole manager;
+	
+	public MarketCustomerRole() {
+		super();
+	}
+
+	/** 
+	 * Messages
+	 */
 
     public void msgHereIsYourFood(String food, int amount, Money price)
     {
@@ -56,22 +56,22 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
         
     }
 
-		/**
-		 * Scheduler. Determine what action is called for, and do it.
-		 */
-		protected boolean pickAndExecuteAnAction() {
-			
-		    
-		    
-			return false;
-			// we have tried all our rules and found
-			// nothing to do. So return false to main loop of abstract agent
-			// and wait.
-		}
-	
-		/**
-		 * Actions
-		 */
+	/**
+	 * Scheduler. Determine what action is called for, and do it.
+	 */
+	protected boolean pickAndExecuteAnAction() {
+		
+	    
+	    
+		return false;
+		// we have tried all our rules and found
+		// nothing to do. So return false to main loop of abstract agent
+		// and wait.
+	}
+
+	/**
+	 * Actions
+	 */
 
     /**
      * Utilities
@@ -98,21 +98,24 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
      * Inner Classes
      */
 	
-		public enum OrderState { Pending, Processing, Ready };
-		
-		public class Order
-		{
-		    String name;
-		    String choice;
-		    int amount;
-		    OrderState state;
-		    
-		    Order(String name, String choice, int amount)
-		    {
-		        this.name = name;
-		        this.choice = choice;
-		        this.amount = amount;
-		        state = OrderState.Pending;
-		    }
-		}
+	public enum OrderState { Pending, Processing, Ready };
+	
+	public class Order
+	{
+	    String choice;
+	    int amount;
+	    OrderState state;
+	    
+	    Order(String choice, int amount)
+	    {
+	        this.choice = choice;
+	        this.amount = amount;
+	        state = OrderState.Pending;
+	    }
+	    
+	    public boolean equals(Order other)
+	    {
+	        return choice.equals(other.choice) && amount == other.amount;
+	    }
+	}
 }
