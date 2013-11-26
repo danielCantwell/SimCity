@@ -1,6 +1,5 @@
 package Bank.interfaces;
 
-import Bank.bankCustomerRole;
 import Bank.tellerRole;
 import Bank.gui.tellerGui;
 import Bank.tellerRole.Client;
@@ -11,10 +10,10 @@ public interface Teller {
 	//-----------------------------------------------Messages-------------------------------------------------
 	public abstract void enterBuilding();
 
-	public abstract void tellerAssigned(bankCustomerRole c);
+	public abstract void tellerAssigned(Customer c);
 
 	public abstract void foundTeller(int accNum, Money money,
-			bankCustomerRole cust);
+			Customer cust);
 
 	public abstract void requestWithdraw(int acc, Money money);
 

@@ -1,6 +1,6 @@
 package Bank.gui;
 
-import Bank.bankCustomerRole;
+import Bank.interfaces.Customer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,7 +9,7 @@ import SimCity.gui.Gui;
 
 public class bankCustomerGui implements Gui {
 
-	private bankCustomerRole customer;
+	private Customer customer;
 	private int xPos = 670, yPos = 350;
 	private int xDest = 600,  yDest = 350;
 	private int xSize = 30, ySize = 30;
@@ -28,7 +28,7 @@ public class bankCustomerGui implements Gui {
 			yPos--;
 	}
 	
-	public bankCustomerGui (bankCustomerRole client) {
+	public bankCustomerGui (Customer client) {
 		this.customer = client;
 	}
 	//Customer enters the Bank and goes to the guard

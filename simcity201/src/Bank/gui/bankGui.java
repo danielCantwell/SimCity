@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import Bank.*;
+import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Teller;
 
@@ -43,7 +44,7 @@ public class bankGui extends JPanel implements ActionListener {
 	private final int tellerSpeed = 20;
 	private Teller teller = new tellerRole();
 	private Guard guard = new bankGuardRole();
-	private bankCustomerRole cust = new bankCustomerRole();;
+	private Customer cust = new bankCustomerRole();;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
 	public bankGui() {
