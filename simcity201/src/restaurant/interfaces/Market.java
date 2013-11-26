@@ -5,7 +5,7 @@ package restaurant.interfaces;
 
 import java.util.Map;
 
-import restaurant.CookAgent;
+import restaurant.DannyCook;
 import restaurant.MarketAgent.Order;
 
 /**
@@ -14,7 +14,7 @@ import restaurant.MarketAgent.Order;
  */
 public interface Market {
 	
-	public abstract void msgOrderFood(CookAgent cook, Map<String, Integer> lowFood);
+	public abstract void msgOrderFood(DannyCook cook, Map<String, Integer> lowFood);
 	
 	public abstract void msgOrderReady(Order order);
 	

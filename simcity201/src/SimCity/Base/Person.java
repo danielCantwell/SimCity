@@ -14,7 +14,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
-import restaurant.CustomerAgent;
+import restaurant.DannyCustomer;
 import sun.misc.Queue;
 import Bank.bankCustomerRole;
 import SimCity.Base.God.BuildingType;

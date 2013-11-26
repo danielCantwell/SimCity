@@ -1,7 +1,7 @@
 package restaurant.gui;
 
-import restaurant.CustomerAgent;
-import restaurant.WaiterAgent;
+import restaurant.DannyCustomer;
+import restaurant.DannyWaiter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,8 +104,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         stateCB.setVisible(true);
         currentPerson = person;
 
-        if (person instanceof CustomerAgent) {
-            CustomerAgent customer = (CustomerAgent) person;
+        if (person instanceof DannyCustomer) {
+            DannyCustomer customer = (DannyCustomer) person;
             if (status) {
             	customer.getGui().setHungry();
             }
@@ -119,8 +119,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
                "<html><pre>     Name: " + customer.getName() + " </pre></html>");
         }
         
-        if (person instanceof WaiterAgent) {
-        	WaiterAgent waiter = (WaiterAgent) person;
+        if (person instanceof DannyWaiter) {
+        	DannyWaiter waiter = (DannyWaiter) person;
         	if (status) {
         		waiter.getGui().setAvailable();
         	}
@@ -141,8 +141,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == stateCB) {
-            if (currentPerson instanceof CustomerAgent) {
-                CustomerAgent c = (CustomerAgent) currentPerson;
+            if (currentPerson instanceof DannyCustomer) {
+                DannyCustomer c = (DannyCustomer) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
@@ -166,9 +166,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
-        if (currentPerson instanceof CustomerAgent) {
-            CustomerAgent cust = (CustomerAgent) currentPerson;
+    public void setCustomerEnabled(DannyCustomer c) {
+        if (currentPerson instanceof DannyCustomer) {
+            DannyCustomer cust = (DannyCustomer) currentPerson;
             if (c.equals(cust)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);

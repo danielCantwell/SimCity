@@ -3,8 +3,8 @@ package restaurant.gui;
 import javax.swing.*;
 
 import SimCity.gui.Gui;
-import restaurant.HostAgent;
-import restaurant.HostAgent.Table;
+import restaurant.DannyHost;
+import restaurant.DannyHost.Table;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -42,7 +42,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 	private Image bufferImage;
 	private Dimension bufferSize;
 
-	private HostAgent hostAgent;
+	private DannyHost hostAgent;
 
 	private int NTABLES = 0;
 
@@ -60,7 +60,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		timer.start();
 	}
 
-	public void setHost(HostAgent host) {
+	public void setHost(DannyHost host) {
 		hostAgent = host;
 		NTABLES = host.NTABLES;
 		tables = host.tables;

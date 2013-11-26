@@ -1,11 +1,11 @@
 package restaurant.gui;
 
-import restaurant.CashierAgent;
-import restaurant.CookAgent;
-import restaurant.CustomerAgent;
-import restaurant.HostAgent;
+import restaurant.DannyCashier;
+import restaurant.DannyCook;
+import restaurant.DannyCustomer;
+import restaurant.DannyHost;
 import restaurant.MarketAgent;
-import restaurant.WaiterAgent;
+import restaurant.DannyWaiter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,11 +18,11 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Sarah", this);
-    private CashierAgent cashier = new CashierAgent("Cashier");
+    private DannyHost host = new DannyHost("Sarah", this);
+    private DannyCashier cashier = new DannyCashier("Cashier");
 
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    private Vector<DannyCustomer> customers = new Vector<DannyCustomer>();
+    private Vector<DannyWaiter> waiters = new Vector<DannyWaiter>();
     private Vector<MarketAgent> markets = new Vector<MarketAgent>();
 
     private JPanel    restLabel     = new JPanel();
@@ -91,7 +91,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Customers")) {
         	
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+                DannyCustomer temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp, status);
             }
@@ -117,7 +117,7 @@ public class RestaurantPanel extends JPanel {
     public void addPerson(String type, String name, boolean status) {
 
     	if (type.equals("Customers")) {
-    		CustomerAgent c = new CustomerAgent(name);	
+    		DannyCustomer c = new DannyCustomer(name);	
     		CustomerGui   g = new CustomerGui(c, gui);
 
     		gui.animationPanel.addGui(g);
@@ -132,7 +132,7 @@ public class RestaurantPanel extends JPanel {
     	}
     	
     	if (type.equals("Waiters")) {
-    		WaiterAgent w = new WaiterAgent(name);
+    		DannyWaiter w = new DannyWaiter(name);
     		WaiterGui	g = new WaiterGui(w, gui);
     		
     		gui.animationPanel.addGui(g);
@@ -143,44 +143,44 @@ public class RestaurantPanel extends JPanel {
     	}
     }
     
-    public HostAgent getHost() {
+    public DannyHost getHost() {
     	return host;
     }
     
-    public CashierAgent getCashier() {
+    public DannyCashier getCashier() {
     	return cashier;
     }
     
-    public void enableCustomerCheckBox(CustomerAgent agent) {
+    public void enableCustomerCheckBox(DannyCustomer agent) {
     	String cName = agent.getCustomerName();
     	listPanel.setCustomerEnabled(cName);
     }
     
     public void waiterGoOnBreak(String name) {
-    	for (WaiterAgent waiter : waiters) {
+    	for (DannyWaiter waiter : waiters) {
     		if (waiter.getName().equals(name)) {
     			waiter.msgWantToGoOnBreak();
     		}
     	}
     }
     
-    public void removeWaiterOnBreakSelection(WaiterAgent waiter) {
+    public void removeWaiterOnBreakSelection(DannyWaiter waiter) {
     	String wName = waiter.getName();
     	listPanel.setWaiterOffBreak(wName);
     }
     
-    public void disableOnBreak(WaiterAgent waiter) {
+    public void disableOnBreak(DannyWaiter waiter) {
     	String wName = waiter.getName();
     	listPanel.setWaiterBreakDisabled(wName);
     }
     
-    public void enableOnBreak(WaiterAgent waiter) {
+    public void enableOnBreak(DannyWaiter waiter) {
     	String wName = waiter.getName();
     	listPanel.setWaiterBreakEnabled(wName);
     }
     
     public void waiterGoOffBreak(String name) {
-    	for (WaiterAgent waiter : waiters) {
+    	for (DannyWaiter waiter : waiters) {
     		if (waiter.getName().equals(name)) {
     			waiter.msgWantToGoOffBreak();
     		}
@@ -191,11 +191,11 @@ public class RestaurantPanel extends JPanel {
     	host.pause();
     	host.getCook().pause();
     	cashier.pause();
-    	for (CustomerAgent c : customers) {
+    	for (DannyCustomer c : customers) {
     		c.getGui().pause();
     		c.pause();
     	}
-    	for (WaiterAgent w : waiters) {
+    	for (DannyWaiter w : waiters) {
     		w.getGui().pause();
     		w.pause();
     	}
@@ -208,11 +208,11 @@ public class RestaurantPanel extends JPanel {
     	host.restart();
     	host.getCook().restart();
     	cashier.restart();
-    	for (CustomerAgent c : customers) {
+    	for (DannyCustomer c : customers) {
     		c.getGui().restart();
     		c.restart();
     	}
-    	for (WaiterAgent w : waiters) {
+    	for (DannyWaiter w : waiters) {
     		w.getGui().restart();
     		w.restart();
     	}
