@@ -22,6 +22,7 @@ public class OwnerTest extends TestCase {
 
 	MockTenant mtOne;
 	MockTenant mtTwo;
+	MockTenant mtThree;
 
 	MockHousingPerson ownerPerson;
 
@@ -34,12 +35,17 @@ public class OwnerTest extends TestCase {
 		owner = new OwnerRole();
 		mtOne = new MockTenant();
 		mtTwo = new MockTenant();
+		mtThree = new MockTenant();
 		ownerPerson = new MockHousingPerson(null, "housing.roles.OwnerRole",
 				null, null, new Money(100, 0), new Money(12, 0), 8, 5);
 
 		owner.myPerson = ownerPerson;
+		owner.myPerson.house = "Apartment";
 	}
 
+	/*
+	 * Tests one tenant paying full rent, paying partial rent, paying no rent, and being evicted
+	 */
 	public void testOneTenant() {
 		try {
 			setUp();
@@ -47,8 +53,6 @@ public class OwnerTest extends TestCase {
 			System.out.println("setUp failed");
 			e.printStackTrace();
 		}
-
-		owner.myPerson.house = "Apartment";
 
 		// Check Pre-Conditions
 		assertEquals(
@@ -176,7 +180,77 @@ public class OwnerTest extends TestCase {
 				owner.myTenants.get(0).rentOwed.dollars);
 		assertEquals("Tenant state should be InDebt. It's not.",
 				TenantState.InDebt, owner.myTenants.get(0).state);
+		
+		owner.myTenants.get(0).strikes = 4;
+		
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertEquals("Owner should have evicted the tenant, and have no tenants.", 0, owner.myTenants.size());
+	}
+	
+	/*
+	 * Tests multiple tenants
+	 */
+	public void testThreeTenant() {
+		try {
+			setUp();
+		} catch (Exception e) {
+			System.out.println("setUp failed");
+			e.printStackTrace();
+		}
+		
+		// Check Pre-Conditions
+		assertEquals(
+				"Owner should have a list of appliances of size 4. It doesn't.",
+				4, owner.appliances.size());
+		assertEquals("Owner should have zero tenants. It doesn't.", 0,
+				owner.myTenants.size());
 
+		// Receive Message
+		owner.msgAddTenant(mtOne);
+		// Check Post Conditions
+		assertEquals("Owner should have one tenant. It doesn't.", 1,
+				owner.myTenants.size());
+		
+		// PickAndExecuteAnAction should return false
+		assertFalse(owner.pickAndExecuteAnAction());
+
+		// Receive Message
+		owner.msgAddTenant(mtTwo);
+		// Check Post Conditions
+		assertEquals("Owner should have two tenants. It doesn't.", 2,
+				owner.myTenants.size());
+
+		// PickAndExecuteAnAction should return false
+		assertFalse(owner.pickAndExecuteAnAction());
+		
+		// Receive Message
+		owner.msgAddTenant(mtThree);
+		// Check Post Conditions
+		assertEquals("Owner should have two tenants. It doesn't.", 3,
+				owner.myTenants.size());
+
+		// PickAndExecuteAnAction should return false
+		assertFalse(owner.pickAndExecuteAnAction());
+		
+		// Receive Message
+		owner.msgTimeToCollectRent();
+		// Check Post Conditions
+		assertEquals("Tenant One state should be OwesRent. It's not.",
+				TenantState.OwesRent, owner.myTenants.get(0).state);
+		assertEquals("Tenant's rentOwed should be zero. It's not.",
+				owner.RENT.dollars, owner.myTenants.get(0).rentOwed.dollars);
+		assertEquals("Tenant Two state should be OwesRent. It's not.",
+				TenantState.OwesRent, owner.myTenants.get(1).state);
+		assertEquals("Tenant's rentOwed should be zero. It's not.",
+				owner.RENT.dollars, owner.myTenants.get(1).rentOwed.dollars);
+		assertEquals("Tenant Three state should be OwesRent. It's not.",
+				TenantState.OwesRent, owner.myTenants.get(2).state);
+		assertEquals("Tenant's rentOwed should be zero. It's not.",
+				owner.RENT.dollars, owner.myTenants.get(2).rentOwed.dollars);
+		
+		
 	}
 
 }
