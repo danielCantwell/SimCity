@@ -7,6 +7,7 @@ import javax.swing.*;
 import market.gui.MarketAnimationPanel;
 import Bank.gui.bankGui;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
@@ -53,30 +54,37 @@ public class SimCityGui extends JFrame {
         		HousingAnimation buildingPanel = new HousingAnimation();
         		buildingPanels.add(buildingPanel, "" + i);	
             	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+            	God.Get().addBuilding(buildingList.get(i));
     		}
     		// Add Banks:
     		if (i == 2 || i == 8) {
         		bankGui buildingPanel = new bankGui();
         		buildingPanels.add(buildingPanel, "" + i);	
             	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+            	God.Get().addBuilding(buildingList.get(i));
     		}
     		// Add Markets:
     		if (i == 3 || i == 5) {
-        		MarketAnimationPanel buildingPanel = new MarketAnimationPanel("Ralph's");
+        		//MarketAnimationPanel buildingPanel = new MarketAnimationPanel("Ralph's");
+    			JPanel buildingPanel = new JPanel();
         		buildingPanels.add(buildingPanel, "" + i);	
             	buildingList.add(new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+            	God.Get().addBuilding(buildingList.get(i));
     		}
     		// Add Restaurants:
     		if (i == 6 || i == 7 || i == 9 || i == 10 || i == 11) {
         		JPanel buildingPanel = new JPanel();
+        		
         		buildingPanels.add(buildingPanel, "" + i);	
             	buildingList.add(new B_Restaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+            	God.Get().addBuilding(buildingList.get(i));
     		}
     		// Add Houses:
     		if (i == 12 || i == 13 || i == 14 || i == 15) {
         		HousingAnimation buildingPanel = new HousingAnimation();
         		buildingPanels.add(buildingPanel, "" + i);	
             	buildingList.add(new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64));
+            	God.Get().addBuilding(buildingList.get(i));
     		}
     	}
     	

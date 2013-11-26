@@ -13,8 +13,6 @@ import exterior.astar.AStarTraversal;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.*; 
 import java.util.List;
@@ -237,7 +235,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
             	 PersonGui g = new PersonGui(gui, aStarTraversal);
             	 Person p = new Person("Jesse", g, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0));
+            	 g.setPerson(p);
             	 addGui(g);
+            	 p.startThread();
              }
         };
 

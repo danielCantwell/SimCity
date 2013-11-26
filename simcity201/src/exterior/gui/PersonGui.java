@@ -9,6 +9,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import SimCity.Base.Person;
+
 public class PersonGui implements Gui {
 	private boolean isPresent = false;
 	private int xPos, yPos, rotation;
@@ -19,13 +21,10 @@ public class PersonGui implements Gui {
 	private Command command = Command.none;
 	private AStarTraversal aStar;
 	private Position currentPosition; 
+	private Person person;
 	
 	public PersonGui(SimCityGui gui, AStarTraversal aStar) {
 		this.aStar = aStar;
-		Random rand = new Random();
-		int start = rand.nextInt(15);
-		int end = rand.nextInt(15);
-		DoTravel(start, end);
 	}
 
 	public void updatePosition() {
@@ -56,7 +55,7 @@ public class PersonGui implements Gui {
 			isPresent = false;
             currentPosition.release(aStar.getGrid());
 			command = Command.none;
-			//agent.msgAnimationFinishedGoToSeat();
+			person.animation.release();
 		}
 	}
 
@@ -159,5 +158,9 @@ public class PersonGui implements Gui {
 	@Override
 	public int getRotation() {
 		return rotation;
+	}
+	
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 }
