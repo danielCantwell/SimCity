@@ -40,8 +40,10 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     public void msgMakeDelivery(int id, String choice, int amount)
     {
-        // TODO Auto-generated method stub
-    	
+        orders.add(new Order(id, choice, amount));
+        myPerson.msgExitBuilding();
+        myPerson.mainRole.setActive(false);
+        myPerson.msgGoToBuilding(God.Get().getBuilding(id), Intent.work);
     }
     
     public void guiArrivedAtMarket()
@@ -66,6 +68,13 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     protected void enterBuilding() {
         // TODO Auto-generated method stub
         
+    }
+    
+    @Override
+    protected void exitBuilding(Person p)
+    {
+        gui.setPresent(false);
+        super.exitBuilding(p);
     }
 
 		/**

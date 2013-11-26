@@ -213,4 +213,16 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
                 ((MarketPackerGui) gui).setLocations(locations);
         }
     }
+    
+    /**
+     * Debug
+     */
+    
+    public void debugTestRestaurant()
+    {
+        chanos = (B_Restaurant) God.Get().findRandomRestaurant();
+    	((MarketManagerRole) manager.mainRole).msgWantFood(chanos.getID(), "Steak", 10);
+    	((MarketManagerRole) manager.mainRole).msgWantFood(chanos.getID(), "Salad", 10);
+    	((MarketManagerRole) manager.mainRole).msgWantFood(chanos.getID(), "Tomatoes", 10);
+  	}
 }
