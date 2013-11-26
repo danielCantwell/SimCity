@@ -31,6 +31,8 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	 */
 	
     public MarketManagerRole manager;
+    public MarketCustomerRole customer;
+    public boolean orderTaken = false;
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     
     public Money money = new Money(0, 0);
@@ -42,6 +44,13 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	/** 
 	 * Messages
 	 */
+	
+	public void msgTakeOrder(MarketCustomerRole customer)
+	{
+	    this.customer = customer;
+	    orderTaken = false;
+	    stateChanged();
+	}
 
     public void msgWantFood(int id, String choice, int amount)
     {
@@ -101,40 +110,42 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	        storeMoney(new Money(DOLLARS_TO_KEEP, CENTS_TO_KEEP));
 	        return true;
 	    }
-	    else
+	    if (customer != null && !orderTaken)
 	    {
-	        Order order = null;
-	        synchronized(orders)
-	        {
-	            for (Order o : orders)
-	            {
-	                if (o.state == OrderState.Pending)
-	                {
-	                    order = o;
-	                }
-	            }
-	        }
-	        if (order != null)
-	        {
-                makeOrder(order);
-                return true;
-	        }
-            synchronized(orders)
+	        takeOrder();
+	        return true;
+	    }
+        Order order = null;
+        synchronized(orders)
+        {
+            for (Order o : orders)
             {
-                for (Order o : orders)
+                if (o.state == OrderState.Pending)
                 {
-                    if (o.state == OrderState.Ready)
-                    {
-                        order = o;
-                    }
+                    order = o;
                 }
             }
-            if (order != null)
+        }
+        if (order != null)
+        {
+            makeOrder(order);
+            return true;
+        }
+        synchronized(orders)
+        {
+            for (Order o : orders)
             {
-                giveOrder(order);
-                return true;
+                if (o.state == OrderState.Ready)
+                {
+                    order = o;
+                }
             }
-	    }
+        }
+        if (order != null)
+        {
+            giveOrder(order);
+            return true;
+        }
 	    
 		return false;
 		// we have tried all our rules and found
@@ -146,10 +157,16 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	 * Actions
 	 */
 
+	private void takeOrder()
+	{
+	    customer.msgWhatDoYouWant(this);
+	    customer = null;
+	}
+	
 	private void makeOrder(Order order)
 	{
 	    order.state = OrderState.Processing;
-	    manager.msgFulfillOrder(order.id, order.choice, order.amount);
+	    manager.msgFulfillOrder(this, order.id, order.choice, order.amount);
 	}
 	
 	private void giveOrder(Order order)

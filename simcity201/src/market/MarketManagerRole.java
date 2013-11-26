@@ -1,5 +1,6 @@
 package market;
 
+import java.awt.Point;
 import java.util.*;
 
 import Bank.tellerRole;
@@ -26,11 +27,13 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	public tellerRole teller;
 	
+	public Map<MarketClerkRole, Point> clerkLocs = Collections.synchronizedMap(new HashMap<MarketClerkRole, Point>());
 	public Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());
 	public List<MyPacker> packers = Collections.synchronizedList(new ArrayList<MyPacker>());
 	public List<MyClerk> clerks = Collections.synchronizedList(new ArrayList<MyClerk>());
     public List<MyDeliveryPerson> deliveryPeople = Collections.synchronizedList(new ArrayList<MyDeliveryPerson>());
-
+    public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+    
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     
     public Money money;
@@ -40,32 +43,61 @@ public class MarketManagerRole extends Role implements MarketManager {
      * Constructors
      */
     
-		public MarketManagerRole() {
-			super();
-		}
+	public MarketManagerRole() {
+		super();
+	}
 
-		/** 
-		 * Messages
-		 */
-		
-		public void msgWantFood(int id, String choice, int amount)
-		{
-		    Order o = new Order(id, choice, amount, OrderType.Restaurant);
-		    o.state = OrderState.Pending;
-		    orders.add(o);
-		    System.out.println("Order " + God.Get().getBuilding(id) + " added.");
-	        stateChanged();
-		}
-		
-		public void msgFulfillOrder(int id, String choice, int amount)
+	/** 
+	 * Messages
+	 */
+
+    public void msgWantClerk(MarketCustomerRole customer, int id)
+    {
+        synchronized(clerks)
+        {
+	        for (MyClerk c : clerks)
+	        {
+	            if (c.state == ClerkState.Idle)
+	            {
+	                customers.add(new MyCustomer(customer, id, c.clerk));    
+	                stateChanged();
+	                return;
+	            }
+	        }
+        }
+        // else
+        customers.add(new MyCustomer(customer, id, null));
+        stateChanged();
+    }
+	
+	public void msgWantFood(int id, String choice, int amount)
+	{
+	    Order o = new Order(id, choice, amount, OrderType.Restaurant);
+	    o.state = OrderState.Pending;
+	    orders.add(o);
+	    System.out.println("Order " + God.Get().getBuilding(id) + " added.");
+        stateChanged();
+	}
+	
+	public void msgFulfillOrder(MarketClerkRole clerk, int id, String choice, int amount)
     {
         Order o = new Order(id, choice, amount, OrderType.Customer);
         o.state = OrderState.Pending;
         orders.add(o);   
+        synchronized(clerks)
+        {
+            for (MyClerk c : clerks)
+            {
+                if (c.clerk.equals(clerk))
+                {
+                    c.orders.add(o);
+                }
+            }
+        }
         stateChanged();
     }
 	
-		public void msgOrderPacked(int id, String choice, int amount)
+	public void msgOrderPacked(int id, String choice, int amount)
     {
 	    Order other = new Order(id, choice, amount, OrderType.None);
         synchronized(orders)
@@ -129,79 +161,109 @@ public class MarketManagerRole extends Role implements MarketManager {
         // TODO Auto-generated method stub   
     }
 
-		/**
-		 * Scheduler. Determine what action is called for, and do it.
-		 */
-		protected boolean pickAndExecuteAnAction() {
-			
-		    // if money > MAX_AMOUNT
-		    
-		    // if money < MIN_AMOUNT
-	
-	        synchronized(orders)
+	/**
+	 * Scheduler. Determine what action is called for, and do it.
+	 */
+	protected boolean pickAndExecuteAnAction() {
+		
+	    // if money > MAX_AMOUNT
+	    
+	    // if money < MIN_AMOUNT
+
+	    MyCustomer customer = null;
+	    synchronized(customers)
+	    {
+	        for (MyCustomer c : customers)
 	        {
-	    	    for (Order o : orders)
-	    	    {
-	    	        if (o.state == OrderState.Pending)
-	    	        {
-	    	            synchronized(packers)
-	    	            {
-	        	            for (MyPacker packer : packers)
-	        	            {
-	        	                if (packer.state == PackerState.Idle)
-	        	                {
-	        	                    startOrder(o);
-	        	                    return true;
-	        	                }
-	        	            }
-	    	            }
-	    	        }
-	    	    }
-	        }
-	
-	        synchronized(orders)
-	        {
-	    	    for (Order o : orders)
+	            if (c.state == CustomerState.Idle)
 	            {
-	                if (o.state == OrderState.Ready)
+	                if (c.clerk == null)
 	                {
-	                    if (o.type == OrderType.Restaurant)
-	                    {
-	                        synchronized(deliveryPeople)
-	                        {
-	                            for (MyDeliveryPerson dP : deliveryPeople)
-	                            {
-	                                if (dP.state == DeliveryPersonState.Idle)
-	                                {
-	                                    deliverOrder(o);
-	                                    return true;
-	                                }
-	                            }
-	                        }
-	                    }
-	                    else if (o.type == OrderType.Customer)
-	                    {
-	                        giveOrder(o);
-	                        return true;
-	                    }
+	                    // put in line
+	                    putInLine(c);
+	                }
+	                else
+	                {
+	                    // give to clerk
+	                    customer = c;
 	                }
 	            }
 	        }
-		    
-			return false;
-			// we have tried all our rules and found
-			// nothing to do. So return false to main loop of abstract agent
-			// and wait.
-		}
-	
-		/**
-		 * Actions
-		 */
-	
-		private void deposit(Money amount)
-		{
-		    teller.requestDeposit(accountNumber, amount);
-		}
+	    }
+	    if (customer != null)
+	    {
+	        giveToClerk(customer);
+	    }
+	    
+        synchronized(orders)
+        {
+    	    for (Order o : orders)
+    	    {
+    	        if (o.state == OrderState.Pending)
+    	        {
+    	            synchronized(packers)
+    	            {
+        	            for (MyPacker packer : packers)
+        	            {
+        	                if (packer.state == PackerState.Idle)
+        	                {
+        	                    startOrder(o);
+        	                    return true;
+        	                }
+        	            }
+    	            }
+    	        }
+    	    }
+        }
+
+        Order order = null;
+        synchronized(orders)
+        {
+    	    for (Order o : orders)
+            {
+                if (o.state == OrderState.Ready)
+                {
+                    if (o.type == OrderType.Restaurant)
+                    {
+                        synchronized(deliveryPeople)
+                        {
+                            for (MyDeliveryPerson dP : deliveryPeople)
+                            {
+                                if (dP.state == DeliveryPersonState.Idle)
+                                {
+                                    deliverOrder(o);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    else if (o.type == OrderType.Customer)
+                    {
+                        order = o;
+                    }
+                }
+            }
+        }
+        if (order != null)
+        {
+            giveOrder(order);
+            return true;
+        }
+	    
+		return false;
+		// we have tried all our rules and found
+		// nothing to do. So return false to main loop of abstract agent
+		// and wait.
+	}
+
+	/**
+	 * Actions
+	 */
+
+	private void deposit(Money amount)
+	{
+	    teller.requestDeposit(accountNumber, amount);
+	}
 	
     private void withdraw(Money amount)
     {
@@ -266,7 +328,21 @@ public class MarketManagerRole extends Role implements MarketManager {
             orders.remove(order);
         }
     }
+    
+    private void putInLine(MyCustomer c)
+    {
+        // TODO: Create waiting room
+        c.customer.msgPleaseTakeANumber(new Point (400, 400));
+        c.state = CustomerState.Waiting;
+    }
 	
+    private void giveToClerk(MyCustomer c)
+    {
+        c.clerk.msgTakeOrder(c.customer);
+        c.state = CustomerState.Processing;
+        customers.remove(c);
+    }
+    
     /**
      * Utilities
      */
@@ -308,6 +384,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public void addClerk(MarketClerkRole r)
 	{
         clerks.add(new MyClerk(r));
+        clerkLocs.put(r, new Point(r.getGui().getXPos() - 40, r.getGui().getYPos()));
 	}
 
 	public void setGui(MarketManagerGui gui) {
@@ -325,6 +402,11 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public Money getPriceOf(String food)
 	{
 	    return inventory.get(food).price;
+	}
+	
+	public Point getLocation(MarketClerkRole clerk)
+	{
+	    return clerkLocs.get(clerk);
 	}
 
     /**
@@ -373,6 +455,24 @@ public class MarketManagerRole extends Role implements MarketManager {
         {
             this.deliveryPerson = deliveryPerson;
             state = DeliveryPersonState.Idle;
+        }
+    }
+    
+    public enum CustomerState { Idle, Waiting, Processing, Leaving };
+    
+    public class MyCustomer
+    {
+        MarketCustomerRole customer;
+        CustomerState state;
+        int id;
+        MarketClerkRole clerk;
+        
+        MyCustomer(MarketCustomerRole customer, int id, MarketClerkRole clerk) 
+        {
+            this.customer = customer;
+            state = CustomerState.Idle;
+            this.id = id;
+            this.clerk = clerk;
         }
     }
 

@@ -1,6 +1,7 @@
 package market.interfaces;
 
 import SimCity.Globals.Money;
+import market.MarketClerkRole;
 
 public interface MarketManager
 {
@@ -10,7 +11,7 @@ public interface MarketManager
 	
     // MESSAGES
     void msgWantFood(int id, String choice, int amount);
-    void msgFulfillOrder(int id, String choice, int amount);
+    void msgFulfillOrder(MarketClerkRole clerk, int id, String choice, int amount);
     void msgOrderPacked(int id, String choice, int amount);
     void msgHereIsTheMoney(int id, Money amount);
     void msgWithdrawalSuccessful(Money amount);

@@ -158,6 +158,7 @@ public class Person extends Agent {
 		this.building = God.Get().buildings.get(1);
 		myHouse = house;
 		this.workPlace = workplace;
+		God.Get().addPerson(this);
 	}
 	
 	/*public Person(String name, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
@@ -170,6 +171,7 @@ public class Person extends Agent {
 		this.hungerThreshold = hungerThresh;
 		house = "apartment";
 		this.name = name;
+        God.Get().addPerson(this);
 	}
 	*/
 	
@@ -185,6 +187,7 @@ public class Person extends Agent {
 		this.hungerLevel = 10;
 		this.hungerThreshold = 4;
 		house = "apartment";
+        God.Get().addPerson(this);
 	}
 //Messages ---------------------------------------
 	
