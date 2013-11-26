@@ -10,13 +10,13 @@ import restaurant.DannyCashier;
 import restaurant.DannyCashier.State;
 import restaurant.interfaces.Cashier;
 import restaurant.test.mock.MockCustomer;
-import restaurant.test.mock.MockMarket;
 import restaurant.test.mock.MockWaiter;
 
 /**
  * @author Daniel
  * 
  */
+/*
 public class CashierTest extends TestCase {
 	// these are instantiated for each test separately via the setUp() method.
 	DannyCashier cashier;
@@ -38,7 +38,7 @@ public class CashierTest extends TestCase {
 	/**
 	 * This method is run before each test. You can use it to instantiate the
 	 * class variables for your agent and mocks, etc.
-	 */
+	 
 	public void setUp() throws Exception {
 		super.setUp();
 		cashier = new DannyCashier("cashier");
@@ -912,6 +912,8 @@ public class CashierTest extends TestCase {
 	 * 
 	 * 
 	 * }//end one normal customer scenario
-	 */
-
+	 
+	
 }
+*/
+
