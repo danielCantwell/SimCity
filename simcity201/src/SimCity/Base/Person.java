@@ -295,9 +295,9 @@ public class Person extends Agent {
 		//This means that the role has to leave a building and turn off before the person can go anywhere.
 		//ALSO the role must set the person's intent before leaving the workplace.
 		//pop the first thing off the action
-		System.out.println("holy shit");
+		//System.out.println("holy shit");
 		if (actions.size() > 0){	
-			System.out.println("popping");
+			//System.out.println("popping");
 			goTo(actions.pop());
 			return false; //might be true
 		}
