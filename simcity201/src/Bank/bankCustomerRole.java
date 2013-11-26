@@ -97,6 +97,7 @@ public class bankCustomerRole extends Role implements Customer{
 	public void transactionComplete(Money m) {
 		money = m;
 		s = state.leaving;
+		stateChanged();
 	}
 	
 	public void workOver() {
@@ -173,7 +174,8 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public void leaveBank() {
-		// make GUI call to leave bank 
+		gui.doLeaveBank();
+		exitBuilding(myPerson);
 	}
 	@Override
 	public void setGui(bankCustomerGui gui) {
