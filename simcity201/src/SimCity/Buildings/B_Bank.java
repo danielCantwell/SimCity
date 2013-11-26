@@ -5,11 +5,15 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import Bank.bankGuardRole;
+import Bank.bankManagerRole;
 import Bank.bankManagerRole.Teller;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import Bank.tellerRole;
 import SimCity.Base.Building;
+import SimCity.Base.Person;
+import SimCity.Base.Role;
 /**
  * @author Brian
  *
@@ -18,6 +22,9 @@ public class B_Bank extends Building{
 	
 	Manager bankManager;
 	Guard bankGuard;
+	
+	Person manager = null;
+	Person guard = null;
 	
 	List<tellerRole> tellers = new ArrayList<tellerRole>();
 	
@@ -55,6 +62,23 @@ public class B_Bank extends Building{
 	@Override
 	public String getCustomerString() {
 		return "Bank.bankCustomerRole";
+	}
+	@Override
+	public boolean areAllNeedeRolesFilled() {
+		return manager != null  && guard != null;
+	}
+	@Override
+	public void ExitBuilding(Person person) {
+		if (person == bankGuard) manager =null;
+		else if (person == bankManager) guard = null;
+    	person.resetActiveRoles();
+    	person.msgExitBuilding();
+	}
+	@Override
+	protected void fillNeededRoles(Person p, Role r) {
+		if (r instanceof bankManagerRole) manager = r.myPerson;
+		else if (r instanceof bankGuardRole) guard = r.myPerson;
+		
 	}
 
 	

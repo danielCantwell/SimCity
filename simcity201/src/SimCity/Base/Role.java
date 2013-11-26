@@ -13,6 +13,7 @@ public abstract class Role {
 	protected boolean active = false;
 	public Person myPerson;
 	
+	public Person getPerson(){return myPerson;}
 	public void setActive(boolean activate){active = activate;}
 	public boolean getActive(){return active;}
 	

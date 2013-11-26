@@ -65,26 +65,23 @@ public abstract class Building extends SimObject {
 	
 	//BUILDING MEDIATOR STUFF
     public void EnterBuilding(Person person, String job){
-    		Role newRole;
+    		Role newRole = null;
 			try {
 				newRole = (Role)Class.forName(job).newInstance();
 				newRole.setActive(true);
 				newRole.setPerson(person);
 				person.msgCreateRole(newRole, true);
+				fillNeededRoles(person, newRole);
+				person.msgEnterBuilding(this);
 			} catch(Exception e){
 				e.printStackTrace();
 				System.out.println ("God: no class found");
-			}
-			person.msgEnterBuilding(this);
+			}		
     }
     
-    public void ExitBuilding(Person person){
-    	person.resetActiveRoles();
-    	person.msgExitBuilding();
-    }
+    protected abstract void fillNeededRoles(Person p, Role r);
     
-    
-    
-	
+    public abstract void ExitBuilding(Person person);
+
 }
 
