@@ -271,8 +271,14 @@ public class TenantRole extends Role implements Tenant {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
+		time = time.awake;
 		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
-		myPanel.addGui(gui);
+		if (myPanel.getGuis().contains(gui)){
+			gui.setPresent(true);
+		}
+		else{
+			myPanel.addGui(gui);
+		}
 		gui.DoGoToTable();
 		try {
 			atTable.acquire();

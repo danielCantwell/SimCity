@@ -107,6 +107,9 @@ public class TenantGui implements Gui {
 		// TODO Auto-generated method stub
 		return isPresent;
 	}
+	public void setPresent( boolean value){
+		isPresent = value;
+	}
 
 	@Override
 	public void pause() {

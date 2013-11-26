@@ -61,6 +61,9 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	static final int TENANT_SPEED = 3;
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	public List<Gui> getGuis(){
+		return guis;
+	}
 	
 	//private TenantRole tenant = new TenantRole();
 	

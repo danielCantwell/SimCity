@@ -328,7 +328,7 @@ public class Person extends Agent {
 		//if the person leaves a building and has nothing to do.
 		if (timeState == TimeState.none && actions.size() == 0){
 			//check if he has enough money.
-			if (money.dollars < 5){
+			if (money.dollars < moneyThreshold.dollars){
 				goTo(new Action(GoAction.goBank, Intent.customer));
 				return false;
 			}
@@ -360,7 +360,7 @@ public class Person extends Agent {
 				if (r instanceof TenantRole){
 					TenantRole tr = (TenantRole)r;
 					tr.msgGoToWork();
-					timeState = TimeState.working;
+					timeState = TimeState.none;
 					return;
 				}
 			}

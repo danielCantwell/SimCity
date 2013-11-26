@@ -141,8 +141,8 @@ public class bankCustomerRole extends Role implements Customer{
 	//-----------------------------------------------Actions-------------------------------------------------
 	@Override
 	public void openDoor() {
+		if (!myPerson.building.getOpen()) {leaveBank(); return;}
 		System.out.println("opened door");
-		if (!myPerson.building.getOpen()) leaveBank();
 		guard.wantEnter(this);
 		s = state.waiting;
 	}
@@ -176,6 +176,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
+		System.out.println("leaving bank");
 		exitBuilding(myPerson);
 	}
 	@Override

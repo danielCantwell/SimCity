@@ -101,6 +101,8 @@ public class God {
 	    	return null;
 	    }
 	    
+	    private boolean announcedTime = false;
+	    
 	    private God() {
 	        if (INSTANCE != null) {
 	            throw new IllegalStateException("Already instantiated");
@@ -112,17 +114,17 @@ public class God {
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){
-					   if (hour < 24){hour ++;} // hour increments everytime this timer fires.
+					   if (hour < 24){hour ++; announcedTime = false;} // hour increments everytime this timer fires.
 					   
-					   if (hour == 6){
+					   if (hour == 6 && !announcedTime){
 						   wakeUp();
 					   }
 					   
-					   if (hour == 8){
+					   if (hour == 8 && !announcedTime){
 						   goToWork();
 					   }
 					   
-					   if (hour == 17){
+					   if (hour == 17 && !announcedTime){
 						   getOffWork();
 					   }
 					   
@@ -164,6 +166,7 @@ public class God {
 	    }
 	    
 	    public void wakeUp(){
+	    	announcedTime = true;
 	    	System.out.println ("its morning");
 	    	for(Person p: persons){
 	    		p.msgMorning();
@@ -171,6 +174,7 @@ public class God {
 	    }
 	    
 	    public void goToWork(){
+	    	announcedTime = true;
 	    	System.out.println("go to work now!");
 	    	for (Person p: persons){
 	    		p.msgGoToWork();
@@ -178,6 +182,7 @@ public class God {
 	    }
 	    
 	    public void getOffWork(){
+	    	announcedTime = true;
 	    	System.out.println("its time to go off work");
 	    	for (Person p: persons){
 	    		p.msgWorkOver();

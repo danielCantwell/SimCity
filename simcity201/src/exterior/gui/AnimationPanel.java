@@ -268,7 +268,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	 System.out.println("Spawning a new pedestrian.");
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 PersonGui g = new PersonGui(gui, aStarTraversal);
-	   	 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)house, b);
+	   	 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
 	   	 g.setPerson(p);
 	   	 addGui(g);
 	   	 God.Get().addPerson(p);
