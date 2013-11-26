@@ -3,6 +3,7 @@ package Bank;
 import java.util.*;
 
 import Bank.gui.bankGuardGui;
+import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import SimCity.Base.*;
@@ -61,7 +62,7 @@ public class bankGuardRole extends Role implements Guard {
 	}
 
 	@Override
-	public void allowSearch(bankCustomerRole newC, List<String> inventory) {
+	public void allowSearch(Customer newC, List<String> inventory) {
 		for (Entry c : custEnter) {
 			if(c.bc == newC) {
 				c.inventory = inventory;

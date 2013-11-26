@@ -20,7 +20,7 @@ public interface Manager {
 	//----------------------------------------------Scheduler-------------------------------------------------
 	public abstract boolean pickAndExecuteAnAction();
 
-	public abstract void callTeller(bankCustomerRole c, Teller t);
+	public abstract void callTeller(Customer c, Teller t);
 
 	public abstract void workOver();
 

@@ -17,7 +17,7 @@ public interface Guard {
 
 	public abstract void wantEnter(bankCustomerRole newC);
 
-	public abstract void allowSearch(bankCustomerRole newC,
+	public abstract void allowSearch(Customer newC,
 			List<String> inventory);
 
 	public abstract void workOver();

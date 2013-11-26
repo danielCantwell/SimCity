@@ -2,6 +2,7 @@ package Bank;
 
 import java.util.*;
 
+import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import Bank.interfaces.Teller;
@@ -69,7 +70,7 @@ public class bankManagerRole extends Role implements  Manager{
 	//----------------------------------------------Actions-------------------------------------------------
 	
 	@Override
-	public void callTeller(bankCustomerRole c, Teller t) {
+	public void callTeller(Customer c, Teller t) {
 		t.teller.tellerAssigned(c);
 		tellers.remove(t);
 		clients.remove(c);

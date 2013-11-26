@@ -3,6 +3,7 @@ package Bank;
 import java.util.Collections;
 
 import Bank.gui.*;
+import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Teller;
 
@@ -18,7 +19,7 @@ import SimCity.Buildings.B_Bank;
  * 
  */
 
-public class bankCustomerRole extends Role{
+public class bankCustomerRole extends Role implements Customer{
 
 	//-----------------------------------------------Data-------------------------------------------------
 	
@@ -32,64 +33,77 @@ public class bankCustomerRole extends Role{
 	public state s = state.none;
 	public enum state { none, enter, waiting, called, reqSearch, gaveInv, entered, reqService, leaving};
 
+	@Override
 	public void setGuard(Guard bg){
 		guard = bg;
 	}
-	
+
+	@Override
 	public void setMoney(Money m) {
 		wMoney = myPerson.getMoney();
 		System.out.println("This Customer has :$"+wMoney.dollars+"."+wMoney.cents);
 	}
-	
+
+	@Override
 	public void setAccNum(int a) {
 		accNum = myPerson.getAccNum();
 		System.out.println("This Customer's account number: "+accNum);
 	}
 	//-----------------------------------------------Messages------------------------------------------------
+
+	@Override
 	public void enterBuilding() {
 		s = state.enter;
 		stateChanged();
 		System.out.println("Customer: has entered the building");
 	}
 
+	@Override
 	public void requestSearch() {
 		s = state.reqSearch;
 		stateChanged();
 	}
 
+	@Override
 	public void yesEnter() {
 		s = state.entered;
 		stateChanged();
 		System.out.println("Customer: Guard gave permission to enter");
 	}
 
+	@Override
 	public void noEnter() {
 		s = state.leaving; 		//Leave or possibly throw away bad objects
 	}
 
+	@Override
 	public void tellerCalled(Teller t) {
 		System.out.println("Customer: Teller has called customer to come");
 		s = state.called;
 		teller = t;
 		stateChanged();
 	}
+
+	@Override
 	public void whatService() {
 		s = state.reqService;
 		stateChanged();
 		System.out.println("Customer: Teller asked which service");
 	}
 
+	@Override
 	public void transactionComplete(Money m) {
 		money = m;
 		s = state.leaving;
 	}
-
-	@Override
+	
 	public void workOver() {
 		// make GUI call to leave Bank
 	}
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
+
+	@Override
 	public boolean pickAndExecuteAnAction() {
 		
 		if(s.equals("enter")) {
@@ -122,22 +136,26 @@ public class bankCustomerRole extends Role{
 	}
 
 	//-----------------------------------------------Actions-------------------------------------------------
+	@Override
 	public void openDoor() {
 		System.out.println("opened door");
 		guard.wantEnter(this);
 		s = state.waiting;
 	}
 
+	@Override
 	public void giveInv() {
 		guard.allowSearch(this, inventory);
 		s = state.gaveInv;
 		System.out.println("Customer: is asking guard to search");
 	}
 
+	@Override
 	public void findTeller() {
 		teller.foundTeller(accNum, wMoney, this);
 	}
 
+	@Override
 	public void chooseService() {
 		if (wMoney.getDollar() < 30) {							//Temporary method for choosing whether to withdraw/deposit
 			teller.requestWithdraw(accNum, money); 			//arbitrary amount to withdraw, can be changed later
@@ -151,13 +169,16 @@ public class bankCustomerRole extends Role{
 		}
 	}
 
+	@Override
 	public void leaveBank() {
 		// make GUI call to leave bank 
 	}
-
+	@Override
 	public void setGui(bankCustomerGui gui) {
 		this.gui = gui;
 	}
+
+	@Override
 	public bankCustomerGui getGui() { 
 		return gui;
 	}

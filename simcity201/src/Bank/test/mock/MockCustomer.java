@@ -2,23 +2,37 @@ package Bank.test.mock;
 
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
-import SimCity.Base.Person;
-import SimCity.Buildings.B_House;
+import Bank.gui.bankCustomerGui;
+import Bank.interfaces.Customer;
+import Bank.interfaces.Guard;
+import Bank.interfaces.Teller;
 import SimCity.Globals.Money;
-import SimCity.gui.Gui;
-import Bank.tellerRole;
-import Bank.tellerRole.Client;
-import Bank.gui.tellerGui;
-import Bank.interfaces.*;
-
 /**
  * 
  * @author Eric
  *
  */
 
-public class MockTeller implements Teller {
+public class MockCustomer implements Customer{
 	public EventLog log = new EventLog();
+
+	@Override
+	public void setGuard(Guard bg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setMoney(Money m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAccNum(int a) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void enterBuilding() {
@@ -27,25 +41,36 @@ public class MockTeller implements Teller {
 	}
 
 	@Override
-	public void tellerAssigned(Customer c) {
+	public void requestSearch() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void foundTeller(int accNum, Money money, Customer cust) {
+	public void yesEnter() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void requestWithdraw(int acc, Money money) {
+	public void noEnter() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void requestDeposit(int acc, Money money) {
+	public void tellerCalled(Teller t) {
+		log.add(new LoggedEvent ("Teller called for me"));
+	}
+
+	@Override
+	public void whatService() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void transactionComplete(Money m) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -63,37 +88,25 @@ public class MockTeller implements Teller {
 	}
 
 	@Override
-	public void callClient(Client c) {
+	public void openDoor() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void askService(Client c) {
+	public void giveInv() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void accSetUp(Client c) {
+	public void findTeller() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void withdrawDone(Client c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void depositDone(Client c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void goToCounter() {
+	public void chooseService() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -105,15 +118,16 @@ public class MockTeller implements Teller {
 	}
 
 	@Override
-	public void setGui(tellerGui gui) {
+	public void setGui(bankCustomerGui gui) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public tellerGui getGui() {
+	public bankCustomerGui getGui() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
 }
