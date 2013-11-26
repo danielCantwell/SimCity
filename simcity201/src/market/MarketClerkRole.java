@@ -91,7 +91,6 @@ public class MarketClerkRole extends Role implements MarketClerk {
     public void setPerson(Person person)
     {
         super.setPerson(person);
-        person.gui = gui;
     }
     
     public void setManager(MarketManagerRole manager)

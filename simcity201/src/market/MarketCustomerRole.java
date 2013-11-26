@@ -92,7 +92,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
     public void setPerson(Person person)
     {
         super.setPerson(person);
-        person.gui = gui;
     }
 
     /**

@@ -3,9 +3,7 @@
  */
 package housing.test;
 
-import restaurant.test.mock.LoggedEvent;
 import SimCity.Globals.Money;
-import SimCity.gui.Gui;
 import housing.roles.OwnerRole;
 import housing.roles.OwnerRole.TenantState;
 import housing.test.mock.MockHousingPerson;
@@ -36,9 +34,8 @@ public class OwnerTest extends TestCase {
 		mtOne = new MockTenant();
 		mtTwo = new MockTenant();
 		mtThree = new MockTenant();
-		ownerPerson = new MockHousingPerson(null, "housing.roles.OwnerRole",
-				null, null, new Money(100, 0), new Money(12, 0), 8, 5);
-
+		ownerPerson = new MockHousingPerson("housing.roles.OwnerRole");
+		
 		owner.myPerson = ownerPerson;
 		owner.myPerson.house = "Apartment";
 	}
@@ -324,7 +321,7 @@ public class OwnerTest extends TestCase {
 		// PickAndExecuteAnAction should return true
 		assertTrue(owner.pickAndExecuteAnAction());
 		// Check Post Conditions
-		assertEquals("Tenant two should have state InDebt. He doesn't.",
+		assertEquals("Tenant two should have state None. He doesn't.",
 				TenantState.None, owner.myTenants.get(1).state);
 		assertEquals("Tenant two should have one strike. He doesn't.",
 				1, owner.myTenants.get(1).strikes);
@@ -336,10 +333,16 @@ public class OwnerTest extends TestCase {
 				owner.myPerson.money.dollars);
 		assertEquals("Tenant should owe $100 rent. He doesn't.", 100,
 				owner.myTenants.get(2).rentOwed.dollars);
+		assertEquals("Tenant three should have state InDebt. He doesn't.",
+				TenantState.InDebt, owner.myTenants.get(2).state);
 
 		// PickAndExecuteAnAction should return true
 		assertTrue(owner.pickAndExecuteAnAction());
-
+		// Check Post Conditions
+		assertEquals("Tenant three should have state None. He doesn't.",
+				TenantState.None, owner.myTenants.get(2).state);
+		assertEquals("Tenant two should have one strike. He doesn't.",
+				1, owner.myTenants.get(2).strikes);
 	}
 
 }

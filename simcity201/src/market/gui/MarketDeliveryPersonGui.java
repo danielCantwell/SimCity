@@ -7,12 +7,13 @@ import SimCity.gui.Gui;
 
 public class MarketDeliveryPersonGui implements Gui {
 
-	private boolean pause = false;
+    	private boolean pause = false;
+        private boolean isPresent = true;
 
 		private MarketDeliveryPersonRole role = null;
 
-    private int xPos = 40, yPos = 100;// default waiter position
-    private int xDestination = xPos, yDestination = yPos;// default start position
+        private int xPos = 40, yPos = 100;// default waiter position
+        private int xDestination = xPos, yDestination = yPos;// default start position
 
 		private enum State { none };
 	
@@ -54,7 +55,12 @@ public class MarketDeliveryPersonGui implements Gui {
 		}
 	
 		public boolean isPresent() {
-			return true;
+			return isPresent;
+		}
+		
+		public void setPresent(boolean value)
+		{
+		    isPresent = value;
 		}
 	
 		public int getXPos() {
