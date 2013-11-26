@@ -56,7 +56,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	private Image bufferImage;
 	private Dimension bufferSize;
 
-	private Person manager;
+	public Person manager;
     private Person clerk;
     private Person packer;
     private Person deliveryPerson;
@@ -72,7 +72,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	//public List<MarketClerkGui> clerks = Collections.synchronizedList(new ArrayList<MarketClerkGui>());
 	//public List<MarketDeliveryPersonGui> deliveryPeople = Collections.synchronizedList(new ArrayList<MarketDeliveryPersonGui>());
 
-	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	private List<MyGui> guis = Collections.synchronizedList(new ArrayList<MyGui>());
 	public MarketAnimationPanel(String name)
 	{
 		setSize(WINDOWX, WINDOWY);
@@ -103,7 +103,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         manager = new Person("Manny", mPersonGui, "market.MarketManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
         manager.mainRole.setActive(true);
         mPersonGui.setPerson(manager);
-        Gui mGui = new MarketManagerGui((MarketManagerRole) manager.mainRole);
+        Gui mGui = ((MarketManagerRole) manager.mainRole).getGui();
         addGui(mGui);
         //manager.msgCreateRole(managerRole);
         manager.startThread();
@@ -111,7 +111,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         PersonGui cPersonGui = new PersonGui(gui, aStarTraversal);
         clerk = new Person("Clark", cPersonGui, "market.MarketClerkRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
         clerk.mainRole.setActive(true);
-        Gui cGui = new MarketClerkGui((MarketClerkRole) clerk.mainRole);
+        Gui cGui = ((MarketClerkRole) clerk.mainRole).getGui();
         cPersonGui.setPerson(clerk);
         addGui(cGui);
         ((MarketClerkRole) clerk.mainRole).setManager((MarketManagerRole) manager.mainRole);
@@ -120,7 +120,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         PersonGui pPersonGui = new PersonGui(gui, aStarTraversal);
         packer = new Person("Parker", pPersonGui, "market.MarketPackerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
         packer.mainRole.setActive(true);
-        Gui pGui = new MarketPackerGui((MarketPackerRole) packer.mainRole);
+        Gui pGui = ((MarketPackerRole) packer.mainRole).getGui();
         pPersonGui.setPerson(packer);
         addGui(pGui);
         ((MarketPackerRole) packer.mainRole).setManager((MarketManagerRole) manager.mainRole);
@@ -129,7 +129,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         PersonGui dPersonGui = new PersonGui(gui, aStarTraversal);
         deliveryPerson = new Person("Parson", dPersonGui, "market.MarketDeliveryPersonRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
         deliveryPerson.mainRole.setActive(true);
-        Gui dGui = new MarketDeliveryPersonGui((MarketDeliveryPersonRole) deliveryPerson.mainRole);
+        Gui dGui = ((MarketDeliveryPersonRole) deliveryPerson.mainRole).getGui();
         dPersonGui.setPerson(deliveryPerson);
         addGui(dGui);
         ((MarketDeliveryPersonRole) deliveryPerson.mainRole).setManager((MarketManagerRole) manager.mainRole);
@@ -170,15 +170,15 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(400, 40, 160, 20);
         g2.fillRect(400, 100, 160, 20);
 		
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
+		for (MyGui myGui : guis) {
+			if (myGui.gui.isPresent()) {
+			    myGui.gui.updatePosition();
 			}
 		}
 
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(g2);
+		for (MyGui myGui : guis) {
+			if (myGui.gui.isPresent()) {
+			    myGui.gui.draw(g2);
 			}
 		}
 		
@@ -188,27 +188,29 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	}
 
 	public void addGui(MarketPackerGui gui) {
-		guis.add(gui);
+		guis.add(new MyGui(gui));
+        initializeLocations();
 	}
 	
 	public void addGui(MarketClerkGui gui) {
-		guis.add(gui);
+		guis.add(new MyGui(gui));
 	}
 	
 	public void addGui(MarketDeliveryPersonGui gui) {
-		guis.add(gui);
+		guis.add(new MyGui(gui));
 	}
 	
     public void addGui(MarketCustomerGui gui) {
-        guis.add(gui);
+        guis.add(new MyGui(gui));
     }
     
     public void addGui(MarketManagerGui gui) {
-        guis.add(gui);
+        guis.add(new MyGui(gui));
+        initializeLocations();
     }
 
     public void addGui(Gui gui) {
-        guis.add(gui);
+        guis.add(new MyGui(gui));
     }
     
     public void initializeLocations()
@@ -246,17 +248,36 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
             locCount++;
         }
 
-        for (Gui gui : guis)
+        for (MyGui myGui : guis)
         {
-            if (gui instanceof MarketManagerGui)
+            if (!myGui.initialized)
             {
-                ((MarketManagerGui) gui).setLocations(locations);
-                ((MarketManagerRole) manager.mainRole).initializeInventory((MarketManagerGui)gui);
+                if (myGui.gui instanceof MarketManagerGui)
+                {
+                    ((MarketManagerGui) myGui.gui).setLocations(locations);
+                    ((MarketManagerRole) manager.mainRole).initializeInventory((MarketManagerGui) myGui.gui);
+                }
+                else if (myGui.gui instanceof MarketPackerGui)
+                {
+                    ((MarketPackerGui) myGui.gui).setLocations(locations);
+                }
             }
-            else if (gui instanceof MarketPackerGui)
-            {
-                ((MarketPackerGui) gui).setLocations(locations);
-            }
+        }
+    }
+    
+    /**
+     * Inner Classes
+     */
+    
+    private class MyGui
+    {
+        public Gui gui;
+        public boolean initialized;
+        
+        public MyGui(Gui gui)
+        {
+            this.gui = gui;
+            initialized = false;
         }
     }
     

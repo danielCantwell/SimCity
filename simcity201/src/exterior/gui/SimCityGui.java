@@ -66,7 +66,7 @@ public class SimCityGui extends JFrame {
     		}
     		// Add Markets:
     		if (i == 3 || i == 5) {
-        		buildingPanel = new MarketAnimationPanel("Ralph's", this);
+        		buildingPanel = new MarketAnimationPanel("Costco", this);
         		b = new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
         		((MarketAnimationPanel) buildingPanel).setBMarket((B_Market)b);
     		}
