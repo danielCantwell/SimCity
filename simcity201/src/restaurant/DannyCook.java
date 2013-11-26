@@ -1,11 +1,13 @@
 package restaurant;
 
+import SimCity.Base.Role;
 import agent.Agent;
 
 import java.util.*;
 
 import restaurant.gui.CookGui;
-import restaurant.interfaces.Market;
+
+
 
 /**
  * Restaurant Cook Agent
@@ -16,13 +18,11 @@ import restaurant.interfaces.Market;
 // him
 // the HostAgent. A Host is the manager of a restaurant who sees that all
 // is proceeded as he wishes.
-public class DannyCook extends Agent {
+public class DannyCook extends Role {
 
 	private CookGui cookGui = new CookGui();
 
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
-	List<MyMarket> markets = Collections
-			.synchronizedList(new ArrayList<MyMarket>());
 	List<FoodNeeded> foodToOrder = Collections
 			.synchronizedList(new ArrayList<FoodNeeded>());
 
@@ -39,9 +39,7 @@ public class DannyCook extends Agent {
 	private Food salad = new Food("Salad", 3000, 4, 2, 6);
 	public Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 
-	enum MarketState {
-		Available, OutOfStock
-	};
+
 
 	enum FoodNeededState {
 		NeedToOrder, Ordered, CantBeOrdered
@@ -90,36 +88,7 @@ public class DannyCook extends Agent {
 	}
 
 	// From Market
-	public void msgOrderNotFulfilled(Market market,
-			String unfulfilledFood, int amount) {
-		print("MESSAGE # : Market -> Cook : OrderNotFulfilled");
-		foodToOrder.add(new FoodNeeded(unfulfilledFood, amount));
-		synchronized (markets) {
-			for (MyMarket myMarket : markets) {
-				if (myMarket.market == market) {
-					myMarket.outOf(unfulfilledFood);
-				}
-			}
-		}
-		stateChanged();
-	}
-
-	// From Market
-	public void msgOrderFinished(Market market, String fulfilledFood,
-			int amount) {
-		print("MESSAGE # : Market -> Cook : OrderFinished");
-		synchronized (foodToOrder) {
-			for (FoodNeeded item : foodToOrder) {
-				if (item.type.equals(fulfilledFood)) {
-					foodToOrder.remove(item);
-					break;
-				}
-			}
-		}
-		foods.get(fulfilledFood).inventory += amount;
-		stateChanged();
-	}
-
+	
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
@@ -161,24 +130,8 @@ public class DannyCook extends Agent {
 				}
 			}
 		}
-		synchronized (foodToOrder) {
-			for (FoodNeeded item : foodToOrder) {
-				if (item.state == FoodNeededState.NeedToOrder) {
-					synchronized (markets) {
-						for (MyMarket myMarket : markets) {
-							if (myMarket.has(item.type)) {
-								orderLowFood(myMarket);
-								rotateMarkets();
-								return true;
-							}
-						}
-					}
-					item.state = FoodNeededState.CantBeOrdered;
-					print("All markets are out of " + item.type);
-					return true;
-				}
-			}
-		}
+		
+		
 		return false;
 		// we have tried all our rules and found
 		// nothing to do. So return false to main loop of abstract agent
@@ -230,19 +183,6 @@ public class DannyCook extends Agent {
 		orders.remove(order);
 	}
 
-	private void orderLowFood(MyMarket myMarket) {
-		Do("Order Low Food");
-
-		Map<String, Integer> lowFoods = new HashMap<String, Integer>();
-		synchronized (foodToOrder) {
-			for (FoodNeeded item : foodToOrder) {
-				lowFoods.put(item.type, item.amount);
-				item.state = FoodNeededState.Ordered;
-			}
-		}
-		myMarket.market.msgOrderFood(this, lowFoods);
-	}
-
 	// The animation DoXYZ() routines
 
 	private void DoCooking(Order order) {
@@ -280,17 +220,7 @@ public class DannyCook extends Agent {
 		}
 	}
 
-	private void rotateMarkets() {
-		MyMarket first = markets.get(0);
-		markets.remove(0);
-		markets.add(first);
-	}
-
-	public void addMarket(Market market) {
-		markets.add(new MyMarket(market));
-		((Agent) market).startThread();
-	}
-
+	
 	public CookGui getGui() {
 		return cookGui;
 	}
@@ -346,63 +276,17 @@ public class DannyCook extends Agent {
 		}
 	}
 
-	public class MyMarket {
-		Market market;
-		MarketState state;
+	private void print(String string) {
+		System.out.println(string);
+	}
+	
+	@Override
+	protected void enterBuilding() {
+		
+	}
 
-		boolean outOfSteak = false;
-		boolean outOfChicken = false;
-		boolean outOfPizza = false;
-		boolean outOfSalad = false;
-
-		MyMarket(Market market) {
-			this.market = market;
-			state = MarketState.Available;
-		}
-
-		public void outOf(String type) {
-			if (type == "Steak") {
-				outOfSteak = true;
-			} else if (type == "Chicken") {
-				outOfChicken = true;
-			} else if (type == "Pizza") {
-				outOfPizza = true;
-			} else if (type == "Salad") {
-				outOfSalad = true;
-			} else {
-				print("outOf -- not a valid type");
-			}
-		}
-
-		public boolean has(String type) {
-			if (type == "Steak") {
-				if (outOfSteak) {
-					return false;
-				} else {
-					return true;
-				}
-			} else if (type == "Chicken") {
-				if (outOfChicken) {
-					return false;
-				} else {
-					return true;
-				}
-			} else if (type == "Pizza") {
-				if (outOfPizza) {
-					return false;
-				} else {
-					return true;
-				}
-			} else if (type == "Salad") {
-				if (outOfSalad) {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				print("has -- not a valid type");
-				return false;
-			}
-		}
+	@Override
+	public void workOver() {
+	
 	}
 }

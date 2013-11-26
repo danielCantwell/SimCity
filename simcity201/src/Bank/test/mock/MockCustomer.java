@@ -47,8 +47,7 @@ public class MockCustomer implements Customer{
 
 	@Override
 	public void yesEnter() {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent ("Gaurd let me in"));		
 	}
 
 	@Override

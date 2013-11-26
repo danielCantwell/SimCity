@@ -20,12 +20,14 @@ public class GuardTest extends TestCase{
 		List<String>badInv = new ArrayList<String>();
 	
 	public void setUp() throws Exception {
-		super.setUp();
+		//super.setUp();
 		guard = new bankGuardRole();
 		teller = new MockTeller();
 		cust1 = new MockCustomer();
 		guardPerson = new MockBankPerson("Bank.bankGuardRole");
 		guard.myPerson = guardPerson;
+		//goodInv.add("cheese");
+		badInv.add("gun");
 	}
 	public void testOne() {
 		try {
@@ -46,6 +48,9 @@ public class GuardTest extends TestCase{
 				cust1.log.containsString("Guard has requested search"));
 		//receive message
 		guard.allowSearch(cust1, goodInv);
-		
+		assertEquals("Guard should receive customer Inv of size 0 but doesn't",0,goodInv.size());
+		assertTrue(guard.pickAndExecuteAnAction());
+//		assertTrue("Customer log should read: Guard let me in but instead it is"+cust1.log.getLastLoggedEvent().toString(),
+//				cust1.log.containsString("Guard let me in"));
 	}
 }

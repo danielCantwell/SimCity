@@ -4,6 +4,7 @@ import restaurant.gui.CustomerGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.God;
+import SimCity.Base.Role;
 import agent.Agent;
 
 import java.util.Timer;
@@ -13,7 +14,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Restaurant customer agent.
  */
-public class DannyCustomer extends Agent implements Customer{
+public class DannyCustomer extends Role implements Customer{
 	private String name;
 	private String myChoice;
 	private double cash = 10;
@@ -384,6 +385,20 @@ public class DannyCustomer extends Agent implements Customer{
 	
 	public void setDebt(double debt) {
 		this.debt = debt;
+	}
+
+	private void print(String string) {
+		System.out.println(string);
+	}
+	@Override
+	protected void enterBuilding() {
+		Do("Going to restaurant");
+		host.msgIWantFood(this);
+	}
+
+	@Override
+	public void workOver() {
+		customerGui.DoExitRestaurant(); //Leaves restaurant
 	}
 }
 

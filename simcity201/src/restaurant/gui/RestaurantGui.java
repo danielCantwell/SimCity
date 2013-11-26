@@ -147,18 +147,6 @@ public class RestaurantGui extends JFrame implements ActionListener {
                 stateCB.setEnabled(false);
             }
         }
-        if (e.getSource() == pauseButton) {
-        	if (!paused) {
-        		System.out.println("pause");
-        		paused = true;
-        		restPanel.pause();
-        	}
-        	else if (paused) {
-        		System.out.println("restart");
-        		paused = false;
-        		restPanel.restart();
-        	}
-        }
     }
     /**
      * Message sent from a customer gui to enable that customer's

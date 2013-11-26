@@ -171,7 +171,7 @@ public class tellerRole extends Role implements Teller {
 	}
 
 	public void depositDone(Client c) {
-		System.out.println(c.money.getDollar());
+		//System.out.println(c.money.getDollar());
 		c.money = c.money.subtract(c.editmoney);
 		//System.out.println("###"+c.money.getDollar());
 		Money temp = bankAccs.get(c.accountNum);

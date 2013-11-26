@@ -1,5 +1,6 @@
 package restaurant;
 
+import SimCity.Base.Role;
 import agent.Agent;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
@@ -17,7 +18,7 @@ import java.util.*;
 // him
 // the HostAgent. A Host is the manager of a restaurant who sees that all
 // is proceeded as he wishes.
-public class DannyHost extends Agent {
+public class DannyHost extends Role {
 	public static final int NTABLES = 4;// a global for the number of tables.
 	// Notice that we implement waitingCustomers using ArrayList, but type it
 	// with List semantics.
@@ -226,7 +227,7 @@ public class DannyHost extends Agent {
 
 	public void addWaiter(DannyWaiter w) {
 		waiters.add(new MyWaiter(w));
-		w.startThread();
+		//w.startThread();
 		print("Added waiter " + w.getName());
 		stateChanged();
 	}
@@ -303,5 +304,21 @@ public class DannyHost extends Agent {
 		public String toString() {
 			return "table " + tableNumber;
 		}
+	}
+	
+	public void print(String string) {
+		System.out.println(string);
+	}
+	
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 }

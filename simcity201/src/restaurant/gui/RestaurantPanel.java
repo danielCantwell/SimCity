@@ -4,7 +4,6 @@ import restaurant.DannyCashier;
 import restaurant.DannyCook;
 import restaurant.DannyCustomer;
 import restaurant.DannyHost;
-import restaurant.MarketAgent;
 import restaurant.DannyWaiter;
 
 import javax.swing.*;
@@ -23,7 +22,6 @@ public class RestaurantPanel extends JPanel {
 
     private Vector<DannyCustomer> customers = new Vector<DannyCustomer>();
     private Vector<DannyWaiter> waiters = new Vector<DannyWaiter>();
-    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
 
     private JPanel    restLabel     = new JPanel();
     private ListPanel listPanel     = new ListPanel(this);
@@ -36,22 +34,7 @@ public class RestaurantPanel extends JPanel {
         //host.setGui(hostGui);
         
         gui.animationPanel.addGui(host.getCook().getGui());
-
-        host.startThread();
-        cashier.startThread();
-        
-        MarketAgent marketOne = new MarketAgent("Market_One");
-        MarketAgent marketTwo = new MarketAgent("Market_Two");
-        MarketAgent marketThree = new MarketAgent("Market_Three");
-        
-        markets.add(marketOne);
-        markets.add(marketTwo);
-        markets.add(marketThree);
-        
-        host.getCook().addMarket(marketOne);
-        host.getCook().addMarket(marketTwo);
-        host.getCook().addMarket(marketThree);
-
+  
         setLayout(new GridLayout(1, 2, 10, 10));
         group.setLayout(new GridLayout(1, 2, 10, 10));
 
@@ -128,7 +111,6 @@ public class RestaurantPanel extends JPanel {
     			c.getGui().setHungry();
     		}
     		customers.add(c);
-    		c.startThread();
     	}
     	
     	if (type.equals("Waiters")) {
@@ -186,39 +168,4 @@ public class RestaurantPanel extends JPanel {
     		}
     	}
     }
-    
-    public void pause() {
-    	host.pause();
-    	host.getCook().pause();
-    	cashier.pause();
-    	for (DannyCustomer c : customers) {
-    		c.getGui().pause();
-    		c.pause();
-    	}
-    	for (DannyWaiter w : waiters) {
-    		w.getGui().pause();
-    		w.pause();
-    	}
-    	for (MarketAgent m : markets) {
-    		m.pause();
-    	}
-    }
-    
-    public void restart() {
-    	host.restart();
-    	host.getCook().restart();
-    	cashier.restart();
-    	for (DannyCustomer c : customers) {
-    		c.getGui().restart();
-    		c.restart();
-    	}
-    	for (DannyWaiter w : waiters) {
-    		w.getGui().restart();
-    		w.restart();
-    	}
-    	for (MarketAgent m : markets) {
-    		m.restart();
-    	}
-    }
-
 }

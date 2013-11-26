@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
+import SimCity.Base.Role;
 import agent.Agent;
 
 /**
@@ -20,7 +21,7 @@ import agent.Agent;
 // him
 // the HostAgent. A Host is the manager of a restaurant who sees that all
 // is proceeded as he wishes.
-public class DannyWaiter extends Agent implements Waiter {
+public class DannyWaiter extends Role implements Waiter {
 
 	public List<MyCustomer> myCustomers = Collections
 			.synchronizedList(new ArrayList<MyCustomer>());
@@ -390,7 +391,7 @@ public class DannyWaiter extends Agent implements Waiter {
 		}
 		myCustomer.event = CookEvent.None;
 		print("Processing Order");
-		cook.startThread();
+		//cook.startThread();
 		cook.msgHereIsAnOrder(this, myCustomer.choice, myCustomer.table);
 	}
 
@@ -523,7 +524,10 @@ public class DannyWaiter extends Agent implements Waiter {
 	}
 
 	// utilities
-
+	public void print(String string) {
+		System.out.println(string);
+	}
+	
 	public void setGui(WaiterGui gui) {
 		waiterGui = gui;
 	}
@@ -542,5 +546,17 @@ public class DannyWaiter extends Agent implements Waiter {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 }

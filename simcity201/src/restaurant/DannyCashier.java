@@ -11,15 +11,15 @@ import java.util.Map;
 
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
-import restaurant.interfaces.Market;
 import restaurant.interfaces.Waiter;
+import SimCity.Base.Role;
 import agent.Agent;
 
 /**
  * @author Daniel
  * 
  */
-public class DannyCashier extends Agent implements Cashier {
+public class DannyCashier extends Role implements Cashier {
 
 	private String name;
 
@@ -27,8 +27,6 @@ public class DannyCashier extends Agent implements Cashier {
 			.synchronizedList(new ArrayList<PayingCustomer>());
 	public List<PayingCustomer> customersWhoDidntPay = Collections
 			.synchronizedList(new ArrayList<PayingCustomer>());
-	public List<MarketToPay> marketsToPay = Collections
-			.synchronizedList(new ArrayList<MarketToPay>());
 
 	private double steakCost = 16.00;
 	private double chickenCost = 11.00;
@@ -93,22 +91,12 @@ public class DannyCashier extends Agent implements Cashier {
 		stateChanged();
 	}
 	
-	public void msgPayMarket(Market market, double d) {
-		print("MESSAGE : Market -> Cashier : PayMarket");
-		marketsToPay.add(new MarketToPay(market, d));
-		stateChanged();
-	}
 
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
 		
-		if (!marketsToPay.isEmpty()) {
-			payMarket(marketsToPay.get(0));
-			return true;
-		}
-
 		synchronized (payingCustomers) {
 			for (PayingCustomer myCustomer : payingCustomers) {
 				if (myCustomer.state == State.Bill) {
@@ -172,9 +160,9 @@ public class DannyCashier extends Agent implements Cashier {
 		myCustomer.customer.msgHereIsYourChange(change);
 	}
 	
-	private void payMarket(MarketToPay market) {
-		market.market.msgPayment(market.moneyOwed);
-		marketsToPay.remove(market);
+
+	private void print(String string) {
+		System.out.println(string);
 	}
 
 	public String getName() {
@@ -211,14 +199,15 @@ public class DannyCashier extends Agent implements Cashier {
 
 	}
 	
-	public class MarketToPay {
-		Market market;
-		double moneyOwed;
-		
-		MarketToPay(Market market, double d) {
-			this.market = market;
-			this.moneyOwed = d;
-		}
+	
+	@Override
+	protected void enterBuilding() {
+		//Gui call to enter restaurant
+	}
+
+	@Override
+	public void workOver() {
+		//Gui call to leave restaurant
 	}
 
 }
