@@ -42,4 +42,40 @@ public class MockTenant implements Tenant {
 		log.add(new LoggedEvent("Received msgMorning from god."));
 	}
 
+	@Override
+	public void msgAtTable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAtBed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAtFridge() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAtStove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAtMail() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAtDoor() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

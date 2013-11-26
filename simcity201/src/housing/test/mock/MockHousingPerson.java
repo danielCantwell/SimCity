@@ -3,6 +3,7 @@
  */
 package housing.test.mock;
 
+import exterior.gui.PersonGui;
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import SimCity.Base.Person;
@@ -18,7 +19,7 @@ public class MockHousingPerson extends Person {
 	
 	public EventLog log = new EventLog();
 
-	public MockHousingPerson(Gui gui, String mainRole, Vehicle vehicle,
+	public MockHousingPerson(PersonGui gui, String mainRole, Vehicle vehicle,
 			Morality morality, Money money, Money moneyThresh, int hunger,
 			int hungerThresh) {
 		super("Danny", gui, mainRole, vehicle, morality, money, moneyThresh, hunger,
