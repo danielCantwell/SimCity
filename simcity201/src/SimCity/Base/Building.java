@@ -3,7 +3,15 @@
  */
 package SimCity.Base;
 
+import housing.gui.HousingAnimation;
+import housing.gui.TenantGui;
+
 import javax.swing.JPanel;
+
+import restaurant.gui.DannyRestaurantAnimationPanel;
+import market.gui.MarketAnimationPanel;
+import SimCity.Buildings.B_House;
+import SimCity.gui.Gui;
 /**
  * @author Brian
  *
@@ -15,7 +23,9 @@ public abstract class Building extends SimObject {
 	protected int x,y; //x and y position in the world.
 	protected boolean isOpen = false; //if the building is closed, then a person cannot go into the building.
 	protected JPanel buildingPanel; //The card layout that is associated with the building.
-
+	
+	public JPanel getPanel() {return buildingPanel;}
+	
 	protected String tag = "";
 	public String getTag(){return tag;}
 	public void setTag(String tag){this.tag = tag;}

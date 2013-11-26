@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
@@ -27,7 +28,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
     private final int CITY_SIZE = 4;
-    //private String consoleText = "";
     private final char[][] MAP = new char[][] {
     		
     	/* Map legend:
@@ -76,14 +76,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	private ImageIcon iconPedL = new ImageIcon("images/a_pedestrian_l.gif");
 	private ImageIcon iconPedU = new ImageIcon("images/a_pedestrian_u.gif");
 	private ImageIcon iconRoad = new ImageIcon("images/t_road.png");
-	private ImageIcon iconRoadVL = new ImageIcon("images/t_road_vl.png");
-	private ImageIcon iconRoadVR = new ImageIcon("images/t_road_vr.png");
-	private ImageIcon iconRoadHL = new ImageIcon("images/t_road_hl.png");
-	private ImageIcon iconRoadHR = new ImageIcon("images/t_road_hr.png");
+	private ImageIcon iconSide = new ImageIcon("images/t_side_r.png");
 	private ImageIcon iconCrossV = new ImageIcon("images/t_cross_v.png");
 	private ImageIcon iconCrossH = new ImageIcon("images/t_cross_h.png");
-	private ImageIcon iconBuildingA = new ImageIcon("images/t_building1.png");
-	private ImageIcon iconBuildingB = new ImageIcon("images/t_building2.png");
 	
     public AnimationPanel() {
         setSize(WINDOWX, WINDOWY);
@@ -126,14 +121,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
             		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
             			gui.buildingFrame.setVisible(true);
             			System.out.println("MOUSE PRESS ON BUILDING: " + i);
-            			gui.buildingFrame.setTitle("Building #" + (i+1) + " - " + gui.buildingList.get(i).getTag());
             			gui.cardLayout.show(gui.buildingPanels, "" + i);
             		}
             	}
             }
         });
         
-        /*
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
         	public void mouseDragged(MouseEvent e) {      		
@@ -142,14 +135,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
         	public void mouseMoved(MouseEvent e) {
             	for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
             		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-            			consoleText = gui.buildingList.get(i).getTag();
-            		} else {
-            			consoleText = "";
+            			//System.out.println("MOUSE ON BUILDING: " + i);
             		}
             	}
         	}
         });
-        */
     }
 
 	public void actionPerformed(ActionEvent e) {
@@ -170,53 +160,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
         			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
         		}
 
-        		if (x != 0 && x != 29 && y != 0 && y != 29) {
-		    		if (MAP[x-1][y] == 'S') {
-		        		iconRoadVL.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-		    		}
-		    		else if (MAP[x+1][y] == 'S') {
-		        		iconRoadVR.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-		    		}
-		    		else if (MAP[x][y-1] == 'S') {
-		        		iconRoadHL.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-		    		}
-		    		else if (MAP[x][y+1] == 'S') {
-		        		iconRoadHR.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-		    		} else {
-		        		iconRoad.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-		    		}
-        		} else {
-        			if (x == 0 && MAP[x+2][y] == 'S') {
-		        		iconRoadVL.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        			} else if (x == 29 && MAP[x-2][y] == 'S') {
-		        		iconRoadVR.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        			} else if (y == 0 && MAP[x][y+2] == 'S') {
-		        		iconRoadHL.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        			} else if (y == 29 && MAP[x][y-2] == 'S') {
-		        		iconRoadHR.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        			} else {
-        				iconRoad.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        			}
-        		}
+        		iconRoad.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
         	}
         	if (MAP[x][y] == 'S') {
         		if (SHOW_RECT) {
         			g2.setColor(Color.LIGHT_GRAY);
         			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
         		}
-        		
-        		if (MAP[x][y+1] == 'S' && MAP[x+1][y] == 'S' && MAP [x+1][y+1] == 'B') {
-        			for (int i = 0; i < 16; i++) {
-        				if (getBuildingRect(i).contains(x*TILESIZE + TILESIZE*2, y*TILESIZE + TILESIZE*2)) {
-        					if (gui.buildingList.get(i).getTag() == "B_Bank" || gui.buildingList.get(i).getTag() == "B_Market" || gui.buildingList.get(i).getTag() == "B_Restaurant") {
-        	        			iconBuildingB.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        					} else {
-        	        			iconBuildingA.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        					}
-        				}
-        			}
 
-        		}
+        		iconSide.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
         	}
         	if (MAP[x][y] == 'C') {
         		if (SHOW_RECT) {
@@ -260,8 +212,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
                 }
             }
         }
-        
-        //g2.drawString(consoleText, 10, 10);
     }
     
     public void addGui(Gui gui) {
@@ -289,6 +239,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 Person p = new Person("Jesse", g, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
             	 g.setPerson(p);
             	 addGui(g);
+            	 God.Get().addPerson(p);
             	 p.startThread();
              }
         };

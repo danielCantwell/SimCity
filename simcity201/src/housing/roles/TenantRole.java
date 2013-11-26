@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import housing.gui.HousingAnimation;
 import housing.gui.TenantGui;
 import housing.interfaces.Owner;
 import housing.interfaces.Tenant;
@@ -74,6 +75,7 @@ public class TenantRole extends Role implements Tenant {
 	
 	public void msgGoToWork() {
 		time = Time.work;
+		stateChanged();
 	}
 
 	public void msgSleeping() {
@@ -104,8 +106,10 @@ public class TenantRole extends Role implements Tenant {
 		atStove.release();
 	}
 
-	public void msgAtDoor() {
+	public void msgAtDoor(HousingAnimation ha) {
+		
 		atDoor.release();
+		ha.removeGui(gui);
 	}
 
 	// -----------------------------------SCHEDULER-----------------------------------
@@ -133,6 +137,7 @@ public class TenantRole extends Role implements Tenant {
 		
 		if (time == Time.work) {
 			goToWork();
+			return true;
 		}
 
 		synchronized (appliances) {
@@ -182,6 +187,8 @@ public class TenantRole extends Role implements Tenant {
 			}
 			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
 					Intent.customer);
+			HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
+			myPanel.addGui(gui);
 			exitBuilding(myPerson);
 			setActive(false);
 		} else {
@@ -223,6 +230,7 @@ public class TenantRole extends Role implements Tenant {
 	}
 	
 	private void goToWork() {
+		System.out.println("Going to work baby.");
 		gui.DoLeaveHouse();
 		try {
 			atDoor.acquire();
@@ -231,6 +239,8 @@ public class TenantRole extends Role implements Tenant {
 		}
 		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
 				Intent.customer);
+		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
+		myPanel.addGui(gui);
 		exitBuilding(myPerson);
 		setActive(false);
 	}
@@ -261,6 +271,8 @@ public class TenantRole extends Role implements Tenant {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
+		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
+		myPanel.addGui(gui);
 		gui.DoGoToTable();
 		try {
 			atTable.acquire();

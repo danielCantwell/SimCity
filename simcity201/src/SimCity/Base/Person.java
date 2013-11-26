@@ -277,7 +277,7 @@ public class Person extends Agent {
 			return false;
 		}
 		
-		if (timeState == TimeState.msgGoToSleep){
+		if (timeState == TimeState.msgGoToWork){
 			isWorkTime();
 			return false;
 		}
@@ -345,6 +345,7 @@ public class Person extends Agent {
 			if (r.getActive())
 				r.workOver();
 		}
+		timeState = TimeState.none;
 	}
 	
 	private void isWorkTime(){
@@ -353,9 +354,12 @@ public class Person extends Agent {
 				if (r instanceof TenantRole){
 					TenantRole tr = (TenantRole)r;
 					tr.msgGoToWork();
+					timeState = TimeState.working;
+					return;
 				}
 			}
 		}
+		timeState = TimeState.none;
 	}
 	
 	private void isMorning(){

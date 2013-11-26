@@ -3,6 +3,7 @@
  */
 package housing.interfaces;
 
+import housing.gui.HousingAnimation;
 import housing.gui.TenantGui;
 import housing.roles.OwnerRole.Appliance;
 
@@ -34,7 +35,7 @@ public interface Tenant {
 
 	public abstract void msgAtMail();
 
-	public abstract void msgAtDoor();
+	public abstract void msgAtDoor(HousingAnimation h);
 	
 	public abstract TenantGui getGui();
 

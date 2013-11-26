@@ -2,6 +2,9 @@
  * 
  */
 package SimCity.Base;
+
+import SimCity.gui.Gui;
+
 /**
  * @author Brian
  *

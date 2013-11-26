@@ -62,7 +62,7 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
-	private TenantRole tenant = new TenantRole();
+	//private TenantRole tenant = new TenantRole();
 	
 	public HousingAnimation() {
 		setSize(WINDOW_X, WINDOW_Y);
@@ -71,7 +71,7 @@ public class HousingAnimation extends JPanel implements ActionListener {
 		Timer timer = new Timer(TENANT_SPEED, this);
 		timer.start();
 	
-		addGui(tenant.getGui());
+		//addGui(tenant.getGui());
 	}
 
 	@Override
@@ -111,6 +111,9 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	
 	public void addGui(TenantGui gui) {
 		guis.add(gui);
+	}
+	public void removeGui(TenantGui gui){
+		guis.remove(gui);
 	}
 
 }

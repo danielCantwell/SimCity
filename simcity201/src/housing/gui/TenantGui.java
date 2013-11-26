@@ -4,6 +4,7 @@
 package housing.gui;
 
 import housing.interfaces.Tenant;
+import housing.roles.TenantRole;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -16,7 +17,7 @@ import SimCity.gui.Gui;
  */
 public class TenantGui implements Gui {
 	
-	private Tenant tenant = null;
+	private TenantRole tenant = null;
 	
 	private int xSize,	ySize;
 	
@@ -44,7 +45,7 @@ public class TenantGui implements Gui {
 	private enum Dest { None, Bed, Table, Fridge, Stove, Mail, Door };
 	private Dest destination = Dest.None;
 	
-	public TenantGui(Tenant tenant) {
+	public TenantGui(TenantRole tenant) {
 		this.tenant = tenant;
 		xPos = xDoor;
 		yPos = yDoor;
@@ -78,7 +79,9 @@ public class TenantGui implements Gui {
 				tenant.msgAtBed();
 			}
 			else if (destination == Dest.Door) {
-				tenant.msgAtDoor();
+				HousingAnimation ha = (HousingAnimation) tenant.myPerson.building.getPanel();
+				tenant.msgAtDoor(ha);
+				//ha.removeGui(this);
 			}
 			else if (destination == Dest.Fridge) {
 				tenant.msgAtFridge();
@@ -131,6 +134,7 @@ public class TenantGui implements Gui {
 		xDest = xDoor;
 		yDest = yDoor;
 		System.out.println("Leaving House");
+		
 	}
 
 	// Go to the fridge
