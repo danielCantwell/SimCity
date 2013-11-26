@@ -120,9 +120,9 @@ public class Person extends Agent {
 			try {
 				newRole = (Role)Class.forName(job).newInstance();
 				newRole.setPerson(this);
+				newRole.setActive(false);
 				roles.add(newRole);
 				mainRole = newRole;
-				mainRole.active = true;
 				mainRole.myPerson = this;
 			} catch(Exception e){
 				e.printStackTrace();
@@ -222,16 +222,25 @@ public class Person extends Agent {
 		stateChanged();
 	}
 	
+	/* (non-Javadoc)
+	 * @see SimCity.Base.PersonInterface#msgSleep()
+	 */
 	public void msgSleep(){
 		timeState = TimeState.msgGoToSleep;
 		stateChanged();
 	}
 	
+	/* (non-Javadoc)
+	 * @see SimCity.Base.PersonInterface#msgWorkOver()
+	 */
 	public void msgWorkOver(){
 		timeState = TimeState.msgWorkOver;
 		stateChanged();
 	}
 	
+	/* (non-Javadoc)
+	 * @see SimCity.Base.PersonInterface#msgMorning()
+	 */
 	public void msgMorning(){
 		timeState = TimeState.msgMorning;
 		stateChanged();
@@ -239,6 +248,9 @@ public class Person extends Agent {
 	
 	//Scheduler
 	boolean returnPAEAA = false;
+	/* (non-Javadoc)
+	 * @see SimCity.Base.PersonInterface#pickAndExecuteAnAction()
+	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		
@@ -267,8 +279,9 @@ public class Person extends Agent {
 			if (r.getActive()){
 				//I need to do this active role shit to supress the hunger decremation while at work.
 				//Hunger level WILL decrease if the person is in a house.
-					if (r instanceof TenantRole) hasActiveRole = false;
+				if (r instanceof TenantRole) hasActiveRole = false;
 					else hasActiveRole = true;
+				System.out.println("hi");
 				 returnPAEAA =  r.pickAndExecuteAnAction();
 				 //This means that only one role will activate.
 				 return returnPAEAA;
@@ -280,7 +293,9 @@ public class Person extends Agent {
 		//This means that the role has to leave a building and turn off before the person can go anywhere.
 		//ALSO the role must set the person's intent before leaving the workplace.
 		//pop the first thing off the action
+		System.out.println("holy shit");
 		if (actions.size() > 0){	
+			System.out.println("popping");
 			goTo(actions.pop());
 			return false; //might be true
 		}

@@ -69,6 +69,7 @@ public class PersonTest extends TestCase {
 	
 	public void test_PersonEntersBank(){
 		set();
+		System.out.println(person.roles.toString());
 		//Lets set up a god class so that the person can enter the bank. First we need to create a bank!
 		God.Get();
 		B_Bank bank= new B_Bank(25);
@@ -82,6 +83,11 @@ public class PersonTest extends TestCase {
 		
 		//At this point the bank should be pretty much set up and ready to go. Let's add the person to the bank.
 		person.msgGoToBuilding(bank, Intent.customer);
+		//One roles should be in your roles list.
+		assertTrue("There should be one role in the roles list", person.roles.size() == 1);
+		//That role should be inactive
+		assertTrue("That role should be inactive", person.roles.get(0).getActive() == false);
+		
 		
 		//Ok now we need to check if the action was put in the person's actionlist.
 		assertTrue("Does the person's action list contain one item?" , person.actions.size() == 1);
@@ -91,7 +97,7 @@ public class PersonTest extends TestCase {
 		//Now what if we added a second action but it is work this time!
 		person.msgGoToBuilding(bank, Intent.work);
 		assertTrue("Are there now 2 things in the action list of the person?", person.actions.size() == 2);
-		assertTrue("Are they both of type bank?", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(1).getGoAction() == Person.GoAction.goBank);
+		assertTrue("Are they both of type bank?", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(1).getGoAction() == GoAction.goBank);
 		assertTrue("Is the first action's intent customer", person.actions.get(0).getIntent() == Intent.customer);
 		assertTrue("Is the second action's intent work?", person.actions.get(1).getIntent() == Intent.work);
 		
@@ -102,11 +108,8 @@ public class PersonTest extends TestCase {
 		assertTrue("After PAEAA, the action list should be of size 1.", person.actions.size() == 1);
 		assertTrue("That action should have a GoAction of goBank and an intent of work.", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(0).getIntent() == Intent.work);
 		
-		person.pickAndExecuteAnAction();
-		assertTrue("After PAEAA the action list should be of size 0.", person.actions.size() == 0);
-		//assert
+		assertTrue("There should be one role that is active in the person.", person.roles.get(0).getActive());
 	}
-	
 	
 }
 

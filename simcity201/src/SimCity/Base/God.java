@@ -96,6 +96,7 @@ public class God {
 	    	}
 	    }
 	    
+	    //Fix this laters
 	    public Building findRandomRestaurant(){
 	    	while (true){
 		    	Random rndnum = new Random (buildings.size());
@@ -114,7 +115,7 @@ public class God {
 	        System.out.println("God Created");
 	        //set God variables.
 	        hour = 0;
-	        hourOffset = 60000;
+	        hourOffset = 600000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){
@@ -124,7 +125,7 @@ public class God {
 						   wakeUp();
 					   }
 					   
-					   if (hour == 5){
+					   if (hour == 17){
 						   getOffWork();
 					   }
 					   
