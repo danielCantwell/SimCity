@@ -8,6 +8,7 @@ import java.util.List;
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import SimCity.Globals.Money;
+import housing.gui.TenantGui;
 import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
 
@@ -76,6 +77,12 @@ public class MockTenant implements Tenant {
 	public void msgAtDoor() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public TenantGui getGui() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

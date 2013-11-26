@@ -35,7 +35,7 @@ public class OwnerTest extends TestCase {
 		mtTwo = new MockTenant();
 		mtThree = new MockTenant();
 		ownerPerson = new MockHousingPerson("housing.roles.OwnerRole");
-		
+
 		owner.myPerson = ownerPerson;
 		owner.myPerson.house = "Apartment";
 	}
@@ -323,8 +323,8 @@ public class OwnerTest extends TestCase {
 		// Check Post Conditions
 		assertEquals("Tenant two should have state None. He doesn't.",
 				TenantState.None, owner.myTenants.get(1).state);
-		assertEquals("Tenant two should have one strike. He doesn't.",
-				1, owner.myTenants.get(1).strikes);
+		assertEquals("Tenant two should have one strike. He doesn't.", 1,
+				owner.myTenants.get(1).strikes);
 
 		// Receive Message
 		owner.msgCannotPayRent(mtThree);
@@ -341,8 +341,18 @@ public class OwnerTest extends TestCase {
 		// Check Post Conditions
 		assertEquals("Tenant three should have state None. He doesn't.",
 				TenantState.None, owner.myTenants.get(2).state);
-		assertEquals("Tenant two should have one strike. He doesn't.",
-				1, owner.myTenants.get(2).strikes);
+		assertEquals("Tenant two should have one strike. He doesn't.", 1,
+				owner.myTenants.get(2).strikes);
+
+		// Receive Message
+		owner.msgHereIsRent(mtTwo, owner.myTenants.get(1).rentOwed);
+		// Check Post Conditions
+		assertEquals("Tenant two should owe no rent. He does.", 0,
+				owner.myTenants.get(1).rentOwed.dollars);
+		assertEquals("Tenant two should have 1 strike. He doesn't.", 1,
+				owner.myTenants.get(1).strikes);
+		assertEquals("Tenant two should have state none. He doesn't.",
+				TenantState.None, owner.myTenants.get(1).state);
 	}
 
 }
