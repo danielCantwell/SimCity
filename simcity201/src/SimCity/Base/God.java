@@ -13,6 +13,7 @@ import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
 import exterior.gui.AnimationPanel;
+import exterior.gui.SimCityGui;
 /**
  * @author Brian
  *
@@ -23,9 +24,12 @@ public class God {
 	    
 	    //Gui stuff accessible by everyone
 	    AnimationPanel animationPanel;
+	    SimCityGui simGui;
 	    
 	    public void setAnimationPanel(AnimationPanel anim){ animationPanel = anim;}
 	    public AnimationPanel getAnimationPanel(AnimationPanel anim) { return animationPanel;}
+	    public void setSimGui(SimCityGui sim){simGui = sim;}
+	    public SimCityGui getSimGui(){return simGui;}
 	    
 	    //List of God thingies
 	    public int day;
@@ -98,14 +102,16 @@ public class God {
 	    
 	    //Fix this laters
 	    public Building findRandomRestaurant(){
-	    	while (true){
-		    	Random rndnum = new Random (buildings.size());
-		    	int random = Math.abs(rndnum.nextInt(buildings.size()) % buildings.size());
-		    	
-		    	if (buildings.get(random) instanceof B_DannyRestaurant){
-		    		return buildings.get(random);
-		    	}
+	    	int r = (int)(Math.round((Math.random() * 4)));
+	    	switch (r){
+	    	case 0: return simGui.buildingList.get(6);
+	    	case 1: return simGui.buildingList.get(7);
+	    	case 2: return simGui.buildingList.get(9);
+	    	case 3: return simGui.buildingList.get(10);
+	    	case 4: return simGui.buildingList.get(11);
 	    	}
+	    	System.out.println("God: no restaurant found.");
+	    	return null;
 	    }
 	    
 	    private God() {
@@ -115,7 +121,7 @@ public class God {
 	        System.out.println("God Created");
 	        //set God variables.
 	        hour = 0;
-	        hourOffset = 5000;
+	        hourOffset = 1000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){

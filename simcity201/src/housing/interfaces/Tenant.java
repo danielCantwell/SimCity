@@ -35,7 +35,7 @@ public interface Tenant {
 
 	public abstract void msgAtMail();
 
-	public abstract void msgAtDoor(HousingAnimation h);
+	public abstract void msgAtDoor();
 	
 	public abstract TenantGui getGui();
 

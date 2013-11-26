@@ -8,6 +8,7 @@ import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
+import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import exterior.astar.AStarTraversal;
@@ -86,6 +87,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	Timer timer = new Timer(1, this);
     	timer.start();
     	
+    	God.Get().setAnimationPanel(this);
+    	
     	// Set up semaphore grid - sidewalks and crosswalks are open
         for (int y = 0; y < WINDOWY/(TILESIZE); y++) {
         for (int x = 0; x < WINDOWX/(TILESIZE); x++) {
@@ -143,6 +146,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
+		for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 		repaint();
 	}
 
@@ -192,11 +200,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
         }
         }
         
-        for(Gui gui : guis) {
+        /*for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
+        */
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -236,7 +245,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
                  System.out.println("Spawning a new pedestrian.");
             	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
             	 PersonGui g = new PersonGui(gui, aStarTraversal);
-            	 Person p = new Person("Jesse", g, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
+            	 Person p = new Person("Jesse", g, "Bank.bankManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
             	 g.setPerson(p);
             	 addGui(g);
             	 God.Get().addPerson(p);

@@ -76,6 +76,13 @@ public class HousingAnimation extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		synchronized (guis){
+			for (Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
 		repaint();
 	}
 	
@@ -96,11 +103,7 @@ public class HousingAnimation extends JPanel implements ActionListener {
 		g.fillRect(xTablePos, yTablePos, xTableSize, yTableSize);
 		g.fillRect(xMailPos, yMailPos, xMailSize, yMailSize);
 
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
+		
 
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {

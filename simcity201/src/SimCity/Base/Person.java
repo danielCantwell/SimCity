@@ -36,6 +36,7 @@ public class Person extends Agent {
 	public B_House myHouse;
 	public String house;
 	public Role mainRole;
+	private String mainRoleString;
 	public Building workPlace = null;
 	public enum Intent {customer, work};
 	public Intent intent = Intent.customer; //when the person enters a building, is he a customer or going to work.
@@ -147,6 +148,7 @@ public class Person extends Agent {
 	public Person(String name, PersonGui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace){
 		this.gui = gui;
 		setMainRole(mainRole);
+		mainRoleString = mainRole;
 		this.vehicle = vehicle;
 		this.mor = morality;
 		this.money = money;
@@ -220,7 +222,7 @@ public class Person extends Agent {
 	}
 	
 	public void msgExitBuilding(){
-		building = null;
+		//building = null;
 	}
 	
 	//No idea if this works. Scary as shit.
@@ -234,6 +236,7 @@ public class Person extends Agent {
 		else if (b instanceof B_Market){ addAction(new Action(GoAction.goMarket, i));}
 		stateChanged();
 	}
+	
 	
 	/* (non-Javadoc)
 	 * @see SimCity.Base.PersonInterface#msgSleep()
@@ -448,11 +451,16 @@ public class Person extends Agent {
 			e.printStackTrace();
 		}
 		
-		if (action.intent == Intent.work)
-			b.EnterBuilding(this, mainRole.getClass().toString());
+		if (action.intent == Intent.work){
+			destination = null;
+			building = b;
+			//b.EnterBuilding(this, mainRole.getClass().toString());
+			b.EnterBuilding(this, mainRoleString);
+		}
 		else if (action.intent == Intent.customer)
 			{
 				destination = null;
+				building = b;
 				b.EnterBuilding(this, b.getCustomerString());
 			}
 	}

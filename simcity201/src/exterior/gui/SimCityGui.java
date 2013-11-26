@@ -35,6 +35,8 @@ public class SimCityGui extends JFrame {
     	setBounds(0, 0, WINDOWX, WINDOWY);
     	setLayout(new BorderLayout());
     	
+    	God.Get().setSimGui(this);
+    	
     	Dimension animDim = new Dimension(WINDOWX, WINDOWY);
     	animationPanel.setPreferredSize(animDim);
     	animationPanel.setMinimumSize(animDim);
@@ -62,7 +64,7 @@ public class SimCityGui extends JFrame {
     		// Add Banks:
     		if (i == 2 || i == 8) {
         		buildingPanel = new bankGui();
-        		b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+        		b = new B_Bank(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Markets:
     		if (i == 3 || i == 5) {

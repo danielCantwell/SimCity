@@ -75,7 +75,7 @@ public class MockTenant implements Tenant {
 	}
 
 	@Override
-	public void msgAtDoor(HousingAnimation ha) {
+	public void msgAtDoor() {
 		// TODO Auto-generated method stub
 		
 	}

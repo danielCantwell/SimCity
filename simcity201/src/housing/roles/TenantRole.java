@@ -106,10 +106,9 @@ public class TenantRole extends Role implements Tenant {
 		atStove.release();
 	}
 
-	public void msgAtDoor(HousingAnimation ha) {
+	public void msgAtDoor() {
 		
 		atDoor.release();
-		ha.removeGui(gui);
 	}
 
 	// -----------------------------------SCHEDULER-----------------------------------
@@ -237,11 +236,12 @@ public class TenantRole extends Role implements Tenant {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
-				Intent.customer);
+		myPerson.msgGoToBuilding(myPerson.getWorkPlace(), Intent.work);
 		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
 		myPanel.addGui(gui);
 		exitBuilding(myPerson);
+		
+		System.out.println(myPerson.actions.get(0).getGoAction().toString());
 		setActive(false);
 	}
 

@@ -18,6 +18,7 @@ import SimCity.gui.Gui;
 public class TenantGui implements Gui {
 	
 	private TenantRole tenant = null;
+	private boolean isPresent = false;
 	
 	private int xSize,	ySize;
 	
@@ -51,7 +52,7 @@ public class TenantGui implements Gui {
 		yPos = yDoor;
 		xDest = xPos;
 		yDest = yPos;
-		
+		isPresent= true;
 		xSize = 20;
 		ySize = 20;
 	}
@@ -79,9 +80,8 @@ public class TenantGui implements Gui {
 				tenant.msgAtBed();
 			}
 			else if (destination == Dest.Door) {
-				HousingAnimation ha = (HousingAnimation) tenant.myPerson.building.getPanel();
-				tenant.msgAtDoor(ha);
-				//ha.removeGui(this);
+				tenant.msgAtDoor();
+				isPresent = false;
 			}
 			else if (destination == Dest.Fridge) {
 				tenant.msgAtFridge();
@@ -105,7 +105,7 @@ public class TenantGui implements Gui {
 	@Override
 	public boolean isPresent() {
 		// TODO Auto-generated method stub
-		return true;
+		return isPresent;
 	}
 
 	@Override
