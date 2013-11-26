@@ -22,5 +22,17 @@ public interface Tenant {
 	public abstract void msgEvictionNotice();
 	
 	public abstract void msgMorning();
+	
+	public abstract void msgAtTable();
+
+	public abstract void msgAtBed();
+
+	public abstract void msgAtFridge();
+
+	public abstract  void msgAtStove();
+
+	public abstract void msgAtMail();
+
+	public abstract void msgAtDoor();
 
 }

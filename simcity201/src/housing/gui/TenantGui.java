@@ -42,6 +42,9 @@ public class TenantGui implements Gui {
 	private final int xMail		= 580;
 	private final int yMail		= 55;
 	
+	private enum Dest { None, Bed, Table, Fridge, Stove, Mail, Door };
+	private Dest destination = Dest.None;
+	
 	public TenantGui(Tenant tenant) {
 		this.tenant = tenant;
 	}
@@ -57,6 +60,31 @@ public class TenantGui implements Gui {
 			yPos++;
 		else if (yPos > yDest)
 			yPos--;
+		
+		if (xPos == xDest && yPos == yDest) {
+			if (destination == Dest.Bed) {
+				tenant.msgAtBed();
+			}
+			else if (destination == Dest.Table) {
+				tenant.msgAtTable();
+			}
+			else if (destination == Dest.Bed) {
+				tenant.msgAtBed();
+			}
+			else if (destination == Dest.Door) {
+				tenant.msgAtDoor();
+			}
+			else if (destination == Dest.Fridge) {
+				tenant.msgAtFridge();
+			}
+			else if (destination == Dest.Mail) {
+				tenant.msgAtMail();
+			}
+			else if (destination == Dest.Stove) {
+				tenant.msgAtStove();
+			}
+			destination = Dest.None;
+		}
 	}
 
 	@Override
