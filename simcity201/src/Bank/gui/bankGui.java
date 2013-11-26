@@ -42,17 +42,17 @@ public class bankGui extends JPanel implements ActionListener {
 	*/
 	
 	private final int tellerSpeed = 20;
-	private Teller teller = new tellerRole();
-	private Guard guard = new bankGuardRole();
-	private Customer cust = new bankCustomerRole();;
+	//private Teller teller = new tellerRole();
+	//private Guard guard = new bankGuardRole();
+	//private Customer cust = new bankCustomerRole();;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
 	public bankGui() {
 		setSize(WINDOW_X, WINDOW_Y);
 		setVisible(true);
-		addGui(teller.getGui());
-		addGui(cust.getGui());
-		addGui(guard.getGui());
+		//addGui(teller.getGui());
+		//addGui(cust.getGui());
+		//addGui(guard.getGui());
 		Timer timer = new Timer(tellerSpeed, this);
 		timer.start();
 	}

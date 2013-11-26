@@ -84,7 +84,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public AnimationPanel() {
         setSize(WINDOWX, WINDOWY);
         setVisible(true);
-    	Timer timer = new Timer(1, this);
+    	Timer timer = new Timer(3, this);
     	timer.start();
     	
     	God.Get().setAnimationPanel(this);
@@ -242,18 +242,39 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 System.out.println("Spawning a new pedestrian.");
-            	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
-            	 PersonGui g = new PersonGui(gui, aStarTraversal);
-            	 Person p = new Person("Jesse", g, "Bank.bankManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
-            	 g.setPerson(p);
-            	 addGui(g);
-            	 God.Get().addPerson(p);
-            	 p.startThread();
+                 //System.out.println("Spawning a new pedestrian.");
+            	 //AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+            	 //PersonGui g = new PersonGui(gui, aStarTraversal);
+            	 //Person p = new Person("Jesse", g, "Bank.bankManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Jesse", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Brian", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Omar", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+
+            	 
+            	 
+            	 
+            	 //g.setPerson(p);
+            	 //addGui(g);
+            	 //God.Get().addPerson(p);
+            	 //p.startThread();
              }
         };
 
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), stringCtrlN);
         getActionMap().put(stringCtrlN, keyCtrlN);
+    }
+    
+    protected Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
+    	 System.out.println("Spawning a new pedestrian.");
+	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+	   	 PersonGui g = new PersonGui(gui, aStarTraversal);
+	   	 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)house, b);
+	   	 g.setPerson(p);
+	   	 addGui(g);
+	   	 God.Get().addPerson(p);
+	   	 p.startThread();
+	   	 
+	   	 return p;
     }
 }

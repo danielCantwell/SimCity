@@ -57,6 +57,8 @@ public abstract class Building extends SimObject {
 		isOpen = open;
 	}
 	
+	public abstract boolean areAllNeedeRolesFilled();
+	
 	public abstract String getManagerString();
 	public abstract String getCustomerString();
 	
@@ -80,6 +82,8 @@ public abstract class Building extends SimObject {
     	person.resetActiveRoles();
     	person.msgExitBuilding();
     }
+    
+    
     
 	
 }
