@@ -71,18 +71,20 @@ public class OwnerRole extends Role implements Owner {
 	public void msgHereIsRent(Tenant t, Money m) {
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
-				myPerson.money.add(m);
-				tenant.rentOwed.subtract(m);
-				if (tenant.rentOwed.isZero()) {
-					tenant.state = TenantState.None;
-					System.out.println("Owner received rent from tenant");
-				} else {
-					tenant.state = TenantState.InDebt;
-					System.out
-							.println("Owner did not receive full rent from tenant");
+				if (tenant.tenant == t) {
+					myPerson.money.add(m);
+					tenant.rentOwed.subtract(m);
+					if (tenant.rentOwed.isZero()) {
+						tenant.state = TenantState.None;
+						System.out.println("Owner received rent from tenant");
+					} else {
+						tenant.state = TenantState.InDebt;
+						System.out
+								.println("Owner did not receive full rent from tenant");
+					}
+					stateChanged();
+					break;
 				}
-				stateChanged();
-				break;
 			}
 		}
 	}
@@ -92,7 +94,8 @@ public class OwnerRole extends Role implements Owner {
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
 				if (tenant.tenant == t) {
-					System.out.println("Owner has a tenant who cannot pay rent");
+					System.out
+							.println("Owner has a tenant who cannot pay rent");
 					tenant.state = TenantState.InDebt;
 					stateChanged();
 					break;
@@ -106,7 +109,8 @@ public class OwnerRole extends Role implements Owner {
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
 				if (tenant.tenant == t) {
-					System.out.println("Owner has a tenant who broke a " + a.type);
+					System.out.println("Owner has a tenant who broke a "
+							+ a.type);
 					tenant.rentOwed.add(20, 0);
 					stateChanged();
 					break;
@@ -118,7 +122,7 @@ public class OwnerRole extends Role implements Owner {
 	// -----------------------------------SCHEDULER-----------------------------------
 
 	public boolean pickAndExecuteAnAction() {
-		
+
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.strikes > 3) {
@@ -127,7 +131,7 @@ public class OwnerRole extends Role implements Owner {
 				}
 			}
 		}
-		
+
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.state == TenantState.OwesRent) {
