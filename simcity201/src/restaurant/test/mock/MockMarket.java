@@ -5,7 +5,7 @@ package restaurant.test.mock;
 
 import java.util.Map;
 
-import restaurant.CookAgent;
+import restaurant.DannyCook;
 import restaurant.MarketAgent.Order;
 import restaurant.interfaces.Market;
 
@@ -22,7 +22,7 @@ public class MockMarket extends Mock implements Market {
 	}
 
 	@Override
-	public void msgOrderFood(CookAgent cook, Map<String, Integer> lowFood) {
+	public void msgOrderFood(DannyCook cook, Map<String, Integer> lowFood) {
 		log.add(new LoggedEvent("Received msgOrderFood from cook"));
 	}
 

@@ -31,7 +31,7 @@ public class bankManagerRole extends Role implements  Manager{
 		state busy;
 	}
 	private enum state { yes, no };
-	List<bankCustomerRole>clients = Collections.synchronizedList(new ArrayList<bankCustomerRole>());
+	List<Customer>clients = Collections.synchronizedList(new ArrayList<Customer>());
 		
 	//----------------------------------------------Messages-------------------------------------------------
 	@Override
@@ -46,7 +46,7 @@ public class bankManagerRole extends Role implements  Manager{
 	}
 
 	@Override
-	public void newClient(bankCustomerRole c) {
+	public void newClient(Customer c) {
 		clients.add(c);
 		stateChanged();
 		System.out.println("Manager: New customer has been added");

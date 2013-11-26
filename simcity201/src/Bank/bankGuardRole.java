@@ -19,12 +19,12 @@ public class bankGuardRole extends Role implements Guard {
 	B_Bank curBank;
 	Manager manager;
 	bankGuardGui gui = new bankGuardGui(this);
-	List<String> badObjs = new ArrayList<String>();
+	public List<String> badObjs = new ArrayList<String>();
 	public List<Entry> custEnter = Collections.synchronizedList(new ArrayList<Entry>());
 	public class Entry {
 		List<String> inventory;
 		state s;
-		bankCustomerRole bc;
+		Customer bc;
 	}
 	public enum state { none, ready, onD, offD, entered, requested, complied, searched, leaving };
 	private state s = state.none;
@@ -52,8 +52,8 @@ public class bankGuardRole extends Role implements Guard {
 	}
 
 	@Override
-	public void wantEnter(bankCustomerRole newC) {
-		Do(newC + "wants to enter");
+	public void wantEnter(Customer newC) {
+		System.out.println("Guard: Customer wants to enter");
 		Entry c = new Entry();
 		c.s = state.entered;
 		c.bc = newC;
@@ -162,5 +162,11 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public bankGuardGui getGui() { 
 		return gui;
+	}
+
+	@Override
+	public void wantEnter(bankCustomerRole newC) {
+		// TODO Auto-generated method stub
+		
 	}
 }

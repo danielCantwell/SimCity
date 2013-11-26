@@ -15,7 +15,7 @@ public interface Manager {
 	//----------------------------------------------Messages-------------------------------------------------
 	public abstract void newTeller(Bank.interfaces.Teller teller);
 
-	public abstract void newClient(bankCustomerRole c);
+	public abstract void newClient(Customer bc);
 
 	//----------------------------------------------Scheduler-------------------------------------------------
 	public abstract boolean pickAndExecuteAnAction();

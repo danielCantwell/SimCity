@@ -34,7 +34,7 @@ public class MockManager implements Manager {
 	}
 
 	@Override
-	public void newClient(bankCustomerRole c) {
+	public void newClient(Customer c) {
 		// TODO Auto-generated method stub
 		
 	}

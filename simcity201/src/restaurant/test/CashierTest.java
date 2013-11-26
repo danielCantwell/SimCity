@@ -6,8 +6,8 @@ package restaurant.test;
 import java.awt.print.Printable;
 
 import junit.framework.TestCase;
-import restaurant.CashierAgent;
-import restaurant.CashierAgent.State;
+import restaurant.DannyCashier;
+import restaurant.DannyCashier.State;
 import restaurant.interfaces.Cashier;
 import restaurant.test.mock.MockCustomer;
 import restaurant.test.mock.MockMarket;
@@ -19,7 +19,7 @@ import restaurant.test.mock.MockWaiter;
  */
 public class CashierTest extends TestCase {
 	// these are instantiated for each test separately via the setUp() method.
-	CashierAgent cashier;
+	DannyCashier cashier;
 
 	MockCustomer customerOne;
 	MockCustomer customerTwo;
@@ -41,7 +41,7 @@ public class CashierTest extends TestCase {
 	 */
 	public void setUp() throws Exception {
 		super.setUp();
-		cashier = new CashierAgent("cashier");
+		cashier = new DannyCashier("cashier");
 		customerOne = new MockCustomer("mockCustomer_One");
 		customerTwo = new MockCustomer("mockCustomer_Two");
 		customerThree = new MockCustomer("mockCustomer_Three");

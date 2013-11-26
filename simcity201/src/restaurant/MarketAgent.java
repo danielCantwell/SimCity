@@ -22,7 +22,7 @@ public class MarketAgent extends Agent implements Market {
 	
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	
-	CookAgent cook;
+	DannyCook cook;
 	
 	private String name;
 	Timer timer = new Timer();
@@ -49,7 +49,7 @@ public class MarketAgent extends Agent implements Market {
 	// Messages
 
 	// From Cook
-	public void msgOrderFood(CookAgent cook, Map<String, Integer> lowFood) {
+	public void msgOrderFood(DannyCook cook, Map<String, Integer> lowFood) {
 		print("MESSAGE # : Cook -> Market : OrderFood");
 		for (String food : lowFood.keySet()) {
 			orders.add(new Order(cook, food, lowFood.get(food)));
@@ -152,14 +152,14 @@ public class MarketAgent extends Agent implements Market {
 	}
 	
 	public class Order {
-		CookAgent cook;
+		DannyCook cook;
 		String food;
 		int amount;
 		OrderState state = OrderState.Pending;
 
 		int amountPrepared;
 		
-		Order(CookAgent cook, String food, int amount) {
+		Order(DannyCook cook, String food, int amount) {
 			this.cook = cook;
 			this.food = food;
 			this.amount = amount;

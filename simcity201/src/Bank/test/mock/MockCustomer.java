@@ -42,8 +42,7 @@ public class MockCustomer implements Customer{
 
 	@Override
 	public void requestSearch() {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Guard has requested search"));		
 	}
 
 	@Override

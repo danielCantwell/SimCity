@@ -95,4 +95,10 @@ public class MockGuard implements Guard {
 		return null;
 	}
 
+	@Override
+	public void wantEnter(Customer newC) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

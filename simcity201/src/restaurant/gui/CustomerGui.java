@@ -1,6 +1,6 @@
 package restaurant.gui;
 
-import restaurant.CustomerAgent;
+import restaurant.DannyCustomer;
 
 import java.awt.*;
 
@@ -10,7 +10,7 @@ public class CustomerGui implements Gui {
 	
 	private static int numCustomer = 0;
 
-	private CustomerAgent agent = null;
+	private DannyCustomer agent = null;
 
 	private boolean pause = false;
 
@@ -49,7 +49,7 @@ public class CustomerGui implements Gui {
 	static final int xCustomerSize = 20;
 	static final int yCustomerSize = 20;
 
-	public CustomerGui(CustomerAgent c, RestaurantGui gui) { // HostAgent m) {
+	public CustomerGui(DannyCustomer c, RestaurantGui gui) { // HostAgent m) {
 		agent = c;
 		numCustomer++;
 		xPos = xDefault;

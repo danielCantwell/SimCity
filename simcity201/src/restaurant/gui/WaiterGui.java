@@ -1,6 +1,6 @@
 package restaurant.gui;
 
-import restaurant.WaiterAgent;
+import restaurant.DannyWaiter;
 
 import java.awt.*;
 
@@ -13,7 +13,7 @@ public class WaiterGui implements Gui {
 
 	private boolean pause = false;
 
-	private WaiterAgent agent = null;
+	private DannyWaiter agent = null;
 	public RestaurantGui gui;
 
 	private int xPos = -20, yPos = -20;// default waiter position
@@ -48,7 +48,7 @@ public class WaiterGui implements Gui {
 	static final int xWaiterSize = 20;
 	static final int yWaiterSize = 20;
 
-	public WaiterGui(WaiterAgent agent, RestaurantGui gui) {
+	public WaiterGui(DannyWaiter agent, RestaurantGui gui) {
 		this.agent = agent;
 		this.gui = gui;
 		numWaiter++;
