@@ -15,7 +15,7 @@ public abstract class Building extends SimObject {
 	protected int x,y; //x and y position in the world.
 	protected boolean isOpen = false; //if the building is closed, then a person cannot go into the building.
 	protected JPanel buildingPanel; //The card layout that is associated with the building.
-	
+
 	protected String tag = "";
 	public String getTag(){return tag;}
 	public void setTag(String tag){this.tag = tag;}
