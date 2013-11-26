@@ -113,6 +113,7 @@ public class TenantGui implements Gui {
 
 	// Go to the mailbox when tenant needs to pay (or not pay) rent
 	public void DoGoToMailbox() {
+		destination = Dest.Mail;
 		xDest = xMail;
 		yDest = yMail;
 		System.out.println("Going To Mailbox");
@@ -120,6 +121,7 @@ public class TenantGui implements Gui {
 
 	// Go to the door and exit
 	public void DoLeaveHouse() {
+		destination = Dest.Door;
 		xDest = xDoor;
 		yDest = yDoor;
 		System.out.println("Leaving House");
@@ -127,6 +129,7 @@ public class TenantGui implements Gui {
 
 	// Go to the fridge
 	public void DoGoToFridge() {
+		destination = Dest.Fridge;
 		xDest = xFridge;
 		yDest = yFridge;
 		System.out.println("Going To Fridge");
@@ -134,6 +137,7 @@ public class TenantGui implements Gui {
 	
 	// Go to the stove
 	public void DoGoToStove() {
+		destination = Dest.Stove;
 		xDest = xStove;
 		yDest = yStove;
 		System.out.println("Going To Stove");
@@ -141,6 +145,7 @@ public class TenantGui implements Gui {
 	
 	// Go to the table
 	public void DoGoToTable() {
+		destination = Dest.Table;
 		xDest = xTable;
 		yDest = yTable;
 		System.out.println("Going To Table");
@@ -148,6 +153,7 @@ public class TenantGui implements Gui {
 
 	// Go to the bed and sleep
 	public void DoGoToBed() {
+		destination = Dest.Bed;
 		xDest = xBed;
 		yDest = yBed;
 		System.out.println("Going To Bed");
