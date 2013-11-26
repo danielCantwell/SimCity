@@ -118,19 +118,20 @@ public class OwnerRole extends Role implements Owner {
 	// -----------------------------------SCHEDULER-----------------------------------
 
 	public boolean pickAndExecuteAnAction() {
-		synchronized (myTenants) {
-			for (MyTenant t : myTenants) {
-				if (t.state == TenantState.OwesRent) {
-					collectRent(t);
-					return true;
-				}
-			}
-		}
-
+		
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.strikes > 3) {
 					evictTenant(t);
+					return true;
+				}
+			}
+		}
+		
+		synchronized (myTenants) {
+			for (MyTenant t : myTenants) {
+				if (t.state == TenantState.OwesRent) {
+					collectRent(t);
 					return true;
 				}
 			}
