@@ -3,6 +3,7 @@
  */
 package housing.interfaces;
 
+import housing.gui.TenantGui;
 import housing.roles.OwnerRole.Appliance;
 
 import java.util.List;
@@ -34,5 +35,7 @@ public interface Tenant {
 	public abstract void msgAtMail();
 
 	public abstract void msgAtDoor();
+	
+	public abstract TenantGui getGui();
 
 }

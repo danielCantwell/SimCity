@@ -47,6 +47,10 @@ public class TenantGui implements Gui {
 	
 	public TenantGui(Tenant tenant) {
 		this.tenant = tenant;
+		xPos = 100;
+		yPos = 100;
+		xSize = 20;
+		ySize = 20;
 	}
 
 	@Override

@@ -220,6 +220,11 @@ public class TenantRole extends Role implements Tenant {
 			}
 		}
 	}
+	
+	
+	public TenantGui getGui() {
+		return gui;
+	}
 
 	@Override
 	public void workOver() {
