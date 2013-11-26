@@ -6,12 +6,15 @@ import market.MarketCustomerRole;
 import SimCity.gui.Gui;
 
 public class MarketCustomerGui implements Gui {
+    
+        static final int xPersonSize = 20;
+        static final int yPersonSize = 20;
 
 		private boolean pause = false;
 	
 		private MarketCustomerRole role = null;
 	
-		private int xPos = 200, yPos = 300;// default waiter position
+		private int xPos = -xPersonSize, yPos = 300;// default customer position
 		private int xDestination = xPos, yDestination = yPos;// default start position
 	
 		private enum State { none };
@@ -20,9 +23,6 @@ public class MarketCustomerGui implements Gui {
 	
 		private State state = State.none;
 		private Action action = Action.none;
-	
-		static final int xPersonSize = 20;
-		static final int yPersonSize = 20;
 	
 		public MarketCustomerGui(MarketCustomerRole role) {
 			this.role = role;

@@ -50,7 +50,7 @@ public class MarketDeliveryPersonGui implements Gui {
 		}
 	
 		public void draw(Graphics2D g) {
-			g.setColor(Color.GREEN);
+			g.setColor(Color.PINK);
 			g.fillRect(xPos, yPos, xPersonSize, yPersonSize);
 		}
 	

@@ -72,7 +72,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	//public List<MarketClerkGui> clerks = Collections.synchronizedList(new ArrayList<MarketClerkGui>());
 	//public List<MarketDeliveryPersonGui> deliveryPeople = Collections.synchronizedList(new ArrayList<MarketDeliveryPersonGui>());
 
-	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	private List<MyGui> guis = Collections.synchronizedList(new ArrayList<MyGui>());
 	public MarketAnimationPanel(String name)
 	{
 		setSize(WINDOWX, WINDOWY);
@@ -170,15 +170,15 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(400, 40, 160, 20);
         g2.fillRect(400, 100, 160, 20);
 		
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
+		for (MyGui myGui : guis) {
+			if (myGui.gui.isPresent()) {
+			    myGui.gui.updatePosition();
 			}
 		}
 
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(g2);
+		for (MyGui myGui : guis) {
+			if (myGui.gui.isPresent()) {
+			    myGui.gui.draw(g2);
 			}
 		}
 		
@@ -188,27 +188,29 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	}
 
 	public void addGui(MarketPackerGui gui) {
-		guis.add(gui);
+		guis.add(new MyGui(gui));
+        initializeLocations();
 	}
 	
 	public void addGui(MarketClerkGui gui) {
-		guis.add(gui);
+		guis.add(new MyGui(gui));
 	}
 	
 	public void addGui(MarketDeliveryPersonGui gui) {
-		guis.add(gui);
+		guis.add(new MyGui(gui));
 	}
 	
     public void addGui(MarketCustomerGui gui) {
-        guis.add(gui);
+        guis.add(new MyGui(gui));
     }
     
     public void addGui(MarketManagerGui gui) {
-        guis.add(gui);
+        guis.add(new MyGui(gui));
+        initializeLocations();
     }
 
     public void addGui(Gui gui) {
-        guis.add(gui);
+        guis.add(new MyGui(gui));
     }
     
     public void initializeLocations()
@@ -246,17 +248,36 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
             locCount++;
         }
 
-        for (Gui gui : guis)
+        for (MyGui myGui : guis)
         {
-            if (gui instanceof MarketManagerGui)
+            if (!myGui.initialized)
             {
-                ((MarketManagerGui) gui).setLocations(locations);
-                ((MarketManagerRole) manager.mainRole).initializeInventory((MarketManagerGui)gui);
+                if (myGui.gui instanceof MarketManagerGui)
+                {
+                    ((MarketManagerGui) myGui.gui).setLocations(locations);
+                    ((MarketManagerRole) manager.mainRole).initializeInventory((MarketManagerGui) myGui.gui);
+                }
+                else if (myGui.gui instanceof MarketPackerGui)
+                {
+                    ((MarketPackerGui) myGui.gui).setLocations(locations);
+                }
             }
-            else if (gui instanceof MarketPackerGui)
-            {
-                ((MarketPackerGui) gui).setLocations(locations);
-            }
+        }
+    }
+    
+    /**
+     * Inner Classes
+     */
+    
+    private class MyGui
+    {
+        public Gui gui;
+        public boolean initialized;
+        
+        public MyGui(Gui gui)
+        {
+            this.gui = gui;
+            initialized = false;
         }
     }
     
