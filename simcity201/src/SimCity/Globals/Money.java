@@ -97,7 +97,7 @@ public class Money {
 		else {
 			System.err.println("Invalid money transaction. Cannot subtract that much money.");
 		}
-		return m;
+		return this;
 	}
 	
 	/**
