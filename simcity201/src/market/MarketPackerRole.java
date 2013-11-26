@@ -228,7 +228,6 @@ public class MarketPackerRole extends Role implements MarketPacker {
     public void setPerson(Person person)
     {
         super.setPerson(person);
-        person.gui = gui;
     }
 	
 	/**

@@ -109,7 +109,6 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     public void setPerson(Person person)
     {
         super.setPerson(person);
-        person.gui = gui;
     }
 	
 
