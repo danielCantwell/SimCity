@@ -204,13 +204,17 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
             locCount++;
         }
 
-        ((MarketManagerRole) manager.mainRole).initializeInventory();
         for (Gui gui : guis)
         {
             if (gui instanceof MarketManagerGui)
+            {
                 ((MarketManagerGui) gui).setLocations(locations);
+                ((MarketManagerRole) manager.mainRole).initializeInventory((MarketManagerGui)gui);
+            }
             else if (gui instanceof MarketPackerGui)
+            {
                 ((MarketPackerGui) gui).setLocations(locations);
+            }
         }
     }
     

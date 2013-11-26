@@ -7,6 +7,7 @@ import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.gui.Gui;
 import market.gui.MarketManagerGui;
 import market.interfaces.MarketManager;
 
@@ -268,10 +269,12 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
     /**
      * Utilities
+     * @param gui 
      */
 	
-    public void initializeInventory()
+    public void initializeInventory(MarketManagerGui gui)
     {
+        this.gui = gui;
         // initialize inventory
         addItemToInventory("Steak", new Money(7, 00), 10, 0);
         addItemToInventory("Chicken", new Money(5, 00), 10, 29);
