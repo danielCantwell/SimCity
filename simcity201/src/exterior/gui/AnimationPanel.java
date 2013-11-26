@@ -4,6 +4,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import SimCity.Base.Building;
+import SimCity.Base.Person;
+import SimCity.Base.Person.Morality;
+import SimCity.Base.Person.Vehicle;
+import SimCity.Buildings.B_House;
+import SimCity.Globals.Money;
 import exterior.astar.AStarTraversal;
 
 import java.awt.*;
@@ -231,6 +236,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
                  System.out.println("Spawning a new pedestrian.");
             	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
             	 PersonGui g = new PersonGui(gui, aStarTraversal);
+            	 Person p = new Person("Jesse", g, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0));
             	 addGui(g);
              }
         };
