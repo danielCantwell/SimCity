@@ -11,7 +11,7 @@ import SimCity.Base.God;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
-import SimCity.Buildings.B_Restaurant;
+import SimCity.Buildings.B_DannyRestaurant;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -68,11 +68,12 @@ public class SimCityGui extends JFrame {
     		if (i == 3 || i == 5) {
         		buildingPanel = new MarketAnimationPanel("Ralph's", this);
         		b = new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+        		((MarketAnimationPanel) buildingPanel).setBMarket((B_Market)b);
     		}
     		// Add Restaurants:
     		if (i == 6 || i == 7 || i == 9 || i == 10 || i == 11) {
         		buildingPanel = new JPanel();
-        		b = new B_Restaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+        		b = new B_DannyRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Houses:
     		if (i == 12 || i == 13 || i == 14 || i == 15) {

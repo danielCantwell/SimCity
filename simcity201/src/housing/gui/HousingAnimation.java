@@ -3,6 +3,8 @@
  */
 package housing.gui;
 
+import housing.roles.TenantRole;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -60,12 +62,16 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	
+	private TenantRole tenant = new TenantRole();
+	
 	public HousingAnimation() {
 		setSize(WINDOW_X, WINDOW_Y);
 		setVisible(true);
 
 		Timer timer = new Timer(TENANT_SPEED, this);
 		timer.start();
+	
+		addGui(tenant.getGui());
 	}
 
 	@Override

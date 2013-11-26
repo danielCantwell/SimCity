@@ -15,14 +15,14 @@ import java.util.concurrent.Semaphore;
 import javax.swing.Timer;
 
 import exterior.gui.PersonGui;
-import restaurant.DannyCustomer;
+import restaurant.*;
 import sun.misc.Queue;
 import Bank.bankCustomerRole;
 import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
-import SimCity.Buildings.B_Restaurant;
 import SimCity.Globals.Money;
 import SimCity.gui.Gui;
 import agent.Agent;
@@ -36,6 +36,7 @@ public class Person extends Agent {
 	public B_House myHouse;
 	public String house;
 	public Role mainRole;
+	public Building workPlace = null;
 	public enum Intent {customer, work};
 	public Intent intent = Intent.customer; //when the person enters a building, is he a customer or going to work.
 	public enum Vehicle {car, delivery, walk, bus};
@@ -53,6 +54,8 @@ public class Person extends Agent {
 								none,
 								msgMorning,
 								morning,
+								msgGoToWork,
+								working,
 								msgWorkOver,
 								workOver,
 								msgGoToSleep,
@@ -62,7 +65,7 @@ public class Person extends Agent {
 	//A GoAction is simply a way to figure out where the person wants to go.				
 	public enum GoAction {
 		goHome,
-		goRestaurant,
+		goDannyRestaurant,
 		goMarket,
 		goBank,
 		goSleep;
@@ -116,6 +119,8 @@ public class Person extends Agent {
 		public String getHomeType(){ return house;}
 		public TimeState getPersonState() { return timeState;}
 		public Role getMainRole(){ return mainRole;}
+		public Building getWorkPlace(){return workPlace;}
+		public void setWorkPlace(Building work){workPlace = work;}
 		public void setMainRole(String job) { 
 			Role newRole;
 			try {
@@ -138,8 +143,8 @@ public class Person extends Agent {
 		public void setIntent(Intent i){intent = i;}
 		public Intent getIntent(){return intent;}
 		
-	//use this constructor
-	public Person(String name, PersonGui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house){
+	//USE THIS CONSTRUCTOR.
+	public Person(String name, PersonGui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace){
 		this.gui = gui;
 		setMainRole(mainRole);
 		this.vehicle = vehicle;
@@ -152,9 +157,10 @@ public class Person extends Agent {
 		this.name = name;
 		this.building = God.Get().buildings.get(1);
 		myHouse = house;
+		this.workPlace = workplace;
 	}
 	
-	public Person(String name, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
+	/*public Person(String name, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
 		setMainRole(mainRole);
 		this.vehicle = vehicle;
 		this.mor = morality;
@@ -165,7 +171,9 @@ public class Person extends Agent {
 		house = "apartment";
 		this.name = name;
 	}
+	*/
 	
+	//Test constructor. DO NOT FKING USE UNLESS FOR TESTING!!!
 	public Person(String mainRole){
 		this.name = "Brian";
 		setMainRole(mainRole);
@@ -219,7 +227,7 @@ public class Person extends Agent {
 		Do("msgGoToBuilding "+ b.toString());
 		if (b instanceof B_Bank){ addAction(new Action(GoAction.goBank, i));}
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
-		else if (b instanceof B_Restaurant){ addAction(new Action(GoAction.goRestaurant, i));}
+		else if (b instanceof B_DannyRestaurant){ addAction(new Action(GoAction.goDannyRestaurant, i));}
 		else if (b instanceof B_Market){ addAction(new Action(GoAction.goMarket, i));}
 		stateChanged();
 	}
@@ -237,6 +245,11 @@ public class Person extends Agent {
 	 */
 	public void msgWorkOver(){
 		timeState = TimeState.msgWorkOver;
+		stateChanged();
+	}
+	
+	public void msgGoToWork(){
+		timeState = TimeState.msgGoToWork;
 		stateChanged();
 	}
 	
@@ -264,6 +277,11 @@ public class Person extends Agent {
 			return false;
 		}
 		
+		if (timeState == TimeState.msgGoToSleep){
+			isWorkTime();
+			return false;
+		}
+		
 		//Work over must go before the active roles to override whatever active role is currently going.
 		if (timeState == TimeState.msgWorkOver){
 			workOver();
@@ -283,7 +301,6 @@ public class Person extends Agent {
 				//Hunger level WILL decrease if the person is in a house.
 				if (r instanceof TenantRole) hasActiveRole = false;
 					else hasActiveRole = true;
-				System.out.println("hi");
 				 returnPAEAA =  r.pickAndExecuteAnAction();
 				 //This means that only one role will activate.
 				 return returnPAEAA;
@@ -312,7 +329,7 @@ public class Person extends Agent {
 			
 			//Check if he is hungry
 			if (hungerLevel < hungerThreshold){
-				goTo(new Action(GoAction.goRestaurant, Intent.customer));
+				goTo(new Action(GoAction.goDannyRestaurant, Intent.customer));
 				return false;
 			}
 			
@@ -329,6 +346,18 @@ public class Person extends Agent {
 				r.workOver();
 		}
 	}
+	
+	private void isWorkTime(){
+		for (Role r: roles){
+			if (r.getActive()){
+				if (r instanceof TenantRole){
+					TenantRole tr = (TenantRole)r;
+					tr.msgGoToWork();
+				}
+			}
+		}
+	}
+	
 	private void isMorning(){
 		for (Role r: roles){
 			if (r.getActive()){
@@ -342,6 +371,8 @@ public class Person extends Agent {
 		}
 		timeState = TimeState.none;
 	}
+	
+	
 	private void goToSleep(){
 		timeState = TimeState.sleeping;
 		for (Role r: roles){
@@ -377,11 +408,18 @@ public class Person extends Agent {
 			b = God.Get().findBuildingOfType(BuildingType.Market);
 			Do("going to market");
 		}else
-		if (action.getGoAction() == GoAction.goRestaurant){
+		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.customer){
 			//Go to restaurant
 			b = God.Get().findBuildingOfType(BuildingType.Restaurant);
 			Do("Going to restaurant");
+		}else
+		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.work){
+			//Put all restaurant roles here.
+			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
+				
+			}
 		}
+		
 		else b = null;
 		
 		//Animation for gui stuff here.

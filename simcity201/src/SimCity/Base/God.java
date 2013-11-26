@@ -11,7 +11,7 @@ import javax.swing.Timer;
 
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_Market;
-import SimCity.Buildings.B_Restaurant;
+import SimCity.Buildings.B_DannyRestaurant;
 import exterior.gui.AnimationPanel;
 /**
  * @author Brian
@@ -102,7 +102,7 @@ public class God {
 		    	Random rndnum = new Random (buildings.size());
 		    	int random = Math.abs(rndnum.nextInt(buildings.size()) % buildings.size());
 		    	
-		    	if (buildings.get(random) instanceof B_Restaurant){
+		    	if (buildings.get(random) instanceof B_DannyRestaurant){
 		    		return buildings.get(random);
 		    	}
 	    	}
@@ -123,6 +123,10 @@ public class God {
 					   
 					   if (hour == 6){
 						   wakeUp();
+					   }
+					   
+					   if (hour == 8){
+						   goToWork();
 					   }
 					   
 					   if (hour == 17){
@@ -170,6 +174,13 @@ public class God {
 	    	System.out.println ("its morning");
 	    	for(Person p: persons){
 	    		p.msgMorning();
+	    	}
+	    }
+	    
+	    public void goToWork(){
+	    	System.out.println("go to work now!");
+	    	for (Person p: persons){
+	    		p.msgGoToWork();
 	    	}
 	    }
 	    
