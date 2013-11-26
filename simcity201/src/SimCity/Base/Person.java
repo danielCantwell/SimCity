@@ -14,6 +14,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
+import exterior.gui.PersonGui;
 import restaurant.CustomerAgent;
 import sun.misc.Queue;
 import Bank.bankCustomerRole;
@@ -40,7 +41,7 @@ public class Person extends Agent {
 	public enum Vehicle {car, delivery, walk, bus};
 	public Vehicle vehicle = Vehicle.walk;
 	
-	public Gui gui;
+	public PersonGui gui;
 	public Semaphore animation = new Semaphore(0, true);
 	
 	public ArrayList<Role> roles = new ArrayList<Role>();
@@ -138,7 +139,7 @@ public class Person extends Agent {
 		public Intent getIntent(){return intent;}
 		
 	//use this constructor
-	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house){
+	public Person(String name, PersonGui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house){
 		this.gui = gui;
 		setMainRole(mainRole);
 		this.vehicle = vehicle;
@@ -149,6 +150,7 @@ public class Person extends Agent {
 		this.hungerThreshold = hungerThresh;
 		this.house = houseType; 
 		this.name = name;
+		this.building = God.Get().buildings.get(1);
 		myHouse = house;
 	}
 	
@@ -314,7 +316,7 @@ public class Person extends Agent {
 				return false;
 			}
 			
-			//goTo(new Action(GoAction.goHome, Intent.customer));
+			goTo(new Action(GoAction.goHome, Intent.customer));
 		}
 		return returnPAEAA;
 	}
@@ -393,6 +395,14 @@ public class Person extends Agent {
 		}
 		
 		//Call person gui animation. acquire my semaphore.
+		System.out.println("Going from :" + building + " to " + b + ".");
+		gui.DoTravel(building.id, b.id);
+		try {
+			animation.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		if (action.intent == Intent.work)
 			b.EnterBuilding(this, mainRole.getClass().toString());
 		else if (action.intent == Intent.customer)

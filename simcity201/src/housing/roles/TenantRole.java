@@ -80,7 +80,7 @@ public class TenantRole extends Role implements Tenant{
 			return true;
 		}
 		
-		if (myPerson.getHungerLevel() >= myPerson.getHungerThreshold()) {
+		if (myPerson.getHungerLevel() <= myPerson.getHungerThreshold()) {
 			getFood();
 			return true;
 		}
