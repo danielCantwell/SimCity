@@ -43,6 +43,8 @@ public class bankManagerRole extends Role implements  Manager{
 		tellers.add(t);
 		stateChanged();
 		System.out.println("Manager: New teller has been added");
+		//Brian adding some code to make sure the bank is open
+		myPerson.building.setOpen(myPerson.building.areAllNeededRolesFilled());
 	}
 
 	@Override

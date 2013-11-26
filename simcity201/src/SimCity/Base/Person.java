@@ -435,7 +435,6 @@ public class Person extends Agent {
 		//Animation for gui stuff here.
 		//############################# Animate to the  building here. ##########################################
 		
-		System.out.println("I should be walking to the building here using my animation");
 		
 		if (b == null){
 			System.out.println ("Person: error no building found");
@@ -443,7 +442,7 @@ public class Person extends Agent {
 		}
 		
 		//Call person gui animation. acquire my semaphore.
-		System.out.println("Going from :" + building + " to " + b + ".");
+		System.out.println("Going from :" + building.getTag() + " to " + b.getTag() + ".");
 		gui.DoTravel(building.id, b.id);
 		try {
 			animation.acquire();

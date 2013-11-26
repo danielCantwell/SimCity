@@ -64,7 +64,7 @@ public class B_Bank extends Building{
 		return "Bank.bankCustomerRole";
 	}
 	@Override
-	public boolean areAllNeedeRolesFilled() {
+	public boolean areAllNeededRolesFilled() {
 		return manager != null  && guard != null;
 	}
 	@Override

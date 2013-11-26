@@ -121,7 +121,7 @@ public class God {
 	        System.out.println("God Created");
 	        //set God variables.
 	        hour = 0;
-	        hourOffset = 2000;
+	        hourOffset = 4000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){

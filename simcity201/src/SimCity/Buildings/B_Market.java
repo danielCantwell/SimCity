@@ -3,8 +3,9 @@ package SimCity.Buildings;
 import javax.swing.JPanel;
 
 import market.MarketManagerRole;
-
 import SimCity.Base.Building;
+import SimCity.Base.Person;
+import SimCity.Base.Role;
 /**
  * @author Brian
  *
@@ -45,6 +46,24 @@ public class B_Market extends Building{
 	@Override
 	public String getCustomerString() {
 		return "market.MarketCustomerRole";
+	}
+
+	@Override
+	public boolean areAllNeededRolesFilled() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void fillNeededRoles(Person p, Role r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ExitBuilding(Person person) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

@@ -58,7 +58,7 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	private final int yMailPos	= 150;
 	private final int yMailSize	= 40;
 	
-	static final int TENANT_SPEED = 20;
+	static final int TENANT_SPEED = 3;
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	

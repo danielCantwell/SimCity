@@ -56,8 +56,11 @@ public abstract class Building extends SimObject {
 	public void setOpen(boolean open){
 		isOpen = open;
 	}
+	public boolean getOpen(){
+		return isOpen;
+	}
 	
-	public abstract boolean areAllNeedeRolesFilled();
+	public abstract boolean areAllNeededRolesFilled();
 	
 	public abstract String getManagerString();
 	public abstract String getCustomerString();
@@ -76,12 +79,13 @@ public abstract class Building extends SimObject {
 			} catch(Exception e){
 				e.printStackTrace();
 				System.out.println ("God: no class found");
-			}		
+			}
     }
     
     protected abstract void fillNeededRoles(Person p, Role r);
     
     public abstract void ExitBuilding(Person person);
+    
 
 }
 
