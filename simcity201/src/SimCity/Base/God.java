@@ -167,12 +167,14 @@ public class God {
 	    }
 	    
 	    public void wakeUp(){
+	    	System.out.println ("its morning");
 	    	for(Person p: persons){
 	    		p.msgMorning();
 	    	}
 	    }
 	    
 	    public void getOffWork(){
+	    	System.out.println("its time to go off work");
 	    	for (Person p: persons){
 	    		p.msgWorkOver();
 	    	}
