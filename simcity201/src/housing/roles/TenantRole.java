@@ -33,10 +33,10 @@ public class TenantRole extends Role implements Tenant {
 	TenantGui gui = new TenantGui(this);
 
 	enum Time {
-		msgSleep, sleeping, awake
+		msgSleep, sleeping, awake, work
 	};
 
-	Time sleepTime = Time.awake;
+	Time time = Time.awake;
 
 	public List<Appliance> appliances = Collections
 			.synchronizedList(new ArrayList<Appliance>());
@@ -68,13 +68,17 @@ public class TenantRole extends Role implements Tenant {
 
 	public void msgMorning() {
 		System.out.println("Tenant is waking up");
-		sleepTime = Time.awake;
+		time = Time.awake;
 		stateChanged();
+	}
+	
+	public void msgGoToWork() {
+		time = Time.work;
 	}
 
 	public void msgSleeping() {
 		System.out.println("Tenant is going to sleep");
-		sleepTime = Time.msgSleep;
+		time = Time.msgSleep;
 		stateChanged();
 	}
 
@@ -108,7 +112,7 @@ public class TenantRole extends Role implements Tenant {
 
 	public boolean pickAndExecuteAnAction() {
 
-		if (sleepTime == Time.sleeping) {
+		if (time == Time.sleeping) {
 			return false;
 		}
 
@@ -122,9 +126,13 @@ public class TenantRole extends Role implements Tenant {
 			return true;
 		}
 
-		if (sleepTime == Time.msgSleep) {
+		if (time == Time.msgSleep) {
 			sleep();
 			return true;
+		}
+		
+		if (time == Time.work) {
+			goToWork();
 		}
 
 		synchronized (appliances) {
@@ -175,6 +183,7 @@ public class TenantRole extends Role implements Tenant {
 			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
 					Intent.customer);
 			exitBuilding(myPerson);
+			setActive(false);
 		} else {
 			System.out.println("Tenant is going to cook food");
 			gui.DoGoToFridge();
@@ -204,8 +213,26 @@ public class TenantRole extends Role implements Tenant {
 	private void sleep() {
 		System.out.println("Tenant is going to bed");
 		gui.DoGoToBed();
+		try {
+			atBed.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		useAppliance("Bed");
-		sleepTime = Time.sleeping;
+		time = Time.sleeping;
+	}
+	
+	private void goToWork() {
+		gui.DoLeaveHouse();
+		try {
+			atDoor.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
+				Intent.customer);
+		exitBuilding(myPerson);
+		setActive(false);
 	}
 
 	private void useAppliance(String type) {
@@ -235,6 +262,11 @@ public class TenantRole extends Role implements Tenant {
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
 		gui.DoGoToTable();
+		try {
+			atTable.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		stateChanged();
 	}
 }
