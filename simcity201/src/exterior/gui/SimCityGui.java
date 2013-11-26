@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class SimCityGui extends JFrame {
 	AnimationPanel animationPanel = new AnimationPanel();
-	ArrayList<Building> buildingList = new ArrayList<Building>();
+	public ArrayList<Building> buildingList = new ArrayList<Building>();
 	CardLayout cardLayout = new CardLayout();
 	JPanel buildingPanels = new JPanel();
 	public JFrame buildingFrame;
@@ -66,7 +66,7 @@ public class SimCityGui extends JFrame {
     		}
     		// Add Markets:
     		if (i == 3 || i == 5) {
-        		buildingPanel = new MarketAnimationPanel("Ralph's");
+        		buildingPanel = new MarketAnimationPanel("Ralph's", this);
         		b = new B_Market(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Restaurants:
