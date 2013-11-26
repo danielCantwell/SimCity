@@ -44,7 +44,8 @@ public class OwnerTest extends TestCase {
 	}
 
 	/*
-	 * Tests one tenant paying full rent, paying partial rent, paying no rent, and being evicted
+	 * Tests one tenant paying full rent, paying partial rent, paying no rent,
+	 * and being evicted
 	 */
 	public void testOneTenant() {
 		try {
@@ -172,7 +173,7 @@ public class OwnerTest extends TestCase {
 						+ owner.myTenants.get(0).rentOwed.cents));
 
 		// Receive Message
-		owner.msgHereIsRent(mtOne, new Money(0, 0));
+		owner.msgCannotPayRent(mtOne);
 		// Check Post Conditions
 		assertEquals("Owner should not have added rent to his money.", 250,
 				owner.myPerson.money.dollars);
@@ -180,15 +181,17 @@ public class OwnerTest extends TestCase {
 				owner.myTenants.get(0).rentOwed.dollars);
 		assertEquals("Tenant state should be InDebt. It's not.",
 				TenantState.InDebt, owner.myTenants.get(0).state);
-		
+
 		owner.myTenants.get(0).strikes = 4;
-		
+
 		// PickAndExecuteAnAction should return true
 		assertTrue(owner.pickAndExecuteAnAction());
 		// Check Post Conditions
-		assertEquals("Owner should have evicted the tenant, and have no tenants.", 0, owner.myTenants.size());
+		assertEquals(
+				"Owner should have evicted the tenant, and have no tenants.",
+				0, owner.myTenants.size());
 	}
-	
+
 	/*
 	 * Tests multiple tenants
 	 */
@@ -199,7 +202,7 @@ public class OwnerTest extends TestCase {
 			System.out.println("setUp failed");
 			e.printStackTrace();
 		}
-		
+
 		// Check Pre-Conditions
 		assertEquals(
 				"Owner should have a list of appliances of size 4. It doesn't.",
@@ -212,7 +215,7 @@ public class OwnerTest extends TestCase {
 		// Check Post Conditions
 		assertEquals("Owner should have one tenant. It doesn't.", 1,
 				owner.myTenants.size());
-		
+
 		// PickAndExecuteAnAction should return false
 		assertFalse(owner.pickAndExecuteAnAction());
 
@@ -224,7 +227,7 @@ public class OwnerTest extends TestCase {
 
 		// PickAndExecuteAnAction should return false
 		assertFalse(owner.pickAndExecuteAnAction());
-		
+
 		// Receive Message
 		owner.msgAddTenant(mtThree);
 		// Check Post Conditions
@@ -233,7 +236,7 @@ public class OwnerTest extends TestCase {
 
 		// PickAndExecuteAnAction should return false
 		assertFalse(owner.pickAndExecuteAnAction());
-		
+
 		// Receive Message
 		owner.msgTimeToCollectRent();
 		// Check Post Conditions
@@ -249,8 +252,94 @@ public class OwnerTest extends TestCase {
 				TenantState.OwesRent, owner.myTenants.get(2).state);
 		assertEquals("Tenant's rentOwed should be zero. It's not.",
 				owner.RENT.dollars, owner.myTenants.get(2).rentOwed.dollars);
-		
-		
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertTrue(
+				"Tenant One should have logged \"Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(0).rentOwed.dollars + "."
+						+ owner.myTenants.get(0).rentOwed.cents
+						+ "\" but didn't. His log reads instead: "
+						+ mtOne.log.getLastLoggedEvent().toString(),
+				mtOne.log.containsString("Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(0).rentOwed.dollars + "."
+						+ owner.myTenants.get(0).rentOwed.cents));
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertTrue(
+				"Tenant Two should have logged \"Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(1).rentOwed.dollars + "."
+						+ owner.myTenants.get(1).rentOwed.cents
+						+ "\" but didn't. His log reads instead: "
+						+ mtTwo.log.getLastLoggedEvent().toString(),
+				mtTwo.log.containsString("Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(1).rentOwed.dollars + "."
+						+ owner.myTenants.get(1).rentOwed.cents));
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertTrue(
+				"Tenant Three should have logged \"Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(2).rentOwed.dollars + "."
+						+ owner.myTenants.get(2).rentOwed.cents
+						+ "\" but didn't. His log reads instead: "
+						+ mtThree.log.getLastLoggedEvent().toString(),
+				mtThree.log.containsString("Received msgPayRent from owner. "
+						+ "Tenant owes $"
+						+ owner.myTenants.get(2).rentOwed.dollars + "."
+						+ owner.myTenants.get(2).rentOwed.cents));
+
+		// Receive Message
+		owner.msgHereIsRent(mtOne, owner.myTenants.get(0).rentOwed);
+		// Check Post Conditions
+		assertEquals(
+				"Owner should have added rent to his money, from 100 to 200.",
+				200, owner.myPerson.money.dollars);
+		assertEquals("Tenant should not owe any rent. He does.", 0,
+				owner.myTenants.get(0).rentOwed.dollars);
+
+		// PickAndExecuteAnAction should return false
+		assertFalse(owner.pickAndExecuteAnAction());
+
+		// Receive Message
+		owner.msgHereIsRent(mtTwo, new Money(50, 0));
+		// Check Post Conditions
+		assertEquals(
+				"Owner should have added rent to his money, from 200 to 250.",
+				250, owner.myPerson.money.dollars);
+		assertEquals("Tenant should owe $50 rent. He doesn't.", 50,
+				owner.myTenants.get(1).rentOwed.dollars);
+		assertEquals("Tenant two should have state InDebt. He doesn't.",
+				TenantState.InDebt, owner.myTenants.get(1).state);
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertEquals("Tenant two should have state InDebt. He doesn't.",
+				TenantState.None, owner.myTenants.get(1).state);
+		assertEquals("Tenant two should have one strike. He doesn't.",
+				1, owner.myTenants.get(1).strikes);
+
+		// Receive Message
+		owner.msgCannotPayRent(mtThree);
+		// Check Post Conditions
+		assertEquals("Owner should not add rent to his money.", 250,
+				owner.myPerson.money.dollars);
+		assertEquals("Tenant should owe $100 rent. He doesn't.", 100,
+				owner.myTenants.get(2).rentOwed.dollars);
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(owner.pickAndExecuteAnAction());
+
 	}
 
 }
