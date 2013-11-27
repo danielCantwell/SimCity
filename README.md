@@ -39,6 +39,7 @@ SimCity201 Project Repository for CS 201 students
   * Packer Role
 + JUnit Testing
   * Packer Role
+  * Clerk Role
 
 ####Eric Wu
 + Bank Roles and Guis

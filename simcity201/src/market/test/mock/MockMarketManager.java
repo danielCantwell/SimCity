@@ -26,15 +26,13 @@ public class MockMarketManager implements MarketManager
     public void msgFulfillOrder(MarketClerk clerk, int id, String choice,
             int amount)
     {
-        // TODO Auto-generated method stub
-
+        System.out.println("Manager: recieved msgFulfillOrder.");
     }
 
     @Override
     public void msgOrderPacked(int id, String choice, int amount)
     {
-        // TODO Auto-generated method stub
-
+        System.out.println("Manager: recieved msgOrderPacked.");
     }
 
     @Override
@@ -67,8 +65,7 @@ public class MockMarketManager implements MarketManager
     @Override
     public void msgIAmFree(MarketClerk marketClerkRole)
     {
-        // TODO Auto-generated method stub
-
+        System.out.println("Manager: recieved msgIAmFree.");
     }
 
 }

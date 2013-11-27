@@ -1,8 +1,8 @@
 package market.test.mock;
 
 import SimCity.Globals.Money;
-import market.MarketCustomerRole;
 import market.interfaces.MarketClerk;
+import market.interfaces.MarketCustomer;
 
 public class MockMarketClerk implements MarketClerk
 {
@@ -29,7 +29,7 @@ public class MockMarketClerk implements MarketClerk
     }
 
     @Override
-    public void msgTakeOrder(MarketCustomerRole customer)
+    public void msgTakeOrder(MarketCustomer customer)
     {
         // TODO Auto-generated method stub
         

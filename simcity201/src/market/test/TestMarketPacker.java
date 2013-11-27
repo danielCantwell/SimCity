@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import SimCity.Base.Person;
+import market.MarketClerkRole;
 import market.MarketPackerRole;
 import market.MarketPackerRole.AgentLocation;
 import market.MarketPackerRole.AgentState;
@@ -27,8 +28,13 @@ public class TestMarketPacker extends TestCase
      */
     public void setUp() throws Exception {
         super.setUp();
+
+        person = new Person("market.MarketPackerRole");
+
+        packer = (MarketPackerRole)person.mainRole;
+        packer.myPerson = person;
+        packer.myPerson.house = "Apartment";
         
-        packer = new MarketPackerRole();
         packerGui = new MarketPackerGui(packer);
         
         Map<Integer, Point> locations = new HashMap<Integer, Point>();
@@ -38,12 +44,8 @@ public class TestMarketPacker extends TestCase
         packerGui.setLocations(locations);
         
         manager = new MockMarketManager();
-        packer.setGui(packerGui);
         packer.setManager(manager);
-        person = new Person("market.MarketPackerRole");
-
-        packer.myPerson = person;
-        packer.myPerson.house = "Apartment";
+        packer.setGui(packerGui);
     }
     
     /**

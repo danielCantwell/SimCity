@@ -19,15 +19,13 @@ public class MockMarketCustomer implements MarketCustomer
     @Override
     public void msgWhatDoYouWant(MarketClerkRole clerk)
     {
-        // TODO Auto-generated method stub
-
+        System.out.println("Customer: recieved msgWhatDoYouWant.");
     }
 
     @Override
     public void msgHereIsYourFood(String food, int amount, Money price)
     {
-        // TODO Auto-generated method stub
-
+        System.out.println("Customer: recieved msgHereIsYourFood.");
     }
 
     @Override
