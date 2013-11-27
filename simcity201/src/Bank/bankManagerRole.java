@@ -20,7 +20,10 @@ public class bankManagerRole extends Role implements  Manager{
 	public Guard getGuard(){return guard;}
 	
 	@Override
-	public void setGuard(Guard bg){guard = bg;}
+	public void setGuard(Guard bg){
+		guard = bg;
+		myPerson.building.setOpen(myPerson.building.areAllNeededRolesFilled());
+	}
 	
 	//----------------------------------------------Data-------------------------------------------------
 	List<Teller> tellers = Collections.synchronizedList(new ArrayList<Teller>());
