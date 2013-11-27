@@ -3,7 +3,8 @@ Team 33
 ======
 SimCity201 Project Repository for CS 201 students
 ###Individual Contribution Breakdown
-Danny Cantwell
+
+1. Danny Cantwell
 ======
 + Housing Roles and Guis
   * Owner Role
@@ -11,7 +12,8 @@ Danny Cantwell
 + Global Money Class
 + Junit Testing
   * All the above listed roles
-Jesse Chand
+
+2. Jesse Chand
 ======
 + Exterior SimCity Guis
   * Person Gui and animations
@@ -21,7 +23,8 @@ Jesse Chand
   * Person animation
   * Buildings
   * Streets and Sidewalks
-Brian Chen
+
+3. Brian Chen
 ======
 + Base Person and Role Class
 + Bulding Wrappers and base Building Class for each building
@@ -29,7 +32,8 @@ Brian Chen
 + Junit Testing
   * Person Class
   * God Class
-Tim So
+
+4. Tim So
 ======
 + Market Roles and Guis
   * Clerk Role
@@ -39,7 +43,8 @@ Tim So
   * Packer Role
 + Junit Testing
   * All the above listed roles
-Eric Wu
+
+5. Eric Wu
 ======
 + Bank Roles and Guis
   * Customer Role
@@ -49,7 +54,7 @@ Eric Wu
 + Junit Testing
   * All the above listed roles
 
-The following was done by every group member
+The following was done by everyone
 ======
 + Attended and contributed to each group meeting
 + Debuging and assisting in other group member's code
