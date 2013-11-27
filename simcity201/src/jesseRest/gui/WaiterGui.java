@@ -3,12 +3,12 @@ package jesseRest.gui;
 
 import java.awt.*;
 
-import jesseRest.CustomerAgent;
-import jesseRest.WaiterAgent;
+import jesseRest.JesseCustomer;
+import jesseRest.JesseWaiter;
 
 public class WaiterGui implements Gui {
 
-    private WaiterAgent agent = null;
+    private JesseWaiter agent = null;
     private String icon = "";
     private int xCook = 800-180, yCook = 290; //Cooking area position
     private int speed = 1;
@@ -24,7 +24,7 @@ public class WaiterGui implements Gui {
     public static final int yTable = TABLESIZE;
     private final int SPRITE_SIZE = 20;
     
-    public WaiterGui(WaiterAgent agent) {
+    public WaiterGui(JesseWaiter agent) {
         this.agent = agent;
     }
     
@@ -91,7 +91,7 @@ public class WaiterGui implements Gui {
         return true;
     }
 
-    public void DoGoToTable(CustomerAgent customer, int tableToVisit) {
+    public void DoGoToTable(JesseCustomer customer, int tableToVisit) {
     	speed = 1;
     	agent.leavingFrontDesk();
     	tableNumber = tableToVisit;
@@ -136,17 +136,17 @@ public class WaiterGui implements Gui {
     }
     
 	public void setOnBreak(boolean selected) {
-		if (selected) {
-			if (!agent.isOnBreak) {
-				System.out.println("Waiter wants to go on break.");
-				agent.msgWantToGoOnBreak();
-			}
-		} else {
-			if (agent.isOnBreak) {
-				System.out.println("Waiter break has ended.");
-				agent.isOnBreak = false;
-				agent.restartAgent();
-			}
-		}
+//		if (selected) {
+//			if (!agent.isOnBreak) {
+//				System.out.println("Waiter wants to go on break.");
+//				agent.msgWantToGoOnBreak();
+//			}
+//		} else {
+//			if (agent.isOnBreak) {
+//				System.out.println("Waiter break has ended.");
+//				agent.isOnBreak = false;
+//				agent.restartAgent();
+//			}
+//		}
 	}
 }

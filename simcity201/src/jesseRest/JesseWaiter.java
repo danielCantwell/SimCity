@@ -1,15 +1,16 @@
 package jesseRest;
 
+import SimCity.Base.Role;
 import agent.Agent;
-import agent.Check;
-import agent.Menu;
+import jesseRest.Check;
+import jesseRest.Menu;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import jesseRest.CustomerAgent.AgentEvent;
-import jesseRest.CustomerAgent.AgentState;
-import jesseRest.HostAgent.Table;
+import jesseRest.JesseCustomer.AgentEvent;
+import jesseRest.JesseCustomer.AgentState;
+import jesseRest.JesseHost.Table;
 import jesseRest.gui.WaiterGui;
 import jesseRest.interfaces.Waiter;
 
@@ -17,14 +18,14 @@ import jesseRest.interfaces.Waiter;
  * Restaurant Waiter Agent
  */
 
-public class WaiterAgent extends Agent implements Waiter {
+public class JesseWaiter extends Role implements Waiter {
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public enum CustomerState {DoingNothing, Waiting, Seated, Ready, AskedToOrder, AskedToReorder, Ordered, GettingFood, Eating, Done};
 	public WaiterGui waiterGui = null;
 	
-	private HostAgent myhost;
-	private CookAgent cook;
-	private CashierAgent cashier;
+	private JesseHost myhost;
+	private JesseCook cook;
+	private JesseCashier cashier;
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore waitingForOrder = new Semaphore(0, true);
@@ -36,7 +37,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	public boolean isOnBreak = false;
 	public boolean waitingForBreak = false;
 	
-	public WaiterAgent(String name) {
+	public JesseWaiter(String name) {
 		super();
 		this.name = name;
 	}
@@ -53,14 +54,14 @@ public class WaiterAgent extends Agent implements Waiter {
 	 * MESSAGES =====================================================
 	 */
 	
-	public void msgSitAtTable(CustomerAgent cust, Table table) {
+	public void msgSitAtTable(JesseCustomer cust, Table table) {
 		// Gets message from Host to seat Customer
 		customers.add(new MyCustomer(cust, table));
 		System.out.println("Adding customer. List: " + customers);
 		stateChanged();
 	}
 
-	public void msgImReadyToOrder(CustomerAgent cust) {
+	public void msgImReadyToOrder(JesseCustomer cust) {
 		for (MyCustomer mc : customers) {
 			if (mc.customer == cust) {
 				mc.state = CustomerState.Ready;
@@ -69,7 +70,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		}
 	}
 	
-	public void msgHereIsMyOrder(String choice, CustomerAgent cust) {
+	public void msgHereIsMyOrder(String choice, JesseCustomer cust) {
 		for (MyCustomer mc : customers) {
 			if (mc.customer == cust) {
 				mc.choice = choice;
@@ -90,7 +91,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		}
 	}
 	
-	public void msgDoneEatingAndPaying(CustomerAgent cust) {
+	public void msgDoneEatingAndPaying(JesseCustomer cust) {
 		// Handles customer message when it's finished eating
 		for (MyCustomer mc : customers) {
 			if (mc.customer == cust) {
@@ -135,7 +136,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			print("Waiter is on break.");
 			isOnBreak = true;
 			waitingForBreak = false;
-			pauseAgent();
+//			pauseAgent();
 			stateChanged();
 		// Waiter can't go on break.
 		} else {
@@ -402,7 +403,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	// Animations
-	private void DoSeatCustomer(CustomerAgent customer, Table table) {
+	private void DoSeatCustomer(JesseCustomer customer, Table table) {
 		waiterGui.DoGoToTable(customer, table.tableNumber); 
 	}
 
@@ -426,29 +427,45 @@ public class WaiterAgent extends Agent implements Waiter {
 		return waiterGui;
 	}
 	
-	public void setHost(HostAgent h) {
+	public void setHost(JesseHost h) {
 		myhost = h;
 	}
 	
-	public void setCook(CookAgent c) {
+	public void setCook(JesseCook c) {
 		cook = c;
 	}
 	
-	public void setCashier(CashierAgent c) {
+	public void setCashier(JesseCashier c) {
 		cashier = c;
+	}
+	public void print(String string) {
+		System.out.println(string);
 	}
 
 	private class MyCustomer {
-		CustomerAgent customer;
+		JesseCustomer customer;
 		Table table;
 		String choice = "";
 		Check check;
 		CustomerState state = CustomerState.Waiting;
 		
-		public MyCustomer(CustomerAgent c, Table t) {
+		public MyCustomer(JesseCustomer c, Table t) {
 			customer = c;
 			table = t;
 		}
+	}
+
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

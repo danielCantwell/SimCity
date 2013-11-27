@@ -97,8 +97,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.black);
         g2.drawString("Grills", KitchenAreaX-10, KitchenAreaY + 75);
         
-        if (host instanceof HostAgent)
-        for (restaurant.Table t : ((HostAgent) host).getTables()){
+        if (host instanceof JesseHost)
+        for (restaurant.Table t : ((JesseHost) host).getTables()){
         	//Here is the table
             g2.setColor(Color.ORANGE);
             g2.fillRect(t.getPosX(), t.getPosY(), TABLEWIDTH, TABLEHEIGHT);//200 and 250 need to be table params

@@ -235,7 +235,7 @@ public class HostAgent extends Agent implements Host {
 		}
 	}
 	
-	public void addWaiter(WaiterAgent w){
+	public void addWaiter(JesseWaiter w){
 		waiters.add(new MyWaiter(w));
 		workingWaiters++;
 		stateChanged();
@@ -266,10 +266,10 @@ public class HostAgent extends Agent implements Host {
 	
 	private class MyWaiter {
 		MyWaiterState state = MyWaiterState.none;
-		WaiterAgent waiter;
+		JesseWaiter waiter;
 		int numberOfCustomers;
 		
-		public MyWaiter(WaiterAgent w){
+		public MyWaiter(JesseWaiter w){
 			waiter = w;
 			numberOfCustomers = 0;
 		}

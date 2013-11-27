@@ -1,20 +1,20 @@
 package jesseRest;
 
+import SimCity.Base.Role;
 import agent.Agent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import jesseRest.HostAgent.Table;
-import jesseRest.MarketAgent.DeliveryState;
+import jesseRest.JesseHost.Table;
 import jesseRest.gui.WaiterGui;
 
 /**
  * Restaurant Host Agent
  */
 
-public class HostAgent extends Agent {
-	public List<CustomerAgent> waitingCustomers = Collections.synchronizedList(new ArrayList<CustomerAgent>());
+public class JesseHost extends Role {
+	public List<JesseCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<JesseCustomer>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	public Collection<Table> tables;
 	private String name;
@@ -23,7 +23,7 @@ public class HostAgent extends Agent {
 	private int nextWaiter = 0;
 	public enum WaiterState {Normal, WantsBreak};
 		
-	public HostAgent(String name) {
+	public JesseHost(String name) {
 		super();
 		this.name = name;
 		tables = new ArrayList<Table>(NTABLES);
@@ -32,10 +32,10 @@ public class HostAgent extends Agent {
 		}
 	}
 	
-	public void addWaiter(WaiterAgent w) {
+	public void addWaiter(JesseWaiter w) {
 		MyWaiter mw = new MyWaiter(w);
 		waiters.add(mw);
-		mw.waiter.startThread();
+		//mw.waiter.startThread();
 		stateChanged();
 	}
 	
@@ -67,14 +67,14 @@ public class HostAgent extends Agent {
 	}
 	
 	public class Table {
-		CustomerAgent occupiedBy;
+		JesseCustomer occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber) {
 			this.tableNumber = tableNumber;
 		}
 
-		void setOccupant(CustomerAgent cust) {
+		void setOccupant(JesseCustomer cust) {
 			occupiedBy = cust;
 		}
 
@@ -82,7 +82,7 @@ public class HostAgent extends Agent {
 			occupiedBy = null;
 		}
 
-		CustomerAgent getOccupant() {
+		JesseCustomer getOccupant() {
 			return occupiedBy;
 		}
 
@@ -96,11 +96,11 @@ public class HostAgent extends Agent {
 	}
 	
 	public class MyWaiter {
-		public List<CustomerAgent> customers = new ArrayList<CustomerAgent>();
-		public WaiterAgent waiter;
+		public List<JesseCustomer> customers = new ArrayList<JesseCustomer>();
+		public JesseWaiter waiter;
 		public WaiterState s;
 		
-		MyWaiter(WaiterAgent w) {
+		MyWaiter(JesseWaiter w) {
 			waiter = w;
 			s = WaiterState.Normal;
 		}
@@ -110,7 +110,7 @@ public class HostAgent extends Agent {
 	 * MESSAGES =====================================================
 	 */
 
-	public void msgIWantToEat(CustomerAgent cust) {
+	public void msgIWantToEat(JesseCustomer cust) {
 		// Handles new Customer and puts it onto waiting list
 		waitingCustomers.add(cust);
 		stateChanged();
@@ -120,7 +120,7 @@ public class HostAgent extends Agent {
 		// Frees table when customer leaves
 		synchronized(waiters){
 			for (MyWaiter mw : waiters) {
-				for (CustomerAgent c : mw.customers) {
+				for (JesseCustomer c : mw.customers) {
 					if (c == table.occupiedBy) {
 						table.setUnoccupied();
 						mw.customers.remove(c);
@@ -137,7 +137,7 @@ public class HostAgent extends Agent {
 		stateChanged();
 	}
 	
-	public void msgCanIGoOnBreak(WaiterAgent w) {
+	public void msgCanIGoOnBreak(JesseWaiter w) {
 		synchronized(waiters){
 			for (MyWaiter mw : waiters) {
 				if (mw.waiter == w) {
@@ -186,11 +186,25 @@ public class HostAgent extends Agent {
 	 * ACTIONS  ====================================================
 	 */
 	
-	void seatCustomer(CustomerAgent c, Table t, WaiterAgent w) {
+	void seatCustomer(JesseCustomer c, Table t, JesseWaiter w) {
 		Do("Message 2: Sending SitAtTable from Host to Waiter.");
 		w.msgSitAtTable(c, t);
 		waitingCustomers.remove(0);
 		t.setOccupant(c);
+	}
+	public void print(String string) {
+		System.out.println(string);
+	}
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

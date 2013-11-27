@@ -2,12 +2,12 @@ package jesseRest.gui;
 
 import java.awt.*;
 
-import jesseRest.CustomerAgent;
-import jesseRest.HostAgent;
+import jesseRest.JesseCustomer;
+import jesseRest.JesseHost;
 
 public class CustomerGui implements Gui{
 
-	private CustomerAgent agent = null;
+	private JesseCustomer agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
     private String icon = "";
@@ -29,7 +29,7 @@ public class CustomerGui implements Gui{
 	public static final int TABLEX = TABLESIZE;
 	public static final int TABLEY = TABLESIZE;
     
-	public CustomerGui(CustomerAgent c, RestaurantGui gui) {
+	public CustomerGui(JesseCustomer c, RestaurantGui gui) {
 		agent = c;
 		xPos = X_INIT;
 		yPos = Y_INIT;

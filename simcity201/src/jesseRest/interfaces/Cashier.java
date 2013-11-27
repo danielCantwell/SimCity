@@ -1,9 +1,9 @@
 package jesseRest.interfaces;
 
-import jesseRest.CustomerAgent;
-import jesseRest.WaiterAgent;
+import jesseRest.JesseCustomer;
+import jesseRest.JesseWaiter;
 import restaurant.test.mock.EventLog;
-import agent.Check;
+import jesseRest.Check;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.

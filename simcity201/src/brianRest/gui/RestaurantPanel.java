@@ -23,10 +23,10 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Omar");
+    private JesseHost host = new JesseHost("Omar");
     private CookAgent cook = new CookAgent("Brian");
     private CashierAgent cashier = new CashierAgent("Grant");
-    private ArrayList<MarketAgent> markets = new ArrayList<MarketAgent>();
+    private ArrayList<JesseMarket> markets = new ArrayList<JesseMarket>();
     
     //List of Agents for pausing.
     private Vector<Agent> agents = new Vector<Agent>();
@@ -60,7 +60,7 @@ public class RestaurantPanel extends JPanel {
         waiterListPanel = new ListPanel(this,"Waiters", false);
         
         for (int i=0; i<3; i++){
-        	markets.add(new MarketAgent(i+". Market", cashier));
+        	markets.add(new JesseMarket(i+". Market", cashier));
         	markets.get(i).startThread();
         	agents.add(markets.get(i));
         	cook.addMarket(markets.get(i));

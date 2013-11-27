@@ -7,8 +7,8 @@ import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
 
-import jesseRest.CustomerAgent;
-import jesseRest.HostAgent;
+import jesseRest.JesseCustomer;
+import jesseRest.JesseHost;
 
 /**
  * Subpanel of restaurantPanel.
