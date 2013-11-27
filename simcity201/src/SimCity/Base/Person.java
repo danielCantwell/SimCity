@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.Action;
 import javax.swing.Timer;
 
+import market.MarketDeliveryPersonRole;
 import exterior.gui.PersonGui;
 import restaurant.*;
 import sun.misc.Queue;
@@ -428,6 +430,13 @@ public class Person extends Agent {
 			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
 				
 			}
+			// delivery person stuff
+			if (mainRole instanceof MarketDeliveryPersonRole)
+			{
+			    MarketDeliveryPersonRole dPRole = (MarketDeliveryPersonRole) mainRole;
+			    b = God.Get().getBuilding(dPRole.destinationBuildingID);
+	            Do("Delivering to restaurant");
+			}
 		}
 		
 		else b = null;
@@ -502,5 +511,11 @@ public class Person extends Agent {
       });
       hungerTimer.start();
 	}
+	
+	//DEBUG
+    public void testMarket()
+    {
+        addActionToFront(new Action(GoAction.goMarket, Intent.customer));
+    }
 }
 

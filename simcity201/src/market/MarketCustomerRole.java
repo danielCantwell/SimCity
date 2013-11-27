@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Market;
 import SimCity.Globals.Money;
 import market.gui.MarketCustomerGui;
 import market.interfaces.MarketCustomer;
@@ -26,7 +27,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	 */
 	
     public MarketManagerRole manager;
-    public enum AgentState { Idle, GoToLine, InLine, GoToCounter, Ordering, BeingServed, Served, Leaving };
+    public enum AgentState { Idle, WaitingToHearBack, GoToLine, InLine, GoToCounter, Ordering, BeingServed, Served, Leaving, Left };
     public AgentState state = AgentState.Idle;
     public MarketClerkRole clerk;
     public Point destination = null;
@@ -62,7 +63,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
             myPerson.inventory.add(food);
         }
         amountOwed.add(price);
-        state = AgentState.Leaving;
+        state = AgentState.Served;
         stateChanged();
     }
 
@@ -82,7 +83,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
     public void msgGuiArrivedAtDoor()
     {
-        // release role
+        state = AgentState.Left;
         inTransit.release();
         stateChanged();
     }
@@ -130,6 +131,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		    leave();
 		    return true;
 		}
+		else if (state == AgentState.Left)
+		{
+		    exitBuilding();
+		    return true;
+		}
 	    
 	    
 		return false;
@@ -145,6 +151,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	private void askForClerk()
 	{
 	    manager.msgWantClerk(this, God.Get().persons.indexOf(myPerson));
+	    state = AgentState.WaitingToHearBack;
 	}
 	
 	private void goToClerk(Point location)
@@ -186,6 +193,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	    clerk.msgHereIsMoney(God.Get().persons.indexOf(myPerson), amountOwed);
 	    // subtract appropriate money
 	    myPerson.setMoney(myPerson.getMoney().subtract(amountOwed));
+	    state = AgentState.Leaving;
 	}
 	
 	private void leave()
@@ -199,6 +207,20 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+	}
+	
+	private void exitBuilding()
+	{
+	    for (int i = 0; i < myPerson.roles.size(); i++)
+        {
+            if (myPerson.roles.get(i) instanceof MarketCustomerRole)
+            {
+                MarketCustomerRole cRole = (MarketCustomerRole)myPerson.roles.get(i);
+                cRole.setActive(false);
+                ((B_Market) myPerson.building).panel.removeGui(cRole.getGui());
+                myPerson.msgExitBuilding();
+            }
         }
 	}
 
@@ -221,11 +243,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
     protected void enterBuilding() {
         // TODO Auto-generated method stub
         
-    }
-    
-    public void setPerson(Person person)
-    {
-        super.setPerson(person);
     }
 
     /**
