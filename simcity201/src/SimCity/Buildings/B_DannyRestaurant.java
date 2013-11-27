@@ -2,6 +2,8 @@ package SimCity.Buildings;
 
 import javax.swing.JPanel;
 
+import restaurant.DannyCashier;
+import restaurant.DannyCustomer;
 import restaurant.DannyHost;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
@@ -15,6 +17,7 @@ import SimCity.Base.Role;
 public class B_DannyRestaurant extends Building{
 	
 	public DannyHost hostRole;
+	public DannyCashier cashierRole;
 
 	public B_DannyRestaurant(int id, JPanel jp) {
 		super(id, jp);
@@ -33,6 +36,8 @@ public class B_DannyRestaurant extends Building{
 	public String getManagerString() {
 		return "restaurant.DannyHost";
 	}
+	
+	public DannyCashier getCashier(){return cashierRole;}
 
 	@Override
 	public String getCustomerString() {
@@ -57,6 +62,22 @@ public class B_DannyRestaurant extends Building{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void EnterBuilding(Person person, String job){
+		Role newRole = null;
+		try {
+			if (job.equals("restaurant.DannyCustomer")) newRole = new DannyCustomer("Customer");
+			else if (job.equals("restaurant.DannyHost")) newRole = new DannyHost("Host");
+			newRole.setActive(true);
+			newRole.setPerson(person);
+			person.msgCreateRole(newRole, true);
+			fillNeededRoles(person, newRole);
+			person.msgEnterBuilding(this);
+		} catch(Exception e){
+			e.printStackTrace();
+			System.out.println ("Building: no class found");
+		}
+}
 
 
 

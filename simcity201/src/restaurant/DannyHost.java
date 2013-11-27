@@ -1,6 +1,7 @@
 package restaurant;
 
 import SimCity.Base.Role;
+import SimCity.Buildings.B_DannyRestaurant;
 import agent.Agent;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
@@ -31,24 +32,18 @@ public class DannyHost extends Role {
 	// Later we will see how it is implemented
 
 	private DannyCook cook = new DannyCook("Chef", this);
-	private RestaurantPanel restPanel;
+	//private RestaurantPanel restPanel;
 
 	private String name;
 
 	public WaiterGui waiterGui = null;
 
-	public DannyHost(String name, RestaurantPanel rest) {
+	public DannyHost(String name) {
 		super();
 
 		this.name = name;
-		this.restPanel = rest;
-		// make some tables
-		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
-		synchronized (tables) {
-			for (int ix = 1; ix <= NTABLES; ix++) {
-				tables.add(new Table(ix));// how you add to a collections
-			}
-		}
+		//this.restPanel = rest;
+
 	}
 
 	public String getMaitreDName() {
@@ -237,7 +232,8 @@ public class DannyHost extends Role {
 	}
 	
 	public DannyCashier getCashier() {
-		return restPanel.getCashier();
+		B_DannyRestaurant dr = (B_DannyRestaurant)myPerson.getBuilding();
+		return dr.getCashier();
 	}
 
 	private void switchOrderOfWaiters() {
@@ -267,7 +263,7 @@ public class DannyHost extends Role {
 		public int xCoord = 0;
 		public int yCoord = 0;
 
-		Table(int tableNumber) {
+		public Table(int tableNumber) {
 			this.tableNumber = tableNumber;
 
 			if (tableNumber == 1) {

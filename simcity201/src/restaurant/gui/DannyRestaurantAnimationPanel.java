@@ -3,6 +3,7 @@ package restaurant.gui;
 import javax.swing.*;
 
 import SimCity.gui.Gui;
+import restaurant.DannyCustomer;
 import restaurant.DannyHost;
 import restaurant.DannyHost.Table;
 
@@ -16,8 +17,8 @@ import java.util.ArrayList;
 
 public class DannyRestaurantAnimationPanel extends JPanel implements ActionListener {
 
-	private final int WINDOWX = 450;
-	private final int WINDOWY = 450;
+	private final int WINDOWX = 640;
+	private final int WINDOWY = 640;
 
 	static final int TABLE_X_SIZE = 50;
 	static final int TABLE_Y_SIZE = 50;
@@ -56,6 +57,13 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 
 		bufferSize = this.getSize();
 
+		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
+		synchronized (tables) {
+			for (int ix = 1; ix <= NTABLES; ix++) {
+				tables.add(new Table(ix));// how you add to a collections
+			}
+		}
+		
 		Timer timer = new Timer(HOST_SPEED, this);
 		timer.start();
 	}
@@ -63,10 +71,10 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 	public void setHost(DannyHost host) {
 		hostAgent = host;
 		NTABLES = host.NTABLES;
-		tables = host.tables;
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		
 		repaint(); // Will have paintComponent called
 	}
 
@@ -92,11 +100,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		drawCashier(g2);
 		drawHost(g2);
 
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
+		
 
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
@@ -155,6 +159,32 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		g.setColor(Color.WHITE);
 		g.drawRect(xHost, yHost, xHostSize, yHostSize);
 		g.drawString("Host", xHost + 12, yHost + 15);
+	}
+	
+	public class Table {
+		DannyCustomer occupiedBy;
+		int tableNumber;
+
+		public int xCoord = 0;
+		public int yCoord = 0;
+
+		public Table(int tableNumber) {
+			this.tableNumber = tableNumber;
+
+			if (tableNumber == 1) {
+				xCoord = 80;
+				yCoord = 100;
+			} else if (tableNumber == 2) {
+				xCoord = 260;
+				yCoord = 100;
+			} else if (tableNumber == 3) {
+				xCoord = 80;
+				yCoord = 260;
+			} else if (tableNumber == 4) {
+				xCoord = 260;
+				yCoord = 260;
+			}
+		}
 	}
 
 }

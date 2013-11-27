@@ -96,9 +96,8 @@ public class God {
 	    	case 2: return simGui.buildingList.get(9);
 	    	case 3: return simGui.buildingList.get(10);
 	    	case 4: return simGui.buildingList.get(11);
+	    	default : return simGui.buildingList.get(6);
 	    	}
-	    	System.out.println("God: no restaurant found.");
-	    	return null;
 	    }
 	    
 	    private boolean announcedTime = false;
@@ -128,6 +127,10 @@ public class God {
 						   getOffWork();
 					   }
 					   
+					   if (hour==22 && !announcedTime){
+						   goToSleep();
+					   }
+					   
 					   if (hour >= 24) { //if the hour is 24 hours, then hours is reset back to zero
 						   hour = 0; //and a day is added to the Date.
 						   day ++ ;
@@ -148,12 +151,12 @@ public class God {
 					   }
 					   
 					   if (day % 6 == 0 || day % 7 == 0 && !banksClosed){
-						   notifyBanksClosed();
+						   //notifyBanksClosed();
 						   isWeekend = true;
 					   }
 					   else {
 						   if (banksClosed)
-							   	notifyBanksOpen();
+							   	//notifyBanksOpen();
 						   isWeekend = false;
 					   }
 				   }
@@ -170,6 +173,14 @@ public class God {
 	    	System.out.println ("its morning");
 	    	for(Person p: persons){
 	    		p.msgMorning();
+	    	}
+	    }
+	    
+	    public void goToSleep(){
+	    	announcedTime = true;
+	    	System.out.println("go to sleep now.");
+	    	for (Person p: persons){
+	    		p.msgSleep();
 	    	}
 	    }
 	    

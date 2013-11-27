@@ -12,6 +12,7 @@ import restaurant.gui.DannyRestaurantAnimationPanel;
 import market.gui.MarketAnimationPanel;
 import SimCity.Buildings.B_House;
 import SimCity.gui.Gui;
+import restaurant.*;
 /**
  * @author Brian
  *
@@ -78,7 +79,7 @@ public abstract class Building extends SimObject {
 				person.msgEnterBuilding(this);
 			} catch(Exception e){
 				e.printStackTrace();
-				System.out.println ("God: no class found");
+				System.out.println ("Building: no class found");
 			}
     }
     

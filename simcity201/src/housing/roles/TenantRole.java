@@ -186,6 +186,7 @@ public class TenantRole extends Role implements Tenant {
 			}
 			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
 					Intent.customer);
+			//System.out.println("######### random rest = " + God.Get().findRandomRestaurant().toString());
 			HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
 			myPanel.addGui(gui);
 			exitBuilding(myPerson);

@@ -67,6 +67,7 @@ public class Person extends Agent {
 	public enum GoAction {
 		goHome,
 		goDannyRestaurant,
+		goRestaurant,
 		goMarket,
 		goBank,
 		goSleep;
@@ -161,6 +162,7 @@ public class Person extends Agent {
 		myHouse = house;
 		this.workPlace = workplace;
 		God.Get().addPerson(this);
+		setUpHungerTimer();
 	}
 	
 	/*public Person(String name, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
@@ -399,8 +401,10 @@ public class Person extends Agent {
 	
 	//Utility
 	private void goTo(Action action){
-		Building b = myHouse;
+		Building b = null;
 		createVehicle();
+		
+		System.out.println("##### getgoaction: " + action.getGoAction().toString() + " " + intent.toString());
 		
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
@@ -420,13 +424,14 @@ public class Person extends Agent {
 		}else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.customer){
 			//Go to restaurant
-			b = God.Get().findBuildingOfType(BuildingType.Restaurant);
+			b = God.Get().getBuilding(6);
 			Do("Going to restaurant");
 		}else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.work){
 			//Put all restaurant roles here.
 			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
-				
+				b = God.Get().getBuilding(6);
+				Do("working at restaurant");
 			}
 		}
 		
@@ -485,7 +490,7 @@ public class Person extends Agent {
 	}
 	
 	Timer hungerTimer;
-	int hungerOffset = 10000;
+	int hungerOffset = 3000;
 	boolean hasActiveRole = false;
 	void setUpHungerTimer(){
 		 hungerTimer = new Timer(hungerOffset, new ActionListener() {
@@ -493,6 +498,7 @@ public class Person extends Agent {
 			 if (hasActiveRole) return;
 			   if(hungerLevel > 0){
 				   hungerLevel --;
+				   System.out.println("Hunger Level is now: " + hungerLevel);
 			   }
 			   if (hungerLevel <= 0){
 				   hungerLevel = 0;

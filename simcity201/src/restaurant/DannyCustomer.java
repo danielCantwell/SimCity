@@ -393,6 +393,9 @@ public class DannyCustomer extends Role implements Customer{
 	@Override
 	protected void enterBuilding() {
 		Do("Going to restaurant");
+		if (!myPerson.building.getOpen()){
+			
+		}
 		host.msgIWantFood(this);
 	}
 
