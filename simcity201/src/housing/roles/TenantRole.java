@@ -180,7 +180,7 @@ public class TenantRole extends Role implements Tenant {
 		// cash
 		if (rentOwed.isZero()
 				&& myPerson.getMoney().isGreaterThan(
-						myPerson.getMoneyThreshold())) {
+						myPerson.getMoneyThreshold()) && God.Get().hour < 21) {
 			// Leave house to go to Restaurant
 			System.out.println("Tenant is going to a restaurant");
 			gui.DoLeaveHouse();
