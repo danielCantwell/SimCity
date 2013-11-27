@@ -185,7 +185,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				consoleText = "";
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-						consoleText = "Click to Enter Building" + i + ": " + gui.buildingList.get(i).getTag();
+						consoleText = "Click to Enter Building " + i + ": " + gui.buildingList.get(i).getTag();
 					}
 				}
 			}
@@ -266,7 +266,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 									iconBuildingA.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
 								}
 								
-								if (consoleText.indexOf(Character.forDigit(i, 10)) != -1) {
+								if (consoleText.indexOf(i + "") != -1) {
 									g2.drawString(consoleText, (x+1) * TILESIZE, (y+1) * TILESIZE - 10);
 								}
 							}
