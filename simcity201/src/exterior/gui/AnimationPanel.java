@@ -204,7 +204,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		// Update invisible panels
 		for (JPanel p : gui.buildingPanelList) {
 			if (!p.isVisible()) {
-				p.update(getGraphics());
+				//p.update(getGraphics());
 			}
 		}
 		
