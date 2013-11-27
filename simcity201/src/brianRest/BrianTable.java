@@ -1,20 +1,20 @@
-package restaurant;
+package brianRest;
 
 import restaurant.interfaces.Customer;
 
-public class Table {
+public class BrianTable {
 	Customer occupiedBy;
 	int tableNumber;
 	int guiPosX;
 	int guiPosY;
 
-	Table(int tableNumber) {
+	BrianTable(int tableNumber) {
 		this.tableNumber = tableNumber;
 		guiPosX = 0;
 		guiPosY = 0;
 	}
 	
-	Table(int tableNumber, int posX, int posY) {
+	BrianTable(int tableNumber, int posX, int posY) {
 		this.tableNumber = tableNumber;
 		guiPosX = posX;
 		guiPosY = posY;

@@ -415,5 +415,11 @@ public class DannyCustomer extends Role implements Customer{
 	public void workOver() {
 		customerGui.DoExitRestaurant(); //Leaves restaurant
 	}
+
+	@Override
+	public void msgIsHungry() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

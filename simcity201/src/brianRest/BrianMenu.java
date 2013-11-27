@@ -1,16 +1,16 @@
-package restaurant;
+package brianRest;
 
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class Menu {
+public class BrianMenu {
 	//Map of Food and Price.
 	Map<String, Double> menuDictionary = new Hashtable<String, Double>(); 
 	private int size = 4;
 	
-	public Menu(){
+	public BrianMenu(){
 		menuDictionary.put("Steak", 15.99);
 		menuDictionary.put("Chicken", 10.99);
 		menuDictionary.put("Salad", 5.99);

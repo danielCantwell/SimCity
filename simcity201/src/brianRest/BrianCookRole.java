@@ -1,8 +1,11 @@
-package restaurant;
+package brianRest;
 
 //import javax.swing.*;
 
 import agent.Agent;
+import brianRest.gui.CookGui;
+import brianRest.interfaces.BrianCook;
+import brianRest.interfaces.BrianWaiter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,12 +23,8 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
-import restaurant.gui.CookGui;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Cook;
-import restaurant.interfaces.Waiter;
 
-public class CookAgent extends Agent implements Cook {
+public class BrianCookRole extends Agent implements BrianCook {
 	
 	private String name;
 	CookGui gui;
@@ -34,7 +33,6 @@ public class CookAgent extends Agent implements Cook {
 	private List<Order> orders;
 	
 	//List of all the markets
-	private List<MarketAgent> markets = new ArrayList<MarketAgent>();
 
 	//A map containing all the foods and their cook times. Implement in Constructor pls!
 	private Map<String, Food> foodDictionary = new HashMap<String, Food>();
@@ -48,7 +46,7 @@ public class CookAgent extends Agent implements Cook {
 	private Semaphore atTargetLocation = new Semaphore(0, true);
 
 	//Constructor
-	public CookAgent(String name){
+	public BrianCookRole(String name){
 	  this.name = name;
 	  orders = new ArrayList<Order>();
 	  
@@ -62,7 +60,7 @@ public class CookAgent extends Agent implements Cook {
 		
 //########## Messages  ###############
 	@Override
-	public void msgHeresAnOrder(String o, Waiter w, int tableNumber)
+	public void msgHeresAnOrder(String o, BrianWaiter w, int tableNumber)
 	{
 		Order order = new Order(o, w, tableNumber);
 		 orders.add(order);
@@ -112,7 +110,6 @@ public class CookAgent extends Agent implements Cook {
 				}
 				
 				if (searchMarketsFor.trim().length() > 0){
-					SearchMarkets(searchMarketsFor);
 					return true;
 				}
 		}
@@ -132,8 +129,6 @@ public class CookAgent extends Agent implements Cook {
 			o.waiter.msgOutOfFood(o.choice, o.tableNumber);
 			orders.remove(o);
 			Do("Out of "+ o.choice);
-			if (temp.orderFromIndex < markets.size())
-			markets.get(temp.orderFromIndex).msgINeedFood(temp.choice, max_Capacity - temp.amount , this);
 			return;
 		}
 		DoGoToGrill();
@@ -141,8 +136,6 @@ public class CookAgent extends Agent implements Cook {
 		if (temp.amount == 1){
 			//order more for the restaurant;
 			Do("Last "+ o.choice+". Ordering more.");
-			if (temp.orderFromIndex < markets.size())
-			markets.get(temp.orderFromIndex).msgINeedFood(temp.choice, max_Capacity - temp.amount , this);
 		}
 		
 		temp.amount --;
@@ -151,17 +144,6 @@ public class CookAgent extends Agent implements Cook {
 		  o.setTimer(foodDictionary.get(o.choice).cookTime);
 	}
 	
-	//Search markets is only called when the cook needs to iterate to more markets because another market ran out of the item he needed.
-	private void SearchMarkets(String choice){
-		Do("Searching other markets for " + choice+ ".");
-		searchMarketsFor = "";
-		Food temp = foodDictionary.get(choice);
-		if (temp.orderFromIndex == markets.size()) {
-			Do("Stopped searching for "+ temp.choice+".");
-			return; //If the cook searched all the markets, then forget about searching more.
-		}
-		markets.get(temp.orderFromIndex).msgINeedFood(temp.choice, max_Capacity - temp.amount, this); //Ask market for food.
-	}
 	
 	private void tellWaiterOrderIsReady(Order o, int index){
 		DoGoToGrill();
@@ -193,9 +175,6 @@ public class CookAgent extends Agent implements Cook {
 		return "Cook " + name;
 	}
 	
-	public void addMarket(MarketAgent ma){
-		markets.add(ma);
-	}
 	
 	private void atLocAcquire(){
 		try {
@@ -238,14 +217,14 @@ public class CookAgent extends Agent implements Cook {
 	
 	private class Order {
 		  String choice;
-		  Waiter waiter;
+		  BrianWaiter waiter;
 		  int tableNumber;
 		  Timer timer;
 		  int orderTime;
 		  
 		  private OrderState state = OrderState.pending;
 		  
-		  public Order(String c, Waiter w, int tableNumber){
+		  public Order(String c, BrianWaiter w, int tableNumber){
 			 choice = c;
 			 waiter = w;
 			 this.tableNumber = tableNumber;
@@ -275,6 +254,8 @@ public class CookAgent extends Agent implements Cook {
 		  }
 		  
 	}
+
+
 
 }
 

@@ -210,4 +210,10 @@ public class DannyCashier extends Role implements Cashier {
 		//Gui call to leave restaurant
 	}
 
+	@Override
+	public void msgHeresIsMyMoney(Customer c, double totalMoney) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

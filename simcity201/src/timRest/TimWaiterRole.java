@@ -26,7 +26,7 @@ public class WaiterAgent extends Agent implements Waiter{
 	
 	private HostAgent host;
 	private CookAgent cook;
-	private CashierAgent cashier;
+	private BrianCashierRole cashier;
 	
 	private WaiterGui waiterGui;
 	
@@ -868,7 +868,7 @@ public class WaiterAgent extends Agent implements Waiter{
 		this.host = host;
 	}
 
-	public void setCashier(CashierAgent cashier)
+	public void setCashier(BrianCashierRole cashier)
 	{
 		this.cashier = cashier;
 	}

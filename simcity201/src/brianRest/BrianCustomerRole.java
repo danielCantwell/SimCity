@@ -1,22 +1,31 @@
-package restaurant;
+package brianRest;
 
-import restaurant.gui.CustomerGui;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Host;
-import restaurant.interfaces.Waiter;
+
 import agent.Agent;
+import brianRest.gui.CustomerGui;
+import brianRest.interfaces.BrianCashier;
+import brianRest.interfaces.BrianCustomer;
+import brianRest.interfaces.BrianHost;
+import brianRest.interfaces.BrianWaiter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
+
+
+
+
+
+
 import javax.swing.Timer;
+
+import restaurant.Menu;
 
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer{
+public class BrianCustomerRole extends Agent implements BrianCustomer{
 	
 	private final int eatingTime = 15000;
 	private final int readingMenuTime = 5000;
@@ -27,29 +36,29 @@ public class CustomerAgent extends Agent implements Customer{
 	private CustomerGui customerGui;
 
 	//Necessary links.
-	private Host host;
-		public Host getHost(){
+	private BrianHost host;
+		public BrianHost getHost(){
 			return host;
 		}
-		public void setHost(Host w){
+		public void setHost(BrianHost w){
 			host = w;
 		}
-	private Waiter waiter;	
-		public Waiter getWaiter(){
+	private BrianWaiter waiter;	
+		public BrianWaiter getWaiter(){
 			return waiter;
 		}
-		public void setWaiter(Waiter w){
+		public void setWaiter(BrianWaiter w){
 			waiter = w;
 		}
-	private Cashier cashier;
-		public Cashier getCashier(){
+	private BrianCashier cashier;
+		public BrianCashier getCashier(){
 			return cashier;
 		}
-		public void setCashier(Cashier w){
+		public void setCashier(BrianCashier w){
 			cashier = w;
 		}
 	private String choice;
-	private Menu menu;
+	private BrianMenu menu;
 	public double totalMoney;
 	public double totalCost;
 	
@@ -70,7 +79,7 @@ public class CustomerAgent extends Agent implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String n, Cashier cashier){
+	public BrianCustomerRole(String n, BrianCashier cashier){
 		super();
 		
 		this.name = n;
@@ -119,7 +128,7 @@ public class CustomerAgent extends Agent implements Customer{
 		stateChanged();
     }
 	@Override
-	public void msgFollowMe(Menu m){
+	public void msgFollowMe(BrianMenu m){
 		menu = m;
 		event = CustomerEvent.followWaiter;
 		stateChanged();
@@ -153,7 +162,7 @@ public class CustomerAgent extends Agent implements Customer{
 	}
 	
 	@Override
-	public void msgOutOfFood(Menu m){
+	public void msgOutOfFood(BrianMenu m){
 		menu = m;
 		event = CustomerEvent.gotMenu;
 		state = CustomerState.Seated;
@@ -394,7 +403,7 @@ public class CustomerAgent extends Agent implements Customer{
 	}
 	
 	//########## UTILITIES ###########
-	private String RandomChoice(Menu menu){
+	private String RandomChoice(BrianMenu menu){
 		int random = (int)(Math.random() * ((menu.getSize())));
 		return menu.choice(random);
 	}
@@ -410,6 +419,16 @@ public class CustomerAgent extends Agent implements Customer{
 
 	public CustomerGui getGui() {
 		return customerGui;
+	}
+	@Override
+	public void msgFollowMe(Menu m) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgOutOfFood(Menu m) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

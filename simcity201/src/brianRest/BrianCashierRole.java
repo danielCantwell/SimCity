@@ -1,55 +1,56 @@
-package restaurant;
+package brianRest;
 
+import SimCity.Base.Role;
 import agent.Agent;
 
 
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Market;
-import restaurant.interfaces.Waiter;
+import brianRest.interfaces.BrianCashier;
+import brianRest.interfaces.BrianCustomer;
+import brianRest.interfaces.BrianMarket;
+import brianRest.interfaces.BrianWaiter;
 
 import java.util.*;
 
-public class CashierAgent extends Agent implements Cashier {
+public class BrianCashierRole extends Role implements BrianCashier {
 	
 	String name;
 	
 	private int money = Integer.MAX_VALUE;
 	
 	public List<Check> checks;
-	public Menu menu;
+	public BrianMenu menu;
 	public enum CheckStatus {pending, calculated, paid};
 	public enum CheckType {restaurant, market};
 
 	//Constructor
-	public CashierAgent(String name){
+	public BrianCashierRole(String name){
 		checks =  Collections.synchronizedList(new ArrayList<Check>());
-		menu = new Menu();
+		menu = new BrianMenu();
 		this.name = name;
 	}
 		
 //########## Messages  ###############
-	public void msgHereIsCheck(String choice, Customer c, Waiter wa){
-		Check ch = new Check(choice, c, wa);
-		checks.add(ch);
+	public void msgHereIsCheck(String choice, BrianCustomer c, BrianWaiter wa){
+		//Check ch = new Check(choice, c, wa);
+		//checks.add(ch);
 		stateChanged();
 	}
 	
 	@Override
-	public void msgHeresIsMyMoney(Customer c, double totalMoney){
+	public void msgHeresIsMyMoney(BrianCustomer c, double totalMoney){
 		synchronized(checks){
 			for (Check ch: checks){
-				if (ch.customer == c){
+				//if (ch.customer == c){
 					ch.state = CheckStatus.paid;
 					ch.customerPayment = totalMoney;
 					stateChanged();
 					return;
-				}
+				//}
 			}
 		}
 	}
 	
-	public void msgHereIsMarketCost(double cost, Market m){
+	public void msgHereIsMarketCost(double cost, BrianMarket m){
 		Check ch = new Check(cost, m);
 		checks.add(ch);	
 		stateChanged();
@@ -93,19 +94,19 @@ public boolean pickAndExecuteAnAction() {
 		Do("Calculating Check");
 		c.state = CheckStatus.calculated;
 		c.totalCost = menu.getPrice(c.choice);
-		c.waiter.msgHereIsCheck(c.totalCost, c.customer);
+		//c.waiter.msgHereIsCheck(c.totalCost, c.customer);
 	}
 	
 	public void CheckIsPaid(Check c){
 		if (c.customerPayment - c.totalCost < 0){
-			c.waiter.msgCleanUpDeadCustomer(c.customer);
-			c.customer.msgDie();
+			//c.waiter.msgCleanUpDeadCustomer(c.customer);
+			//c.customer.msgDie();
 			checks.remove(c);
 			return;
 		}
 		
 		Do("Here is your change: $" + (c.customerPayment-c.totalCost));
-		c.customer.msgHeresYourChange(c.customerPayment - c.totalCost);
+		//c.customer.msgHeresYourChange(c.customerPayment - c.totalCost);
 		checks.remove(c);
 	}
 	
@@ -128,27 +129,40 @@ public boolean pickAndExecuteAnAction() {
 		  String choice;
 		  public double totalCost;
 		  double customerPayment;
-		  Customer customer;
-		  Waiter waiter;
+		  BrianCustomer customer;
+		  BrianWaiter waiter;
 		  public CheckStatus state = CheckStatus.pending;
 		  
 		  //For market
 		  public CheckType type = CheckType.restaurant;
-		  Market market;
+		  BrianMarket market;
 		  
 		  //Restaurant Check
-		  public Check(String choice, Customer c, Waiter w){
+		  public Check(String choice, BrianCustomer c, BrianWaiter w){
 			  this.choice = choice;
 			  customer = c;
 			  waiter = w;
 		  }
 		  
 		  //Market Check
-		  public Check (double cost, Market m){
+		  public Check (double cost, BrianMarket m){
 			  totalCost = cost;
 			  type = CheckType.market;
 			  market = m;
 		  }
+	}
+
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,17 +1,18 @@
-package restaurant.gui;
+package brianRest.gui;
 
 
-import restaurant.WaiterAgent;
-import restaurant.HostAgent;
 import restaurant.interfaces.Customer;
 
 import java.awt.*;
 
+import SimCity.gui.Gui;
+import brianRest.BrianTable;
+import brianRest.BrianWaiterRole;
+
 public class WaiterGui implements Gui {
 
-    private WaiterAgent agent = null;
+    private BrianWaiterRole agent = null;
     
-    RestaurantGui gui;
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
@@ -37,12 +38,11 @@ public class WaiterGui implements Gui {
     
     private String displayText = "";
 
-    public WaiterGui(WaiterAgent agent, RestaurantGui r) {
+    public WaiterGui(BrianWaiterRole agent) {
         this.agent = agent;
         receivedAction = false;
         doingIdle = false;
         wantBreak = false;
-        gui = r;
     }
 
     public void updatePosition() {
@@ -92,7 +92,7 @@ public class WaiterGui implements Gui {
     }
 
     public void DoBringToTable(Customer customer, int tableNumber) {
-    	for (restaurant.Table myTable : ((JesseHost) agent.getHost()).getTables()){
+    	/*for (restaurant.Table myTable : ((JesseHost) agent.getHost()).getTables()){
     		if (myTable.getTableNumber() == tableNumber){
     			xTable = myTable.getPosX();
     			yTable = myTable.getPosY();
@@ -100,7 +100,7 @@ public class WaiterGui implements Gui {
     			xDestination = xTable + movementOffset;
     			yDestination = yTable - movementOffset;
     		}
-    	}
+    	}*/
     	receivedAction = true;
     }
     
@@ -127,7 +127,6 @@ public class WaiterGui implements Gui {
     
     public void DoOffBreak(){
     	wantBreak = false;
-    	gui.setWaiterEnabled(agent);
     }
     
     public void DoGiveOrderToCook(){
@@ -144,7 +143,7 @@ public class WaiterGui implements Gui {
     	doingIdle = false;
     }
     
-    public void DoWalkToCustomer(restaurant.Table table, String text){
+    public void DoWalkToCustomer(BrianTable table, String text){
     	xDestination = table.getPosX() + movementOffset;
     	yDestination = table.getPosY() - movementOffset;
     	displayText = text;
@@ -166,5 +165,15 @@ public class WaiterGui implements Gui {
     public int getYPos() {
         return yPos;
     }
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void restart() {
+		// TODO Auto-generated method stub
+		
+	}
    
 }

@@ -19,4 +19,5 @@ public interface Waiter {
 	
 	public abstract void msgCantAffordAnythingElse(Customer customer);
 
+
 }
