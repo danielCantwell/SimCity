@@ -5,6 +5,7 @@ import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import agent.Agent;
 
 import java.util.Timer;
@@ -305,7 +306,10 @@ public class DannyCustomer extends Role implements Customer{
 		cashierEvent = CashierEvent.none;
 		if (customerGui!=null)
 			customerGui.DoExitRestaurant();
-		else exitRestaurant();
+		else {
+			myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+			exitRestaurant();
+		}
 	}
 	
 	private void makeDecision() {

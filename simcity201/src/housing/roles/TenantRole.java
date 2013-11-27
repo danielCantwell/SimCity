@@ -196,7 +196,6 @@ public class TenantRole extends Role implements Tenant {
 
 			myPanel.addGui(gui);
 			exitBuilding(myPerson);
-			setActive(false);
 		} else {
 			System.out.println("Tenant is going to cook food");
 			gui.DoGoToFridge();
@@ -251,7 +250,6 @@ public class TenantRole extends Role implements Tenant {
 		exitBuilding(myPerson);
 
 		System.out.println(myPerson.actions.get(0).getGoAction().toString());
-		setActive(false);
 	}
 
 	public void useAppliance(String type) {
