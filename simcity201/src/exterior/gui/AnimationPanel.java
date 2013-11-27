@@ -110,6 +110,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				}
 			}
 		}
+		
+   	    CarGui g = new CarGui(gui);
+   	    guis.add(g);
 
 		addCommands();
 
@@ -315,18 +318,20 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.draw(g2);
-				if (gui.getRotation() == 0) {
-					iconPedR.paintIcon(this, g, gui.getX() + 16,
-							gui.getY() + 32);
-				} else if (gui.getRotation() == 1) {
-					iconPedD.paintIcon(this, g, gui.getX() + 32,
-							gui.getY() + 16);
-				} else if (gui.getRotation() == 2) {
-					iconPedL.paintIcon(this, g, gui.getX() + 16,
-							gui.getY() + 00);
-				} else if (gui.getRotation() == 3) {
-					iconPedU.paintIcon(this, g, gui.getX() + 00,
-							gui.getY() + 16);
+				if (gui.getType() == "Person") {
+					if (gui.getRotation() == 0) {
+						iconPedR.paintIcon(this, g, gui.getX() + 16,
+								gui.getY() + 32);
+					} else if (gui.getRotation() == 1) {
+						iconPedD.paintIcon(this, g, gui.getX() + 32,
+								gui.getY() + 16);
+					} else if (gui.getRotation() == 2) {
+						iconPedL.paintIcon(this, g, gui.getX() + 16,
+								gui.getY() + 00);
+					} else if (gui.getRotation() == 3) {
+						iconPedU.paintIcon(this, g, gui.getX() + 00,
+								gui.getY() + 16);
+					}
 				}
 			}
 		}
