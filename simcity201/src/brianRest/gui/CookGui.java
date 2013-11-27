@@ -1,4 +1,4 @@
-package restaurant.gui;
+package brianRest.gui;
 
 
 import java.awt.Color;
@@ -6,14 +6,13 @@ import java.awt.Graphics2D;
 import java.util.List;
 import java.util.ArrayList;
 
-import restaurant.CookAgent;
+import SimCity.gui.Gui;
+import brianRest.BrianCookRole;
 
 public class CookGui implements Gui {
 
-    private CookAgent agent = null;
+    private BrianCookRole agent = null;
     
-    RestaurantGui gui;
-
     private int xPos = 550, yPos = 70;
     private int xDestination = 550, yDestination = 70;//default start position
     
@@ -27,10 +26,9 @@ public class CookGui implements Gui {
     private List<String> foods = new ArrayList<String>();
     private List<String> grilling = new ArrayList<String>();
     
-    public CookGui(CookAgent agent, RestaurantGui r) {
+    public CookGui(BrianCookRole agent) {
         this.agent = agent;
         receivedAction = false;
-        gui = r;
     }
 
     public void updatePosition() {
@@ -136,5 +134,17 @@ public class CookGui implements Gui {
     public int getYPos() {
         return yPos;
     }
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void restart() {
+		// TODO Auto-generated method stub
+		
+	}
    
 }

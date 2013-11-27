@@ -48,6 +48,10 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public void enterBuilding() {
 		s = state.ready;
+		System.out.println("I am a guard");
+		B_Bank bank = (B_Bank)myPerson.building;
+		bank.setBankGuard(this);
+		bank.getBankManager().setGuard(this);
 		stateChanged();
 	}
 

@@ -1,11 +1,14 @@
-package restaurant;
+package brianRest;
 
 import agent.Agent;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Cook;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Host;
-import restaurant.interfaces.Waiter;
+
+
+import brianRest.gui.WaiterGui;
+import brianRest.interfaces.BrianCashier;
+import brianRest.interfaces.BrianCook;
+import brianRest.interfaces.BrianCustomer;
+import brianRest.interfaces.BrianHost;
+import brianRest.interfaces.BrianWaiter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,12 +17,12 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
-public class WaiterAgent extends Agent implements Waiter {
+public class BrianWaiterRole extends Agent implements BrianWaiter {
 	WaiterGui gui;
 	List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
-	Cook cook;
-	Host host;
-	JesseCashier cashier;
+	BrianCook cook;
+	BrianHost host;
+	BrianCashier cashier;
 	
 	int waiterNumber = 0;
 	public int getWaiterNumber(){
@@ -29,7 +32,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	private enum WaiterState {none, wantABreak, askedBreak, goingOnBreak, onBreak};
 	private WaiterState state = WaiterState.none;
 	
-		public Host getHost(){
+		public BrianHost getHost(){
 			return host;
 		}
 	String name;
@@ -51,7 +54,7 @@ public class WaiterAgent extends Agent implements Waiter {
 
 	
 	
-	public WaiterAgent(String name, Host h, Cook c, JesseCashier cash, int number) {
+	public BrianWaiterRole(String name, BrianHost h, BrianCook c, BrianCashier cash, int number) {
 		this.name = name;
 		host = h;
 		cook = c;
@@ -81,36 +84,37 @@ public class WaiterAgent extends Agent implements Waiter {
 
 // ######## Messages ################
 	@Override
-	public void msgSeatAtTable(Customer c, Table t) {
-		((JesseCustomer) c).setWaiter(this);
+	public void msgSeatAtTable(BrianCustomer c, BrianTable t) {
+		/*((BrianCustomer) c).setWaiter(this);
 		MyCustomer mc = new MyCustomer(c,t);
 		mc.state = MyCustomerState.waiting;
 		t.occupiedBy = c;
 		idle = true;
 		myCustomers.add(mc);
-		numberOfCustomers++;
+		numberOfCustomers++;*/
 		stateChanged();
 	};	
 	
 	@Override
-	public void msgReadyToOrder(Customer c){  		
+	public void msgReadyToOrder(BrianCustomer c){  		
 		for (MyCustomer mc : myCustomers){
-			if (mc.customer == c){
+			/*if (mc.customer == c){
 				Do("Received customer call");
 				mc.state = MyCustomerState.readyToOrder;
 				stateChanged();
 			}
+			*/
 		}
 	}
 	@Override
-	public void msgHeresMyChoice(Customer ca, String c){ 
+	public void msgHeresMyChoice(BrianCustomer ca, String c){ 
 		for (MyCustomer mc : myCustomers){
-			if (mc.customer == ca){
+			/*if (mc.customer == ca){
 				//mc.order = new Order(c, this, mc.table.tableNumber);
 				mc.choice = c;
 				mc.state = MyCustomerState.ordered;
 				stateChanged();
-			}
+			}*/
 		}
 	}
 	@Override
@@ -134,44 +138,48 @@ public class WaiterAgent extends Agent implements Waiter {
 		}
 	}
 	@Override
-	public void msgImDone(Customer c){ 
+	public void msgImDone(BrianCustomer c){ 
 		for (MyCustomer mc: myCustomers){
-			if (mc.customer == c){
+			/*if (mc.customer == c){
 				mc.state = MyCustomerState.doneEating;
 				stateChanged();
 			}
+			*/
 		}
 	}
 	
 	//Having to do with the check.
 	@Override
-	public void msgRequestCheck (Customer c){
+	public void msgRequestCheck (BrianCustomer c){
 		for (MyCustomer mc: myCustomers){
-			if (mc.customer == c){
+			/*if (mc.customer == c){
 				mc.state = MyCustomerState.wantCheck;
 				stateChanged();
 			}
+			*/
 		}
 	}
 	
 	@Override
-	public void msgHereIsCheck(double totalCost, Customer c){
+	public void msgHereIsCheck(double totalCost, BrianCustomer c){
 		for(MyCustomer mc: myCustomers){
-			if (mc.customer == c){
+			/*if (mc.customer == c){
 				mc.totalCost = totalCost;
 				mc.state = MyCustomerState.gotCheck;
 				stateChanged();
 			}
+			*/
 		}
 	}
 	
 	@Override
-	public void msgCleanUpDeadCustomer(Customer c){
-		Do("Readying to kill customer");
+	public void msgCleanUpDeadCustomer(BrianCustomer c){
+		/*Do("Readying to kill customer");
 		MyCustomer mc = new MyCustomer(c, null);
 		myCustomers.add(mc);
 		mc.state = MyCustomerState.dead;
 		stateChanged();
+		*/
 	}
 	
 	
@@ -295,18 +303,18 @@ public class WaiterAgent extends Agent implements Waiter {
 		gui.DoOffBreak();
 	}
 	
-	private void SeatCustomer(Table t, MyCustomer mc) {
+	private void SeatCustomer(BrianTable t, MyCustomer mc) {
 		DoGetCustomer();
-		Do("is seating " + ((JesseCustomer) mc.customer).getName());
-		mc.customer.msgFollowMe(new Menu());
+		//Do("is seating " + ((BrianCustomer) mc.customer).getName());
+		//mc.customer.msgFollowMe(new BrianMenu());
 		mc.state = MyCustomerState.seated;
 		DoSeatCustomer(t.getTableNumber(), mc);
 	}
 	
 	private void TakeOrder(MyCustomer mc){
-		Do("is taking " + ((JesseCustomer) mc.customer).getName() + "'s order.");
+		//Do("is taking " + ((JesseCustomer) mc.customer).getName() + "'s order.");
 		DoWalkToCustomer(mc, "");
-		mc.customer.msgWhatWouldYouLike();
+		//mc.customer.msgWhatWouldYouLike();
 		mc.state = MyCustomerState.ordering;
 	}
 	 
@@ -317,48 +325,48 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	private void TakeReorder(MyCustomer mc){
-		Do("Going to customer " + ((JesseCustomer) mc.customer).getCustomerName() + " for a reorder.");
+		//Do("Going to customer " + ((BrianCustomer) mc.customer).getCustomerName() + " for a reorder.");
 		DoWalkToCustomer(mc, "Reordering");
-		Menu m = new Menu();
+		BrianMenu m = new BrianMenu();
 		m.remove(mc.choice);
-		mc.customer.msgOutOfFood(m);
+		//mc.customer.msgOutOfFood(m);
 		mc.state = MyCustomerState.ordering;
 	}
 
 	private void GiveFoodToCustomer(MyCustomer mc){
 		DoGiveOrderToCook();
-		if (cook instanceof JesseCook)
-			((JesseCook) cook).DoRemovePlate(mc.choice);
+		if (cook instanceof BrianCook)
+			//((BrianCook) cook).DoRemovePlate(mc.choice);
 		DoWalkToCustomer(mc, mc.choice);
-		Do("is giving food to " + ((JesseCustomer) mc.customer).getName());	
+		//Do("is giving food to " + ((BrianCustomer) mc.customer).getName());	
 		mc.state = MyCustomerState.eating;
-		mc.customer.msgHeresYourOrder(mc.choice);
+		//mc.customer.msgHeresYourOrder(mc.choice);
 	}
 	
 	private void AskCashierForTotal(MyCustomer mc){
 		DoGetCheck();
-		Do("Asking "+ cashier.name + " for check.");
+		//Do("Asking "+ cashier.name + " for check.");
 		mc.state = MyCustomerState.waitingCheck;
-		cashier.msgHereIsCheck(mc.choice, mc.customer, this);
+		//cashier.msgHereIsCheck(mc.choice, mc.customer, this);
 	}
 	
 	private void GiveCustomerCheck(MyCustomer mc){
 		DoWalkToCustomer(mc, "Giving Check");
-		mc.customer.msgHereIsTotal(mc.totalCost);
+		//mc.customer.msgHereIsTotal(mc.totalCost);
 		mc.state = MyCustomerState.paying;
 	}
 	
 	private void CustomerLeaving(MyCustomer c){
-		Do(((JesseCustomer) c.customer).getName() + " is leaving the restaurant.");
+		//Do(((BrianCustomer) c.customer).getName() + " is leaving the restaurant.");
 		host.msgTableIsClear(c.table);
 		myCustomers.remove(c);
 		numberOfCustomers--;
 	}
 	
 	private void CleanDeadCustomer(MyCustomer mc){
-		Do("Killing Customer "+ ((JesseCustomer) mc.customer).getName());
+		//Do("Killing Customer "+ ((BrianCustomer) mc.customer).getName());
 		DoGetDeadCustomer();
-		mc.customer.DoGoToDeadLocation();
+		//mc.customer.DoGoToDeadLocation();
 		DoGoToDeadLocation();
 		mc.state = MyCustomerState.rotting;
 		myCustomers.remove(mc);
@@ -379,9 +387,9 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 	private void DoSeatCustomer(int tableNum, MyCustomer mc){
 		gui.setText("Seating Customer");
-		gui.DoBringToTable(mc.customer, tableNum);
-		if (mc.customer instanceof JesseCustomer)
-		((JesseCustomer) mc.customer).getGui().DoGoToSeat(tableNum);
+		//gui.DoBringToTable(mc.customer, tableNum);
+		//if (mc.customer instanceof BrianCustomer)
+		//((BrianCustomer) mc.customer).getGui().DoGoToSeat(tableNum);
 		atLocAcquire();
 	}
 	
@@ -449,13 +457,13 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 //#### Inner Class ####	
 	private class MyCustomer {
-		Customer customer;
-		   Table table;
+		BrianCustomer customer;
+		   BrianTable table;
 		   String choice;
 		   double totalCost;
 		   MyCustomerState state = MyCustomerState.waiting;
 		   
-		   public MyCustomer(Customer c, Table t) {
+		   public MyCustomer(BrianCustomer c, BrianTable t) {
 				customer = c;
 				table = t;
 				totalCost = 0;

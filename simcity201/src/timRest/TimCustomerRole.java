@@ -62,7 +62,7 @@ public class CustomerAgent extends Agent implements Customer{
 		this.host = host;
 	}
 	
-	public void setCashier(CashierAgent cashier)
+	public void setCashier(BrianCashierRole cashier)
 	{
 		this.cashier = cashier;
 	}

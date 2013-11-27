@@ -38,4 +38,7 @@ public interface Customer {
 
 	public abstract String getCustomerName();
 
+
+	public abstract void msgIsHungry();
+
 }

@@ -30,6 +30,7 @@ public class B_Bank extends Building{
 	
 	public Manager getBankManager(){return bankManager;}
 	public Guard getBankGuard(){return bankGuard;}
+	public Person getGuard() {return guard;}
 	public List<tellerRole> getTellers(){return tellers;}
 	
 	public void setBankManager(Manager bmr){bankManager = bmr;}
@@ -65,6 +66,7 @@ public class B_Bank extends Building{
 	}
 	@Override
 	public boolean areAllNeededRolesFilled() {
+		System.out.println("manager: " + manager + " guard: " + bankGuard);
 		return manager != null  && guard != null;
 	}
 	@Override
@@ -76,8 +78,15 @@ public class B_Bank extends Building{
 	}
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
-		if (r instanceof bankManagerRole) manager = r.myPerson;
-		else if (r instanceof bankGuardRole) guard = r.myPerson;
+		if (r instanceof bankManagerRole){
+			manager = r.myPerson;
+			bankManager = (Manager) r;
+		}
+		else if (r instanceof bankGuardRole){
+			guard = r.myPerson;
+			bankGuard = (Guard) r;
+			System.out.println(bankGuard);
+		}
 		
 	}
 

@@ -4,6 +4,7 @@ import java.util.*;
 
 import SimCity.Globals.*;
 import SimCity.Base.*;
+import SimCity.Buildings.B_Bank;
 import Bank.gui.*;
 import Bank.interfaces.Customer;
 import Bank.interfaces.Teller;
@@ -35,6 +36,8 @@ public class tellerRole extends Role implements Teller {
 	public void enterBuilding() {
 		s = state.ready;
 		System.out.println("Teller: I am a teller");
+		B_Bank bank = (B_Bank)myPerson.getBuilding();
+		bank.getBankManager().newTeller(this);
 		stateChanged();
 	}
 

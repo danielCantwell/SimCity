@@ -17,4 +17,6 @@ public interface Cashier {
 	
 	public abstract void msgPayment(Customer customer, double cash);
 
+	void msgHeresIsMyMoney(Customer c, double totalMoney);
+
 }
