@@ -2,6 +2,8 @@ package exterior.gui;
 
 import java.awt.*;
 
+import SimCity.Base.Person;
+
 public class CarGui implements Gui {
 	SimCityGui gui;
 
@@ -11,6 +13,7 @@ public class CarGui implements Gui {
 	private enum Command {noCommand, seekX, seekY, seekDest};
 	private Command command = Command.noCommand;
 	private boolean isPresent = false;
+	private Person person;
 	
 	public CarGui(SimCityGui gui) {
 		//agent = c;
@@ -137,5 +140,9 @@ public class CarGui implements Gui {
 	@Override
 	public String getType() {
 		return "Car";
+	}
+	
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 }
