@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-import jesseRest.CookAgent;
-import jesseRest.HostAgent;
-import jesseRest.CookAgent.Order;
+import jesseRest.JesseCook;
+import jesseRest.JesseHost;
+import jesseRest.JesseCook.Order;
 
 public class AnimationPanel extends JPanel implements ActionListener {
 
@@ -21,8 +21,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int TABLEY = TABLESIZE;
     private final int PADDING = 30;
     private final int COUNTER_H = 200;
-    private HostAgent host;
-    private CookAgent cook;
+    private JesseHost host;
+    private JesseCook cook;
     
 	public List<String> counterItems = new ArrayList<String>();
 	public List<String> grillItems = new ArrayList<String>();
@@ -101,11 +101,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
         guis.add(gui);
     }
     
-    public void setHost(HostAgent hostToAdd) {
+    public void setHost(JesseHost hostToAdd) {
     	host = hostToAdd;
     }
     
-    public void setCook(CookAgent cookToAdd) {
+    public void setCook(JesseCook cookToAdd) {
     	cook = cookToAdd;
     }
 }

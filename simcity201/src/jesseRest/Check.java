@@ -1,6 +1,6 @@
-package agent;
+package jesseRest;
 
-import jesseRest.CustomerAgent;
+import jesseRest.JesseCustomer;
 import jesseRest.interfaces.Customer;
 
 public class Check {

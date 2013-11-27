@@ -17,7 +17,7 @@ import restaurant.interfaces.Market;
 public class MarketAgent extends Agent implements Market {
 	
 	String name;
-	CashierAgent cashier;
+	JesseCashier cashier;
 	
 	private double money = 0;
 	private double marketCharge = 1;
@@ -31,7 +31,7 @@ public class MarketAgent extends Agent implements Market {
 	public enum OrderState { pending, cooking, cooked, notified;}
 
 	//Constructor
-	public MarketAgent(String name, CashierAgent ca){
+	public MarketAgent(String name, JesseCashier ca){
 		me = this;
 	  this.name = name;
 	  cashier = ca;

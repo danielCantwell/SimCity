@@ -92,7 +92,7 @@ public class WaiterGui implements Gui {
     }
 
     public void DoBringToTable(Customer customer, int tableNumber) {
-    	for (restaurant.Table myTable : ((HostAgent) agent.getHost()).getTables()){
+    	for (restaurant.Table myTable : ((JesseHost) agent.getHost()).getTables()){
     		if (myTable.getTableNumber() == tableNumber){
     			xTable = myTable.getPosX();
     			yTable = myTable.getPosY();

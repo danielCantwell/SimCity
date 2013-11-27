@@ -1,8 +1,8 @@
 package jesseRest;
 
-import agent.Agent;
-import agent.Check;
-import agent.Menu;
+import SimCity.Base.Role;
+import jesseRest.Check;
+import jesseRest.Menu;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,16 +14,16 @@ import jesseRest.interfaces.Customer;
  * Restaurant customer agent.
  */
 
-public class CustomerAgent extends Agent implements Customer {
+public class JesseCustomer extends Role implements Customer {
 	private String name;
 	private int hungerLevel = 5;
 	Timer timer = new Timer();
 	private CustomerGui customerGui;
 	private int currentTable;
 
-	private HostAgent host;
-	private WaiterAgent waiter;
-	private CashierAgent cashier;
+	private JesseHost host;
+	private JesseWaiter waiter;
+	private JesseCashier cashier;
 	public Menu menu;
 	public int position;
 	private String choice = "";
@@ -39,16 +39,16 @@ public class CustomerAgent extends Agent implements Customer {
 	public enum AgentEvent {none, gotHungry, followHost, seated, ordering, doneOrdering, givingOrder, eating, doneEating, paying, doneLeaving, gotImpatient};
 	AgentEvent event = AgentEvent.none;
 
-	public CustomerAgent(String name){
+	public JesseCustomer(String name){
 		super();
 		this.name = name;
 	}
 
-	public void setHost(HostAgent host) {
+	public void setHost(JesseHost host) {
 		this.host = host;
 	}
 	
-	public void setCashier(CashierAgent c) {
+	public void setCashier(JesseCashier c) {
 		cashier = c;
 	}
 
@@ -78,7 +78,11 @@ public class CustomerAgent extends Agent implements Customer {
 		stateChanged();
 	}
 
-	public void msgFollowMeToTable(Menu _menu, WaiterAgent _waiter) {
+	private void print(String string) {
+		System.out.println(string);
+	}
+
+	public void msgFollowMeToTable(Menu _menu, JesseWaiter _waiter) {
 		event = AgentEvent.followHost;
 		menu = _menu;
 		waiter = _waiter;
@@ -351,5 +355,19 @@ public class CustomerAgent extends Agent implements Customer {
 	public CustomerGui getGui() {
 		return customerGui;
 	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
 

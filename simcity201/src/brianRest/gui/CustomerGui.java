@@ -33,9 +33,9 @@ public class CustomerGui implements Gui{
 	String displayText = "";
 	
 	//Cache the host so we have access to table locations.
-	HostAgent host; //We only cache the host so that we can ask for the table location.
+	JesseHost host; //We only cache the host so that we can ask for the table location.
 
-	public CustomerGui(Customer c, RestaurantGui gui, HostAgent host){ //HostAgent m) {
+	public CustomerGui(Customer c, RestaurantGui gui, JesseHost host){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;

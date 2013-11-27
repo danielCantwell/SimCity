@@ -19,7 +19,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	Cook cook;
 	Host host;
-	CashierAgent cashier;
+	JesseCashier cashier;
 	
 	int waiterNumber = 0;
 	public int getWaiterNumber(){
@@ -51,7 +51,7 @@ public class WaiterAgent extends Agent implements Waiter {
 
 	
 	
-	public WaiterAgent(String name, Host h, Cook c, CashierAgent cash, int number) {
+	public WaiterAgent(String name, Host h, Cook c, JesseCashier cash, int number) {
 		this.name = name;
 		host = h;
 		cook = c;
@@ -82,7 +82,7 @@ public class WaiterAgent extends Agent implements Waiter {
 // ######## Messages ################
 	@Override
 	public void msgSeatAtTable(Customer c, Table t) {
-		((CustomerAgent) c).setWaiter(this);
+		((JesseCustomer) c).setWaiter(this);
 		MyCustomer mc = new MyCustomer(c,t);
 		mc.state = MyCustomerState.waiting;
 		t.occupiedBy = c;
@@ -297,14 +297,14 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 	private void SeatCustomer(Table t, MyCustomer mc) {
 		DoGetCustomer();
-		Do("is seating " + ((CustomerAgent) mc.customer).getName());
+		Do("is seating " + ((JesseCustomer) mc.customer).getName());
 		mc.customer.msgFollowMe(new Menu());
 		mc.state = MyCustomerState.seated;
 		DoSeatCustomer(t.getTableNumber(), mc);
 	}
 	
 	private void TakeOrder(MyCustomer mc){
-		Do("is taking " + ((CustomerAgent) mc.customer).getName() + "'s order.");
+		Do("is taking " + ((JesseCustomer) mc.customer).getName() + "'s order.");
 		DoWalkToCustomer(mc, "");
 		mc.customer.msgWhatWouldYouLike();
 		mc.state = MyCustomerState.ordering;
@@ -317,7 +317,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	private void TakeReorder(MyCustomer mc){
-		Do("Going to customer " + ((CustomerAgent) mc.customer).getCustomerName() + " for a reorder.");
+		Do("Going to customer " + ((JesseCustomer) mc.customer).getCustomerName() + " for a reorder.");
 		DoWalkToCustomer(mc, "Reordering");
 		Menu m = new Menu();
 		m.remove(mc.choice);
@@ -327,10 +327,10 @@ public class WaiterAgent extends Agent implements Waiter {
 
 	private void GiveFoodToCustomer(MyCustomer mc){
 		DoGiveOrderToCook();
-		if (cook instanceof CookAgent)
-			((CookAgent) cook).DoRemovePlate(mc.choice);
+		if (cook instanceof JesseCook)
+			((JesseCook) cook).DoRemovePlate(mc.choice);
 		DoWalkToCustomer(mc, mc.choice);
-		Do("is giving food to " + ((CustomerAgent) mc.customer).getName());	
+		Do("is giving food to " + ((JesseCustomer) mc.customer).getName());	
 		mc.state = MyCustomerState.eating;
 		mc.customer.msgHeresYourOrder(mc.choice);
 	}
@@ -349,14 +349,14 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	private void CustomerLeaving(MyCustomer c){
-		Do(((CustomerAgent) c.customer).getName() + " is leaving the restaurant.");
+		Do(((JesseCustomer) c.customer).getName() + " is leaving the restaurant.");
 		host.msgTableIsClear(c.table);
 		myCustomers.remove(c);
 		numberOfCustomers--;
 	}
 	
 	private void CleanDeadCustomer(MyCustomer mc){
-		Do("Killing Customer "+ ((CustomerAgent) mc.customer).getName());
+		Do("Killing Customer "+ ((JesseCustomer) mc.customer).getName());
 		DoGetDeadCustomer();
 		mc.customer.DoGoToDeadLocation();
 		DoGoToDeadLocation();
@@ -380,8 +380,8 @@ public class WaiterAgent extends Agent implements Waiter {
 	private void DoSeatCustomer(int tableNum, MyCustomer mc){
 		gui.setText("Seating Customer");
 		gui.DoBringToTable(mc.customer, tableNum);
-		if (mc.customer instanceof CustomerAgent)
-		((CustomerAgent) mc.customer).getGui().DoGoToSeat(tableNum);
+		if (mc.customer instanceof JesseCustomer)
+		((JesseCustomer) mc.customer).getGui().DoGoToSeat(tableNum);
 		atLocAcquire();
 	}
 	

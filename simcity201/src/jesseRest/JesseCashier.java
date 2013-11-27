@@ -1,8 +1,9 @@
 package jesseRest;
 
+import SimCity.Base.Role;
 import agent.Agent;
-import agent.Check;
-import agent.Menu;
+import jesseRest.Check;
+import jesseRest.Menu;
 
 import java.util.*;
 
@@ -15,7 +16,7 @@ import jesseRest.interfaces.Waiter;
  * Restaurant Cashier Agent
  */
 
-public class CashierAgent extends Agent implements Cashier {
+public class JesseCashier extends Role implements Cashier {
 	public List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
 	public List<MyBill> bills = Collections.synchronizedList(new ArrayList<MyBill>());
 	public double money = 100;
@@ -23,7 +24,7 @@ public class CashierAgent extends Agent implements Cashier {
 	private Menu mymenu = new Menu();
 	private String name;
 	
-	public CashierAgent(String name) {
+	public JesseCashier(String name) {
 		super();
 		this.name = name;
 	}
@@ -152,6 +153,21 @@ public class CashierAgent extends Agent implements Cashier {
 			market = m;
 			amountOwed = i;
 		}
+	}
+	public void print(String string) {
+		System.out.println(string);
+	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

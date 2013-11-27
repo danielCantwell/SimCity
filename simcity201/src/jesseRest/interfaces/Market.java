@@ -1,6 +1,6 @@
 package jesseRest.interfaces;
 
-import agent.Check;
+import jesseRest.Check;
 
 /**
  * A sample Market interface built to unit test a CashierAgent.

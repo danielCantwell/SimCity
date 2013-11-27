@@ -1,5 +1,6 @@
 package jesseRest;
 
+import SimCity.Base.Role;
 import agent.Agent;
 
 import java.util.*;
@@ -11,7 +12,7 @@ import jesseRest.gui.AnimationPanel;
  * Restaurant Cook Agent
  */
 
-public class CookAgent extends Agent {
+public class JesseCook extends Role {
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	public enum CookState {Pending, Cooking, Done};
 	public enum InventoryState {Ordering, Done, Reorder};
@@ -19,7 +20,7 @@ public class CookAgent extends Agent {
 	public String currentOrder;
 	private Semaphore cookingFood = new Semaphore(0,true);
 	private Map<String, Food> foods = new HashMap<String, Food>();
-	private List<MarketAgent> markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
+//	private List<JesseMarket> markets = Collections.synchronizedList(new ArrayList<JesseMarket>());
 	private int currentMarket = 0;
 	private String name;
 	private Timer timer = new Timer();
@@ -32,7 +33,7 @@ public class CookAgent extends Agent {
 	private final int ORDERSIZE = 10;
 	private int amountBought = 0;
 	
-	public CookAgent(String name) {
+	public JesseCook(String name) {
 		super();
 		this.name = name;
 		status = InventoryState.Done;
@@ -51,9 +52,9 @@ public class CookAgent extends Agent {
 		return name;
 	}
 	
-	public void addMarket(MarketAgent m) {
-		markets.add(m);
-	}
+//	public void addMarket(JesseMarket m) {
+//		markets.add(m);
+//	}
 	
 	public void setAnimationPanel(AnimationPanel a) {
 		animationPanel = a;
@@ -63,7 +64,7 @@ public class CookAgent extends Agent {
 	 * MESSAGES =====================================================
 	 */
 
-	public void msgHereIsAnOrder(WaiterAgent w, String choice, int table) {
+	public void msgHereIsAnOrder(JesseWaiter w, String choice, int table) {
 		// Cook receives order from a Waiter and stores it in a list
 		orders.add(new Order(w, choice, table));
 		stateChanged();
@@ -93,15 +94,15 @@ public class CookAgent extends Agent {
 				print("Message: Market number " + (currentMarket+1) + " does not have enough food. Inventory partially replenished.");
 			}
 			// Inventory wasn't fully replenished because all markets are out.
-			if (currentMarket == markets.size() - 1) {
-				print("Message: All markets contacted for " + choice + ". No inventory left.");
-				status = InventoryState.Done;
-				currentMarket = 0;
-				amountBought = 0;
-			} else {
-				status = InventoryState.Reorder;
-				currentOrder = choice;
-			}
+//			if (currentMarket == markets.size() - 1) {
+//				print("Message: All markets contacted for " + choice + ". No inventory left.");
+//				status = InventoryState.Done;
+//				currentMarket = 0;
+//				amountBought = 0;
+//			} else {
+//				status = InventoryState.Reorder;
+//				currentOrder = choice;
+//			}
 		}
 		
 		stateChanged();
@@ -128,9 +129,9 @@ public class CookAgent extends Agent {
 				}
 			}
 		}
-		if (status == InventoryState.Reorder) {
-			OrderFood(currentOrder);
-		}
+//		if (status == InventoryState.Reorder) {
+//			OrderFood(currentOrder);
+//		}
 		return false;
 	}
 	
@@ -138,13 +139,13 @@ public class CookAgent extends Agent {
 	 * ACTIONS  ====================================================
 	 */
 
-	private void OrderFood(String choice) {
-		currentMarket++;
-		if (currentMarket < markets.size()) {	
-			markets.get(currentMarket).msgINeedFood(choice, ORDERSIZE - amountBought);
-			status = InventoryState.Ordering;
-		}
-	}
+//	private void OrderFood(String choice) {
+//		currentMarket++;
+//		if (currentMarket < markets.size()) {	
+//			markets.get(currentMarket).msgINeedFood(choice, ORDERSIZE - amountBought);
+//			status = InventoryState.Ordering;
+//		}
+//	}
 	private void CookIt(Order o) {
 		// If you have inventory, remove one - else say you're out of food
 		if (foods.get(o.choice).inventory > 0) {
@@ -161,12 +162,12 @@ public class CookAgent extends Agent {
 		System.out.print("INVENTORY FOR " + foods.get(o.choice).item + ": " + foods.get(o.choice).inventory + '\n');
 		
 		// Checks when inventory is low
-		if (foods.get(o.choice).inventory <= LOW && status == InventoryState.Done) {
-			System.out.println("Message: Sending INeedFood from Cook to Market number " + (currentMarket+1));
-			// Orders food from market
-			markets.get(0).msgINeedFood(o.choice, ORDERSIZE);
-			status = InventoryState.Ordering;
-		}
+//		if (foods.get(o.choice).inventory <= LOW && status == InventoryState.Done) {
+//			System.out.println("Message: Sending INeedFood from Cook to Market number " + (currentMarket+1));
+//			// Orders food from market
+//			markets.get(0).msgINeedFood(o.choice, ORDERSIZE);
+//			status = InventoryState.Ordering;
+//		}
 		
 		o.state = CookState.Cooking;
 		animationPanel.grillItems.add(o.choice.substring(0,2));
@@ -203,12 +204,12 @@ public class CookAgent extends Agent {
 	
 	// Order Class - represents a single customer's order
 	public class Order {
-		WaiterAgent waiter;
+		JesseWaiter waiter;
 		String choice;
 		int table;
 		CookState state = CookState.Pending;
 		
-		public Order(WaiterAgent w, String c, int t) {
+		public Order(JesseWaiter w, String c, int t) {
 			waiter = w;
 			choice = c;
 			table = t;
@@ -226,6 +227,20 @@ public class CookAgent extends Agent {
 			cookingTime = time;
 			inventory = quantity;
 		}
+	}
+
+	public void print(String string) {
+		System.out.println(string);
+	}
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

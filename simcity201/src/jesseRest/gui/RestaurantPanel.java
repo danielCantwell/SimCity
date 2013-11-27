@@ -6,12 +6,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 
-import jesseRest.CashierAgent;
-import jesseRest.CookAgent;
-import jesseRest.CustomerAgent;
-import jesseRest.HostAgent;
-import jesseRest.MarketAgent;
-import jesseRest.WaiterAgent;
+import jesseRest.JesseCashier;
+import jesseRest.JesseCook;
+import jesseRest.JesseCustomer;
+import jesseRest.JesseHost;
+import jesseRest.JesseWaiter;
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -20,16 +19,16 @@ import jesseRest.WaiterAgent;
 public class RestaurantPanel extends JPanel implements ActionListener {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Host");
-    private CookAgent cook = new CookAgent("Cook");
-    private CashierAgent cashier = new CashierAgent("Cashier");
+    private JesseHost host = new JesseHost("Host");
+    private JesseCook cook = new JesseCook("Cook");
+    private JesseCashier cashier = new JesseCashier("Cashier");
     
-    private MarketAgent market1 = new MarketAgent("Market 1");
-    private MarketAgent market2 = new MarketAgent("Market 2");
-    private MarketAgent market3 = new MarketAgent("Market 3");
+//    private JesseMarket market1 = new JesseMarket("Market 1");
+//    private JesseMarket market2 = new JesseMarket("Market 2");
+//    private JesseMarket market3 = new JesseMarket("Market 3");
     
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    private Vector<JesseCustomer> customers = new Vector<JesseCustomer>();
+    private Vector<JesseWaiter> waiters = new Vector<JesseWaiter>();
     
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -48,23 +47,23 @@ public class RestaurantPanel extends JPanel implements ActionListener {
 
         addTable.addActionListener(this);
         pauseSim.addActionListener(this);
-        host.startThread();
-        cook.startThread();
-        cashier.startThread();
+//        host.startThread();
+//        cook.startThread();
+//        cashier.startThread();
         
-        market1.startThread();
-        market2.startThread();
-        market3.startThread();
-        cook.addMarket(market1);
-        cook.addMarket(market2);
-        cook.addMarket(market3);
-        cook.setAnimationPanel(gui.animationPanel);
-        market1.setCook(cook);
-        market2.setCook(cook);
-        market3.setCook(cook);
-        market1.setCashier(cashier);
-        market2.setCashier(cashier);
-        market3.setCashier(cashier);
+//        market1.startThread();
+//        market2.startThread();
+//        market3.startThread();
+//        cook.addMarket(market1);
+//        cook.addMarket(market2);
+//        cook.addMarket(market3);
+//        cook.setAnimationPanel(gui.animationPanel);
+//        market1.setCook(cook);
+//        market2.setCook(cook);
+//        market3.setCook(cook);
+//        market1.setCashier(cashier);
+//        market2.setCashier(cashier);
+//        market3.setCashier(cashier);
         
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
@@ -107,14 +106,14 @@ public class RestaurantPanel extends JPanel implements ActionListener {
     public void showInfo(String type, String name) {
         if (type.equals("Customers")) {
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+                JesseCustomer temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
         }
         else if (type.equals("Waiters")) {
             for (int i = 0; i < waiters.size(); i++) {
-                WaiterAgent temp = waiters.get(i);
+                JesseWaiter temp = waiters.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -129,7 +128,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
      */
     public void addPerson(String type, String name, boolean isChecked) {
     	if (type.equals("Customers")) {
-    		CustomerAgent c = new CustomerAgent(name);	
+    		JesseCustomer c = new JesseCustomer(name);	
     		CustomerGui g = new CustomerGui(c, gui);
     		gui.animationPanel.addGui(g);
   
@@ -140,9 +139,9 @@ public class RestaurantPanel extends JPanel implements ActionListener {
     		g.setPosition(customers.size());
     		c.position = customers.size();
     		customers.add(c);
-    		c.startThread();
+//    		c.startThread();
     	} else if (type.equals("Waiters")) {
-    		WaiterAgent w = new WaiterAgent(name);
+    		JesseWaiter w = new JesseWaiter(name);
     		WaiterGui g = new WaiterGui(w);
     		gui.animationPanel.addGui(g);
     		
@@ -153,7 +152,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
     		g.setPosition(waiters.size());
     		waiters.add(w);
     		host.addWaiter(w);
-    		w.startThread();
+//    		w.startThread();
     	}
     }
     
@@ -161,38 +160,38 @@ public class RestaurantPanel extends JPanel implements ActionListener {
         if (e.getSource() == addTable) {
         	host.addTable();
         }
-        if (e.getSource() == pauseSim) {
-        	if (!isPaused) {
-        		System.out.println("Pausing simulation.");
-        		host.pauseAgent();
-        		cook.pauseAgent();
-        		for (CustomerAgent c : customers) {
-        			c.pauseAgent();
-        		}
-        		for (WaiterAgent w : waiters) {
-        			w.pauseAgent();
-        		}
-        		market1.pauseAgent();
-        		market2.pauseAgent();
-        		market3.pauseAgent();
-        		pauseSim.setText("Resume");
-        	} else {
-        		System.out.println("Resuming simulation.");
-        		host.restartAgent();
-        		cook.restartAgent();
-        		for (CustomerAgent c : customers) {
-        			c.restartAgent();
-        		}
-        		for (WaiterAgent w : waiters) {
-        			w.restartAgent();
-        		}
-        		market1.restartAgent();
-        		market2.restartAgent();
-        		market3.restartAgent();
-        		pauseSim.setText("Pause");
-        	}
-    		isPaused = !isPaused;
-        }
+//        if (e.getSource() == pauseSim) {
+//        	if (!isPaused) {
+//        		System.out.println("Pausing simulation.");
+//        		host.pauseAgent();
+//        		cook.pauseAgent();
+//        		for (JesseCustomer c : customers) {
+//        			c.pauseAgent();
+//        		}
+//        		for (JesseWaiter w : waiters) {
+//        			w.pauseAgent();
+//        		}
+//        		market1.pauseAgent();
+//        		market2.pauseAgent();
+//        		market3.pauseAgent();
+//        		pauseSim.setText("Resume");
+//        	} else {
+//        		System.out.println("Resuming simulation.");
+//        		host.restartAgent();
+//        		cook.restartAgent();
+//        		for (JesseCustomer c : customers) {
+//        			c.restartAgent();
+//        		}
+//        		for (JesseWaiter w : waiters) {
+//        			w.restartAgent();
+//        		}
+//        		market1.restartAgent();
+//        		market2.restartAgent();
+//        		market3.restartAgent();
+//        		pauseSim.setText("Pause");
+//        	}
+//    		isPaused = !isPaused;
+        //}
     }
     
     // Keyboard shortcuts - use these to test non-normatives.
@@ -210,7 +209,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
              public void actionPerformed(ActionEvent e)
              {
                  System.out.println("Customers will be impatient and leave the restuarant line.");
-                 for (CustomerAgent c : customers) {
+                 for (JesseCustomer c : customers) {
                 	 c.msgLeavingBecauseImpatient();
                  }
              }
@@ -220,7 +219,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
              public void actionPerformed(ActionEvent e)
              {
                  System.out.println("All customers have money decreased to $0.");
-                 for (CustomerAgent c : customers) {
+                 for (JesseCustomer c : customers) {
                 	 c.money = 0;
                  }
              }
@@ -231,7 +230,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
              {
             	 flakeToggle = !flakeToggle;
                  System.out.println("Toggling customers being flakes or not (Default is yes). Is flake? :" + flakeToggle);
-                 for (CustomerAgent c : customers) {
+                 for (JesseCustomer c : customers) {
                 	 c.ordersFoodWhenCantAfford = flakeToggle;
                  }
              }
@@ -252,17 +251,17 @@ public class RestaurantPanel extends JPanel implements ActionListener {
                  cashier.money += 100;
              }
         };
-        Action keyCtrlR = new AbstractAction()
-        {
-             public void actionPerformed(ActionEvent e)
-             {
-                 System.out.println("Market 1 inventory raised to 20 for each item.");
-                 market1.inventory.put("Steak", new Integer(20));
-                 market1.inventory.put("Chicken", new Integer(20));
-                 market1.inventory.put("Pizza", new Integer(20));
-                 market1.inventory.put("Salad", new Integer(20));
-             }
-        };
+//        Action keyCtrlR = new AbstractAction()
+//        {
+//             public void actionPerformed(ActionEvent e)
+//             {
+//                 System.out.println("Market 1 inventory raised to 20 for each item.");
+//                 market1.inventory.put("Steak", new Integer(20));
+//                 market1.inventory.put("Chicken", new Integer(20));
+//                 market1.inventory.put("Pizza", new Integer(20));
+//                 market1.inventory.put("Salad", new Integer(20));
+//             }
+//        };
        
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK), stringCtrlI);
         getActionMap().put(stringCtrlI, keyCtrlI);
@@ -275,14 +274,14 @@ public class RestaurantPanel extends JPanel implements ActionListener {
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK), stringCtrlA);
         getActionMap().put(stringCtrlA, keyCtrlA);
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_MASK), stringCtrlR);
-        getActionMap().put(stringCtrlR, keyCtrlR);
+        //getActionMap().put(stringCtrlR, keyCtrlR);
     }
     
-    public HostAgent getHost() {
+    public JesseHost getHost() {
     	return host;
     }
     
-    public CookAgent getCook() {
+    public JesseCook getCook() {
     	return cook;
     }
 }
