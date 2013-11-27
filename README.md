@@ -4,8 +4,7 @@ Team 33
 SimCity201 Project Repository for CS 201 students
 ###Individual Contribution Breakdown
 
-1. Danny Cantwell
-======
+####Danny Cantwell
 + Housing Roles and Guis
   * Owner Role
   * Tenant Role
@@ -13,8 +12,7 @@ SimCity201 Project Repository for CS 201 students
 + Junit Testing
   * All the above listed roles
 
-2. Jesse Chand
-======
+####Jesse Chand
 + Exterior SimCity Guis
   * Person Gui and animations
   * City Layout including streets and sidewalks
@@ -24,8 +22,7 @@ SimCity201 Project Repository for CS 201 students
   * Buildings
   * Streets and Sidewalks
 
-3. Brian Chen
-======
+####Brian Chen
 + Base Person and Role Class
 + Bulding Wrappers and base Building Class for each building
 + God Class that holds everthing in the city
@@ -33,8 +30,7 @@ SimCity201 Project Repository for CS 201 students
   * Person Class
   * God Class
 
-4. Tim So
-======
+####Tim So
 + Market Roles and Guis
   * Clerk Role
   * Customer Role
@@ -44,8 +40,7 @@ SimCity201 Project Repository for CS 201 students
 + Junit Testing
   * All the above listed roles
 
-5. Eric Wu
-======
+####Eric Wu
 + Bank Roles and Guis
   * Customer Role
   * Guard Role
@@ -54,8 +49,7 @@ SimCity201 Project Repository for CS 201 students
 + Junit Testing
   * All the above listed roles
 
-The following was done by everyone
-======
+####The following was done by everyone
 + Attended and contributed to each group meeting
 + Debuging and assisting in other group member's code
 + Worked on the inital integration of the first restaurant
@@ -63,10 +57,8 @@ The following was done by everyone
 ###What's Working
 ####SimCity Roles
 + Comments go here
-
 ####SimCity Guis
 + Comments go here
-
 ####SimCity Person Interaction
 + Comments go here
 
@@ -77,5 +69,6 @@ The following was done by everyone
 
 ###What's Missing/left for V2
 ####SimCity Roles
-
++ Comments go here
 ####SimCity Interactions
++ Comments go here
