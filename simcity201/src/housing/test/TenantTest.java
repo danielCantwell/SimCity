@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.sun.corba.se.impl.interceptors.PICurrent;
+
+import exterior.gui.SimCityGui;
 import SimCity.Base.Person.TimeState;
 import housing.roles.OwnerRole;
 import housing.roles.TenantRole;
@@ -40,8 +43,10 @@ public class TenantTest extends TestCase {
 
 		tenant.myPerson = new MockHousingPerson("housing.roles.TenantRole");
 		tenant.owner = mockOwner;
-		
+
 		appliances = new OwnerRole().appliances;
+		
+		SimCityGui scg = new SimCityGui();
 	}
 
 	public void testOne() {
@@ -56,7 +61,7 @@ public class TenantTest extends TestCase {
 		assertEquals(
 				"Tenant should not have a list of appliances yet. He does.", 0,
 				tenant.appliances.size());
-		
+
 		// Receive Message
 		tenant.msgHereAreAppliances(appliances);
 		for (Appliance a : tenant.appliances) {
@@ -66,6 +71,32 @@ public class TenantTest extends TestCase {
 		assertEquals(
 				"Tenant should have a list of four appliances. He doesn't.", 4,
 				tenant.appliances.size());
+
+		// PickAndExecuteAnAction should return false
+		assertFalse(tenant.pickAndExecuteAnAction());
+
+		// Receive Message
+		tenant.msgMorning();
+		// Check Post Conditions
+		assertEquals("Tenant state should be awake. It's not.", Time.awake,
+				tenant.time);
+
+		// PickAndExecuteAnAction should return false
+		assertFalse(tenant.pickAndExecuteAnAction());
+
+		// Receive Message
+		tenant.msgSleeping();
+		// Check Post Conditions
+		assertEquals("Tenant state should be msgSleep. It's not.",
+				Time.msgSleep, tenant.time);
+
+		tenant.msgAtBed(); // release semaphore since gui is not being used
+		// PickAndExecuteAnAction should return true
+		assertTrue(tenant.pickAndExecuteAnAction());
+
+		// Check Post Conditions
+		assertEquals("Tenant state should be sleeping. It's not.",
+				Time.sleeping, tenant.time);
 		
 		// PickAndExecuteAnAction should return false
 		assertFalse(tenant.pickAndExecuteAnAction());
@@ -75,21 +106,10 @@ public class TenantTest extends TestCase {
 		// Check Post Conditions
 		assertEquals("Tenant state should be awake. It's not.", Time.awake, tenant.time);
 		
-		// PickAndExecuteAnAction should return true
-		assertFalse(tenant.pickAndExecuteAnAction());
-		
-		// Receive Message
-		tenant.msgSleeping();
-		// Check Post Conditions
-		assertEquals("Tenant state should be msgSleep. It's not.", Time.msgSleep, tenant.time);
-		
+		tenant.myPerson.setHungerLevel(2);
+		tenant.msgAtDoor(); // release semaphore since gui is not being used
 		// PickAndExecuteAnAction should return true
 		assertTrue(tenant.pickAndExecuteAnAction());
-		
-		// Receive Message
-		tenant.msgAtBed();
-		// Check Post Conditions
-		assertEquals("Tenant state should be sleeping. It's not.", Time.sleeping, tenant.time);
 	}
 
 }

@@ -3,7 +3,6 @@
  */
 package SimCity.Base;
 
-import housing.roles.OwnerRole;
 import housing.roles.TenantRole;
 
 import java.awt.event.ActionEvent;
@@ -12,21 +11,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
-import javax.swing.Action;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import market.MarketDeliveryPersonRole;
 import exterior.gui.PersonGui;
 import restaurant.*;
-import sun.misc.Queue;
-import Bank.bankCustomerRole;
 import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
 import SimCity.Globals.Money;
-import SimCity.gui.Gui;
 import agent.Agent;
 /**
  * @author Brian
@@ -192,7 +188,8 @@ public class Person extends Agent {
 		this.moneyThreshold = new Money(1, 0);
 		this.hungerLevel = 10;
 		this.hungerThreshold = 4;
-		house = "apartment";
+		myHouse = new B_House(new JPanel());
+		house = "Apartment";
         God.Get().addPerson(this);
 	}
 //Messages ---------------------------------------

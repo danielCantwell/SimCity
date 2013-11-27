@@ -3,8 +3,6 @@
  */
 package housing.gui;
 
-import housing.roles.TenantRole;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
