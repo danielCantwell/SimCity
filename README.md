@@ -37,8 +37,6 @@ SimCity201 Project Repository for CS 201 students
   * Delivery Person Role
   * Manager Role
   * Packer Role
-+ Junit Testing
-  * All the above listed roles
 
 ####Eric Wu
 + Bank Roles and Guis
