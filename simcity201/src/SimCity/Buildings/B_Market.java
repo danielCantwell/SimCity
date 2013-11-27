@@ -2,7 +2,9 @@ package SimCity.Buildings;
 
 import javax.swing.JPanel;
 
+import market.MarketCustomerRole;
 import market.MarketManagerRole;
+import market.gui.MarketAnimationPanel;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
@@ -13,6 +15,14 @@ import SimCity.Base.Role;
 public class B_Market extends Building{
 	
 	private MarketManagerRole managerRole;
+    public MarketAnimationPanel panel;
+
+    public void setManager(MarketManagerRole m){
+        managerRole = m;
+    }
+    public MarketManagerRole getManager(){
+        return managerRole;
+    }
 	
 	public B_Market(int id, JPanel jp) {
 		super(id, jp);
@@ -31,13 +41,6 @@ public class B_Market extends Building{
 		tag = "B_Market";
 	}
 	
-	public void setManager(MarketManagerRole m){
-		managerRole = m;
-	}
-	public MarketManagerRole getManager(){
-		return managerRole;
-	}
-	
 	@Override
 	public String getManagerString() {
 		return "market.MarketManagerRole";
@@ -50,8 +53,7 @@ public class B_Market extends Building{
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		// TODO Auto-generated method stub
-		return false;
+		return managerRole.isRestaurantReady();
 	}
 
 	@Override
@@ -59,6 +61,28 @@ public class B_Market extends Building{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+    public void EnterBuilding(Person person, String job){
+        Role newRole = null;
+        try {
+            newRole = (Role)Class.forName(job).newInstance();
+            newRole.setActive(true);
+            newRole.setPerson(person);
+            person.msgCreateRole(newRole, true);
+            fillNeededRoles(person, newRole);
+            if (newRole instanceof MarketCustomerRole)
+            {
+                MarketCustomerRole marketRole = (MarketCustomerRole) newRole;
+                marketRole.setManager(managerRole);
+                panel.addGui(marketRole.getGui());
+            }
+            person.msgEnterBuilding(this);
+        } catch(Exception e){
+            e.printStackTrace();
+            System.out.println ("God: no class found");
+        }
+    }
 
 	@Override
 	public void ExitBuilding(Person person) {

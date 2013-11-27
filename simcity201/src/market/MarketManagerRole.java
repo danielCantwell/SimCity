@@ -60,6 +60,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	            if (c.state == ClerkState.Idle)
 	            {
 	                customers.add(new MyCustomer(customer, id, c.clerk));    
+	                c.state = ClerkState.Busy;
 	                stateChanged();
 	                return;
 	            }
@@ -114,7 +115,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         stateChanged();
     }
 	
-    public void msgHereIsTheMoney(int id, Money amount)
+    public void msgHereIsTheMoney(MarketClerkRole clerk, int id, Money amount)
     {
         money.add(amount);
         synchronized(orders)
@@ -150,6 +151,22 @@ public class MarketManagerRole extends Role implements MarketManager {
         stateChanged();
     }
 
+    public void msgIAmFree(MarketClerkRole marketClerkRole)
+    {
+        synchronized(clerks)
+        {
+            for (MyClerk c : clerks)
+            {
+                if (c.clerk.equals(marketClerkRole))
+                {
+                    c.state = ClerkState.Idle;
+                    break;
+                }
+            }
+        }
+        stateChanged();
+    }
+
     @Override
     protected void enterBuilding() {
         // TODO Auto-generated method stub
@@ -170,6 +187,28 @@ public class MarketManagerRole extends Role implements MarketManager {
 	    
 	    // if money < MIN_AMOUNT
 
+	    synchronized(clerks)
+	    {
+	        for (MyClerk c : clerks)
+	        {
+	            if (c.state == ClerkState.Idle)
+	            {
+	                synchronized(customers)
+	                {
+	                    for (MyCustomer cust : customers)
+	                    {
+	                        if (cust.clerk == null)
+	                        {
+	                            cust.clerk = c.clerk;
+	                            c.state = ClerkState.Busy;
+	                            return true;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
 	    MyCustomer customer = null;
 	    synchronized(customers)
 	    {
@@ -181,13 +220,23 @@ public class MarketManagerRole extends Role implements MarketManager {
 	                {
 	                    // put in line
 	                    putInLine(c);
+	                    return true;
 	                }
 	                else
 	                {
 	                    // give to clerk
 	                    customer = c;
+	                    break;
 	                }
 	            }
+	            else if (c.state == CustomerState.Waiting)
+                {
+	                if (c.clerk != null)
+                    {
+                        // give to clerk
+                        customer = c;
+                    }
+                }
 	        }
 	    }
 	    if (customer != null)
@@ -332,7 +381,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     private void putInLine(MyCustomer c)
     {
         // TODO: Create waiting room
-        c.customer.msgPleaseTakeANumber(new Point (400, 400));
+        c.customer.msgPleaseTakeANumber(new Point (100, 400));
         c.state = CustomerState.Waiting;
     }
 	
@@ -408,6 +457,11 @@ public class MarketManagerRole extends Role implements MarketManager {
 	{
 	    return clerkLocs.get(clerk);
 	}
+
+    public boolean isRestaurantReady()
+    {
+        return (myPerson != null && !clerks.isEmpty() && !packers.isEmpty() && !deliveryPeople.isEmpty());
+    }
 
     /**
      * Inner Classes

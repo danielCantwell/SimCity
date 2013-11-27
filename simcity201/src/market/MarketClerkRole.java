@@ -21,7 +21,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	
 	private static final int MAX_DOLLARS = 100;
     private static final int MAX_CENTS = 0;
-    private static final int DOLLARS_TO_KEEP = 25;
+    private static final int DOLLARS_TO_KEEP = 0;
     private static final int CENTS_TO_KEEP = 0;
 
     private MarketClerkGui gui = new MarketClerkGui(this);
@@ -89,7 +89,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
         if (order != null)
         {
             money.add(price);
-            orders.remove(order);
+            order.state = OrderState.Paid;
         }
         stateChanged();
     }
@@ -116,6 +116,21 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	        return true;
 	    }
         Order order = null;
+        synchronized(orders)
+        {
+            for (Order o : orders)
+            {
+                if (o.state == OrderState.Paid)
+                {
+                    order = o;
+                }
+            }
+        }
+        if (order != null)
+        {
+            notifyManager(order);
+            return true;
+        }
         synchronized(orders)
         {
             for (Order o : orders)
@@ -153,14 +168,14 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		// and wait.
 	}
 
-	/**
+    /**
 	 * Actions
 	 */
 
 	private void takeOrder()
 	{
 	    customer.msgWhatDoYouWant(this);
-	    customer = null;
+	    orderTaken = true;
 	}
 	
 	private void makeOrder(Order order)
@@ -171,15 +186,32 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	
 	private void giveOrder(Order order)
 	{
-	    MarketCustomerRole customer = (MarketCustomerRole)God.Get().getPerson(order.id).mainRole;
-	    customer.msgHereIsYourFood(order.choice, order.amount, manager.getPriceOf(order.choice));
+	    MarketCustomerRole customer = null;
+	    for (int i = 0; i < God.Get().getPerson(order.id).roles.size(); i++)
+	    {
+	        if (God.Get().getPerson(order.id).roles.get(i) instanceof MarketCustomerRole)
+	        {
+	            customer = (MarketCustomerRole)God.Get().getPerson(order.id).roles.get(i);
+	        }
+	    }
+	    if (customer != null)
+	    {
+	        customer.msgHereIsYourFood(order.choice, order.amount, manager.getPriceOf(order.choice));
+	        order.state = OrderState.Payment;
+	    }
 	}
+
+    private void notifyManager(Order order)
+    {
+        manager.msgIAmFree(this);
+        orders.remove(order);
+    }
 	
 	private void storeMoney(Money amountToKeep)
 	{
 	    if (money.isGreaterThan(amountToKeep))
 	    {
-	        manager.msgHereIsTheMoney(-1, money.subtract(amountToKeep));
+	        manager.msgHereIsTheMoney(this, -1, money.subtract(amountToKeep));
 	        money = amountToKeep;
 	    }
 	}
@@ -214,7 +246,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
      * Inner Classes
      */
 	
-	public enum OrderState { Pending, Processing, Ready, Payment };
+	public enum OrderState { Pending, Processing, Ready, Payment, Paid };
 	
 	public class Order
 	{
