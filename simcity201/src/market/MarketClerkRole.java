@@ -103,7 +103,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 	    if (money.isGreaterThan(new Money(MAX_DOLLARS, MAX_CENTS)))
 	    {
