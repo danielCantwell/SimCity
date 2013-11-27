@@ -20,10 +20,6 @@ import SimCity.Globals.Money;
 public class OwnerRole extends Role implements Owner {
 
 	public OwnerRole() {
-		appliances.add(new Appliance("Fridge", 10));
-		appliances.add(new Appliance("Stove", 8));
-		appliances.add(new Appliance("Table", 6));
-		appliances.add(new Appliance("Bed", 4));
 	}
 
 	// -------------------------------------DATA-------------------------------------
@@ -34,7 +30,14 @@ public class OwnerRole extends Role implements Owner {
 			.synchronizedList(new ArrayList<MyTenant>());
 
 	public List<Appliance> appliances = Collections
-			.synchronizedList(new ArrayList<Appliance>());
+			.synchronizedList(new ArrayList<Appliance>() {
+				{
+					add(new Appliance("Fridge", 10));
+					add(new Appliance("Stove", 8));
+					add(new Appliance("Table", 6));
+					add(new Appliance("Bed", 4));
+				}
+			});
 
 	public enum TenantState {
 		None, OwesRent, Notified, InDebt

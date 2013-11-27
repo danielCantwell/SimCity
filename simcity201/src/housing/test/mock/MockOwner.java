@@ -3,6 +3,10 @@
  */
 package housing.test.mock;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import SimCity.Globals.Money;
@@ -12,12 +16,12 @@ import housing.roles.OwnerRole.Appliance;
 
 /**
  * @author Daniel
- *
+ * 
  */
 public class MockOwner implements Owner {
-	
+
 	public MockHousingPerson myPerson;
-	
+
 	public EventLog log = new EventLog();
 
 	@Override
@@ -45,5 +49,5 @@ public class MockOwner implements Owner {
 	public void msgAddTenant(Tenant t) {
 		log.add(new LoggedEvent("Received msgAddTenant from UI"));
 	}
-
+	
 }
