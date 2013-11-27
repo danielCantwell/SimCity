@@ -1,3 +1,4 @@
+
 package market.test;
 import java.awt.Point;
 import java.util.HashMap;
@@ -108,4 +109,3 @@ public class TestMarketClerk extends TestCase
         assertEquals("Clerk should have no orders, it doesn't.", clerk.orders.size(), 0);*/
     }
 }
->>>>>>> market_tim
