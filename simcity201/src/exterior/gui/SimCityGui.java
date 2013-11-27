@@ -25,6 +25,7 @@ public class SimCityGui extends JFrame {
 	public ArrayList<Building> buildingList = new ArrayList<Building>();
 	CardLayout cardLayout = new CardLayout();
 	JPanel buildingPanels = new JPanel();
+	ArrayList<JPanel> buildingPanelList = new ArrayList<JPanel>();
 	public JFrame buildingFrame;
 	
     public SimCityGui() {
@@ -84,6 +85,7 @@ public class SimCityGui extends JFrame {
     		}
     		if (b != null && buildingPanel != null)
     		{
+    			buildingPanelList.add(buildingPanel);
     			buildingPanels.add(buildingPanel, "" + i);
     			buildingList.add(b);
     			God.Get().addBuilding(b);

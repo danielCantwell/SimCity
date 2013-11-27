@@ -201,6 +201,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
+		// Update invisible panels
+		for (JPanel p : gui.buildingPanelList) {
+			if (!p.isVisible()) {
+				p.update(getGraphics());
+			}
+		}
+		
 		// Draw the city based on the map array
 		for (int y = 0; y < WINDOWY / TILESIZE; y++) {
 			for (int x = 0; x < WINDOWX / TILESIZE; x++) {
@@ -293,6 +300,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					}
 				}
 			}
+			
+			g2.setColor(Color.WHITE);
+			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 30, 30);
+			g2.drawString("Current Day: " + God.Get().getDay()+1, 30, 60);
 		}
 
 		for (Gui gui : guis) {
