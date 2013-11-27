@@ -73,157 +73,258 @@ public class AnimationPanel extends JPanel implements ActionListener {
     };
     
     private Semaphore[][] pedestrianGrid = new Semaphore[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
+    private String consoleText = "";
     
-	private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
-	private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
-	private ImageIcon iconPedL = new ImageIcon("images/a_pedestrian_l.gif");
-	private ImageIcon iconPedU = new ImageIcon("images/a_pedestrian_u.gif");
-	private ImageIcon iconRoad = new ImageIcon("images/t_road.png");
-	private ImageIcon iconSide = new ImageIcon("images/t_side_r.png");
-	private ImageIcon iconCrossV = new ImageIcon("images/t_cross_v.png");
-	private ImageIcon iconCrossH = new ImageIcon("images/t_cross_h.png");
+    private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
+    private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
+    private ImageIcon iconPedL = new ImageIcon("images/a_pedestrian_l.gif");
+    private ImageIcon iconPedU = new ImageIcon("images/a_pedestrian_u.gif");
+    private ImageIcon iconRoad = new ImageIcon("images/t_road.png");
+    private ImageIcon iconRoadVL = new ImageIcon("images/t_road_vl.png");
+    private ImageIcon iconRoadVR = new ImageIcon("images/t_road_vr.png");
+    private ImageIcon iconRoadHL = new ImageIcon("images/t_road_hl.png");
+    private ImageIcon iconRoadHR = new ImageIcon("images/t_road_hr.png");
+    private ImageIcon iconCrossV = new ImageIcon("images/t_cross_v.png");
+    private ImageIcon iconCrossH = new ImageIcon("images/t_cross_h.png");
+    private ImageIcon iconBuildingA = new ImageIcon("images/t_building1.png");
+    private ImageIcon iconBuildingB = new ImageIcon("images/t_building2.png");
 	
-    public AnimationPanel() {
-        setSize(WINDOWX, WINDOWY);
-        setVisible(true);
-    	Timer timer = new Timer(3, this);
-    	timer.start();
-    	
-    	God.Get().setAnimationPanel(this);
-    	
-    	// Set up semaphore grid - sidewalks and crosswalks are open
-        for (int y = 0; y < WINDOWY/(TILESIZE); y++) {
-        for (int x = 0; x < WINDOWX/(TILESIZE); x++) {
-        	pedestrianGrid[x][y] = new Semaphore(1, true);    	
-        	if (MAP[x][y] == 'R' || MAP[x][y] == 'B') {
-        		try {
-    				pedestrianGrid[x][y].acquire();
-    			} catch (InterruptedException e) {
-    				e.printStackTrace();
-    			}
-        	}
-        }
-        }
-        
-    	addCommands();
-    	
-        this.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
-            		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-            			gui.buildingFrame.setVisible(true);
-            			System.out.println("MOUSE PRESS ON BUILDING: " + i);
-            			gui.cardLayout.show(gui.buildingPanels, "" + i);
-            		}
-            	}
-            }
-        });
-        
-        this.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-        	public void mouseDragged(MouseEvent e) {      		
-        	}
-        	@Override
-        	public void mouseMoved(MouseEvent e) {
-            	for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
-            		if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-            			//System.out.println("MOUSE ON BUILDING: " + i);
-            		}
-            	}
-        	}
-        });
-    }
+	public AnimationPanel() {
+		setSize(WINDOWX, WINDOWY);
+		setVisible(true);
+		Timer timer = new Timer(3, this);
+		timer.start();
+
+		God.Get().setAnimationPanel(this);
+
+		// Set up semaphore grid - sidewalks and crosswalks are open
+		for (int y = 0; y < WINDOWY / (TILESIZE); y++) {
+			for (int x = 0; x < WINDOWX / (TILESIZE); x++) {
+				pedestrianGrid[x][y] = new Semaphore(1, true);
+				if (MAP[x][y] == 'R' || MAP[x][y] == 'B') {
+					try {
+						pedestrianGrid[x][y].acquire();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+		addCommands();
+
+		this.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
+					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
+						gui.buildingFrame.setVisible(true);
+						System.out.println("MOUSE PRESS ON BUILDING: " + i);
+						gui.buildingFrame.setTitle("Building #" + (i + 1)
+								+ " - " + gui.buildingList.get(i).getTag());
+					}
+				}
+			}
+		});
+
+		this.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
+					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
+						gui.buildingFrame.setVisible(true);
+						System.out.println("MOUSE PRESS ON BUILDING: " + i);
+						gui.buildingFrame.setTitle("Building #" + (i + 1)
+								+ " - " + gui.buildingList.get(i).getTag());
+						gui.cardLayout.show(gui.buildingPanels, "" + i);
+					}
+				}
+			}
+		});
+
+		this.addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				consoleText = "";
+				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
+					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
+						consoleText = "Click to Enter Building" + i + ": " + gui.buildingList.get(i).getTag();
+					}
+				}
+			}
+		});
+	}
 
 	public void actionPerformed(ActionEvent e) {
-		for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
 		repaint();
 	}
 
-    public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(getBackground());
-        g2.fillRect(0, 0, WINDOWX, WINDOWY );
-        
-        // Draw the city based on the map array
-        for (int y = 0; y < WINDOWY/TILESIZE; y++) {
-        for (int x = 0; x < WINDOWX/TILESIZE; x++) {
-        	if (MAP[x][y] == 'R') {
-        		if (SHOW_RECT) {
-        			g2.setColor(Color.DARK_GRAY);
-        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
-        		}
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(getBackground());
+		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
-        		iconRoad.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        	}
-        	if (MAP[x][y] == 'S') {
-        		if (SHOW_RECT) {
-        			g2.setColor(Color.LIGHT_GRAY);
-        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
-        		}
+		// Draw the city based on the map array
+		for (int y = 0; y < WINDOWY / TILESIZE; y++) {
+			for (int x = 0; x < WINDOWX / TILESIZE; x++) {
+				if (MAP[x][y] == 'R') {
+					if (SHOW_RECT) {
+						g2.setColor(Color.DARK_GRAY);
+						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
+								TILESIZE);
+					}
 
-        		iconSide.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        	}
-        	if (MAP[x][y] == 'C') {
-        		if (SHOW_RECT) {
-        			g2.setColor(Color.GRAY);
-        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
-        		}
-        		
-        		if (MAP[x-1][y] == 'C' || MAP[x+1][y] == 'C') {
-        			iconCrossH.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        		} 
-        		if (MAP[x][y-1] == 'C' || MAP[x][y+1] == 'C') {
-        			iconCrossV.paintIcon(this, g, x*TILESIZE, y*TILESIZE);
-        		} 
-        	}
-        	if (MAP[x][y] == 'B') {
-        		if (SHOW_RECT) {
-        			g2.setColor(Color.ORANGE);
-        			g2.fillRect(x*TILESIZE, y*TILESIZE, TILESIZE, TILESIZE);
-        		}
-        	}
-        }
-        }
-        
-        /*for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-        */
+					if (x != 0 && x != 29 && y != 0 && y != 29) {
+						if (MAP[x - 1][y] == 'S') {
+							iconRoadVL.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else if (MAP[x + 1][y] == 'S') {
+							iconRoadVR.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else if (MAP[x][y - 1] == 'S') {
+							iconRoadHL.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else if (MAP[x][y + 1] == 'S') {
+							iconRoadHR.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else {
+							iconRoad.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						}
+					} else {
+						if (x == 0 && MAP[x + 2][y] == 'S') {
+							iconRoadVL.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else if (x == 29 && MAP[x - 2][y] == 'S') {
+							iconRoadVR.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else if (y == 0 && MAP[x][y + 2] == 'S') {
+							iconRoadHL.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else if (y == 29 && MAP[x][y - 2] == 'S') {
+							iconRoadHR.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						} else {
+							iconRoad.paintIcon(this, g, x * TILESIZE, y
+									* TILESIZE);
+						}
+					}
+				}
+				if (MAP[x][y] == 'S') {
+					if (SHOW_RECT) {
+						g2.setColor(Color.LIGHT_GRAY);
+						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
+								TILESIZE);
+					}
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw(g2);
-                if (gui.getRotation() == 0) {
-                	iconPedR.paintIcon(this, g, gui.getX() + 16, gui.getY() + 32);
-                } else if (gui.getRotation() == 1) {
-                	iconPedD.paintIcon(this, g, gui.getX() + 32, gui.getY() + 16);
-                } else if (gui.getRotation() == 2) {
-                	iconPedL.paintIcon(this, g, gui.getX() + 16, gui.getY() + 00);
-                } else if (gui.getRotation() == 3) {
-                	iconPedU.paintIcon(this, g, gui.getX() + 00, gui.getY() + 16);
-                }
-            }
-        }
-    }
+					if (MAP[x][y + 1] == 'S' && MAP[x + 1][y] == 'S'
+							&& MAP[x + 1][y + 1] == 'B') {
+						for (int i = 0; i < 16; i++) {
+							if (getBuildingRect(i).contains(x * TILESIZE + TILESIZE * 2, y * TILESIZE + TILESIZE * 2)) {
+								if (gui.buildingList.get(i).getTag() == "B_Bank"
+										|| gui.buildingList.get(i).getTag() == "B_Market"
+										|| gui.buildingList.get(i).getTag() == "B_Restaurant") {
+									iconBuildingB.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+								} else {
+									iconBuildingA.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+								}
+								
+								if (consoleText.indexOf(Character.forDigit(i, 10)) != -1) {
+									g2.drawString(consoleText, (x+1) * TILESIZE, (y+1) * TILESIZE - 10);
+								}
+							}
+						}
+
+					}
+				}
+				if (MAP[x][y] == 'C') {
+					if (SHOW_RECT) {
+						g2.setColor(Color.GRAY);
+						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
+								TILESIZE);
+					}
+
+					if (MAP[x - 1][y] == 'C' || MAP[x + 1][y] == 'C') {
+						iconCrossH.paintIcon(this, g, x * TILESIZE, y
+								* TILESIZE);
+					}
+					if (MAP[x][y - 1] == 'C' || MAP[x][y + 1] == 'C') {
+						iconCrossV.paintIcon(this, g, x * TILESIZE, y
+								* TILESIZE);
+					}
+				}
+				if (MAP[x][y] == 'B') {
+					if (SHOW_RECT) {
+						g2.setColor(Color.ORANGE);
+						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
+								TILESIZE);
+					}
+				}
+			}
+		}
+
+		for (Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.updatePosition();
+			}
+		}
+
+		for (Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.draw(g2);
+				if (gui.getRotation() == 0) {
+					iconPedR.paintIcon(this, g, gui.getX() + 16,
+							gui.getY() + 32);
+				} else if (gui.getRotation() == 1) {
+					iconPedD.paintIcon(this, g, gui.getX() + 32,
+							gui.getY() + 16);
+				} else if (gui.getRotation() == 2) {
+					iconPedL.paintIcon(this, g, gui.getX() + 16,
+							gui.getY() + 00);
+				} else if (gui.getRotation() == 3) {
+					iconPedU.paintIcon(this, g, gui.getX() + 00,
+							gui.getY() + 16);
+				}
+			}
+		}
+	}
     
     public void addGui(Gui gui) {
     	guis.add(gui);
