@@ -26,7 +26,7 @@ import exterior.astar.*;
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
-    private final boolean SHOW_RECT = false;
+    private boolean SHOW_RECT = false;
     private final int WINDOWX = 1920;
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
@@ -209,41 +209,41 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						g2.setColor(Color.DARK_GRAY);
 						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
 								TILESIZE);
-					}
-
-					if (x != 0 && x != 29 && y != 0 && y != 29) {
-						if (MAP[x - 1][y] == 'S') {
-							iconRoadVL.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						} else if (MAP[x + 1][y] == 'S') {
-							iconRoadVR.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						} else if (MAP[x][y - 1] == 'S') {
-							iconRoadHL.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						} else if (MAP[x][y + 1] == 'S') {
-							iconRoadHR.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						} else {
-							iconRoad.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						}
 					} else {
-						if (x == 0 && MAP[x + 2][y] == 'S') {
-							iconRoadVL.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						} else if (x == 29 && MAP[x - 2][y] == 'S') {
-							iconRoadVR.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						} else if (y == 0 && MAP[x][y + 2] == 'S') {
-							iconRoadHL.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
-						} else if (y == 29 && MAP[x][y - 2] == 'S') {
-							iconRoadHR.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
+						if (x != 0 && x != 29 && y != 0 && y != 29) {
+							if (MAP[x - 1][y] == 'S') {
+								iconRoadVL.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else if (MAP[x + 1][y] == 'S') {
+								iconRoadVR.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else if (MAP[x][y - 1] == 'S') {
+								iconRoadHL.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else if (MAP[x][y + 1] == 'S') {
+								iconRoadHR.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else {
+								iconRoad.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							}
 						} else {
-							iconRoad.paintIcon(this, g, x * TILESIZE, y
-									* TILESIZE);
+							if (x == 0 && MAP[x + 2][y] == 'S') {
+								iconRoadVL.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else if (x == 29 && MAP[x - 2][y] == 'S') {
+								iconRoadVR.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else if (y == 0 && MAP[x][y + 2] == 'S') {
+								iconRoadHL.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else if (y == 29 && MAP[x][y - 2] == 'S') {
+								iconRoadHR.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							} else {
+								iconRoad.paintIcon(this, g, x * TILESIZE, y
+										* TILESIZE);
+							}
 						}
 					}
 				}
@@ -252,49 +252,44 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						g2.setColor(Color.LIGHT_GRAY);
 						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
 								TILESIZE);
-					}
-
-					if (MAP[x][y + 1] == 'S' && MAP[x + 1][y] == 'S'
-							&& MAP[x + 1][y + 1] == 'B') {
-						for (int i = 0; i < 16; i++) {
-							if (getBuildingRect(i).contains(x * TILESIZE + TILESIZE * 2, y * TILESIZE + TILESIZE * 2)) {
-								if (gui.buildingList.get(i).getTag() == "B_Bank"
-										|| gui.buildingList.get(i).getTag() == "B_Market"
-										|| gui.buildingList.get(i).getTag() == "B_Restaurant") {
-									iconBuildingB.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
-								} else {
-									iconBuildingA.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
-								}
-								
-								if (consoleText.indexOf(i + "") != -1) {
-									g2.drawString(consoleText, (x+1) * TILESIZE, (y+1) * TILESIZE - 10);
+					} else {
+						if (MAP[x][y + 1] == 'S' && MAP[x + 1][y] == 'S'
+								&& MAP[x + 1][y + 1] == 'B') {
+							for (int i = 0; i < 16; i++) {
+								if (getBuildingRect(i).contains(x * TILESIZE + TILESIZE * 2, y * TILESIZE + TILESIZE * 2)) {
+									if (gui.buildingList.get(i).getTag() == "B_Bank"
+											|| gui.buildingList.get(i).getTag() == "B_Market"
+											|| gui.buildingList.get(i).getTag() == "B_Restaurant") {
+										iconBuildingB.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+									} else {
+										iconBuildingA.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+									}
+									
+									if (consoleText.indexOf(i + "") != -1) {
+										g2.drawString(consoleText, (x+1) * TILESIZE, (y+1) * TILESIZE - 10);
+									}
 								}
 							}
 						}
-
 					}
 				}
 				if (MAP[x][y] == 'C') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.GRAY);
-						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
-								TILESIZE);
-					}
-
-					if (MAP[x - 1][y] == 'C' || MAP[x + 1][y] == 'C') {
-						iconCrossH.paintIcon(this, g, x * TILESIZE, y
-								* TILESIZE);
-					}
-					if (MAP[x][y - 1] == 'C' || MAP[x][y + 1] == 'C') {
-						iconCrossV.paintIcon(this, g, x * TILESIZE, y
-								* TILESIZE);
+						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
+					} else {
+						if (MAP[x - 1][y] == 'C' || MAP[x + 1][y] == 'C') {
+							iconCrossH.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						}
+						if (MAP[x][y - 1] == 'C' || MAP[x][y + 1] == 'C') {
+							iconCrossV.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						}
 					}
 				}
 				if (MAP[x][y] == 'B') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.ORANGE);
-						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE,
-								TILESIZE);
+						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
 					}
 				}
 			}
@@ -340,7 +335,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     protected void addCommands()
     {
-        String stringCtrlN = "CTRL N";
         Action keyCtrlN = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
@@ -395,7 +389,21 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
-
+        Action keyCtrlC = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	SHOW_RECT = !SHOW_RECT;
+            	if (SHOW_RECT) {
+            		System.out.println("Entering compatibility mode.");
+            		System.out.println("To view people in compatibility mode, change SHOW_RECT in Gui.java to true.");
+            	} else {
+            		System.out.println("Exiting compatibility mode.");
+            	}
+             }
+        };
+        
+        String stringCtrlN = "CTRL N";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), stringCtrlN);
         getActionMap().put(stringCtrlN, keyCtrlN);
         String stringCtrlM = "CTRL M";
@@ -410,6 +418,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrlP = "CTRL P";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK), stringCtrlP);
         getActionMap().put(stringCtrlP, keyCtrlP);
+        String stringCtrlC = "CTRL C";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
+        getActionMap().put(stringCtrlC, keyCtrlC);
     }
     
     protected Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){

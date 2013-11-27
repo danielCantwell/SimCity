@@ -9,5 +9,5 @@ public interface Gui {
     public int getX();
     public int getY();
     public int getRotation();
-    public final boolean SHOW_RECT = false;
+    public boolean SHOW_RECT = false;
 }
