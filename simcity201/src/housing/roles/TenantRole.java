@@ -28,16 +28,16 @@ public class TenantRole extends Role implements Tenant {
 
 	// -------------------------------------DATA-------------------------------------
 
-	private Money rentOwed = new Money(0, 0);
-	private Owner owner;
+	public Money rentOwed = new Money(0, 0);
+	public Owner owner;
 
 	TenantGui gui = new TenantGui(this);
 
-	enum Time {
+	public enum Time {
 		msgSleep, sleeping, awake, work
 	};
 
-	Time time = Time.awake;
+	public Time time = Time.awake;
 
 	public List<Appliance> appliances = Collections
 			.synchronizedList(new ArrayList<Appliance>());
@@ -72,7 +72,7 @@ public class TenantRole extends Role implements Tenant {
 		time = Time.awake;
 		stateChanged();
 	}
-	
+
 	public void msgGoToWork() {
 		time = Time.work;
 		stateChanged();
@@ -87,27 +87,32 @@ public class TenantRole extends Role implements Tenant {
 	// MESSAGES from GUI
 
 	public void msgAtTable() {
+		System.out.println("Tenant is at table");
 		atTable.release();
 	}
 
 	public void msgAtBed() {
+		System.out.println("Tenant is at bed");
 		atBed.release();
 	}
 
 	public void msgAtFridge() {
+		System.out.println("Tenant is at fridge");
 		atFridge.release();
 	}
 
 	public void msgAtStove() {
+		System.out.println("Tenant is at stove");
 		atStove.release();
 	}
 
 	public void msgAtMail() {
+		System.out.println("Tenant is at mail");
 		atStove.release();
 	}
 
 	public void msgAtDoor() {
-		
+		System.out.println("Tenant is at door");
 		atDoor.release();
 	}
 
@@ -133,7 +138,7 @@ public class TenantRole extends Role implements Tenant {
 			sleep();
 			return true;
 		}
-		
+
 		if (time == Time.work) {
 			goToWork();
 			return true;
@@ -186,7 +191,8 @@ public class TenantRole extends Role implements Tenant {
 			}
 			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
 					Intent.customer);
-			HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
+			HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+					.getPanel();
 			myPanel.addGui(gui);
 			exitBuilding(myPerson);
 			setActive(false);
@@ -227,9 +233,9 @@ public class TenantRole extends Role implements Tenant {
 		useAppliance("Bed");
 		time = Time.sleeping;
 	}
-	
+
 	private void goToWork() {
-		System.out.println("Going to work baby.");
+		System.out.println("Tenant is going to work");
 		gui.DoLeaveHouse();
 		try {
 			atDoor.acquire();
@@ -237,10 +243,11 @@ public class TenantRole extends Role implements Tenant {
 			e.printStackTrace();
 		}
 		myPerson.msgGoToBuilding(myPerson.getWorkPlace(), Intent.work);
-		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+				.getPanel();
 		myPanel.addGui(gui);
 		exitBuilding(myPerson);
-		
+
 		System.out.println(myPerson.actions.get(0).getGoAction().toString());
 		setActive(false);
 	}
@@ -257,10 +264,13 @@ public class TenantRole extends Role implements Tenant {
 			}
 		}
 	}
-	
-	
+
 	public TenantGui getGui() {
 		return gui;
+	}
+
+	public void setGui(TenantGui gui) {
+		this.gui = gui;
 	}
 
 	@Override
@@ -271,7 +281,8 @@ public class TenantRole extends Role implements Tenant {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
-		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+				.getPanel();
 		myPanel.addGui(gui);
 		gui.DoGoToTable();
 		try {
