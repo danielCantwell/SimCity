@@ -220,6 +220,7 @@ public class TenantRole extends Role implements Tenant {
 				e.printStackTrace();
 			}
 			useAppliance("Table");
+			myPerson.setHungerLevel(10);
 		}
 	}
 
@@ -253,7 +254,7 @@ public class TenantRole extends Role implements Tenant {
 		setActive(false);
 	}
 
-	private void useAppliance(String type) {
+	public void useAppliance(String type) {
 		for (Appliance a : appliances) {
 			if (a.type == type) {
 				System.out.println("Tenant is using appliance: " + type);
@@ -282,7 +283,7 @@ public class TenantRole extends Role implements Tenant {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
-		time = time.awake;
+		time = Time.awake;
 		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
 		if (myPanel.getGuis().contains(gui)){
 			gui.setPresent(true);
