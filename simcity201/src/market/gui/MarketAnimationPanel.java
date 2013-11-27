@@ -64,15 +64,19 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
     private B_DannyRestaurant chanos;
     private B_Market market;
     
-    private List<Person> people = Collections.synchronizedList(new ArrayList<Person>());
-    
+    // Debug
     private Semaphore[][] pedestrianGrid = new Semaphore[1920/(TILESIZE)][1920/(TILESIZE)];
+    
+
+    private Map<Integer, Point> locations = Collections.synchronizedMap(new HashMap<Integer, Point>());
+    private int locCount = 0;
 
 	//public List<MarketPackerGui> packers = Collections.synchronizedList(new ArrayList<MarketPackerGui>());
 	//public List<MarketClerkGui> clerks = Collections.synchronizedList(new ArrayList<MarketClerkGui>());
 	//public List<MarketDeliveryPersonGui> deliveryPeople = Collections.synchronizedList(new ArrayList<MarketDeliveryPersonGui>());
 
-	private List<MyGui> guis = Collections.synchronizedList(new ArrayList<MyGui>());
+	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	
 	public MarketAnimationPanel(String name)
 	{
 		setSize(WINDOWX, WINDOWY);
@@ -81,10 +85,14 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         timer.start();
 		
 		this.name = name;
+		
+        initializeLocations();
 	}
 	
 	public void setBMarket(B_Market mar){
 		market = mar;
+        market.setManager((MarketManagerRole) manager.mainRole);
+        market.panel = this;
 	}
 	public B_Market getBMarket(){return market;}
 	
@@ -96,6 +104,8 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         timer.start();
         
         this.name = name;
+
+        initializeLocations();
         
         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
         
@@ -134,8 +144,6 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         addGui(dGui);
         ((MarketDeliveryPersonRole) deliveryPerson.mainRole).setManager((MarketManagerRole) manager.mainRole);
         deliveryPerson.startThread();
-
-        initializeLocations();
         
         ((MarketManagerRole) manager.mainRole).addClerk((MarketClerkRole) clerk.mainRole);
         ((MarketManagerRole) manager.mainRole).addPacker((MarketPackerRole) packer.mainRole);
@@ -148,9 +156,17 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         */bufferSize = this.getSize();
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		repaint(); // Will have paintComponent called
-	}
+	@Override
+    public void actionPerformed(ActionEvent arg0) {
+        synchronized (guis){
+            for (Gui gui : guis) {
+                if (gui.isPresent()) {
+                    gui.updatePosition();
+                }
+            }
+        }
+        repaint();
+    }
 
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -170,53 +186,42 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(400, 40, 160, 20);
         g2.fillRect(400, 100, 160, 20);
 		
-		for (MyGui myGui : guis) {
-			if (myGui.gui.isPresent()) {
-			    myGui.gui.updatePosition();
-			}
-		}
-
-		for (MyGui myGui : guis) {
-			if (myGui.gui.isPresent()) {
-			    myGui.gui.draw(g2);
-			}
-		}
-		
+        synchronized(guis)
+        {
+    		for (Gui gui : guis) {
+    			if (gui.isPresent()) {
+    			    gui.draw(g2);
+    			}
+    		}
+        }
+        
 		// draw building name
 		g2.setColor(Color.BLACK);
 		g2.drawString(name, 20, 20);
 	}
 
-	public void addGui(MarketPackerGui gui) {
-		guis.add(new MyGui(gui));
-        initializeLocations();
-	}
-	
-	public void addGui(MarketClerkGui gui) {
-		guis.add(new MyGui(gui));
-	}
-	
-	public void addGui(MarketDeliveryPersonGui gui) {
-		guis.add(new MyGui(gui));
-	}
-	
-    public void addGui(MarketCustomerGui gui) {
-        guis.add(new MyGui(gui));
+    public void addGui(Gui gui) {
+        synchronized(guis)
+        {
+            guis.add(gui);
+            if (gui instanceof MarketManagerGui)
+            {
+                ((MarketManagerGui) gui).setLocations(locations);
+                ((MarketManagerRole) manager.mainRole).initializeInventory((MarketManagerGui) gui);
+            }
+            else if (gui instanceof MarketPackerGui)
+            {
+                ((MarketPackerGui) gui).setLocations(locations);
+            }
+        }
     }
     
-    public void addGui(MarketManagerGui gui) {
-        guis.add(new MyGui(gui));
-        initializeLocations();
-    }
-
-    public void addGui(Gui gui) {
-        guis.add(new MyGui(gui));
+    public void removeGui(Gui gui) {
+        guis.remove(gui);
     }
     
     public void initializeLocations()
     {
-        Map<Integer, Point> locations = Collections.synchronizedMap(new HashMap<Integer, Point>());
-        int locCount = 0;
         for (int i = 200; i < 360; i+=20)
         {
             locations.put(locCount, new Point(i, 40));
@@ -248,7 +253,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
             locCount++;
         }
 
-        for (MyGui myGui : guis)
+        /*for (MyGui myGui : guis)
         {
             if (!myGui.initialized)
             {
@@ -262,24 +267,12 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
                     ((MarketPackerGui) myGui.gui).setLocations(locations);
                 }
             }
-        }
+        }*/
     }
     
     /**
      * Inner Classes
      */
-    
-    private class MyGui
-    {
-        public Gui gui;
-        public boolean initialized;
-        
-        public MyGui(Gui gui)
-        {
-            this.gui = gui;
-            initialized = false;
-        }
-    }
     
     /**
      * Debug

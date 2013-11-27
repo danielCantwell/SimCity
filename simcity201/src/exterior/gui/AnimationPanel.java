@@ -6,6 +6,8 @@ import javax.swing.*;
 import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.Person.GoAction;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
 import SimCity.Buildings.B_Bank;
@@ -250,7 +252,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 
             	 //createPerson("Jesse", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
             	 //createPerson("Brian", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
-            	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Matt", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
             	 //createPerson("Omar", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
 
             	 //g.setPerson(p);
@@ -273,6 +275,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 addGui(g);
 	   	 God.Get().addPerson(p);
 	   	 p.startThread();
+	   	 
+	   	 //test market
+	   	 p.testMarket();
+	   	 
 	   	 return p;
     }
 }

@@ -1,5 +1,7 @@
 package market;
 
+import housing.gui.HousingAnimation;
+
 import java.util.*;
 
 import exterior.gui.SimCityGui;
@@ -18,29 +20,31 @@ import market.interfaces.MarketDeliveryPerson;
  */
 public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPerson{
 	
-		private SimCityGui cityGui;
-		private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
-		
-		/**
-		 * Data
-		 */
+	private SimCityGui cityGui;
+	private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
+	
+	/**
+	 * Data
+	 */
 
     public MarketManagerRole manager;
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     public enum AgentLocation { Market, Destination, InTransit };
     public AgentLocation location;
+    public int destinationBuildingID;
 	
-		public MarketDeliveryPersonRole() {
-			super();
-		}
-	
-		/** 
-		 * Messages
-		 */
+	public MarketDeliveryPersonRole() {
+		super();
+	}
+
+	/** 
+	 * Messages
+	 */
 
     public void msgMakeDelivery(int id, String choice, int amount)
     {
         orders.add(new Order(id, choice, amount));
+        destinationBuildingID = id;
         myPerson.msgExitBuilding();
         myPerson.mainRole.setActive(false);
         myPerson.msgGoToBuilding(God.Get().getBuilding(id), Intent.work);
@@ -66,8 +70,6 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     @Override
     protected void enterBuilding() {
-        // TODO Auto-generated method stub
-        
     }
     
     @Override
