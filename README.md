@@ -1,4 +1,3 @@
-
 Team 33
 ======
 SimCity201 Project Repository for CS 201 students
@@ -25,12 +24,18 @@ SimCity201 Project Repository for CS 201 students
   * Street, sidewalk, and road textures
 
 ####Brian Chen
-+ Base Person and Role Class
-+ Bulding Wrappers and base Building Class for each building
-+ God Class that holds everthing in the city
-+ Junit Testing
-  * Person Class
-  * God Class
++ Assigned and Completed:
+ + Base Person and Role Class
+ + Junit Testing Person Class
+
++ Finished:
+ + Bulding Wrappers and base Building Class for each building
+ + God Class that holds everthing in the city
+ + Integrated Housing into exterior gui
+ + Integrated buildings being closed if not enough employees.
+ + Put a restaurant in the city. It doesn't actually work.
+ + Keybinds for spawning manager and bank customer.
+ + 
 
 ####Tim So
 + Market Roles and Guis
