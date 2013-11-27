@@ -103,8 +103,15 @@ public class HousingAnimation extends JPanel implements ActionListener {
 		g.fillRect(xStovePos, yStovePos, xStoveSize, yStoveSize);
 		g.fillRect(xTablePos, yTablePos, xTableSize, yTableSize);
 		g.fillRect(xMailPos, yMailPos, xMailSize, yMailSize);
-
 		
+		// Draw Names for Housing Appliances
+		g.setColor(Color.CYAN);
+		g.drawString("Door", xDoorPos - 10, yDoorPos);
+		g.drawString("Bed", xBedPos, yBedPos);
+		g.drawString("Fridge", xFridgePos, yFridgePos);
+		g.drawString("Stove", xStovePos, yStovePos);
+		g.drawString("Table", xTablePos, yTablePos);
+		g.drawString("Mail", xMailPos, yMailPos);
 
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
