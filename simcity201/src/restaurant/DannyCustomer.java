@@ -236,6 +236,7 @@ public class DannyCustomer extends Role implements Customer{
 
 	private void goToRestaurant() {
 		Do("Going to restaurant");
+		
 		host.msgIWantFood(this);//send our instance, so he can respond to us
 	}
 
@@ -302,7 +303,9 @@ public class DannyCustomer extends Role implements Customer{
 		Do("Leaving.");
 		state = AgentState.Leaving;
 		cashierEvent = CashierEvent.none;
-		customerGui.DoExitRestaurant();
+		if (customerGui!=null)
+			customerGui.DoExitRestaurant();
+		else exitRestaurant();
 	}
 	
 	private void makeDecision() {
@@ -390,11 +393,16 @@ public class DannyCustomer extends Role implements Customer{
 	private void print(String string) {
 		System.out.println(string);
 	}
+	public void exitRestaurant(){
+		exitBuilding(myPerson);
+	}
+	
 	@Override
 	protected void enterBuilding() {
 		Do("Going to restaurant");
 		if (!myPerson.building.getOpen()){
-			
+				leaveRestaurant();
+				return;
 		}
 		host.msgIWantFood(this);
 	}

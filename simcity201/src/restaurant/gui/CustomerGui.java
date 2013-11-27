@@ -87,6 +87,7 @@ public class CustomerGui implements Gui {
 							.println("about to call gui.setCustomerEnabled(agent);");
 					isHungry = false;
 					gui.setCustomerEnabled(agent);
+					agent.exitRestaurant();
 				}
 				command = Command.noCommand;
 			}

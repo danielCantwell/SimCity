@@ -5,6 +5,8 @@ import SimCity.Buildings.B_DannyRestaurant;
 import agent.Agent;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
+import restaurant.gui.DannyRestaurantAnimationPanel;
+import restaurant.gui.DannyRestaurantAnimationPanel.Table;
 import restaurant.gui.RestaurantPanel;
 import restaurant.gui.WaiterGui;
 
@@ -27,7 +29,7 @@ public class DannyHost extends Role {
 			.synchronizedList(new ArrayList<DannyCustomer>());
 	public List<MyWaiter> waiters = Collections
 			.synchronizedList(new ArrayList<MyWaiter>());
-	public Collection<Table> tables;
+	public Collection<Table> tables = new ArrayList<Table>();
 	// note that tables is typed with Collection semantics.
 	// Later we will see how it is implemented
 
@@ -42,8 +44,12 @@ public class DannyHost extends Role {
 		super();
 
 		this.name = name;
-		//this.restPanel = rest;
-
+		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
+		synchronized (tables) {
+			for (int ix = 1; ix <= NTABLES; ix++) {
+				tables.add(new Table(ix));// how you add to a collections
+			}
+		}
 	}
 
 	public String getMaitreDName() {
@@ -309,7 +315,7 @@ public class DannyHost extends Role {
 	@Override
 	protected void enterBuilding() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

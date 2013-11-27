@@ -231,6 +231,7 @@ public class Person extends Agent {
 	//Call this function to go to queue to go to a building. The person will only go to a building if he is in the exterior world.
 	//If the person is in the interior world, the person will continue to do whatever he is currently doing.
 	public void msgGoToBuilding(Building b, Intent i){
+		if (b == null) return;
 		Do("msgGoToBuilding "+ b.toString());
 		if (b instanceof B_Bank){ addAction(new Action(GoAction.goBank, i));}
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
@@ -368,6 +369,8 @@ public class Person extends Agent {
 			}
 		}
 		timeState = TimeState.none;
+		msgGoToBuilding(getWorkPlace(), Intent.work);
+		return;
 	}
 	
 	private void isMorning(){
@@ -383,6 +386,10 @@ public class Person extends Agent {
 		}
 		timeState = TimeState.none;
 	}
+	
+	/*private void goHome(){
+		timeState = TimeState.
+	}*/
 	
 	
 	private void goToSleep(){
@@ -403,7 +410,7 @@ public class Person extends Agent {
 	private void goTo(Action action){
 		Building b = null;
 		createVehicle();
-		
+		System.out.println("goTo + " + action.toString());
 		System.out.println("##### getgoaction: " + action.getGoAction().toString() + " " + intent.toString());
 		
 		//Handling which action
@@ -498,7 +505,7 @@ public class Person extends Agent {
 			 if (hasActiveRole) return;
 			   if(hungerLevel > 0){
 				   hungerLevel --;
-				   System.out.println("Hunger Level is now: " + hungerLevel);
+				   //System.out.println("Hunger Level is now: " + hungerLevel);
 			   }
 			   if (hungerLevel <= 0){
 				   hungerLevel = 0;

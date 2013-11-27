@@ -60,7 +60,8 @@ public class B_DannyRestaurant extends Building{
 	@Override
 	public void ExitBuilding(Person person) {
 		// TODO Auto-generated method stub
-		
+    	person.resetActiveRoles();
+    	person.msgExitBuilding();
 	}
 	
 	public void EnterBuilding(Person person, String job){
