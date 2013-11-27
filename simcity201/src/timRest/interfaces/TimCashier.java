@@ -1,4 +1,4 @@
-package restaurant.interfaces;
+package timRest.interfaces;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.
@@ -6,13 +6,12 @@ package restaurant.interfaces;
  * @author Monroe Ekilah
  *
  */
-public interface Cashier {
+public interface TimCashier {
 
-	public abstract void msgHereIsACheck(Waiter waiter, String choice, int tableNumber);
+	public abstract void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber);
 	public abstract void msgWantCheck(int tableNumber);
 	public abstract void msgHereIsTheMoney(double amount);
 	public abstract void msgHereIsPartialMoney(double amount, double price);
-	public abstract void msgHereIsTheBill(Market market, double price);
 
 	public abstract String getName();
 }

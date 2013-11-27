@@ -1,4 +1,4 @@
-package restaurant.interfaces;
+package timRest.interfaces;
 
 import java.awt.Point;
 import java.util.HashMap;
@@ -9,11 +9,11 @@ import java.util.HashMap;
  * @author Monroe Ekilah
  *
  */
-public interface Customer {
+public interface TimCustomer {
 	
 	public abstract void msgPleaseSit(Point pos);
 	public abstract void msgWeAreFull();
-	public abstract void msgFollowMeToTable(Waiter waiter);
+	public abstract void msgFollowMeToTable(TimWaiter waiter);
 	public abstract void msgSitAtTable(Point tablePos, HashMap<String, Double> choices);
 	public abstract void msgWhatWouldYouLike();
 	public abstract void msgWeAreOut(HashMap<String, Double> newChoices);
