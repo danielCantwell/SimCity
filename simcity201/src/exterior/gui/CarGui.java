@@ -50,7 +50,7 @@ public class CarGui implements Gui {
 			if (command == Command.seekDest) {
 				command = Command.noCommand;
 				isPresent = false;
-				//agent.msgAnimationFinishedGoToSeat();
+				person.animation.release();
 			} else if (command == Command.seekX) {
 				command = Command.seekY;
 				xDestination = xPos;
