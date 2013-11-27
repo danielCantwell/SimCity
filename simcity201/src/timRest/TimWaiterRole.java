@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> Eric
 //package timRest;
 //
 //import java.awt.Point;
