@@ -9,10 +9,15 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import market.MarketCustomerRole;
+import market.MarketManagerRole;
 import restaurant.DannyCashier;
 import restaurant.DannyCook;
+import restaurant.DannyCustomer;
 import restaurant.DannyHost;
 import restaurant.DannyWaiter;
+import Bank.bankCustomerRole;
+import Bank.bankManagerRole;
 import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_Market;
@@ -120,8 +125,12 @@ public class God {
 				   public void actionPerformed(ActionEvent e){
 					   if (hour < 24){hour ++; announcedTime = false;} // hour increments everytime this timer fires.
 					   
-					   if (hour == 6 && !announcedTime){
+					   if (hour == 5 && !announcedTime){
 						   wakeUp();
+					   }
+					   
+					   if (hour == 6 && !announcedTime){
+						   managersGoToWork();
 					   }
 					   
 					   if (hour == 7 && !announcedTime){
@@ -131,6 +140,11 @@ public class God {
 					   if (hour == 8 && !announcedTime){
 						   goToWork();
 					   }
+					   
+					   if (hour == 9 && !announcedTime){
+						   fakeCustomersGoToWork();
+					   }
+					   
 					   
 					   if (hour == 17 && !announcedTime){
 						   getOffWork();
@@ -189,6 +203,26 @@ public class God {
 	    	}
 	    }
 	    
+	    public void fakeCustomersGoToWork(){
+	    	announcedTime = true;
+	    	System.out.println("customers going to buy");
+	    	for (Person p: persons){
+	    		if (p.getTimeState() != TimeState.working){
+	    			p.msgGoToWork();
+	    		}
+	    	}
+	    }
+	    
+	    public void managersGoToWork(){
+	    	announcedTime = true;
+	    	System.out.println("managers going to work");
+	    	for (Person p: persons){
+	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole){
+	    			p.msgGoToWork();
+	    		}
+	    	}
+	    }
+	    
 	    public void goHome(){
 	    	announcedTime = true;
 	    	System.out.println("EVERYONE GO HOME");
@@ -210,7 +244,9 @@ public class God {
 	    	System.out.println("go to work now!");
 	    	for (Person p: persons){
 	    		if(p.getTimeState() != TimeState.working)
-	    		p.msgGoToWork();
+	    		if (!(p.mainRole instanceof bankCustomerRole) && !(p.mainRole instanceof DannyCustomer) && !(p.mainRole instanceof MarketCustomerRole)){
+	    			p.msgGoToWork();
+	    		}
 	    	}
 	    }
 	    

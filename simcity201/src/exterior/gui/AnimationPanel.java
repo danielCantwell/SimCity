@@ -252,7 +252,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 
             	 //createPerson("Jesse", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
             	 //createPerson("Brian", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
-            	 createPerson("Matt", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
             	 //createPerson("Omar", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
 
             	 //g.setPerson(p);
@@ -261,9 +261,54 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 //p.startThread();
              }
         };
+        
+        Action keyCtrlM = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	 createPerson("Matt", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+             }
+        };
+        
+        Action keyCtrlG = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	 createPerson("Matt", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+             }
+        };
+        
+        Action keyCtrlT = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	 createPerson("Matt", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+             }
+        };
+        
+        Action keyCtrlP = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	marketScenarioPerson("Marketman", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+             }
+        };
+        
 
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), stringCtrlN);
         getActionMap().put(stringCtrlN, keyCtrlN);
+        String stringCtrlM = "CTRL M";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_MASK), stringCtrlM);
+        getActionMap().put(stringCtrlM, keyCtrlM);
+        String stringCtrlT = "CTRL T";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_MASK), stringCtrlT);
+        getActionMap().put(stringCtrlT, keyCtrlT);
+        String stringCtrlG = "CTRL G";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.CTRL_MASK), stringCtrlG);
+        getActionMap().put(stringCtrlG, keyCtrlG);
+        String stringCtrlP = "CTRL P";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK), stringCtrlP);
+        getActionMap().put(stringCtrlP, keyCtrlP);
     }
     
     protected Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
@@ -281,4 +326,21 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 
 	   	 return p;
     }
+    
+    protected Person marketScenarioPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
+    	System.out.println("Spawning a new pedestrian.");
+	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+	   	 PersonGui g = new PersonGui(gui, aStarTraversal);
+	   	 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+	   	 g.setPerson(p);
+	   	 addGui(g);
+	   	 God.Get().addPerson(p);
+	   	 p.startThread();
+	   	 
+	   	 //test market
+	   	 p.testMarket();
+	   	 
+	   	 return p;
+    }
+
 }
