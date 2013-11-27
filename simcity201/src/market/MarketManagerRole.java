@@ -10,6 +10,8 @@ import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import SimCity.gui.Gui;
 import market.gui.MarketManagerGui;
+import market.interfaces.MarketClerk;
+import market.interfaces.MarketCustomer;
 import market.interfaces.MarketManager;
 
 /**
@@ -51,7 +53,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	 * Messages
 	 */
 
-    public void msgWantClerk(MarketCustomerRole customer, int id)
+    public void msgWantClerk(MarketCustomer customer, int id)
     {
         synchronized(clerks)
         {
@@ -59,7 +61,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	        {
 	            if (c.state == ClerkState.Idle)
 	            {
-	                customers.add(new MyCustomer(customer, id, c.clerk));    
+	                customers.add(new MyCustomer((MarketCustomerRole)customer, id, c.clerk));    
 	                c.state = ClerkState.Busy;
 	                stateChanged();
 	                return;
@@ -67,7 +69,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	        }
         }
         // else
-        customers.add(new MyCustomer(customer, id, null));
+        customers.add(new MyCustomer((MarketCustomerRole)customer, id, null));
         stateChanged();
     }
 	
@@ -80,7 +82,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         stateChanged();
 	}
 	
-	public void msgFulfillOrder(MarketClerkRole clerk, int id, String choice, int amount)
+	public void msgFulfillOrder(MarketClerk clerk, int id, String choice, int amount)
     {
         Order o = new Order(id, choice, amount, OrderType.Customer);
         o.state = OrderState.Pending;
@@ -115,7 +117,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         stateChanged();
     }
 	
-    public void msgHereIsTheMoney(MarketClerkRole clerk, int id, Money amount)
+    public void msgHereIsTheMoney(MarketClerk clerk, int id, Money amount)
     {
         money.add(amount);
         synchronized(orders)
@@ -151,7 +153,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         stateChanged();
     }
 
-    public void msgIAmFree(MarketClerkRole marketClerkRole)
+    public void msgIAmFree(MarketClerk marketClerkRole)
     {
         synchronized(clerks)
         {
@@ -181,7 +183,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 	    // if money > MAX_AMOUNT
 	    

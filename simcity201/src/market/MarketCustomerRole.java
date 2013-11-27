@@ -97,7 +97,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 	    if (destination != null)
         {
 	        if (state == AgentState.GoToCounter)

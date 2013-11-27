@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import market.MarketDeliveryPersonRole;
+import exterior.gui.CarGui;
+import exterior.gui.Gui;
 import exterior.gui.PersonGui;
 import restaurant.*;
 import SimCity.Base.God.BuildingType;
@@ -41,7 +43,7 @@ public class Person extends Agent {
 	public enum Vehicle {car, delivery, walk, bus};
 	public Vehicle vehicle = Vehicle.walk;
 	
-	public PersonGui gui;
+	public Gui gui;
 	public Semaphore animation = new Semaphore(0, true);
 	
 	public ArrayList<Role> roles = new ArrayList<Role>();
@@ -147,7 +149,7 @@ public class Person extends Agent {
 		public Intent getIntent(){return intent;}
 		
 	//USE THIS CONSTRUCTOR.
-	public Person(String name, PersonGui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace){
+	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace){
 		this.gui = gui;
 		setMainRole(mainRole);
 		mainRoleString = mainRole;
@@ -472,7 +474,11 @@ public class Person extends Agent {
 		
 		//Call person gui animation. acquire my semaphore.
 		System.out.println("Going from :" + building.getTag() + " to " + b.getTag() + ".");
-		gui.DoTravel(building.id, b.id);
+		if (gui instanceof PersonGui) {
+			((PersonGui) gui).DoTravel(building.id, b.id);
+		} else if (gui instanceof CarGui) {
+			((CarGui) gui).DoTravel(building.id, b.id);
+		}
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
