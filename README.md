@@ -57,8 +57,10 @@ SimCity201 Project Repository for CS 201 students
 ###What's Working
 ####SimCity Roles
 + Comments go here
+
 ####SimCity Guis
 + Comments go here
+
 ####SimCity Person Interaction
 + Comments go here
 
@@ -70,5 +72,6 @@ SimCity201 Project Repository for CS 201 students
 ###What's Missing/left for V2
 ####SimCity Roles
 + Comments go here
+
 ####SimCity Interactions
 + Comments go here
