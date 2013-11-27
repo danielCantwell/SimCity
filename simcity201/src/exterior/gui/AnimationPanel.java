@@ -277,7 +277,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 p.startThread();
 	   	 
 	   	 //test market
-	   	 p.testMarket();
+	   	 //p.testMarket();
 	   	 
 	   	 return p;
     }

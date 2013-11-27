@@ -61,6 +61,8 @@ public class Person extends Agent {
 								working,
 								msgWorkOver,
 								workOver,
+								msgGoHome,
+								goingHome,
 								msgGoToSleep,
 								sleeping;
 							};
@@ -104,6 +106,7 @@ public class Person extends Agent {
 	private int accNum;
 
 		//Getters and setters
+		public TimeState getTimeState(){return timeState;}
 		public void setHouse(B_House house){myHouse = house;}
 		public B_House getHouse(){return myHouse;} 
 		public int getHungerLevel(){return hungerLevel;}
@@ -264,9 +267,11 @@ public class Person extends Agent {
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see SimCity.Base.PersonInterface#msgMorning()
-	 */
+	public void msgGoHome(){
+		timeState = TimeState.msgGoHome;
+		stateChanged();
+	}
+	
 	public void msgMorning(){
 		timeState = TimeState.msgMorning;
 		stateChanged();
@@ -274,9 +279,7 @@ public class Person extends Agent {
 	
 	//Scheduler
 	boolean returnPAEAA = false;
-	/* (non-Javadoc)
-	 * @see SimCity.Base.PersonInterface#pickAndExecuteAnAction()
-	 */
+
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		
@@ -296,6 +299,11 @@ public class Person extends Agent {
 		//Work over must go before the active roles to override whatever active role is currently going.
 		if (timeState == TimeState.msgWorkOver){
 			workOver();
+			return false;
+		}
+		
+		if (timeState == TimeState.msgGoHome){
+			goHome();
 			return false;
 		}
 		
@@ -352,30 +360,39 @@ public class Person extends Agent {
 	
 	//Actions
 	private void workOver() {
+		timeState = TimeState.none;
 		for (Role r: roles){
 			if (r.getActive())
 				r.workOver();
-		}
+		}	
+	}
+	
+	private void goHome(){
 		timeState = TimeState.none;
+		//If go home is called, you should delete everything in your actions list for the day. We force the people to go
+		//home to go to sleep.
+		actions.clear();
+		msgGoToBuilding(myHouse, Intent.customer);
 	}
 	
 	private void isWorkTime(){
+		timeState = TimeState.working;
 		for (Role r: roles){
 			if (r.getActive()){
 				if (r instanceof TenantRole){
 					TenantRole tr = (TenantRole)r;
 					tr.msgGoToWork();
-					timeState = TimeState.none;
+					//timeState = TimeState.none;
 					return;
 				}
 			}
 		}
-		timeState = TimeState.none;
 		msgGoToBuilding(getWorkPlace(), Intent.work);
 		return;
 	}
 	
 	private void isMorning(){
+		timeState = TimeState.none;
 		for (Role r: roles){
 			if (r.getActive()){
 				if (r instanceof TenantRole){
@@ -386,12 +403,7 @@ public class Person extends Agent {
 				}
 			}
 		}
-		timeState = TimeState.none;
 	}
-	
-	/*private void goHome(){
-		timeState = TimeState.
-	}*/
 	
 	
 	private void goToSleep(){
@@ -412,8 +424,7 @@ public class Person extends Agent {
 	private void goTo(Action action){
 		Building b = null;
 		createVehicle();
-		System.out.println("goTo + " + action.toString());
-		System.out.println("##### getgoaction: " + action.getGoAction().toString() + " " + intent.toString());
+		//System.out.println("goTo + " + action.toString());
 		
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
@@ -506,7 +517,7 @@ public class Person extends Agent {
 	}
 	
 	Timer hungerTimer;
-	int hungerOffset = 3000;
+	int hungerOffset = 6000;
 	boolean hasActiveRole = false;
 	void setUpHungerTimer(){
 		 hungerTimer = new Timer(hungerOffset, new ActionListener() {
