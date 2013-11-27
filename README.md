@@ -54,7 +54,7 @@ SimCity201 Project Repository for CS 201 students
 
 ###What's Working
 ####SimCity Roles
-+ Comments go here
++ the roles themselves are functioning, they can interact with other roles, send messages and do actions properly.
 
 ####SimCity Guis
 + Comments go here
@@ -63,9 +63,11 @@ SimCity201 Project Repository for CS 201 students
 + Comments go here
 
 ###How To Run It
-####Press CNTL-N
-1. This will spawn a person and will do the following actions.
-
+1.Keyboard Shortcuts to spawn people
+  * CNTL - N : Spawns a bank customer
+  * CNTL - M : Spawns a bank Manager
+  * CNTL - T : Spawns a bank Teller
+  * CNTL - G : Spawns a bank Guard
 
 ###What's Missing/left for V2
 ####SimCity Roles
