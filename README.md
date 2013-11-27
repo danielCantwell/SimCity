@@ -35,7 +35,6 @@ SimCity201 Project Repository for CS 201 students
  + Integrated buildings being closed if not enough employees.
  + Put a restaurant in the city. It doesn't actually work.
  + Keybinds for spawning manager and bank customer.
- + 
 
 ####Tim So
 + Market Roles and Guis
@@ -88,10 +87,13 @@ SimCity201 Project Repository for CS 201 students
 
 ###What's Missing/left for V2
 ####SimCity Roles
-+ Comments go here
++ All Restaurants need to be integrated and have working functionality.
 
 ####SimCity Interactions
-+ Comments go here
++ Integrate buildings with outer city.
++ Make sure that people can walk in and out of buildings without trouble.
++ Market Restaurant interaction.
++ Bank is in the simulation, however it broke when trying to integrating. We are working to fix this bug.
 
 ####SimCity GUI
 + Buses and bus stops
