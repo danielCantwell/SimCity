@@ -426,7 +426,7 @@ public class Person extends Agent {
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
 			//Choose a bank to go.
-			b = God.Get().findBuildingOfType(BuildingType.Bank);
+			b = God.Get().getBuilding(2);
 			Do("Going to bank");
 		}else
 		if (action.getGoAction() == GoAction.goHome){

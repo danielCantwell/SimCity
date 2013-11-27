@@ -7,6 +7,7 @@ import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import Bank.interfaces.Teller;
 import SimCity.Base.*;
+import SimCity.Buildings.B_Bank;
 /**
  * Manager Role
  * @author Eric
@@ -22,6 +23,8 @@ public class bankManagerRole extends Role implements  Manager{
 	@Override
 	public void setGuard(Guard bg){
 		guard = bg;
+		B_Bank bank = (B_Bank)myPerson.building;
+		//bank.setBankGuard();
 		myPerson.building.setOpen(myPerson.building.areAllNeededRolesFilled());
 	}
 	
@@ -84,6 +87,8 @@ public class bankManagerRole extends Role implements  Manager{
 	@Override
 	protected void enterBuilding() {
 		System.out.println("I am a bank manager");
+		B_Bank bank = (B_Bank)myPerson.building;
+		bank.setBankManager(this);
 		stateChanged();
 	}
 

@@ -1,9 +1,10 @@
-package restaurant.interfaces;
+package brianRest.interfaces;
 
+import brianRest.BrianMenu;
 import restaurant.Menu;
 import restaurant.gui.CustomerGui;
 
-public interface Customer {
+public interface BrianCustomer {
 
 	public abstract void msgIsHungry();
 
@@ -27,6 +28,10 @@ public interface Customer {
 
 	public abstract void DoGoToDeadLocation();
 
-	public abstract CustomerGui getGui();
+	public abstract brianRest.gui.CustomerGui getGui();
+
+	void msgFollowMe(BrianMenu m);
+
+	void msgOutOfFood(BrianMenu m);
 
 }

@@ -163,4 +163,9 @@ public class PersonGui implements Gui {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
+
+	@Override
+	public String getType() {
+		return "Person";
+	}
 }

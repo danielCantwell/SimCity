@@ -10,4 +10,5 @@ public interface Gui {
     public int getY();
     public int getRotation();
     public boolean SHOW_RECT = false;
+    public String getType();
 }

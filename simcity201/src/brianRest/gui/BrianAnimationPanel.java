@@ -1,9 +1,9 @@
-package restaurant.gui;
+package brianRest.gui;
 
 import javax.swing.*;
 
-import restaurant.HostAgent;
-import restaurant.interfaces.Host;
+import brianRest.interfaces.BrianHost;
+import SimCity.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class BrianAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 600;
     private final int WINDOWY = 450;
@@ -40,12 +40,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public Timer timer;
     private List<Gui> guis = new ArrayList<Gui>();
     
-    private Host host;
-    public void setHost(Host host){
+    private BrianHost host;
+    public void setHost(BrianHost host){
     	this.host = host;
     }
 
-    public AnimationPanel() {
+    public BrianAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
  
@@ -97,12 +97,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.black);
         g2.drawString("Grills", KitchenAreaX-10, KitchenAreaY + 75);
         
-        if (host instanceof JesseHost)
-        for (restaurant.Table t : ((JesseHost) host).getTables()){
+        if (host instanceof BrianHost)
+        //for (table t : ((BrianHost) host).getTables()){
         	//Here is the table
             g2.setColor(Color.ORANGE);
-            g2.fillRect(t.getPosX(), t.getPosY(), TABLEWIDTH, TABLEHEIGHT);//200 and 250 need to be table params
-        }
+           // g2.fillRect(t.getPosX(), t.getPosY(), TABLEWIDTH, TABLEHEIGHT);//200 and 250 need to be table params
+        //}
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -118,13 +118,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
 
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+       // guis.add(gui);
     }
 
     public void addGui(WaiterGui gui) {
-        guis.add(gui);
+       // guis.add(gui);
     }
     public void addGui(CookGui gui) {
-        guis.add(gui);
+       // guis.add(gui);
     }
 }

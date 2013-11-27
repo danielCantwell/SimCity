@@ -7,7 +7,7 @@ public class CarGui implements Gui {
 
 	private int xPos, yPos, rotation;
 	private int xDestination, yDestination, iDestination;
-    private final int SPRITE_SIZE = 20;
+    private final int SPRITE_SIZE = 64;
 	private enum Command {noCommand, seekX, seekY, seekDest};
 	private Command command = Command.noCommand;
 	private boolean isPresent = false;
@@ -26,15 +26,22 @@ public class CarGui implements Gui {
 	}
 
 	public void updatePosition() {
-		if (xPos < xDestination)
-			xPos++;
-		else if (xPos > xDestination)
-			xPos--;
-
-		if (yPos < yDestination)
-			yPos++;
-		else if (yPos > yDestination)
-			yPos--;
+		if (xPos < xDestination) {
+			xPos+=4;
+			rotation = 0;
+		}
+		else if (xPos > xDestination) {
+			xPos-=4;
+			rotation = 2;
+		}
+		if (yPos < yDestination) {
+			yPos+=4;
+			rotation = 1;
+		}
+		else if (yPos > yDestination) {
+			yPos-=4;
+			rotation = 3;
+		}
 
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command == Command.seekDest) {
@@ -55,7 +62,11 @@ public class CarGui implements Gui {
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.RED);
-		g.fillRect(xPos, yPos, SPRITE_SIZE, SPRITE_SIZE);
+		if (rotation == 0 || rotation == 2) {
+			g.fillRect(xPos, yPos + 12, SPRITE_SIZE, SPRITE_SIZE - 24);
+		} else {
+			g.fillRect(xPos + 12, yPos, SPRITE_SIZE - 24, SPRITE_SIZE);
+		}
 	}
 	
     public boolean isPresent() {
@@ -81,29 +92,29 @@ public class CarGui implements Gui {
     }
     
     public int getBuildingX(int position) {
-    	int target = ((position % 4) * 7 + 4)*32 + 6;
-    	if (yPos < target) { target += 32; }
+    	int target = ((position % 4) * 7 + 4)*64;
+    	if (yPos < target) { target += 64; }
     	return target;
     }
     
     public int getBuildingY(int position) {
-    	int target = ((position / 4) * 7 + 7)*32 + 6;
-    	if (xPos < target) { target += 32; }
+    	int target = ((position / 4) * 7 + 7)*64;
+    	if (xPos < target) { target += 64; }
     	return target;
     }
     
     public int getNearestCornerX(int position) {
     	if (xPos > getBuildingX(position)) {
     		if (yPos < getBuildingY(position)) {
-    			return ((position % 4) * 7 + 4 + 3)*32 + 6;
+    			return ((position % 4) * 7 + 4 + 3)*64;
     		} else {
-    			return ((position % 4) * 7 + 4 + 4)*32 + 6;
+    			return ((position % 4) * 7 + 4 + 4)*64;
     		}
     	} else {
     		if (yPos < getBuildingY(position)) {
-    			return ((position % 4) * 7 + 4 - 4)*32 + 6;
+    			return ((position % 4) * 7 + 4 - 4)*64;
     		} else {
-    			return ((position % 4) * 7 + 4 - 3)*32 + 6;
+    			return ((position % 4) * 7 + 4 - 3)*64;
     		}
     	}
     }
@@ -121,5 +132,10 @@ public class CarGui implements Gui {
 	@Override
 	public int getRotation() {
 		return 0;
+	}
+
+	@Override
+	public String getType() {
+		return "Car";
 	}
 }

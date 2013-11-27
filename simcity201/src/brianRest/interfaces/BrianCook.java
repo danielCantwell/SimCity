@@ -1,10 +1,10 @@
-package restaurant.interfaces;
+package brianRest.interfaces;
 
 
-public interface Cook {
+public interface BrianCook {
 
 	//########## Messages  ###############
-	public abstract void msgHeresAnOrder(String o, Waiter w,
+	public abstract void msgHeresAnOrder(String o, BrianWaiter w,
 			int tableNumber);
 
 	public abstract void msgFillOrder(String choice, int amount, boolean filled);

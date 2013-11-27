@@ -1,13 +1,15 @@
-package restaurant;
+package brianRest;
 
+import SimCity.Base.Role;
 import agent.Agent;
+import brianRest.interfaces.BrianCustomer;
+import brianRest.interfaces.BrianHost;
+import brianRest.interfaces.BrianWaiter;
 
 import java.util.*;
 
-import restaurant.WaiterAgent.MyCustomerState;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
+
 
 /**
  * Restaurant Host Agent
@@ -16,7 +18,7 @@ import restaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostAgent extends Agent implements Host {
+public class BrianHostRole extends Role implements BrianHost {
 	
 	private final int WINDOWX = 450;
 	private final int WINDOWY = 350;
@@ -30,7 +32,7 @@ public class HostAgent extends Agent implements Host {
 	//List of waiters
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
-	public Collection<Table> tables;
+	public Collection<BrianTable> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 
@@ -39,14 +41,14 @@ public class HostAgent extends Agent implements Host {
 	private enum MyWaiterState {none, wantBreak, allowedBreak, onBreak};
 	int workingWaiters = 0;
 
-	public HostAgent(String name) {
+	public BrianHostRole(String name) {
 		super();
 
 		this.name = name;
 		// make some tables
-		tables = new ArrayList<Table>(NTABLES);
+		tables = new ArrayList<BrianTable>(NTABLES);
 		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new Table(ix, WINDOWX/NTABLES * ix, 9*WINDOWY/10)); // animation for later
+			tables.add(new BrianTable(ix, WINDOWX/NTABLES * ix, 9*WINDOWY/10)); // animation for later
 		}
 	}
 
@@ -58,7 +60,7 @@ public class HostAgent extends Agent implements Host {
 	
 	//Waiter wants a break.
 	@Override
-	public void msgWaiterWantsABreak(Waiter waiter){
+	public void msgWaiterWantsABreak(BrianWaiter waiter){
 		synchronized (waiters){
 			for(MyWaiter w: waiters){
 				if (w.waiter == waiter){
@@ -71,7 +73,7 @@ public class HostAgent extends Agent implements Host {
 	}
 	
 	@Override
-	public void msgWaiterOffBreak(Waiter waiter){
+	public void msgWaiterOffBreak(BrianWaiter waiter){
 		synchronized (waiters){
 			for(MyWaiter w: waiters){
 				if (w.waiter == waiter){
@@ -85,19 +87,19 @@ public class HostAgent extends Agent implements Host {
 	}
 
 	@Override
-	public void msgIWantToEat(Customer c){
+	public void msgIWantToEat(BrianCustomer c){
 			waitingCustomers.add(new WaitingCustomer(c));
 		stateChanged();
 	}
 	
 	@Override
-	public void msgTableIsClear(Table t){
+	public void msgTableIsClear(BrianTable t){
 		t.occupiedBy = null;
 		stateChanged();
 	}
 	
 	@Override
-	public void msgLeavingEarly(Customer c){
+	public void msgLeavingEarly(BrianCustomer c){
 		synchronized (waitingCustomers){
 			for (WaitingCustomer wc: waitingCustomers){
 				if (wc.customer == c){
@@ -127,7 +129,7 @@ public class HostAgent extends Agent implements Host {
 				}
 				
 				if (waiters.size() > 0){
-					for (Table t : tables){
+					for (BrianTable t : tables){
 						if (t.occupiedBy == null){
 							synchronized (waiters){
 								MyWaiter w = findWaiterWithLowestCust();
@@ -174,23 +176,23 @@ public class HostAgent extends Agent implements Host {
 	}
 
 // ######################   Actions  ##################
-	private void notifyWaiter(Table t, MyWaiter w){
-		  Do("is notifying waiter "+ w.waiter.name);
+	private void notifyWaiter(BrianTable t, MyWaiter w){
+		  //Do("is notifying waiter "+ w.waiter.name);
 		   w.numberOfCustomers++;
 		   WaitingCustomer c = waitingCustomers.remove(0);
-		   w.waiter.msgSeatAtTable(c.customer, t);
+		  // w.waiter.msgSeatAtTable(c.customer, t);
 		}
 
 	private void WaiterOnBreak(MyWaiter w){
-		Do("Allowed "+ w.waiter.name + " to go on break.");
+		//Do("Allowed "+ w.waiter.name + " to go on break.");
 		w.state = MyWaiterState.onBreak;
-		w.waiter.msgCanGoOnBreak();
+		//w.waiter.msgCanGoOnBreak();
 	}
 	
 	private void notifyCustomerFullHouse(WaitingCustomer c){
 		Do("Notifying customer Restaurant full.");
 		c.state = WaitingCustomerState.full;
-		c.customer.msgFullHouse();
+		//c.customer.msgFullHouse();
 		
 	}
 
@@ -235,22 +237,22 @@ public class HostAgent extends Agent implements Host {
 		}
 	}
 	
-	public void addWaiter(JesseWaiter w){
+	public void addWaiter(BrianWaiter w){
 		waiters.add(new MyWaiter(w));
 		workingWaiters++;
 		stateChanged();
 	}
 	
-	public Collection<Table> getTables(){
+	public Collection<BrianTable> getTables(){
 		return tables;
 	}
 	
 	private class WaitingCustomer{
 		WaitingCustomerState state = WaitingCustomerState.none;
-		Customer customer;
+		BrianCustomer customer;
 		int customerNumber = -1;
 		
-		public WaitingCustomer(Customer c){
+		public WaitingCustomer(BrianCustomer c){
 			customer = c;
 		}
 		
@@ -266,13 +268,39 @@ public class HostAgent extends Agent implements Host {
 	
 	private class MyWaiter {
 		MyWaiterState state = MyWaiterState.none;
-		JesseWaiter waiter;
+		BrianWaiter waiter;
 		int numberOfCustomers;
 		
-		public MyWaiter(JesseWaiter w){
+		public MyWaiter(BrianWaiter w){
 			waiter = w;
 			numberOfCustomers = 0;
 		}
+	}
+
+
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgWaiterWantsABreak(Waiter waiter) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgWaiterOffBreak(Waiter waiter) {
+		// TODO Auto-generated method stub
+		
 	};
 
 }
