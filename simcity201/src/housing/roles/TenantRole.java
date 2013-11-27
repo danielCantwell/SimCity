@@ -254,7 +254,7 @@ public class TenantRole extends Role implements Tenant {
 		setActive(false);
 	}
 
-	private void useAppliance(String type) {
+	public void useAppliance(String type) {
 		for (Appliance a : appliances) {
 			if (a.type == type) {
 				System.out.println("Tenant is using appliance: " + type);
