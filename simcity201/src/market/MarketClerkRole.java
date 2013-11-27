@@ -11,6 +11,9 @@ import SimCity.Globals.Money;
 import market.MarketCustomerRole.Order;
 import market.gui.MarketClerkGui;
 import market.interfaces.MarketClerk;
+import market.interfaces.MarketCustomer;
+import market.interfaces.MarketManager;
+import market.test.mock.MockMarketManager;
 
 /**
  * Market Manager Agent
@@ -30,8 +33,8 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	 * Data
 	 */
 	
-    public MarketManagerRole manager;
-    public MarketCustomerRole customer;
+    public MarketManager manager;
+    public MarketCustomer customer;
     public boolean orderTaken = false;
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     
@@ -45,7 +48,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	 * Messages
 	 */
 	
-	public void msgTakeOrder(MarketCustomerRole customer)
+	public void msgTakeOrder(MarketCustomer customer)
 	{
 	    this.customer = customer;
 	    orderTaken = false;
@@ -103,7 +106,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 	    if (money.isGreaterThan(new Money(MAX_DOLLARS, MAX_CENTS)))
 	    {
@@ -196,7 +199,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	    }
 	    if (customer != null)
 	    {
-	        customer.msgHereIsYourFood(order.choice, order.amount, manager.getPriceOf(order.choice));
+	        customer.msgHereIsYourFood(order.choice, order.amount, ((MarketManagerRole) manager).getPriceOf(order.choice));
 	        order.state = OrderState.Payment;
 	    }
 	}
@@ -237,9 +240,9 @@ public class MarketClerkRole extends Role implements MarketClerk {
         super.setPerson(person);
     }
     
-    public void setManager(MarketManagerRole manager)
+    public void setManager(MarketManager mainRole)
     {
-        this.manager = manager;
+        this.manager = mainRole;
     }
 
     /**
@@ -253,7 +256,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 		int id;
 	    String choice;
 	    int amount;
-	    OrderState state;
+	    public OrderState state;
 	    
 	    Order(int id, String choice, int amount)
 	    {
