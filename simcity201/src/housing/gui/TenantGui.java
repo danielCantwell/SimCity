@@ -17,30 +17,30 @@ import SimCity.gui.Gui;
 public class TenantGui implements Gui {
 	
 	private TenantRole tenant = null;
-	private boolean isPresent = false;
+	private boolean isPresent = true;
 	
 	private int xSize,	ySize;
 	
 	private int xPos,	yPos;
 	private int xDest,	yDest;
 	
-	private final int xBed  	= 60;
-	private final int yBed		= 110;
+	private final int xBed  	= 40;
+	private final int yBed		= 40;
 	
 	private final int xDoor 	= 600;
 	private final int yDoor 	= 315;
 	
-	private final int xFridge	= 130;
-	private final int yFridge	= 380;
+	private final int xFridge	= 30;
+	private final int yFridge	= 600;
 	
 	private final int xStove	= 340;
-	private final int yStove	= 580;
+	private final int yStove	= 550;
 	
-	private final int xTable	= 210;
-	private final int yTable	= 190;
+	private final int xTable	= 220;
+	private final int yTable	= 320;
 	
 	private final int xMail		= 580;
-	private final int yMail		= 55;
+	private final int yMail		= 160;
 	
 	private enum Dest { None, Bed, Table, Fridge, Stove, Mail, Door };
 	private Dest destination = Dest.None;
@@ -103,7 +103,6 @@ public class TenantGui implements Gui {
 
 	@Override
 	public boolean isPresent() {
-		// TODO Auto-generated method stub
 		return isPresent;
 	}
 	public void setPresent( boolean value){

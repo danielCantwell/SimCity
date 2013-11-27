@@ -3,13 +3,10 @@
  */
 package housing.test.mock;
 
-import exterior.gui.PersonGui;
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import SimCity.Base.Person;
-import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
-import SimCity.gui.Gui;
 
 /**
  * @author Daniel
