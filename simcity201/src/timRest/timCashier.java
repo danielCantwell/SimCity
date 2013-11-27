@@ -1,4 +1,4 @@
-package restaurant;
+package timRest;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Market;
-import restaurant.interfaces.Waiter;
+import timRest.interfaces.TimCashier;
+import timRest.interfaces.TimCustomer;
+import timRest.interfaces.TimWaiter;
+import SimCity.Base.Role;
 import agent.Agent;
 
-public class CashierAgent extends Agent implements Cashier{
+public class timCashier extends Role implements TimCashier{
 	
 	String name;
 	
@@ -30,14 +31,14 @@ public class CashierAgent extends Agent implements Cashier{
 	
 	public enum CheckState { pending, calculating, ready }
 	
-	public CashierAgent(String name)
+	public timCashier(String name)
 	{
 		super();
 		this.name = name;
 		cashInRegister = 0.0d;
 	}
 	
-	public void msgHereIsACheck(Waiter waiter, String choice, int tableNumber)
+	public void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber)
 	{
 		Check check = new Check(waiter, choice, tableNumber);
 		checks.add(check);
@@ -76,11 +77,11 @@ public class CashierAgent extends Agent implements Cashier{
 		stateChanged();
 	}
 	
-	public void msgHereIsTheBill(Market market, double price)
-	{
-		billsToPay.add(new Bill(market, price));
-		stateChanged();
-	}
+//	public void msgHereIsTheBill(Market market, double price)
+//	{
+//		billsToPay.add(new Bill(market, price));
+//		stateChanged();
+//	}
 	
 	@Override
 	public boolean pickAndExecuteAnAction()
@@ -93,7 +94,7 @@ public class CashierAgent extends Agent implements Cashier{
 				{
 					if (bill.price <= cashInRegister)
 					{
-						payMarket(bill);
+						//payMarket(bill);
 						billsToPay.remove(bill);
 						return true;
 					}
@@ -155,12 +156,12 @@ public class CashierAgent extends Agent implements Cashier{
 		checks.remove(check);
 	}
 	
-	private void payMarket(Bill bill)
-	{
-		Do("Paying $" + bill.price + " to " + bill.market.getName() + ".");
-		bill.market.msgHereIsPayment(bill.price);
-		cashInRegister -= bill.price;
-	}
+//	private void payMarket(Bill bill)
+//	{
+//		Do("Paying $" + bill.price + " to " + bill.market.getName() + ".");
+//		bill.market.msgHereIsPayment(bill.price);
+//		cashInRegister -= bill.price;
+//	}
 	
 	public void addItemToMenu(String choice, double price)
 	{
@@ -181,10 +182,10 @@ public class CashierAgent extends Agent implements Cashier{
 	{
 		public String choice;
 		public int tableNumber;
-		public Waiter waiter;
+		public TimWaiter waiter;
 		public CheckState state;
 		
-		public Check(Waiter waiter, String choice, int tableNumber)
+		public Check(TimWaiter waiter, String choice, int tableNumber)
 		{
 			this.waiter = waiter;
 			this.choice = choice;
@@ -195,15 +196,31 @@ public class CashierAgent extends Agent implements Cashier{
 	
 	public class Bill
 	{
-		public Market market;
+		//public Market market;
 		public double price;
 		public boolean interest;
 		
-		public Bill(Market market, double price)
-		{
-			this.market = market;
-			this.price = price;
-			interest = false;
-		}
+//		public Bill(Market market, double price)
+//		{
+//			this.market = market;
+//			this.price = price;
+//			interest = false;
+//		}
 	}
+	public void print(String string) {
+		System.out.println(string);
+	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,8 +1,8 @@
-package restaurant.gui;
+package timRest.gui;
 
 import java.awt.*;
 
-public interface Gui {
+public interface TimGui {
 
     public void updatePosition();
     public void draw(Graphics2D g);
