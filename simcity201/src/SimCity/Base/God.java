@@ -9,6 +9,11 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import restaurant.DannyCashier;
+import restaurant.DannyCook;
+import restaurant.DannyHost;
+import restaurant.DannyWaiter;
+import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
@@ -119,6 +124,10 @@ public class God {
 						   wakeUp();
 					   }
 					   
+					   if (hour == 7 && !announcedTime){
+						   restaurantPeopleGoWork();
+					   }
+					   
 					   if (hour == 8 && !announcedTime){
 						   goToWork();
 					   }
@@ -127,7 +136,11 @@ public class God {
 						   getOffWork();
 					   }
 					   
-					   if (hour==22 && !announcedTime){
+					   if (hour == 21 && !announcedTime){
+						   goHome();
+	        			}
+					   
+					   if (hour==23 && !announcedTime){
 						   goToSleep();
 					   }
 					   
@@ -176,6 +189,14 @@ public class God {
 	    	}
 	    }
 	    
+	    public void goHome(){
+	    	announcedTime = true;
+	    	System.out.println("EVERYONE GO HOME");
+	    	for(Person p: persons){
+	    		p.msgGoHome();
+	    	}
+	    }
+	    
 	    public void goToSleep(){
 	    	announcedTime = true;
 	    	System.out.println("go to sleep now.");
@@ -188,7 +209,18 @@ public class God {
 	    	announcedTime = true;
 	    	System.out.println("go to work now!");
 	    	for (Person p: persons){
+	    		if(p.getTimeState() != TimeState.working)
 	    		p.msgGoToWork();
+	    	}
+	    }
+	    
+	    public void restaurantPeopleGoWork(){
+	    	announcedTime = false;
+	    	System.out.println("Restaurant Work Time");
+	    	for(Person p: persons){
+	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
+	    			p.msgGoToWork();
+	    		}
 	    	}
 	    }
 	    
