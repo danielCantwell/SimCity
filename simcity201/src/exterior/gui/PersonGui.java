@@ -89,60 +89,48 @@ public class PersonGui implements Gui {
     	return ((position / CITY_SIZE) * 7) + 6;
     }
 
-    void guiMoveFromCurrentPositionTo(Position to){
-    	if (command != Command.traveling) {
-    		
-    	/*
-		Semaphore[][] grid = aStar.getGrid();
-        for (int y = 0; y < 30; y++) {
-            for (int x = 0; x < 30; x++) {
-            	System.out.print(grid[x][y].availablePermits() + " ");
-            }
-            	System.out.println("");
-            }
-        System.out.println("====");
-        */
-         
-        AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
-        List<Position> path = aStarNode.getPath();
-        boolean firstStep = true;
-        boolean gotPermit = true;
-
-        for (Position tmpPath : path) {
-            if (firstStep) {
-                firstStep = false;
-                continue;
-            }
-            
-            //Try and get lock for the next step.
-            int attempts = 1;
-            gotPermit = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
-            
-            //Did not get lock. Lets make n attempts.
-            while (!gotPermit && attempts < 3) {
-                try { Thread.sleep(1000); }
-                catch (Exception e){}
-
-                gotPermit = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
-                attempts ++;     
-            }
-
-            //Did not get lock after trying n attempts. So recalculating path.            
-            if (!gotPermit) {
-                guiMoveFromCurrentPositionTo(to);
-                break;
-            }
-
-            //Got the required lock. Lets move.
-            currentPosition.release(aStar.getGrid());
-            currentPosition = new Position(tmpPath.getX(), tmpPath.getY());
-            //System.out.println("new pos: " + currentPosition.getX() + " " + currentPosition.getY());
-            xDestination = currentPosition.getX() * SPRITE_SIZE;
-            yDestination = currentPosition.getY() * SPRITE_SIZE;
-            command = Command.traveling;
-            break;
-        }
-    }
+    void guiMoveFromCurrentPositionTo(Position to) {
+    	if (command != Command.traveling) {  
+	        AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);
+	        List<Position> path = aStarNode.getPath();
+	        boolean firstStep = true;
+	        boolean gotPermit = true;
+	
+	        for (Position tmpPath : path) {
+	            if (firstStep) {
+	                firstStep = false;
+	                continue;
+	            }
+	            
+	            //Try and get lock for the next step.
+	            int attempts = 1;
+	            gotPermit = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
+	            
+	            //Did not get lock. Lets make n attempts.
+	            while (!gotPermit && attempts < 3) {
+	                try { Thread.sleep(1000); }
+	                catch (Exception e){}
+	
+	                gotPermit = new Position(tmpPath.getX(), tmpPath.getY()).moveInto(aStar.getGrid());
+	                attempts ++;     
+	            }
+	
+	            //Did not get lock after trying n attempts. So recalculating path.            
+	            if (!gotPermit) {
+	                guiMoveFromCurrentPositionTo(to);
+	                break;
+	            }
+	
+	            //Got the required lock. Lets move.
+	            currentPosition.release(aStar.getGrid());
+	            currentPosition = new Position(tmpPath.getX(), tmpPath.getY());
+	            //System.out.println("new pos: " + currentPosition.getX() + " " + currentPosition.getY());
+	            xDestination = currentPosition.getX() * SPRITE_SIZE;
+	            yDestination = currentPosition.getY() * SPRITE_SIZE;
+	            command = Command.traveling;
+	            break;
+	        }
+	    }
     }
 
 	@Override

@@ -38,7 +38,7 @@ public class Position {
     }
     public boolean moveInto(Semaphore[][] grid){
 	//System.out.println("moveInto"+this+ " permits="+grid[x][y].availablePermits());
-	return true; //grid[x][y].tryAcquire();
+	return true;
     }
     public void release(Semaphore[][] grid){
     	if (grid[x][y].availablePermits() == 0) {

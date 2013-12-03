@@ -14,15 +14,11 @@ public class CarGui implements Gui {
 	private Command command = Command.noCommand;
 	private boolean isPresent = false;
 	private Person person;
+	private int myID; 
 	
-	public CarGui(SimCityGui gui) {
-		//agent = c;
-		xPos = -20;
-		yPos = -20;
-		xDestination = -20;
-		yDestination = -20;
+	public CarGui(SimCityGui gui, int id) {
 		this.gui = gui;
-		
+		myID = id;
 		int random = (int)(Math.random() * 8);
 		int random2 = (int)(Math.random() * 8) + 8;
 		DoTravel(random, random2);
@@ -30,31 +26,63 @@ public class CarGui implements Gui {
 
 	public void updatePosition() {
 		if (xPos < xDestination) {
-			xPos+=4;
-			rotation = 0;
+			if ((int) Math.floor(xPos/64) + 1 >= 29) {
+				xPos+=4;
+				rotation = 0;
+			}
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 0) {
+				xPos+=4;
+				rotation = 0;
+			}
 		}
-		else if (xPos > xDestination) {
-			xPos-=4;
-			rotation = 2;
+		if (xPos > xDestination) {
+			if ((int) Math.floor(xPos/64) - 1 <= 0) {
+				xPos-=4;
+				rotation = 2;
+			}
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 0) {
+				xPos-=4;
+				rotation = 2;
+			}
 		}
 		if (yPos < yDestination) {
-			yPos+=4;
-			rotation = 1;
+			if ((int) Math.floor(yPos/64) + 1 >= 29) {
+				yPos+=4;
+				rotation = 1;
+			}
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 0) {
+				yPos+=4;
+				rotation = 1;
+			}
 		}
-		else if (yPos > yDestination) {
-			yPos-=4;
-			rotation = 3;
+		if (yPos > yDestination) {
+			if ((int) Math.floor(yPos/64) - 1 <= 0) {
+				yPos-=4;
+				rotation = 3;
+			}
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] == 0) {
+				yPos-=4;
+				rotation = 3;
+			}
 		}
 
+		gui.animationPanel.clearVGrid(myID);
+		gui.animationPanel.setVGrid((int) Math.floor(xPos/64), (int) Math.floor(yPos/64), myID);
+		
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command == Command.seekDest) {
 				command = Command.noCommand;
 				isPresent = false;
-				person.animation.release();
+				gui.animationPanel.clearVGrid(myID);
+				//person.animation.release();
 			} else if (command == Command.seekX) {
 				command = Command.seekY;
 				xDestination = xPos;
 				yDestination = getBuildingY(iDestination);
+				
+	    		if (xPos < getBuildingX(iDestination)) {
+	    			yDestination+=64;
+	    		}
 			} else if (command == Command.seekY) {
 				command = Command.seekDest;
 				xDestination = getBuildingX(iDestination);
@@ -79,6 +107,7 @@ public class CarGui implements Gui {
     public void DoTravel(int position, int destination) {
     	isPresent = true;
     	iDestination = destination;
+    	
     	xPos = getBuildingX(position);
     	yPos = getBuildingY(position);
     	
@@ -86,38 +115,53 @@ public class CarGui implements Gui {
     		command = Command.seekDest;
     		xDestination = getBuildingX(iDestination);
     		yDestination = yPos;
+    		
+    		if (xPos < xDestination) {
+    			yPos+=64;
+    			yDestination+=64;
+    		}
     	}
     	else {
     		command = Command.seekX;
     		xDestination = getNearestCornerX(iDestination);
     		yDestination = yPos;
+    		
+    		if (xPos < xDestination) {
+    			yPos+=64;
+    			yDestination+=64;
+    		}
     	}
     }
     
     public int getBuildingX(int position) {
-    	int target = ((position % 4) * 7 + 4)*64;
-    	if (yPos < target) { target += 64; }
-    	return target;
+    	return ((position % 4) * 7 + 4)*64;
     }
     
     public int getBuildingY(int position) {
-    	int target = ((position / 4) * 7 + 7)*64;
-    	if (xPos < target) { target += 64; }
-    	return target;
+    	return ((position / 4) * 7 + 7)*64;
     }
     
     public int getNearestCornerX(int position) {
+    	// Going left
     	if (xPos > getBuildingX(position)) {
-    		if (yPos < getBuildingY(position)) {
-    			return ((position % 4) * 7 + 4 + 3)*64;
+    		if (yPos > getBuildingY(iDestination)) {
+        		return ((position % 4) * 7 + 4 + 4)*64;
     		} else {
-    			return ((position % 4) * 7 + 4 + 4)*64;
+        		return ((position % 4) * 7 + 4 + 3)*64;
+    		}
+    	} else if (xPos < getBuildingX(position)){
+    		// Going right
+    		if (yPos > getBuildingY(iDestination)) {
+        		return ((position % 4) * 7 + 4 - 3)*64;
+    		} else {
+        		return ((position % 4) * 7 + 4 - 4)*64;
     		}
     	} else {
-    		if (yPos < getBuildingY(position)) {
-    			return ((position % 4) * 7 + 4 - 4)*64;
+    		// Equal X
+    		if (yPos > getBuildingY(iDestination)) {
+        		return ((position % 4) * 7 + 4 - 3)*64;
     		} else {
-    			return ((position % 4) * 7 + 4 - 3)*64;
+        		return ((position % 4) * 7 + 4 - 4)*64;
     		}
     	}
     }
