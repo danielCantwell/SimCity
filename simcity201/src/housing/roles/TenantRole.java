@@ -12,6 +12,7 @@ import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
 import housing.roles.OwnerRole.ApplianceState;
 import SimCity.Base.God;
+import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
@@ -31,6 +32,7 @@ public class TenantRole extends Role implements Tenant {
 	public Money rentOwed = new Money(0, 0);
 	public Owner owner;
 	public int tenantNumber;
+	public int foodCount = 4;
 
 	TenantGui gui = new TenantGui(this);
 
@@ -38,7 +40,12 @@ public class TenantRole extends Role implements Tenant {
 		msgSleep, sleeping, awake, work
 	};
 
+	public enum State {
+		none, needFood, needMoney, owesRent
+	};
+
 	public Time time = Time.awake;
+	public State state = State.none;
 
 	public List<Appliance> appliances = Collections
 			.synchronizedList(new ArrayList<Appliance>());
@@ -61,6 +68,7 @@ public class TenantRole extends Role implements Tenant {
 	public void msgPayRent(Money m) {
 		System.out.println("Tenant owes rent");
 		rentOwed = m;
+		state = State.owesRent;
 		stateChanged();
 	}
 
@@ -70,19 +78,22 @@ public class TenantRole extends Role implements Tenant {
 		stateChanged();
 	}
 
+	// MESSAGES from God
+
 	public void msgMorning() {
-		System.out.println("Tenant is waking up");
+		System.out.println("Tenant should be waking up");
 		time = Time.awake;
 		stateChanged();
 	}
 
 	public void msgGoToWork() {
+		System.out.println("Tenant should be going to work");
 		time = Time.work;
 		stateChanged();
 	}
 
 	public void msgSleeping() {
-		System.out.println("Tenant is going to sleep");
+		System.out.println("Tenant should be going to sleep");
 		time = Time.msgSleep;
 		stateChanged();
 	}
@@ -127,8 +138,19 @@ public class TenantRole extends Role implements Tenant {
 			return false;
 		}
 
-		if (!rentOwed.isZero()) {
+		if (state == State.owesRent) {
 			tryToPayRent();
+			return true;
+		}
+
+		if (state == State.needMoney && !God.Get().banksClosed
+				&& (God.Get().getHour() < 21)) {
+			goToBank();
+			return true;
+		}
+
+		if (state == State.needFood && (God.Get().getHour() < 21)) {
+			goToMarket();
 			return true;
 		}
 
@@ -163,6 +185,7 @@ public class TenantRole extends Role implements Tenant {
 
 	private void tryToPayRent() {
 		System.out.println("Tenant is trying to pay rent");
+		// go to the mailbox
 		gui.DoGoToMailbox();
 		try {
 			atMail.acquire();
@@ -170,59 +193,34 @@ public class TenantRole extends Role implements Tenant {
 			e.printStackTrace();
 		}
 		if (myPerson.getMoney().isGreaterThan(rentOwed)) {
+			// if the tenant has enough money, pay rent
 			myPerson.getMoney().subtract(rentOwed);
 			owner.msgHereIsRent(this, rentOwed);
 		} else {
+			// if the tenant does not have enough money
+			// tell the owner and change state to needMoney
 			owner.msgCannotPayRent(this);
+			state = State.needMoney;
+			stateChanged();
 		}
+	}
+
+	private void goToBank() {
+		System.out.println("Tenant is going to the bank");
+		DoGoToBank();
+	}
+
+	private void goToMarket() {
+		System.out.println("Tenant is going to the market");
+		DoGoToMarket();
 	}
 
 	private void getFood() {
 		System.out.println("Tenant is getting food");
-		// If the customer is hungry, does not owe rent, and has enough money
-		if (rentOwed.isZero()
-				&& myPerson.getMoney().isGreaterThan(
-						myPerson.getMoneyThreshold()) && God.Get().hour < 21) {
-			// Leave house to go to Restaurant
-			System.out.println("Tenant is going to a restaurant");
-			gui.DoLeaveHouse();
-			try {
-				atDoor.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			// God selects a random restaurant for Tenant to go to
-			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
-					Intent.customer);
-			
-			HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
-
-			myPanel.addGui(gui);
-			exitBuilding(myPerson);
+		if (tenantShouldEatOut()) {
+			DoGoToRestaurant();
 		} else {
-			System.out.println("Tenant is going to cook food");
-			gui.DoGoToFridge();
-			try {
-				atFridge.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			useAppliance("Fridge");
-			gui.DoGoToStove();
-			try {
-				atStove.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			useAppliance("Stove");
-			gui.DoGoToTable(tenantNumber);
-			try {
-				atTable.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			useAppliance("Table");
-			myPerson.setHungerLevel(10);
+			DoCookFood();
 		}
 	}
 
@@ -240,12 +238,7 @@ public class TenantRole extends Role implements Tenant {
 
 	private void goToWork() {
 		System.out.println("Tenant is going to work");
-		gui.DoLeaveHouse();
-		try {
-			atDoor.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		DoLeaveHouse();
 		myPerson.msgGoToBuilding(myPerson.getWorkPlace(), Intent.work);
 		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
 				.getPanel();
@@ -268,6 +261,89 @@ public class TenantRole extends Role implements Tenant {
 		}
 	}
 
+	// -----------------------------Other Functions-----------------------------
+
+	public boolean tenantShouldEatOut() {
+		return (rentOwed.isZero()
+				&& myPerson.getMoney().isGreaterThan(
+						myPerson.getMoneyThreshold()) && God.Get().hour < 21);
+	}
+
+	public void DoGoToRestaurant() {
+		// Leave house to go to Restaurant
+		System.out.println("Tenant is going to a restaurant");
+		DoLeaveHouse();
+		// God selects a random restaurant for Tenant to go to
+		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
+				Intent.customer);
+
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+				.getPanel();
+
+		myPanel.addGui(gui);
+		exitBuilding(myPerson);
+	}
+
+	public void DoCookFood() {
+		System.out.println("Tenant is going to cook food");
+		// Get food from fridge
+		gui.DoGoToFridge();
+		try {
+			atFridge.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		useAppliance("Fridge");
+		// Cook food on stove
+		gui.DoGoToStove();
+		try {
+			atStove.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		useAppliance("Stove");
+		// Eat food at table
+		gui.DoGoToTable(tenantNumber);
+		try {
+			atTable.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		useAppliance("Table");
+		// Reset hunger level
+		myPerson.setHungerLevel(10);
+	}
+
+	public void DoGoToBank() {
+		DoLeaveHouse();
+		myPerson.msgGoToBuilding(God.Get()
+				.findBuildingOfType(BuildingType.Bank), Intent.customer);
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+				.getPanel();
+		myPanel.addGui(gui);
+		exitBuilding(myPerson);
+	}
+
+	public void DoGoToMarket() {
+		DoLeaveHouse();
+		myPerson.msgGoToBuilding(
+				God.Get().findBuildingOfType(BuildingType.Market),
+				Intent.customer);
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+				.getPanel();
+		myPanel.addGui(gui);
+		exitBuilding(myPerson);
+	}
+
+	public void DoLeaveHouse() {
+		gui.DoLeaveHouse();
+		try {
+			atDoor.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TenantGui getGui() {
 		return gui;
 	}
@@ -285,11 +361,11 @@ public class TenantRole extends Role implements Tenant {
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
 		time = Time.awake;
-		HousingAnimation myPanel = (HousingAnimation)myPerson.myHouse.getPanel();
-		if (myPanel.getGuis().contains(gui)){
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+				.getPanel();
+		if (myPanel.getGuis().contains(gui)) {
 			gui.setPresent(true);
-		}
-		else{
+		} else {
 			myPanel.addGui(gui);
 		}
 		gui.DoGoToTable(tenantNumber);

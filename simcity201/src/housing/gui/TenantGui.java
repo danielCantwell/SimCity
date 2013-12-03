@@ -193,6 +193,7 @@ public class TenantGui implements Gui {
 			break;
 		default:
 			System.out.println("More than 8 tenants in the house.");
+			System.out.println(num + " tenants");
 			xDest = xTable - 30;
 			yDest = yTable;
 			break;
