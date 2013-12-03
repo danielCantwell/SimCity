@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Contains the main frame and subsequent panels
  */
 public class SimCityGui extends JFrame {
-	AnimationPanel animationPanel = new AnimationPanel();
+	public AnimationPanel animationPanel = new AnimationPanel();
 	public ArrayList<Building> buildingList = new ArrayList<Building>();
 	CardLayout cardLayout = new CardLayout();
 	JPanel buildingPanels = new JPanel();
@@ -46,6 +46,7 @@ public class SimCityGui extends JFrame {
 
     	JScrollPane scrollPane = new JScrollPane(animationPanel);
     	add(scrollPane, BorderLayout.CENTER);
+    	animationPanel.setScrollPane(scrollPane);
     	
     	buildingPanels.setLayout(cardLayout);
     	buildingPanels.setMinimumSize(new Dimension(500, 250));

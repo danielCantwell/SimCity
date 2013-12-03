@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import market.gui.MarketPackerGui;
+import market.interfaces.MarketManager;
 import market.interfaces.MarketPacker;
 
 /**
@@ -21,15 +22,13 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	 * Data
 	 */
 
-    public MarketManagerRole manager;
+    public MarketManager manager;
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     public enum AgentState { Idle, Packing };
     public AgentState state;
     public enum AgentLocation { Counter, Item, Transit };
     public AgentLocation location;
     public int destination;
-    
-    public Semaphore inTransit = new Semaphore(0, true);
     
     /**
      * Constructors
@@ -57,14 +56,12 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	public void msgGuiArrivedAtCounter()
 	{
 	    location = AgentLocation.Counter;
-	    inTransit.release();
         stateChanged();
 	}
 	
 	public void msgGuiArrivedAtItem()
 	{
         location = AgentLocation.Item;
-        inTransit.release();
         stateChanged();
 	}
 
@@ -83,7 +80,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction()
+	public boolean pickAndExecuteAnAction()
 	{
 	    if (location == AgentLocation.Counter)
 	    {
@@ -122,7 +119,8 @@ public class MarketPackerRole extends Role implements MarketPacker {
                 if (order != null)
                 {
                     pack(order);
-                    return true;
+                    return false;
+                    // wait until arrival
 	            }
 	        }
 	    }
@@ -145,7 +143,8 @@ public class MarketPackerRole extends Role implements MarketPacker {
                 {
                     grabItem(order);
                     returnToCounter();
-                    return true;
+                    return false;
+                    // wait until arrival
                 }
     	    }
 	    }
@@ -175,15 +174,6 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	    location = AgentLocation.Transit;
 	    destination = order.location;
 	    gui.DoGoToItem(order.location);
-        try
-        {
-            inTransit.acquire();
-        }
-        catch (InterruptedException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 	}
 	
 	private void grabItem(Order order)
@@ -196,15 +186,6 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	{
         location = AgentLocation.Transit;
 	    gui.DoGoToCounter();
-	    try
-        {
-            inTransit.acquire();
-        }
-        catch (InterruptedException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 	}
 	
     /**
@@ -220,7 +201,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	    return gui;
 	}
 	
-	public void setManager(MarketManagerRole manager)
+	public void setManager(MarketManager manager)
 	{
 	    this.manager = manager;
 	}
@@ -241,7 +222,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
         String choice;
         int amount;
         int location;
-        OrderState state;
+        public OrderState state;
         
         Order(int id, String choice, int amount, int location)
         {

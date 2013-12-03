@@ -17,7 +17,7 @@ import SimCity.Globals.Money;
  */
 public interface Tenant {
 	
-	public abstract void msgHereAreAppliances(List<Appliance> a);
+	public abstract void msgHouseInfo(Owner owner, List<Appliance> a, int tenantNumber);
 	
 	public abstract void msgPayRent(Money m);
 	

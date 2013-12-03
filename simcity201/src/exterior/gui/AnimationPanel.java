@@ -1,31 +1,48 @@
 package exterior.gui;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.Semaphore;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
+import javax.swing.Timer;
 
 import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.Person;
-import SimCity.Base.Person.GoAction;
-import SimCity.Base.Person.Intent;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
-import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import exterior.astar.AStarTraversal;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.concurrent.*; 
-import java.util.List;
-
-import exterior.astar.*;
-
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
+    private JScrollPane scrollPane;
     private boolean SHOW_RECT = false;
     private final int WINDOWX = 1920;
     private final int WINDOWY = 1920; //1472
@@ -73,7 +90,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     };
     
     private Semaphore[][] pedestrianGrid = new Semaphore[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
+    public int[][] vehicleGrid = new int[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
     private String consoleText = "";
+    private Font font;
+    private int currentID = 1;
     
     private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
     private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
@@ -101,6 +121,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		for (int y = 0; y < WINDOWY / (TILESIZE); y++) {
 			for (int x = 0; x < WINDOWX / (TILESIZE); x++) {
 				pedestrianGrid[x][y] = new Semaphore(1, true);
+				vehicleGrid[x][y] = 0;
 				if (MAP[x][y] == 'R' || MAP[x][y] == 'B') {
 					try {
 						pedestrianGrid[x][y].acquire();
@@ -108,10 +129,28 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						e.printStackTrace();
 					}
 				}
+				if (MAP[x][y] == 'S' || MAP[x][y] == 'B') {
+					vehicleGrid[x][y] = 1;
+				}
 			}
 		}
 
 		addCommands();
+
+		InputStream is;
+		try {
+			is = new FileInputStream("images/Minecraftia.ttf");
+			font = Font.createFont(Font.TRUETYPE_FONT, is);
+		    font = font.deriveFont(Font.PLAIN,12);
+		    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		    ge.registerFont(font);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
 		this.addMouseListener(new MouseListener() {
 			@Override
@@ -185,7 +224,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				consoleText = "";
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-						consoleText = "Click to Enter Building " + i + ": " + gui.buildingList.get(i).getTag();
+						consoleText = "Click to Enter #" + i + ": " + gui.buildingList.get(i).getTag();
 					}
 				}
 			}
@@ -201,13 +240,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
-		// Update invisible panels
-		for (JPanel p : gui.buildingPanelList) {
-			if (!p.isVisible()) {
-				//p.update(getGraphics());
-			}
-		}
-		
+        for (int y = 0; y < 30; y++) {
+        	for (int x = 0; x < 30; x++) {
+        		System.out.print(vehicleGrid[x][y] + " ");
+        	}
+            System.out.println("");
+        }
+        System.out.println("====");
+
 		// Draw the city based on the map array
 		for (int y = 0; y < WINDOWY / TILESIZE; y++) {
 			for (int x = 0; x < WINDOWX / TILESIZE; x++) {
@@ -302,8 +342,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 			
 			g2.setColor(Color.WHITE);
-			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 30, 30);
-			g2.drawString("Current Day: " + God.Get().getDay()+1, 30, 60);
+			g2.setFont(font);
+			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
+			g2.drawString("Current Day: " + God.Get().getDay()+1, 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
 		}
 
 		for (Gui gui : guis) {
@@ -416,6 +457,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrlQ = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	 currentID++;
+            	 CarGui g = new CarGui(gui, currentID);
+            	 addGui(g);
+             }
+        };
+        
         String stringCtrlN = "CTRL N";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), stringCtrlN);
         getActionMap().put(stringCtrlN, keyCtrlN);
@@ -434,6 +485,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrlC = "CTRL C";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
         getActionMap().put(stringCtrlC, keyCtrlC);
+        String stringCtrlQ = "CTRL Q";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK), stringCtrlQ);
+        getActionMap().put(stringCtrlQ, keyCtrlQ);
     }
     
     protected Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
@@ -448,7 +502,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 	 p.startThread();
 	   	 	 return p;
 	   	 } else if (v == Vehicle.car) {
-	   		 CarGui g = new CarGui(gui);
+	   		 currentID++;
+	   		 CarGui g = new CarGui(gui, currentID);
 	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
 	   		 g.setPerson(p);
 	   		 addGui(g);
@@ -477,6 +532,25 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 p.testMarket();
 	   	 
 	   	 return p;
+    }
+    
+    public void setScrollPane(JScrollPane s) {
+    	scrollPane = s;
+    }
+    
+    public void clearVGrid(int id) {
+		for (int i = 0; i < 30; i++) {
+		for (int j = 0; j < 30; j++) {
+			if (vehicleGrid[i][j] == id) {
+				vehicleGrid[i][j] = 0;
+				break;
+			}
+		}
+		}
+    }
+    
+    public void setVGrid(int x, int y, int id) {
+    	vehicleGrid[x][y] = id;
     }
 
 }
