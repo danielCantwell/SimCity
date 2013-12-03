@@ -17,6 +17,12 @@ import exterior.astar.AStarTraversal;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.*; 
 import java.util.List;
@@ -26,6 +32,7 @@ import exterior.astar.*;
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
+    private JScrollPane scrollPane;
     private boolean SHOW_RECT = false;
     private final int WINDOWX = 1920;
     private final int WINDOWY = 1920; //1472
@@ -74,6 +81,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     private Semaphore[][] pedestrianGrid = new Semaphore[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
     private String consoleText = "";
+    private Font font;
     
     private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
     private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
@@ -112,6 +120,24 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		}
 
 		addCommands();
+
+		InputStream is;
+		try {
+			is = new FileInputStream("images/Minecraftia.ttf");
+			font = Font.createFont(Font.TRUETYPE_FONT, is);
+		    font = font.deriveFont(Font.PLAIN,12);
+		    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		    ge.registerFont(font);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (FontFormatException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		this.addMouseListener(new MouseListener() {
 			@Override
@@ -185,7 +211,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				consoleText = "";
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-						consoleText = "Click to Enter Building " + i + ": " + gui.buildingList.get(i).getTag();
+						consoleText = "Click to Enter #" + i + ": " + gui.buildingList.get(i).getTag();
 					}
 				}
 			}
@@ -302,8 +328,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 			
 			g2.setColor(Color.WHITE);
-			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 30, 30);
-			g2.drawString("Current Day: " + God.Get().getDay()+1, 30, 60);
+			g2.setFont(font);
+			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
+			g2.drawString("Current Day: " + God.Get().getDay()+1, 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
 		}
 
 		for (Gui gui : guis) {
@@ -477,6 +504,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 p.testMarket();
 	   	 
 	   	 return p;
+    }
+    
+    public void setScrollPane(JScrollPane s) {
+    	scrollPane = s;
     }
 
 }

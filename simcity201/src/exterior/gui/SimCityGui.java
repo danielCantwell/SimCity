@@ -46,6 +46,7 @@ public class SimCityGui extends JFrame {
 
     	JScrollPane scrollPane = new JScrollPane(animationPanel);
     	add(scrollPane, BorderLayout.CENTER);
+    	animationPanel.setScrollPane(scrollPane);
     	
     	buildingPanels.setLayout(cardLayout);
     	buildingPanels.setMinimumSize(new Dimension(500, 250));
