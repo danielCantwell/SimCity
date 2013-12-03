@@ -1,142 +1,111 @@
-//package market.test;
-//import java.awt.Point;
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//import SimCity.Base.Person;
-//import market.MarketPackerRole;
-//import market.MarketPackerRole.AgentLocation;
-//import market.MarketPackerRole.AgentState;
-//import market.MarketPackerRole.OrderState;
-//import market.gui.MarketPackerGui;
-//import market.test.mock.MockMarketManager;
-//import junit.framework.TestCase;
-//
-//public class TestMarketClerk extends TestCase
-//{
-//    MarketPackerRole packer;
-//    MarketPackerGui packerGui;
-//
-//    MockMarketManager manager;
-//    
-//    Person person;
-//
-//    /**
-//     * This method is run before each test. You can use it to instantiate the
-//     * class variables for your agent and mocks, etc.
-//     */
-//    public void setUp() throws Exception {
-//        super.setUp();
-//        
-//        packer = new MarketPackerRole();
-//        packerGui = new MarketPackerGui(packer);
-//        
-//        Map<Integer, Point> locations = new HashMap<Integer, Point>();
-//        locations.put(0, new Point(400, 400));
-//        locations.put(1, new Point(420, 400));
-//        locations.put(2, new Point(440, 400));
-//        packerGui.setLocations(locations);
-//        
-//        manager = new MockMarketManager();
-//        packer.setGui(packerGui);
-//        packer.setManager(manager);
-//        person = new Person("market.MarketPackerRole");
-//
-//        packer.myPerson = person;
-//        packer.myPerson.house = "Apartment";
-//    }
-//    
-//    /**
-//     * Tests one order from manager
-//     */
-//    public void testOnePacker() {
-//        
-//        // check preconditions
-//        assertTrue("Packer should have no orders, it does.", packer.orders.isEmpty());
-//        assertEquals("Packer should be idle, it isn't.", packer.state, AgentState.Idle);
-//        
-//        // step 1
-//        packer.msgPackage(2, "Steak", 2, 0);
-//
-//        // check postconditions
-//        assertEquals("Packer should have 1 orders, it does.", packer.orders.size(), 1);
-//        assertEquals("Packer should be idle, it isn't.", packer.state, AgentState.Idle);
-//
-//        // step 2 (scheduler)
-//        packer.pickAndExecuteAnAction();
-//        
-//        // check postconditions
-//        assertEquals("Packer should be packing, it isn't.", packer.state, AgentState.Packing);
-//        assertEquals("Location should be in transit, it isn't.", packer.location, AgentLocation.Transit);
-//        
-//        // step 3
-//        // send message from gui
-//        packer.msgGuiArrivedAtItem();
-//        
-//        assertEquals("Location should be item, it isn't.", packer.location, AgentLocation.Item);
-//
-//        // step 4 (scheduler)
-//        packer.pickAndExecuteAnAction();
-//        
-//        // check postconditions
-//        assertEquals("Order should be ready, it isn't.", packer.orders.get(0).state, OrderState.Ready);
-//        assertEquals("Location should be in transit, it isn't.", packer.location, AgentLocation.Transit);
-//
-//        // step 5
-//        // send message from gui
-//        packer.msgGuiArrivedAtCounter();
-//        
-//        assertEquals("Location should be counter, it isn't.", packer.location, AgentLocation.Counter);
-//    }
-//    
-//    /**
-//     * Tests multiple orders from manager
-//     */
-//    public void testTwoPacker() {
-//        
-//        // check preconditions
-//        assertTrue("Packer should have no orders, it does.", packer.orders.isEmpty());
-//        assertEquals("Packer should be idle, it isn't.", packer.state, AgentState.Idle);
-//        
-//        // step 1
-//        packer.msgPackage(2, "Steak", 2, 0);
-//        packer.msgPackage(1, "Chicken", 4, 1);
-//        packer.msgPackage(3, "Basil", 1, 2);
-//
-//        for (int i = 3; i > 0; i--)
-//        {
-//            // check postconditions
-//            assertEquals("Packer should have " + i + " orders, it does.", packer.orders.size(), i);
-//            assertEquals("Packer should be idle, it isn't.", packer.state, AgentState.Idle);
-//    
-//            // step 2 (scheduler)
-//            packer.pickAndExecuteAnAction();
-//            
-//            // check postconditions
-//            assertEquals("Packer should be packing, it isn't.", packer.state, AgentState.Packing);
-//            assertEquals("Location should be in transit, it isn't.", packer.location, AgentLocation.Transit);
-//            
-//            // step 3
-//            // send message from gui
-//            packer.msgGuiArrivedAtItem();
-//            
-//            assertEquals("Location should be item, it isn't.", packer.location, AgentLocation.Item);
-//    
-//            // step 4 (scheduler)
-//            packer.pickAndExecuteAnAction();
-//            
-//            // check postconditions
-//            assertEquals("Order should be ready, it isn't.", packer.orders.get(i-1).state, OrderState.Ready);
-//            assertEquals("Location should be in transit, it isn't.", packer.location, AgentLocation.Transit);
-//    
-//            // step 5
-//            // send message from gui
-//            packer.msgGuiArrivedAtCounter();
-//            
-//            assertEquals("Location should be counter, it isn't.", packer.location, AgentLocation.Counter);
-//
-//            // step 6 (scheduler)
-//            packer.pickAndExecuteAnAction();
-//        }
-//    }
-//}
+
+package market.test;
+import java.awt.Point;
+import java.util.HashMap;
+import java.util.Map;
+
+import SimCity.Base.God;
+import SimCity.Base.Person;
+import SimCity.Globals.Money;
+import market.MarketClerkRole;
+import market.MarketPackerRole;
+import market.MarketClerkRole.OrderState;
+import market.gui.MarketClerkGui;
+import market.gui.MarketPackerGui;
+import market.interfaces.MarketCustomer;
+import market.test.mock.MockMarketCustomer;
+import market.test.mock.MockMarketManager;
+import junit.framework.TestCase;
+
+public class TestMarketClerk extends TestCase
+{
+    MarketClerkRole clerk;
+    MarketClerkGui clerkGui;
+
+    MockMarketManager manager;
+    MockMarketCustomer customer;
+    
+    Person person;
+    Person cPerson;
+
+    /**
+     * This method is run before each test. You can use it to instantiate the
+     * class variables for your agent and mocks, etc.
+     */
+    public void setUp() throws Exception {
+        super.setUp();
+
+        person = new Person("market.MarketClerkRole");
+
+        clerk = (MarketClerkRole)person.mainRole;
+        clerk.myPerson = person;
+        clerk.myPerson.house = "Apartment";
+        
+        clerkGui = new MarketClerkGui(clerk);
+        clerk.setGui(clerkGui);
+        
+        manager = new MockMarketManager();
+        clerk.setManager(manager);
+        
+        cPerson = new Person("market.MarketCustomerRole");
+        customer = new MockMarketCustomer();
+        God.Get().addPerson(cPerson);
+    }
+    
+    /**
+     * Tests taking an order from one customer
+     */
+    public void testOneClerk() {
+        
+        // check preconditions
+        assertTrue("Clerk should have no customer, it does.", clerk.customer == null);
+        assertEquals("Clerk should have no orders, it doesn't.", clerk.orders.size(), 0);
+        
+        // step 1
+        clerk.msgTakeOrder(customer);
+        
+        assertTrue("Clerk should have a customer, it doesn't.", clerk.customer == customer);
+
+        // step 2 (scheduler)
+        clerk.pickAndExecuteAnAction();
+        
+        // step 3
+        clerk.msgWantFood(0, "Steak", 2);
+
+        // check postconditions
+        assertEquals("Clerk should have 1 orders, it doesn't.", clerk.orders.size(), 1);
+
+        // step 4 (scheduler)
+        clerk.pickAndExecuteAnAction();
+        
+        // check postconditions
+        assertEquals("Order should be processing, it isn't.", clerk.orders.get(0).state, OrderState.Processing);
+
+        // step 5
+        // send message from gui
+        clerk.msgGiveToCustomer(0, "Steak", 2);
+        
+        assertEquals("Order should be ready, it isn't.", clerk.orders.get(0).state, OrderState.Ready);
+
+        
+        // Rest of test doesn't work because cannot add mock customer to god
+        /*
+        // step 6 (scheduler)
+        clerk.pickAndExecuteAnAction();
+        // check postconditions
+        assertEquals("Order should be paying, it isn't.", clerk.orders.get(0).state, OrderState.Payment);
+
+        // step 7
+        // send message from gui
+        // note, money is made up
+        clerk.msgHereIsMoney(0, new Money(100, 0));
+        
+        assertEquals("Order should be Paid, it isn't.", clerk.orders.get(0).state, OrderState.Paid);
+
+        // step 8 (scheduler)
+        clerk.pickAndExecuteAnAction();
+        
+        // check postconditions
+        assertEquals("Clerk should have no orders, it doesn't.", clerk.orders.size(), 0);*/
+    }
+}

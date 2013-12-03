@@ -35,15 +35,17 @@ SimCity201 Project Repository for CS 201 students
  + Integrated buildings being closed if not enough employees.
  + Put a restaurant in the city. It doesn't actually work.
  + Keybinds for spawning manager and bank customer.
- + 
 
-####Tim So
+####Timothy So
 + Market Roles and Guis
   * Clerk Role
   * Customer Role
   * Delivery Person Role
   * Manager Role
   * Packer Role
++ JUnit Testing
+  * Packer Role
+  * Clerk Role
 
 ####Eric Wu
 + Bank Roles and Guis
@@ -67,9 +69,6 @@ SimCity201 Project Repository for CS 201 students
 + Upon DoTravel() call from a Person, a GUI (car or pedestrian) will successfully travel to an address.
 + Upon clicking on a building, its interior is displayed.
 
-####SimCity Person Interaction
-+ Comments go here
-
 ###How To Run It
 1.Keyboard Shortcuts to spawn people
   * CNTL - N : Spawns a bank customer
@@ -88,10 +87,22 @@ SimCity201 Project Repository for CS 201 students
 
 ###What's Missing/left for V2
 ####SimCity Roles
-+ Comments go here
++ All Restaurants need to be integrated and have working functionality.
++ Market.DeliveryPerson
+  * Since restaurants and entering buildings was implemented late in the process, the normative scenario for the delivery person was difficult to implement. The interaction is designed, but could use a revision before more work is begun on it. That will probably occur when the restaurants are halfway implemented.
 
 ####SimCity Interactions
-+ Comments go here
++ Integrate buildings with outer city.
++ Make sure that people can walk in and out of buildings without trouble.
++ Market Restaurant interaction.
++ Bank is in the simulation, however it broke when trying to integrating. We are working to fix this bug.
++ Market/Restaurant
+  * The delivery person is key to getting the goods from the market to the restaurant, so this interaction will be implemented when the delivery person is fully implemented.
++ Market/Bank
+  * Also, since most of the time was spent getting the customer interactions completed for the city, we didn't have quite enough time to have the market deposit and withdraw funds. However, this should be a quick task and should be implemented soon after the customer interactions are completed.
++ Market Non-norms
+  * A lot of the time was spent getting the normative scenarios finished. However, the market was designed with non-normative scenarios in mind, so implementing them will not require extensive overhauling of the code.
+
 
 ####SimCity GUI
 + Buses and bus stops

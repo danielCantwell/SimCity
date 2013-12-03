@@ -7,5 +7,7 @@ public interface MarketDeliveryPerson
 	 */
 	
     // MESSAGES
-    public void msgMakeDelivery(int id, String choice, int amount);
+    void msgMakeDelivery(int id, String choice, int amount);
+    void msgGuiArrivedAtMarket();
+    void msgGuiArrivedAtDestination();
 }
