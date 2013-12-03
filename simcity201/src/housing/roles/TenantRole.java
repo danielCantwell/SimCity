@@ -30,6 +30,7 @@ public class TenantRole extends Role implements Tenant {
 
 	public Money rentOwed = new Money(0, 0);
 	public Owner owner;
+	public int tenantNumber;
 
 	TenantGui gui = new TenantGui(this);
 
@@ -51,8 +52,10 @@ public class TenantRole extends Role implements Tenant {
 
 	// -----------------------------------MESSAGES-----------------------------------
 
-	public void msgHereAreAppliances(List<Appliance> a) {
+	public void msgHouseInfo(Owner owner, List<Appliance> a, int tenantNumber) {
+		this.owner = owner;
 		appliances = a;
+		this.tenantNumber = tenantNumber;
 	}
 
 	public void msgPayRent(Money m) {
@@ -176,8 +179,7 @@ public class TenantRole extends Role implements Tenant {
 
 	private void getFood() {
 		System.out.println("Tenant is getting food");
-		// If the customer is hungry, but willing to wait a bit, and has enough
-		// cash
+		// If the customer is hungry, does not owe rent, and has enough money
 		if (rentOwed.isZero()
 				&& myPerson.getMoney().isGreaterThan(
 						myPerson.getMoneyThreshold()) && God.Get().hour < 21) {
@@ -189,6 +191,7 @@ public class TenantRole extends Role implements Tenant {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			// God selects a random restaurant for Tenant to go to
 			myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
 					Intent.customer);
 			
@@ -212,7 +215,7 @@ public class TenantRole extends Role implements Tenant {
 				e.printStackTrace();
 			}
 			useAppliance("Stove");
-			gui.DoGoToTable();
+			gui.DoGoToTable(tenantNumber);
 			try {
 				atTable.acquire();
 			} catch (InterruptedException e) {
@@ -225,7 +228,7 @@ public class TenantRole extends Role implements Tenant {
 
 	private void sleep() {
 		System.out.println("Tenant is going to bed");
-		gui.DoGoToBed();
+		gui.DoGoToBed(tenantNumber);
 		try {
 			atBed.acquire();
 		} catch (InterruptedException e) {
@@ -289,7 +292,7 @@ public class TenantRole extends Role implements Tenant {
 		else{
 			myPanel.addGui(gui);
 		}
-		gui.DoGoToTable();
+		gui.DoGoToTable(tenantNumber);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {

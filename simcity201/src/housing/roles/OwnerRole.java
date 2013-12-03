@@ -53,7 +53,7 @@ public class OwnerRole extends Role implements Owner {
 	public void msgAddTenant(Tenant tenant) {
 		System.out.println("Owner added a tenant");
 		myTenants.add(new MyTenant(tenant));
-		tenant.msgHereAreAppliances(appliances);
+		tenant.msgHouseInfo(this, appliances, myTenants.size());
 	}
 
 	// MSG from the God class at a certain time
