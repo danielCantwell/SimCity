@@ -10,6 +10,7 @@ import restaurant.test.mock.LoggedEvent;
 import SimCity.Globals.Money;
 import housing.gui.HousingAnimation;
 import housing.gui.TenantGui;
+import housing.interfaces.Owner;
 import housing.interfaces.Tenant;
 import housing.roles.OwnerRole.Appliance;
 
@@ -35,7 +36,7 @@ public class MockTenant implements Tenant {
 	}
 
 	@Override
-	public void msgHereAreAppliances(List<Appliance> a) {
+	public void msgHouseInfo(Owner owner, List<Appliance> a, int tenantNumber) {
 		log.add(new LoggedEvent("Received msgHereAreAppliances from owner."));
 	}
 	
