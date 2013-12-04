@@ -12,46 +12,50 @@ import SimCity.gui.Gui;
 
 /**
  * @author Daniel
- *
+ * 
  */
 public class TenantGui implements Gui {
-	
+
 	private TenantRole tenant = null;
 	private boolean isPresent = true;
-	
-	private int xSize,	ySize;
-	
-	private int xPos,	yPos;
-	private int xDest,	yDest;
-	
-	private final int xBed  	= 40;
-	private final int yBed		= 40;
-	
-	private final int xDoor 	= 600;
-	private final int yDoor 	= 315;
-	
-	private final int xFridge	= 30;
-	private final int yFridge	= 600;
-	
-	private final int xStove	= 340;
-	private final int yStove	= 550;
-	
-	private final int xTable	= 220;
-	private final int yTable	= 320;
-	
-	private final int xMail		= 580;
-	private final int yMail		= 160;
-	
-	private enum Dest { None, Bed, Table, Fridge, Stove, Mail, Door };
+
+	private int xSize, ySize;
+
+	private int xPos, yPos;
+	private int xDest, yDest;
+
+	private final int xBedOne = 40;
+	private final int xBedTwo = 70;
+	private final int yBed = 40;
+
+	private final int xDoor = 600;
+	private final int yDoor = 315;
+
+	private final int xFridge = 30;
+	private final int yFridge = 600;
+
+	private final int xStove = 340;
+	private final int yStove = 550;
+
+	private final int xTable = 100;
+	private final int yTable = 300;
+
+	private final int xMail = 580;
+	private final int yMail = 160;
+
+	private enum Dest {
+		None, Bed, Table, Fridge, Stove, Mail, Door
+	};
+
 	private Dest destination = Dest.None;
-	
+
 	public TenantGui(TenantRole tenant) {
 		this.tenant = tenant;
 		xPos = xDoor;
 		yPos = yDoor;
 		xDest = xPos;
 		yDest = yPos;
-		isPresent= true;
+		isPresent = true;
 		xSize = 20;
 		ySize = 20;
 	}
@@ -67,28 +71,22 @@ public class TenantGui implements Gui {
 			yPos++;
 		else if (yPos > yDest)
 			yPos--;
-		
+
 		if (xPos == xDest && yPos == yDest) {
 			if (destination == Dest.Bed) {
 				tenant.msgAtBed();
-			}
-			else if (destination == Dest.Table) {
+			} else if (destination == Dest.Table) {
 				tenant.msgAtTable();
-			}
-			else if (destination == Dest.Bed) {
+			} else if (destination == Dest.Bed) {
 				tenant.msgAtBed();
-			}
-			else if (destination == Dest.Door) {
+			} else if (destination == Dest.Door) {
 				tenant.msgAtDoor();
 				isPresent = false;
-			}
-			else if (destination == Dest.Fridge) {
+			} else if (destination == Dest.Fridge) {
 				tenant.msgAtFridge();
-			}
-			else if (destination == Dest.Mail) {
+			} else if (destination == Dest.Mail) {
 				tenant.msgAtMail();
-			}
-			else if (destination == Dest.Stove) {
+			} else if (destination == Dest.Stove) {
 				tenant.msgAtStove();
 			}
 			destination = Dest.None;
@@ -105,20 +103,21 @@ public class TenantGui implements Gui {
 	public boolean isPresent() {
 		return isPresent;
 	}
-	public void setPresent( boolean value){
+
+	public void setPresent(boolean value) {
 		isPresent = value;
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void restart() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	// Go to the mailbox when tenant needs to pay (or not pay) rent
@@ -135,7 +134,7 @@ public class TenantGui implements Gui {
 		xDest = xDoor;
 		yDest = yDoor;
 		System.out.println("Leaving House");
-		
+
 	}
 
 	// Go to the fridge
@@ -145,7 +144,7 @@ public class TenantGui implements Gui {
 		yDest = yFridge;
 		System.out.println("Going To Fridge");
 	}
-	
+
 	// Go to the stove
 	public void DoGoToStove() {
 		destination = Dest.Stove;
@@ -153,19 +152,88 @@ public class TenantGui implements Gui {
 		yDest = yStove;
 		System.out.println("Going To Stove");
 	}
-	
+
 	// Go to the table
-	public void DoGoToTable() {
+	public void DoGoToTable(int num) {
 		destination = Dest.Table;
 		xDest = xTable;
 		yDest = yTable;
+		switch (num) {
+		case 1:
+			xDest = xTable;
+			yDest = yTable;
+			break;
+		case 2:
+			xDest = xTable + 80;
+			yDest = yTable;
+			break;
+		case 3:
+			xDest = xTable;
+			yDest = yTable + 80;
+			break;
+		case 4:
+			xDest = xTable + 80;
+			yDest = yTable + 80;
+			break;
+		case 5:
+			xDest = xTable + 200;
+			yDest = yTable;
+			break;
+		case 6:
+			xDest = xTable + 280;
+			yDest = yTable + 80;
+			break;
+		case 7:
+			xDest = xTable + 200;
+			yDest = yTable + 80;
+			break;
+		case 8:
+			xDest = xTable + 280;
+			yDest = yTable + 280;
+			break;
+		default:
+			System.out.println("More than 8 tenants in the house.");
+			System.out.println(num + " tenants");
+			xDest = xTable - 30;
+			yDest = yTable;
+			break;
+		}
 		System.out.println("Going To Table");
 	}
 
 	// Go to the bed and sleep
-	public void DoGoToBed() {
+	public void DoGoToBed(int num) {
 		destination = Dest.Bed;
-		xDest = xBed;
+		switch (num) {
+		case 1:
+			xDest = xBedOne;
+			break;
+		case 2:
+			xDest = xBedTwo;
+			break;
+		case 3:
+			xDest = xBedOne + 120;
+			break;
+		case 4:
+			xDest = xBedTwo + 120;
+			break;
+		case 5:
+			xDest = xBedOne + 240;
+			break;
+		case 6:
+			xDest = xBedTwo + 240;
+			break;
+		case 7:
+			xDest = xBedOne + 360;
+			break;
+		case 8:
+			xDest = xBedTwo + 360;
+			break;
+		default:
+			System.out.println("More than 8 tenants in the house.");
+			xDest = xBedOne - 30;
+			break;
+		}
 		yDest = yBed;
 		System.out.println("Going To Bed");
 	}
