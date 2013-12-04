@@ -118,8 +118,7 @@ public class RobberRole extends Role implements Robber{
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		leaveBank();
 	}
 
 }

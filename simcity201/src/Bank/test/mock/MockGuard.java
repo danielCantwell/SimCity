@@ -101,4 +101,10 @@ public class MockGuard implements Guard {
 		
 	}
 
+	@Override
+	public void RobberEnter(Robber robberRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
