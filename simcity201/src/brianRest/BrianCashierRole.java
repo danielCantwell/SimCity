@@ -154,9 +154,6 @@ public boolean pickAndExecuteAnAction() {
 	}
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = true;
 	}
 
 	@Override

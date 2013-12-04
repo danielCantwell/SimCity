@@ -62,6 +62,7 @@ public class B_BrianRestaurant extends Building{
 	@Override
 	public boolean areAllNeededRolesFilled() {
 		// TODO Auto-generated method stub
+		System.out.println("ALL ROLES NEEDED BRIAN REST: " + hostFilled); 
 		return hostFilled && cashierFilled && cookFilled && numberOfWaiters > 0;
 	}
 
@@ -80,15 +81,29 @@ public class B_BrianRestaurant extends Building{
 	public void EnterBuilding(Person person, String job){
 		Role newRole = null;
 		try {
-			if (job.equals("brianRest.BrianCustomerRole")) {newRole = new BrianCustomerRole("Customer");  System.out.println("#cust created");}
-			else if (job.equals("brianRest.BrianHostRole")) {newRole = hostRole; setOpen(areAllNeededRolesFilled());}
-			else if (job.equals("brianRest.BrianWaiterRole")){ numberOfWaiters++; newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters); setOpen(areAllNeededRolesFilled());}
-			else if (job.equals("brianRest.BrianCookRole")) { newRole = cookRole; setOpen(areAllNeededRolesFilled());}
-			else if (job.equals("brianRest.BrianCashierRole")) { newRole = cashierRole; setOpen(areAllNeededRolesFilled());}
+			if (job.equals("brianRest.BrianCustomerRole")) {
+				newRole = new BrianCustomerRole("Customer");  
+				System.out.println("#cust created");}
+			else if (job.equals("brianRest.BrianHostRole")) {
+				newRole = hostRole; 
+				hostFilled = true;
+				setOpen(areAllNeededRolesFilled());}
+			else if (job.equals("brianRest.BrianWaiterRole")){ 
+				numberOfWaiters++; 
+				newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters); 
+				hostRole.addWaiter((BrianWaiterRole)newRole);
+				setOpen(areAllNeededRolesFilled());}
+			else if (job.equals("brianRest.BrianCookRole")) { 
+				newRole = cookRole; 
+				cookFilled = true;
+				setOpen(areAllNeededRolesFilled());}
+			else if (job.equals("brianRest.BrianCashierRole")) { 
+				newRole = cashierRole; 
+				cashierFilled = true;
+				setOpen(areAllNeededRolesFilled());}
 			newRole.setActive(true);
 			newRole.setPerson(person);
 			person.msgCreateRole(newRole, true);
-			//fillNeededRoles(person, newRole);
 			person.msgEnterBuilding(this);
 		} catch(Exception e){
 			e.printStackTrace();

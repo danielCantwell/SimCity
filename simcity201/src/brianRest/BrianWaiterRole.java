@@ -24,7 +24,7 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	WaiterGui gui;
 	List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	BrianCook cook;
-	BrianHost host;
+	public BrianHost host;
 	BrianCashier cashier;
 	
 	int waiterNumber = 0;
@@ -82,40 +82,45 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 		state = WaiterState.goingOnBreak; 
 		stateChanged();
 	}
+	
+	//Leave restaurant
+	public void msgLeaveRestaurant(){
+		
+	}
 
 // ######## Messages ################
 	@Override
 	public void msgSeatAtTable(BrianCustomer c, BrianTable t) {
-		/*((BrianCustomer) c).setWaiter(this);
+		c.setWaiter(this);
 		MyCustomer mc = new MyCustomer(c,t);
 		mc.state = MyCustomerState.waiting;
 		t.occupiedBy = c;
 		idle = true;
 		myCustomers.add(mc);
-		numberOfCustomers++;*/
+		numberOfCustomers++;
 		stateChanged();
 	};	
 	
 	@Override
 	public void msgReadyToOrder(BrianCustomer c){  		
 		for (MyCustomer mc : myCustomers){
-			/*if (mc.customer == c){
+			if (mc.customer == c){
 				Do("Received customer call");
 				mc.state = MyCustomerState.readyToOrder;
 				stateChanged();
 			}
-			*/
+			
 		}
 	}
 	@Override
 	public void msgHeresMyChoice(BrianCustomer ca, String c){ 
 		for (MyCustomer mc : myCustomers){
-			/*if (mc.customer == ca){
+			if (mc.customer == ca){
 				//mc.order = new Order(c, this, mc.table.tableNumber);
 				mc.choice = c;
 				mc.state = MyCustomerState.ordered;
 				stateChanged();
-			}*/
+			}
 		}
 	}
 	@Override
@@ -141,11 +146,11 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	@Override
 	public void msgImDone(BrianCustomer c){ 
 		for (MyCustomer mc: myCustomers){
-			/*if (mc.customer == c){
+			if (mc.customer == c){
 				mc.state = MyCustomerState.doneEating;
 				stateChanged();
 			}
-			*/
+			
 		}
 	}
 	
@@ -153,34 +158,33 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	@Override
 	public void msgRequestCheck (BrianCustomer c){
 		for (MyCustomer mc: myCustomers){
-			/*if (mc.customer == c){
+			if (mc.customer == c){
 				mc.state = MyCustomerState.wantCheck;
 				stateChanged();
 			}
-			*/
+			
 		}
 	}
 	
 	@Override
 	public void msgHereIsCheck(double totalCost, BrianCustomer c){
 		for(MyCustomer mc: myCustomers){
-			/*if (mc.customer == c){
+			if (mc.customer == c){
 				mc.totalCost = totalCost;
 				mc.state = MyCustomerState.gotCheck;
 				stateChanged();
 			}
-			*/
+			
 		}
 	}
 	
 	@Override
 	public void msgCleanUpDeadCustomer(BrianCustomer c){
-		/*Do("Readying to kill customer");
+		//Do("Readying to kill customer");
 		MyCustomer mc = new MyCustomer(c, null);
 		myCustomers.add(mc);
 		mc.state = MyCustomerState.dead;
 		stateChanged();
-		*/
 	}
 	
 	
@@ -306,16 +310,16 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	
 	private void SeatCustomer(BrianTable t, MyCustomer mc) {
 		DoGetCustomer();
-		//Do("is seating " + ((BrianCustomer) mc.customer).getName());
-		//mc.customer.msgFollowMe(new BrianMenu());
+		Do("is seating " + ((BrianCustomerRole) mc.customer).getName());
+		mc.customer.msgFollowMe(new BrianMenu());
 		mc.state = MyCustomerState.seated;
 		DoSeatCustomer(t.getTableNumber(), mc);
 	}
 	
 	private void TakeOrder(MyCustomer mc){
-		//Do("is taking " + ((JesseCustomer) mc.customer).getName() + "'s order.");
+		Do("is taking an order.");
 		DoWalkToCustomer(mc, "");
-		//mc.customer.msgWhatWouldYouLike();
+		mc.customer.msgWhatWouldYouLike();
 		mc.state = MyCustomerState.ordering;
 	}
 	 
@@ -326,48 +330,48 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	}
 	
 	private void TakeReorder(MyCustomer mc){
-		//Do("Going to customer " + ((BrianCustomer) mc.customer).getCustomerName() + " for a reorder.");
+		Do("Going to customer " + ((BrianCustomerRole) mc.customer).getCustomerName() + " for a reorder.");
 		DoWalkToCustomer(mc, "Reordering");
 		BrianMenu m = new BrianMenu();
 		m.remove(mc.choice);
-		//mc.customer.msgOutOfFood(m);
+		mc.customer.msgOutOfFood(m);
 		mc.state = MyCustomerState.ordering;
 	}
 
 	private void GiveFoodToCustomer(MyCustomer mc){
 		DoGiveOrderToCook();
 		if (cook instanceof BrianCook)
-			//((BrianCook) cook).DoRemovePlate(mc.choice);
+		 cook.DoRemovePlate(mc.choice);
 		DoWalkToCustomer(mc, mc.choice);
-		//Do("is giving food to " + ((BrianCustomer) mc.customer).getName());	
+		Do("is giving food to " + ((BrianCustomerRole) mc.customer).getName());	
 		mc.state = MyCustomerState.eating;
-		//mc.customer.msgHeresYourOrder(mc.choice);
+		mc.customer.msgHeresYourOrder(mc.choice);
 	}
 	
 	private void AskCashierForTotal(MyCustomer mc){
 		DoGetCheck();
-		//Do("Asking "+ cashier.name + " for check.");
+		Do("Asking "+ ((BrianCashierRole)cashier).name + " for check.");
 		mc.state = MyCustomerState.waitingCheck;
-		//cashier.msgHereIsCheck(mc.choice, mc.customer, this);
+		cashier.msgHereIsCheck(mc.choice, mc.customer, this);
 	}
 	
 	private void GiveCustomerCheck(MyCustomer mc){
 		DoWalkToCustomer(mc, "Giving Check");
-		//mc.customer.msgHereIsTotal(mc.totalCost);
+		mc.customer.msgHereIsTotal(mc.totalCost);
 		mc.state = MyCustomerState.paying;
 	}
 	
 	private void CustomerLeaving(MyCustomer c){
-		//Do(((BrianCustomer) c.customer).getName() + " is leaving the restaurant.");
+		Do(((BrianCustomerRole) c.customer).getName() + " is leaving the restaurant.");
 		host.msgTableIsClear(c.table);
 		myCustomers.remove(c);
 		numberOfCustomers--;
 	}
 	
 	private void CleanDeadCustomer(MyCustomer mc){
-		//Do("Killing Customer "+ ((BrianCustomer) mc.customer).getName());
+		Do("Killing Customer "+ ((BrianCustomerRole) mc.customer).getName());
 		DoGetDeadCustomer();
-		//mc.customer.DoGoToDeadLocation();
+		mc.customer.DoGoToDeadLocation();
 		DoGoToDeadLocation();
 		mc.state = MyCustomerState.rotting;
 		myCustomers.remove(mc);
@@ -388,9 +392,9 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	
 	private void DoSeatCustomer(int tableNum, MyCustomer mc){
 		gui.setText("Seating Customer");
-		//gui.DoBringToTable(mc.customer, tableNum);
-		//if (mc.customer instanceof BrianCustomer)
-		//((BrianCustomer) mc.customer).getGui().DoGoToSeat(tableNum);
+		gui.DoBringToTable(mc.customer, tableNum);
+		if (mc.customer instanceof BrianCustomer)
+		mc.customer.getGui().DoGoToSeat(tableNum);
 		atLocAcquire();
 	}
 	
@@ -439,7 +443,7 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	private void DoIdle(){
 		//System.out.println("Do idle");
 		gui.DoIdle();
-		//gui.setText("Idle");
+		gui.setText("Idle");
 		idle = false;
 	}
 

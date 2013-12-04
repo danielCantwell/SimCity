@@ -129,7 +129,7 @@ public class God {
 	        }
 	        System.out.println("God Created");
 	        //set God variables.
-	        hour = 0;
+	        hour = 3;
 	        hourOffset = 4000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
@@ -216,7 +216,6 @@ public class God {
 	    
 	    public void fakeCustomersGoToWork(){
 	    	announcedTime = true;
-	    	System.out.println("Customer Roles are goin to do their customer things.");
 	    	for (Person p: persons){
 	    		if (p.getTimeState() != TimeState.working){
 	    			p.msgGoToWork();

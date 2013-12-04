@@ -263,11 +263,9 @@ public class BrianCookRole extends Role implements BrianCook {
 		
 		brianRest.gui.CookGui wg = new brianRest.gui.CookGui(this);
 		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		gui = wg;
 		bap.addGui(wg);
 		
-		// TODO Auto-generated method stub
-		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.cookFilled = true;
 	}
 
 	@Override
