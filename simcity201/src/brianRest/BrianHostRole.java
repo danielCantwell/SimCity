@@ -88,6 +88,7 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	@Override
 	public void msgIWantToEat(BrianCustomer c){
+		System.out.println("Customer wants to eat");
 		waitingCustomers.add(new WaitingCustomer(c));
 		stateChanged();
 	}

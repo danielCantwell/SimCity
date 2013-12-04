@@ -80,7 +80,7 @@ public class B_BrianRestaurant extends Building{
 	public void EnterBuilding(Person person, String job){
 		Role newRole = null;
 		try {
-			if (job.equals("brianRest.BrianCustomerRole")) newRole = new BrianCustomerRole("Customer");
+			if (job.equals("brianRest.BrianCustomerRole")) {newRole = new BrianCustomerRole("Customer");  System.out.println("#cust created");}
 			else if (job.equals("brianRest.BrianHostRole")) {newRole = hostRole; setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianWaiterRole")){ numberOfWaiters++; newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters); setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianCookRole")) { newRole = cookRole; setOpen(areAllNeededRolesFilled());}
@@ -88,7 +88,7 @@ public class B_BrianRestaurant extends Building{
 			newRole.setActive(true);
 			newRole.setPerson(person);
 			person.msgCreateRole(newRole, true);
-			fillNeededRoles(person, newRole);
+			//fillNeededRoles(person, newRole);
 			person.msgEnterBuilding(this);
 		} catch(Exception e){
 			e.printStackTrace();

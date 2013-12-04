@@ -42,11 +42,11 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	private CustomerGui customerGui;
 
 	//Necessary links.
-	private BrianHost host;
-		public BrianHost getHost(){
+	private BrianHostRole host;
+		public BrianHostRole getHost(){
 			return host;
 		}
-		public void setHost(BrianHost w){
+		public void setHost(BrianHostRole w){
 			host = w;
 		}
 	private BrianWaiter waiter;	
