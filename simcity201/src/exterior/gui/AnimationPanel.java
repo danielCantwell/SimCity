@@ -1,9 +1,5 @@
 package exterior.gui;
 
-import housing.roles.OwnerRole;
-import housing.interfaces.Tenant;
-import housing.roles.TenantRole;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -717,6 +713,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setVGrid(int x, int y, int id) {
     	vehicleGrid[x][y] = id;
+    }
+    
+    public void setShowRect(boolean show) {
+    	SHOW_RECT = show;
     }
 
 }
