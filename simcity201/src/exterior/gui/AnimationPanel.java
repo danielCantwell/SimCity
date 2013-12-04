@@ -146,6 +146,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private ImageIcon iconSun = new ImageIcon("images/iconSun.png");
     private ImageIcon iconMoon = new ImageIcon("images/iconMoon.png");
     private ImageIcon iconClock = new ImageIcon("images/iconClock.png");
+    private ImageIcon iconRedLightH = new ImageIcon("images/redlightH.png");
+    private ImageIcon iconRedLightV = new ImageIcon("images/redlightV.png");
 	
 	public AnimationPanel() {
 		setSize(WINDOWX, WINDOWY);
@@ -341,9 +343,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 							} else if (MAP[x][y + 1] == 'S') {
 								iconRoadHR.paintIcon(this, g, x * TILESIZE, y
 										* TILESIZE);
-							} else {
-								iconRoad.paintIcon(this, g, x * TILESIZE, y
-										* TILESIZE);
+							} else if (x <= 1 || x >= 28 || y <= 1 || y >= 28) {
+								iconRoad.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
 							}
 						} else {
 							if (x == 0 && MAP[x + 2][y] == 'S') {
@@ -408,6 +409,20 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					if (SHOW_RECT) {
 						g2.setColor(Color.ORANGE);
 						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
+					}
+				}
+				
+				if (x != 0 && x != 29 && y != 0 && y != 29 && !SHOW_RECT) {
+					if (MAP[x][y] == 'R' && MAP[x-1][y] == 'C' && MAP[x][y-1] == 'C') {
+						iconRoad.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						iconRoad.paintIcon(this, g, (x+1) * TILESIZE, y * TILESIZE);
+						iconRoad.paintIcon(this, g, x * TILESIZE, (y+1) * TILESIZE);
+						iconRoad.paintIcon(this, g, (x+1) * TILESIZE, (y+1) * TILESIZE);
+						if (horizontalRedLight) {
+							iconRedLightH.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						} else {
+							iconRedLightV.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						}
 					}
 				}
 			}
