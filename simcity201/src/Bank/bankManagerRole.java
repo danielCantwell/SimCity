@@ -44,6 +44,15 @@ public class bankManagerRole extends Role implements  Manager{
 	List<Customer>clients = Collections.synchronizedList(new ArrayList<Customer>());
 		
 	//----------------------------------------------Messages-------------------------------------------------
+
+	@Override
+	protected void enterBuilding() {
+		System.out.println("I am a bank manager: "+this);
+		B_Bank bank = (B_Bank)myPerson.building;
+		bank.setBankManager(this);
+		stateChanged();
+	}
+	
 	@Override
 	public void newTeller(Bank.interfaces.Teller teller) {
 		Teller t = new Teller();
@@ -52,7 +61,7 @@ public class bankManagerRole extends Role implements  Manager{
 		t.busy = state.no;
 		tellers.add(t);
 		stateChanged();
-		System.out.println("Manager: New teller has been added");
+		System.out.println("Manager: New teller has been added: "+t.teller);
 		//Brian adding some code to make sure the bank is open
 		myPerson.building.setOpen(myPerson.building.areAllNeededRolesFilled());
 	}
@@ -86,14 +95,6 @@ public class bankManagerRole extends Role implements  Manager{
 		t.teller.tellerAssigned(c);
 		tellers.remove(t);
 		clients.remove(c);
-	}
-
-	@Override
-	protected void enterBuilding() {
-		System.out.println("I am a bank manager");
-		B_Bank bank = (B_Bank)myPerson.building;
-		bank.setBankManager(this);
-		stateChanged();
 	}
 
 	public void workOver() {

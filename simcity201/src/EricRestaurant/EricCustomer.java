@@ -7,6 +7,7 @@ import EricRestaurant.gui.CustomerGui;
 import EricRestaurant.gui.RestaurantGui;
 import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
+import EricRestaurant.interfaces.Host;
 import SimCity.Base.Role;
 import agent.Agent;
 
@@ -28,7 +29,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	String choice = null;
 	DecimalFormat df = new DecimalFormat("#0.00");
 	// agent correspondents
-	private EricHost host;
+	private Host host;
 	private EricWaiter waiter;
 	private EricCashier cashier;
 
@@ -53,7 +54,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	}
 
 	@Override
-	public void setHost(EricHost host) {
+	public void setHost(Host host) {
 		this.host = host;
 	}
 

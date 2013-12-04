@@ -48,29 +48,23 @@ public class bankGuardRole extends Role implements Guard {
 	//----------------------------------------------Messages-------------------------------------------------
 
 	public void enterBuilding() {
+		//System.out.println("---------------------"+this);
 		s = state.ready;
 		System.out.println("I am a guard");
 		B_Bank bank = (B_Bank)myPerson.building;
 		bank.setBankGuard(this);
-		bank.getBankManager().setGuard(this);
+		manager = bank.getBankManager();
+		manager.setGuard(this);
 		stateChanged();
 	}
-	public void test(bankCustomerRole newC){
-		System.out.println("TESTING MESSAGES");
-		System.out.println("Guard: Customer wants to enter");
-		Entry c = new Entry();
-		c.s = state.entered;
-		c.bc = newC;
-		custEnter.add(c);
-		stateChanged();
-	}
-	
+
 	public void wantEnter(Customer newC) {
 		System.out.println("Guard: Customer wants to enter");
 		Entry c = new Entry();
 		c.s = state.entered;
 		c.bc = newC;
 		custEnter.add(c);
+		//System.out.println("Myperson.mainrole: "+myPerson.mainRole+" Guard address: "+this+" Size: "+custEnter.size());
 		stateChanged();
 	}
 	
@@ -104,14 +98,17 @@ public class bankGuardRole extends Role implements Guard {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		//System.out.println("Myperson.mainrole: "+myPerson.mainRole+" ~Made it to Guard "+this+" PEA size: "+custEnter.size());
 		if( s == state.ready) {
 			enterBank();
 			return true;
 		}
+
 		if ( s== state.leaving) {
 			leaveBank();
 			return true;
 		}
+
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
 				if (c.s == state.complied) {
@@ -196,11 +193,5 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public bankGuardGui getGui() { 
 		return gui;
-	}
-
-	@Override
-	public void wantEnter(bankCustomerRole newC) {
-		// TODO Auto-generated method stub
-		
 	}
 }

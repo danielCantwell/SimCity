@@ -475,6 +475,27 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     protected void addCommands()
     {
+        Action keyCtrlZ = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 //System.out.println("Spawning a new pedestrian.");
+            	 //AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+            	 //PersonGui g = new PersonGui(gui, aStarTraversal);
+            	 //Person p = new Person("Jesse", g, "Bank.bankManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
+            	 
+            	 
+            	 createPerson("Jesse", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Brian", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Omar", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+
+            	 //g.setPerson(p);
+            	 //addGui(g);
+            	 //God.Get().addPerson(p);
+            	 //p.startThread();
+             }
+        };
         Action keyCtrlN = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
@@ -496,7 +517,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 //p.startThread();
              }
         };
-        
+        Action keyCtrlE = new AbstractAction()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		createPerson("Tommy", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+        	}
+        };
         Action keyCtrlM = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
@@ -577,6 +604,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        String stringCtrlE = "CTRL E";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK), stringCtrlE);
+        getActionMap().put(stringCtrlE, keyCtrlE);
+        String stringCtrlZ = "CTRL Z";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK), stringCtrlZ);
+        getActionMap().put(stringCtrlZ, keyCtrlZ);
         String stringCtrlN = "CTRL N";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), stringCtrlN);
         getActionMap().put(stringCtrlN, keyCtrlN);

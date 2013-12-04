@@ -15,7 +15,7 @@ public interface Guard {
 	//----------------------------------------------Messages-------------------------------------------------
 	public abstract void enterBuilding();
 
-	public abstract void wantEnter(bankCustomerRole newC);
+	public abstract void wantEnter(Customer newC);
 
 	public abstract void allowSearch(Customer newC,
 			List<String> inventory);

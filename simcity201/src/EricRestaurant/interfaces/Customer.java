@@ -1,7 +1,6 @@
 package EricRestaurant.interfaces;
 
 import EricRestaurant.EricCashier;
-import EricRestaurant.EricHost;
 import EricRestaurant.EricWaiter;
 import EricRestaurant.gui.CustomerGui;
 
@@ -10,7 +9,7 @@ public interface Customer {
 	/* (non-Javadoc)
 	 * @see restaurant.Cashier#setHost(restaurant.HostAgent)
 	 */
-	public abstract void setHost(EricHost host);
+	public abstract void setHost(Host host);
 
 	/* (non-Javadoc)
 	 * @see restaurant.Cashier#setCash(restaurant.CashierAgent)
