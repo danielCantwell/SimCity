@@ -271,7 +271,7 @@ public class God {
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
 	    			p.msgGoToWork();
 	    		}
-	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiter"))
+	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiter"));
 	    	}
 	    }
 	    

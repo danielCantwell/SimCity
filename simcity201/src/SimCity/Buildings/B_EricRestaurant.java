@@ -3,6 +3,7 @@ import javax.swing.JPanel;
 
 import EricRestaurant.EricCashier;
 import EricRestaurant.EricCook;
+import EricRestaurant.EricCustomer;
 import EricRestaurant.EricHost;
 import EricRestaurant.EricWaiter;
 import SimCity.Base.Building;
@@ -12,13 +13,17 @@ import EricRestaurant.interfaces.*;
 
 public class B_EricRestaurant extends Building {
 	
-	public Host host;
-	public Waiter waiter;
-	public Cashier cashier;
+	public EricHost host = new EricHost("Host");
+	public EricCook cook = new EricCook("Cook");
+	public EricCashier cashier = new EricCashier();
+	public int numWaiter = 0;
 	
-	Person pHost = null;
-	Person pWaiter = null;
-	Person pCashier = null;
+//	Person pHost = null;
+//	Person pWaiter = null;
+//	Person pCashier = null;
+	
+	public boolean hostFilled = false, cashierFilled = false, cookFilled = false;
+
 	
 	public B_EricRestaurant(int id, JPanel jp) {
 		super(id, jp);
@@ -33,13 +38,11 @@ public class B_EricRestaurant extends Building {
 		tag = "B_EricRestaurant";
 	}
 
-	public void EnterBuilding(Person person, String role) {
-		
-	}
+
 	@Override
 	public boolean areAllNeededRolesFilled() {
 		// TODO Auto-generated method stub
-		return false;
+		return hostFilled && cashierFilled && cookFilled && numWaiter > 0;
 	}
 
 	@Override
@@ -57,7 +60,40 @@ public class B_EricRestaurant extends Building {
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
 		// TODO Auto-generated method stub
-		
+
+	}
+	@Override
+	public void EnterBuilding(Person person, String role) {
+		Role newRole = null;
+		try {
+			if(role.equals("EricRestaurant.EricHost")) { 
+				newRole = host;
+				setOpen(areAllNeededRolesFilled());
+				}
+			else if(role.equals("EricRestaurant.EricWaiter")) {
+				newRole = new EricWaiter("Waiter");
+			}
+			else if(role.equals("EricRestaurant.EricCook")) { 
+				newRole = cook;
+				setOpen(areAllNeededRolesFilled());
+			}
+			else if(role.equals("EricRestaurant.EricCashier")) {
+				newRole = cashier;
+				setOpen(areAllNeededRolesFilled());
+			}
+			else if(role.equals("EricRestaurant.EricCustomer")) {
+				newRole = new EricCustomer("Customer");
+			}
+			newRole.setActive(true);
+			newRole.setPerson(person);
+			person.msgCreateRole(newRole, true);
+			fillNeededRoles(person, newRole);
+			person.msgEnterBuilding(this);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println ("Building: no class found");
+		}
 	}
 
 	@Override

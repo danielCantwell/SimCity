@@ -42,4 +42,6 @@ public interface Guard {
 
 	public abstract void RobberEnter(Robber robberRole);
 
+	public abstract void doneMotion();
+
 }

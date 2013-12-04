@@ -9,7 +9,7 @@ import SimCity.gui.Gui;
 public class bankGuardGui implements Gui{
 	
 	private Guard guard;
-	private int xPos = 650, yPos = 350;
+	private int xPos = 250, yPos = 350;
 	private int xDest = 570,  yDest = 350;
 	private int xSize = 30, ySize = 30;
 	
@@ -24,6 +24,9 @@ public class bankGuardGui implements Gui{
 			yPos++;
 		else if (yPos > yDest)
 			yPos--;
+		if(xPos == xDest && yPos == yDest) {
+			guard.doneMotion();
+		}
 	}
 
 	public bankGuardGui(Guard guard) {
@@ -38,7 +41,7 @@ public class bankGuardGui implements Gui{
 	
 	public void doEnterBank() {
 		xDest = 440;
-		yDest = 320;
+		yDest = 670;
 	}
 	
 	public void doLeaveBank() {
