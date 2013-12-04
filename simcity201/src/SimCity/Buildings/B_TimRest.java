@@ -2,41 +2,41 @@ package SimCity.Buildings;
 
 import javax.swing.JPanel;
 
-import market.MarketClerkRole;
-import market.MarketCustomerRole;
-import market.MarketManagerRole;
-import market.MarketPackerRole;
-import market.gui.MarketAnimationPanel;
+import timRest.TimHostRole;
+import timRest.TimCookRole;
+import timRest.TimCustomerRole;
+import timRest.TimCashierRole;
+import timRest.TimWaiterRole;
+import timRest.gui.TimAnimationPanel;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 /**
- * @author Brian
- *         Timothy So
+ * @author Timothy So
  *
  */
-public class B_Market extends Building{
+public class B_TimRest extends Building{
 	
-	private MarketManagerRole managerRole;
-    public MarketAnimationPanel panel;
+	private TimHostRole hostRole;
+    public TimAnimationPanel panel;
 
-    public void setManager(MarketManagerRole m){
-        managerRole = m;
+    public void setManager(TimHostRole h){
+        hostRole = h;
     }
-    public MarketManagerRole getManager(){
-        return managerRole;
+    public TimHostRole getManager(){
+        return hostRole;
     }
 	
-	public B_Market(int id, JPanel jp) {
+	public B_TimRest(int id, JPanel jp) {
 		super(id, jp);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public B_Market(int id){
+	public B_TimRest(int id){
 		
 	}
 
-	public B_Market(int id, JPanel jp, int xCoord, int yCoord){
+	public B_TimRest(int id, JPanel jp, int xCoord, int yCoord){
 		this.id = id;
 		buildingPanel = jp;
 		x = xCoord;
@@ -57,7 +57,7 @@ public class B_Market extends Building{
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		return (managerRole != null && managerRole.isRestaurantReady());
+		return (hostRole != null && hostRole.isRestaurantReady());
 	}
 
 	@Override
@@ -75,25 +75,25 @@ public class B_Market extends Building{
             newRole.setPerson(person);
             person.msgCreateRole(newRole, true);
             fillNeededRoles(person, newRole);
-            if (newRole instanceof MarketManagerRole)
+            /*if (newRole instanceof TimHostRole)
             {
-                MarketManagerRole marketRole = (MarketManagerRole) person.mainRole;
-                managerRole = marketRole;
+                TimHostRole marketRole = (TimHostRole) person.mainRole;
+                hostRole = marketRole;
                 panel.manager = person;
                 panel.addGui(marketRole.getGui());
             }
             if (newRole instanceof MarketClerkRole)
             {
                 MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
-                marketRole.setManager(managerRole);
-                managerRole.addClerk(marketRole);
+                marketRole.setManager(hostRole);
+                hostRole.addClerk(marketRole);
                 panel.addGui(marketRole.getGui());
             }
             if (newRole instanceof MarketPackerRole)
             {
                 MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
-                marketRole.setManager(managerRole);
-                managerRole.addPacker(marketRole);
+                marketRole.setManager(hostRole);
+                hostRole.addPacker(marketRole);
                 panel.addGui(marketRole.getGui());
             }
             if (newRole instanceof MarketCustomerRole)
@@ -104,11 +104,11 @@ public class B_Market extends Building{
                     if (r instanceof MarketCustomerRole)
                     {
                         marketRole = (MarketCustomerRole) r;
-                        marketRole.setManager(managerRole);
+                        marketRole.setManager(hostRole);
                         panel.addGui(marketRole.getGui());
                     }
                 }
-            }
+            }*/
             person.msgEnterBuilding(this);
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
@@ -121,34 +121,34 @@ public class B_Market extends Building{
 	public void ExitBuilding(Person person) {
         for (int i = 0; i < person.roles.size(); i++)
         {
-            if (person.roles.get(i) instanceof MarketManagerRole)
+            /*if (person.roles.get(i) instanceof TimHostRole)
             {
-                MarketManagerRole cRole = (MarketManagerRole)person.roles.get(i);
+                TimHostRole cRole = (TimHostRole)person.roles.get(i);
                 cRole.setActive(false);
-                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
             if (person.roles.get(i) instanceof MarketClerkRole)
             {
                 MarketClerkRole cRole = (MarketClerkRole)person.roles.get(i);
                 cRole.setActive(false);
-                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
             if (person.roles.get(i) instanceof MarketPackerRole)
             {
                 MarketPackerRole cRole = (MarketPackerRole)person.roles.get(i);
                 cRole.setActive(false);
-                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
             if (person.roles.get(i) instanceof MarketCustomerRole)
             {
                 MarketCustomerRole cRole = (MarketCustomerRole)person.roles.get(i);
                 cRole.setActive(false);
-                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
-            }
+            }*/
         }
 	}
 	

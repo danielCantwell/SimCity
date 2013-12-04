@@ -11,9 +11,8 @@ import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
 import SimCity.Base.Role;
-import agent.Agent;
 
-public class timCashier extends Role implements TimCashier{
+public class TimCashierRole extends Role implements TimCashier{
 	
 	String name;
 	
@@ -31,7 +30,7 @@ public class timCashier extends Role implements TimCashier{
 	
 	public enum CheckState { pending, calculating, ready }
 	
-	public timCashier(String name)
+	public TimCashierRole(String name)
 	{
 		super();
 		this.name = name;
