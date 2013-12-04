@@ -4,6 +4,11 @@
 package exterior.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,8 +31,8 @@ import SimCity.Base.Person.Vehicle;
  */
 public class SetupPanel extends JFrame {
 
-	private final int WINDOWX = 1500;
-	private final int WINDOWY = 300;
+	private final int WINDOWX = 500;
+	private final int WINDOWY = 500;
 
 	private AnimationPanel animationPanel;
 
@@ -72,8 +77,8 @@ public class SetupPanel extends JFrame {
 
 	private ButtonGroup housing = new ButtonGroup();
 
-	private JRadioButton houseTenant = new JRadioButton("House Tenant");
-	private JRadioButton apartmentTenant = new JRadioButton("Apartment Tenant");
+	private JRadioButton houseTenant = new JRadioButton("House");
+	private JRadioButton apartmentTenant = new JRadioButton("Apartment");
 
 	// --------------- Mode of Transportation ------
 
@@ -106,6 +111,7 @@ public class SetupPanel extends JFrame {
 		setVisible(true);
 		setTitle("Setup");
 		setLayout(new BorderLayout());
+		setAlwaysOnTop(true);
 
 		optionsPanel.setLayout(new BorderLayout());
 
@@ -141,6 +147,8 @@ public class SetupPanel extends JFrame {
 
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
+		
+		professionPanel.setLayout(new GridLayout(12, 1));
 
 		professionPanel.add(bankManager);
 		professionPanel.add(bankGuard);
@@ -168,8 +176,8 @@ public class SetupPanel extends JFrame {
 		modePanel.add(modeNormal);
 		modePanel.add(modeCompatibility);
 
-		optionsPanel.add(professionPanel, BorderLayout.NORTH);
-		optionsPanel.add(housingPanel, BorderLayout.WEST);
+		optionsPanel.add(professionPanel, BorderLayout.WEST);
+		optionsPanel.add(housingPanel, BorderLayout.NORTH);
 		optionsPanel.add(transportationPanel, BorderLayout.CENTER);
 		optionsPanel.add(moralityPanel, BorderLayout.EAST);
 		optionsPanel.add(modePanel, BorderLayout.SOUTH);
@@ -178,6 +186,22 @@ public class SetupPanel extends JFrame {
 
 		add(optionsPanel, BorderLayout.NORTH);
 		add(mainPanel, BorderLayout.SOUTH);
+		
+		modeCompatibility.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				animationPanel.setShowRect(true);
+			}
+		});
+		
+		modeNormal.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				animationPanel.setShowRect(false);
+			}
+		});
 
 		createPerson.addActionListener(new ActionListener() {
 

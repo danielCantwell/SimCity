@@ -1,9 +1,5 @@
 package exterior.gui;
 
-import housing.roles.OwnerRole;
-import housing.interfaces.Tenant;
-import housing.roles.TenantRole;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -143,6 +139,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private ImageIcon iconCar6D = new ImageIcon("images/car6_d.png");
     private ImageIcon iconCar6L = new ImageIcon("images/car6_l.png");
     private ImageIcon iconCar6U = new ImageIcon("images/car6_u.png");
+    private ImageIcon iconSun = new ImageIcon("images/iconSun.png");
+    private ImageIcon iconMoon = new ImageIcon("images/iconMoon.png");
+    private ImageIcon iconClock = new ImageIcon("images/iconClock.png");
 	
 	public AnimationPanel() {
 		setSize(WINDOWX, WINDOWY);
@@ -247,7 +246,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				}
 			}
 		});
-
+		
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -411,9 +410,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
-			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
-            g2.drawString("Current Day: " + (God.Get().getDay()+1), 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
-            g2.drawString("Horizontal red light? : " + horizontalRedLight, 20 + scrollPane.getHorizontalScrollBar().getValue(), 90 + scrollPane.getVerticalScrollBar().getValue());
+			g2.drawString("" + God.Get().getHour() + ":00", 46 + scrollPane.getHorizontalScrollBar().getValue(), 33 + scrollPane.getVerticalScrollBar().getValue());
+            g2.drawString("Day #" + (God.Get().getDay()+1), 46 + scrollPane.getHorizontalScrollBar().getValue(), 63 + scrollPane.getVerticalScrollBar().getValue());
+			iconClock.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 20 + scrollPane.getVerticalScrollBar().getValue());
+			if (God.Get().getHour() < 6 || God.Get().getHour() >= 18) {
+				iconMoon.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 50 + scrollPane.getVerticalScrollBar().getValue());
+			} else {
+				iconSun.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 50 + scrollPane.getVerticalScrollBar().getValue());
+			}
 		}
 
 		for (Gui gui : guis) {
@@ -721,6 +725,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setVGrid(int x, int y, int id) {
     	vehicleGrid[x][y] = id;
+    }
+    
+    public void setShowRect(boolean show) {
+    	SHOW_RECT = show;
     }
 
 }
