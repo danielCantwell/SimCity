@@ -56,6 +56,7 @@ public class SetupPanel extends JFrame {
     private JRadioButton bankManager		= new JRadioButton("Bank Manager");
     private JRadioButton bankTeller			= new JRadioButton("Bank Teller");
     private JRadioButton bankGuard			= new JRadioButton("Bank Guard");
+    private JRadioButton bankRobber			= new JRadioButton("Bank Robber");
     
     private JRadioButton marketManager		= new JRadioButton("Market Manager");
     private JRadioButton marketClerk		= new JRadioButton("Market Clerk");
@@ -113,6 +114,7 @@ public class SetupPanel extends JFrame {
     	profession.add(bankManager);
     	profession.add(bankGuard);
     	profession.add(bankTeller);
+    	profession.add(bankRobber);
     	profession.add(marketClerk);
     	profession.add(marketPacker);
     	profession.add(marketDelivery);
@@ -143,6 +145,7 @@ public class SetupPanel extends JFrame {
     	professionPanel.add(bankManager);
     	professionPanel.add(bankGuard);
     	professionPanel.add(bankTeller);
+    	professionPanel.add(bankRobber);
     	professionPanel.add(marketClerk);
     	professionPanel.add(marketPacker);
     	professionPanel.add(marketDelivery);
@@ -190,10 +193,11 @@ public class SetupPanel extends JFrame {
 				if (bankManager.isSelected())			role = "Bank.bankManagerRole";
 				else if (bankGuard.isSelected())		role = "Bank.bankGuardRole";
 				else if (bankTeller.isSelected())		role = "Bank.tellerRole";
-				else if (marketClerk.isSelected())		role = "Market.MarketClerkRole";
-				else if (marketPacker.isSelected())		role = "Market.MarketPackerRole";
-				else if (marketDelivery.isSelected())	role = "Market.MarketDeliveryRole";
-				else if (marketManager.isSelected())	role = "Market.MarketManagerRole";
+				else if (bankRobber.isSelected())		role = "Bank.RobberRole";
+				else if (marketClerk.isSelected())		role = "market.MarketClerkRole";
+				else if (marketPacker.isSelected())		role = "market.MarketPackerRole";
+				else if (marketDelivery.isSelected())	role = "market.MarketDeliveryRole";
+				else if (marketManager.isSelected())	role = "market.MarketManagerRole";
 				
 				if (vehicleBus.isSelected())		v = Vehicle.bus;
 				else if (vehicleCar.isSelected())	v = Vehicle.car;
