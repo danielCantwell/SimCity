@@ -41,6 +41,7 @@ public class CarGui implements Gui {
 				rotation = 2;
 			}
 			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 0) {
+					//&& gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] ) {
 				xPos-=4;
 				rotation = 2;
 			}
