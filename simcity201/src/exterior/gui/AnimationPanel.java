@@ -1,5 +1,7 @@
 package exterior.gui;
 
+import housing.roles.OwnerRole;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -91,6 +93,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     private Semaphore[][] pedestrianGrid = new Semaphore[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
     public int[][] vehicleGrid = new int[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
+    public boolean horizontalRedLight = true;
     private String consoleText = "";
     private Font font;
     private int currentID = 1;
@@ -152,6 +155,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			e1.printStackTrace();
 		}
 
+		Timer trafficTimer = new Timer(10000, new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   horizontalRedLight = !horizontalRedLight;
+	    }});
+		trafficTimer.start();
+     
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -347,6 +356,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			g2.setFont(font);
 			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
 			g2.drawString("Current Day: " + God.Get().getDay()+1, 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
+			g2.drawString("Horizontal red light? : " + horizontalRedLight, 20 + scrollPane.getHorizontalScrollBar().getValue(), 90 + scrollPane.getVerticalScrollBar().getValue());
 		}
 
 		for (Gui gui : guis) {
