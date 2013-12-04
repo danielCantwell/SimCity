@@ -99,8 +99,8 @@ public class MarketClerkRole extends Role implements MarketClerk {
 
     public void workOver()
     {
-        // TODO Auto-generated method stub
-        
+        myPerson.Do("Closing time.");
+        exitBuilding(myPerson);
     }
 
 	/**

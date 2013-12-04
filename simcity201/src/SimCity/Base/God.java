@@ -61,7 +61,9 @@ public class God {
 					return b;
 				}
 			}
-			System.out.println("Could not find building");
+			System.out.println("Could not find building: " + id);
+			//throw new Exception();
+			
 			return null;
 	    }
 	    public B_House getBHouse(int id) {
@@ -206,7 +208,7 @@ public class God {
 	    
 	    public void wakeUp(){
 	    	announcedTime = true;
-	    	System.out.println ("its morning");
+	    	System.out.println ("Morning");
 	    	for(Person p: persons){
 	    		p.msgMorning();
 	    	}
@@ -214,7 +216,7 @@ public class God {
 	    
 	    public void fakeCustomersGoToWork(){
 	    	announcedTime = true;
-	    	System.out.println("customers going to buy");
+	    	System.out.println("Customer Roles are goin to do their customer things.");
 	    	for (Person p: persons){
 	    		if (p.getTimeState() != TimeState.working){
 	    			p.msgGoToWork();
@@ -227,6 +229,9 @@ public class God {
 	    	System.out.println("managers going to work");
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole){
+	    			p.msgGoToWork();
+	    		}else
+	    		if (p.getMainRoleString().equals("brianRest.BrianHost")){
 	    			p.msgGoToWork();
 	    		}
 	    	}

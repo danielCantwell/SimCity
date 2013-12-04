@@ -7,6 +7,7 @@ import brianRest.BrianCookRole;
 import brianRest.BrianCustomerRole;
 import brianRest.BrianHostRole;
 import brianRest.BrianWaiterRole;
+import brianRest.gui.BrianAnimationPanel;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianHost;
 import restaurant.DannyCashier;
@@ -38,6 +39,8 @@ public class B_BrianRestaurant extends Building{
 	public B_BrianRestaurant(int id, JPanel jp, int xCoord, int yCoord){
 		this.id = id;
 		buildingPanel = jp;
+		BrianAnimationPanel bap = (BrianAnimationPanel)jp;
+		bap.setRestaurant(this);
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
@@ -70,8 +73,7 @@ public class B_BrianRestaurant extends Building{
 
 	@Override
 	public void ExitBuilding(Person person) {
-		// TODO Auto-generated method stub
-    	person.resetActiveRoles();
+		person.resetActiveRoles();
     	person.msgExitBuilding();
 	}
 	

@@ -90,8 +90,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
     public void workOver()
     {
-        // TODO Auto-generated method stub
-        
+        myPerson.Do("Market has closed for the day...");
+        exitBuilding(myPerson);
     }
 
 	/**
@@ -133,7 +133,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 		else if (state == AgentState.Left)
 		{
-		    exitBuilding();
+		    exitBuilding(myPerson);
 		    return true;
 		}
 	    
@@ -209,20 +209,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
             e.printStackTrace();
         }
 	}
-	
-	private void exitBuilding()
-	{
-	    for (int i = 0; i < myPerson.roles.size(); i++)
-        {
-            if (myPerson.roles.get(i) instanceof MarketCustomerRole)
-            {
-                MarketCustomerRole cRole = (MarketCustomerRole)myPerson.roles.get(i);
-                cRole.setActive(false);
-                ((B_Market) myPerson.building).panel.removeGui(cRole.getGui());
-                myPerson.msgExitBuilding();
-            }
-        }
-	}
 
     /**
      * Utilities
@@ -241,8 +227,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
     @Override
     protected void enterBuilding() {
-        // TODO Auto-generated method stub
-        
+        if (!myPerson.building.getOpen()){
+            myPerson.Do("Market is closed...");
+            exitBuilding(myPerson);
+        }
     }
 
     /**

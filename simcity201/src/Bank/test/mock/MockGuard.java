@@ -102,7 +102,7 @@ public class MockGuard implements Guard {
 	}
 
 	@Override
-	public void wantEnter(bankCustomerRole newC) {
+	public void wantEnter(Customer newC) {
 		// TODO Auto-generated method stub
 		
 	}
