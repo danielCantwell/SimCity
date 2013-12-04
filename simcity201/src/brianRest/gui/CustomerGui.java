@@ -5,6 +5,7 @@ import restaurant.interfaces.Customer;
 import java.awt.*;
 
 import brianRest.BrianCustomerRole;
+import brianRest.BrianHostRole;
 import brianRest.BrianTable;
 import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
@@ -37,7 +38,7 @@ public class CustomerGui implements Gui{
 	//Cache the host so we have access to table locations.
 	//BrianHost host; //We only cache the host so that we can ask for the table location.
 
-	public CustomerGui(BrianCustomer brianCustomerRole, BrianHost host){ //HostAgent m) {
+	public CustomerGui(BrianCustomer brianCustomerRole, BrianHostRole host){ //HostAgent m) {
 		agent = brianCustomerRole;
 		xPos = -40;
 		yPos = -40;

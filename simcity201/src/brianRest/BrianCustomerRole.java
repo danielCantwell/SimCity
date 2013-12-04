@@ -426,9 +426,12 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 
 	@Override
 	protected void enterBuilding() {
+		System.out.println("Customer entered building");
+		
+		B_BrianRestaurant rest = (B_BrianRestaurant)(myPerson.getBuilding()); 
 		
 		//add the gui
-		brianRest.gui.CustomerGui wg = new brianRest.gui.CustomerGui(this);
+		brianRest.gui.CustomerGui wg = new brianRest.gui.CustomerGui(this, rest.hostRole);
 		customerGui = wg;
 		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
 		bap.addGui(wg);
@@ -439,7 +442,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 				return;
 		}
 		
-		B_BrianRestaurant rest = (B_BrianRestaurant)(myPerson.getBuilding()); 
+		
 		cashier = rest.cashierRole;
 		host = rest.hostRole;
 		
