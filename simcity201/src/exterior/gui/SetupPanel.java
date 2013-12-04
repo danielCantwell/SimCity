@@ -194,10 +194,10 @@ public class SetupPanel extends JFrame {
 				else if (bankGuard.isSelected())		role = "Bank.bankGuardRole";
 				else if (bankTeller.isSelected())		role = "Bank.tellerRole";
 				else if (bankRobber.isSelected())		role = "Bank.RobberRole";
-				else if (marketClerk.isSelected())		role = "Market.MarketClerkRole";
-				else if (marketPacker.isSelected())		role = "Market.MarketPackerRole";
-				else if (marketDelivery.isSelected())	role = "Market.MarketDeliveryRole";
-				else if (marketManager.isSelected())	role = "Market.MarketManagerRole";
+				else if (marketClerk.isSelected())		role = "market.MarketClerkRole";
+				else if (marketPacker.isSelected())		role = "market.MarketPackerRole";
+				else if (marketDelivery.isSelected())	role = "market.MarketDeliveryRole";
+				else if (marketManager.isSelected())	role = "market.MarketManagerRole";
 				
 				if (vehicleBus.isSelected())		v = Vehicle.bus;
 				else if (vehicleCar.isSelected())	v = Vehicle.car;
