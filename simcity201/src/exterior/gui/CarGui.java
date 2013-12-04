@@ -14,7 +14,7 @@ public class CarGui implements Gui {
 	private Command command = Command.noCommand;
 	private boolean isPresent = false;
 	private Person person;
-	private int myID; 
+	private int myID;
 	
 	public CarGui(SimCityGui gui, int id) {
 		this.gui = gui;
@@ -78,7 +78,7 @@ public class CarGui implements Gui {
 				command = Command.noCommand;
 				isPresent = false;
 				gui.animationPanel.clearVGrid(myID);
-				person.animation.release();
+				//person.animation.release();
 			} else if (command == Command.seekX) {
 				command = Command.seekY;
 				xDestination = xPos;
