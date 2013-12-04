@@ -125,6 +125,7 @@ public class Person extends Agent {
 		public TimeState getPersonState() { return timeState;}
 		public Role getMainRole(){ return mainRole;}
 		public Building getWorkPlace(){return workPlace;}
+		public String getName(){return name;};
 		public void setWorkPlace(Building work){workPlace = work;}
 		public void setMainRole(String job) { 
 			Role newRole;

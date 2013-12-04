@@ -441,11 +441,35 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrlY = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
+        Action keyCtrlK = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
         Action keyCtrlP = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
              {
-            	marketScenarioPerson("Marketman", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
+        Action keyCtrl3 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
              }
         };
         
@@ -485,9 +509,18 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrlG = "CTRL G";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.CTRL_MASK), stringCtrlG);
         getActionMap().put(stringCtrlG, keyCtrlG);
+        String stringCtrlY = "CTRL Y";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK), stringCtrlY);
+        getActionMap().put(stringCtrlY, keyCtrlY);
+        String stringCtrlK = "CTRL K";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_K, KeyEvent.CTRL_MASK), stringCtrlK);
+        getActionMap().put(stringCtrlK, keyCtrlK);
         String stringCtrlP = "CTRL P";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK), stringCtrlP);
         getActionMap().put(stringCtrlP, keyCtrlP);
+        String stringCtrl3 = "CTRL 3";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_MASK), stringCtrl3);
+        getActionMap().put(stringCtrl3, keyCtrl3);
         String stringCtrlC = "CTRL C";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
         getActionMap().put(stringCtrlC, keyCtrlC);
