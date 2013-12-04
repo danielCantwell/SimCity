@@ -81,8 +81,11 @@ public class SimCityGui extends JFrame {
         		((MarketAnimationPanel) buildingPanel).setBMarket((B_Market)b);
     		}
     		// Add Restaurants:
-
-    		if (i == 6 || i == 7 || i == 9 || i == 10 /*|| i == 11*/) {
+    		if (i==6){
+    			buildingPanel = new brianRest.gui.BrianAnimationPanel();
+    			b = new B_BrianRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+    		}
+    		if (i == 7 || i == 9 || i == 10 /*|| i == 11*/) {
         		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
         		b = new B_DannyRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
