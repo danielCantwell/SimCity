@@ -12,9 +12,10 @@ public interface Teller {
 
 	public abstract void tellerAssigned(Customer c);
 
-	public abstract void foundTeller(int accNum, Money money,
-			Customer cust);
-
+	
+	public abstract void RobTeller(int accNum, Money money,
+			Robber robberRole);
+	
 	public abstract void requestWithdraw(int acc, Money money);
 
 	public abstract void requestDeposit(int acc, Money money);
@@ -42,5 +43,7 @@ public interface Teller {
 	public abstract void setGui(tellerGui gui);
 
 	public abstract tellerGui getGui();
+
+	public abstract void foundTeller(int accNum, Money money, Customer cust);
 
 }

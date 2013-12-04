@@ -28,7 +28,11 @@ public class SimCityGui extends JFrame {
 	ArrayList<JPanel> buildingPanelList = new ArrayList<JPanel>();
 	public JFrame buildingFrame;
 	
+	public SetupPanel setupPanel;
+	
     public SimCityGui() {
+    	setupPanel = new SetupPanel(animationPanel);
+    	
         int WINDOWX = 1920;
         int WINDOWY = 1920; //1472;
         int BFRAMEX = 640;

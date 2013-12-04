@@ -62,8 +62,7 @@ public class bankCustomerRole extends Role implements Customer{
 		
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
-		
-		
+			
 	}
 
 	@Override
@@ -114,12 +113,6 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		
-		if(s.equals("enter")) {
-			
-			openDoor();
-			return true;
-		}
 		
 		if (s == state.enter){
 			
