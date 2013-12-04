@@ -14,6 +14,8 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import brianRest.BrianCustomerRole;
+import brianRest.BrianWaiterRole;
 import market.MarketDeliveryPersonRole;
 import exterior.gui.CarGui;
 import exterior.gui.Gui;
@@ -135,7 +137,8 @@ public class Person extends Agent {
 			if (job.equals("brianRest.BrianHostRole")) return;
 			else if (job.equals("brianRest.BrianCookRole")) return;
 			else if (job.equals("brianRest.BrianCashierRole"))return;
-			
+			else if (job.equals("brianRest.BrianCustomerRole")) {return;}
+			else if (job.equals("brianRest.BrianWaiterRole")){return;}
 			
 			
 			Role newRole;

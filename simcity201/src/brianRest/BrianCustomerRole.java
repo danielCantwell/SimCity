@@ -4,6 +4,7 @@ package brianRest;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
+import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CustomerGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCustomer;
@@ -12,6 +13,7 @@ import brianRest.interfaces.BrianWaiter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 
 
@@ -424,6 +426,13 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 
 	@Override
 	protected void enterBuilding() {
+		
+		//add the gui
+		brianRest.gui.CustomerGui wg = new brianRest.gui.CustomerGui(this);
+		customerGui = wg;
+		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		bap.addGui(wg);
+		
 		Do("Going to restaurant");
 		if (!myPerson.building.getOpen()){
 				customerGui.DoExitRestaurant();

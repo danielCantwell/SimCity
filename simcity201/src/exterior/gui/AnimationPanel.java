@@ -614,14 +614,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-            	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
-            	 createPerson("Host", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
-            	 createPerson("Host", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
-            	 createPerson("Host", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
-            	 createPerson("Host", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));            	 
+            	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Customer", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Waiter", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Cashier", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));            	 
              }
         };
-        
+        String stringCtrl0 = "CTRL 0";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_0, KeyEvent.CTRL_MASK), stringCtrl0);
+        getActionMap().put(stringCtrl0, keyCtrl0);
 
         String stringCtrlE = "CTRL E";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK), stringCtrlE);
