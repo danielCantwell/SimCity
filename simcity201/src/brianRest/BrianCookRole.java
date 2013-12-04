@@ -2,6 +2,7 @@ package brianRest;
 
 //import javax.swing.*;
 
+import SimCity.Base.Role;
 import agent.Agent;
 import brianRest.gui.CookGui;
 import brianRest.interfaces.BrianCook;
@@ -24,7 +25,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.Timer;
 
 
-public class BrianCookRole extends Agent implements BrianCook {
+public class BrianCookRole extends Role implements BrianCook {
 	
 	private String name;
 	CookGui gui;
@@ -253,6 +254,18 @@ public class BrianCookRole extends Agent implements BrianCook {
 			  return choice;
 		  }
 		  
+	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
