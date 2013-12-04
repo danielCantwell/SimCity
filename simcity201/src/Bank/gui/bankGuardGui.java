@@ -40,6 +40,11 @@ public class bankGuardGui implements Gui{
 		xDest = 440;
 		yDest = 320;
 	}
+	
+	public void doLeaveBank() {
+		xDest = 700;
+		yDest = 320;
+	}
 
 	@Override
 	public boolean isPresent() {

@@ -32,8 +32,9 @@ public class tellerGui implements Gui {
 		this.teller = teller;
 	}
 	
-	public void doEnterBank(int tellerNum) {
-		//teller goes to specified location on counter
+	public void doEnterBank(int tn) {
+		xDest = 100*(tn-1);
+		yDest = 80;
 	}
 	//Teller Leaves the Bank at the end of work shift
 	public void doLeaveBank() {

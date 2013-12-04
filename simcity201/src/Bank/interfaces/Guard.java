@@ -40,4 +40,6 @@ public interface Guard {
 
 	void wantEnter(Customer newC);
 
+	public abstract void RobberEnter(Robber robberRole);
+
 }
