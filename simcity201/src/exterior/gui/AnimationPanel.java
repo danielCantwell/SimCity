@@ -355,8 +355,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
 			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
-			g2.drawString("Current Day: " + God.Get().getDay()+1, 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
-			g2.drawString("Horizontal red light? : " + horizontalRedLight, 20 + scrollPane.getHorizontalScrollBar().getValue(), 90 + scrollPane.getVerticalScrollBar().getValue());
+            g2.drawString("Current Day: " + (God.Get().getDay()+1), 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
+            g2.drawString("Horizontal red light? : " + horizontalRedLight, 20 + scrollPane.getHorizontalScrollBar().getValue(), 90 + scrollPane.getVerticalScrollBar().getValue());
 		}
 
 		for (Gui gui : guis) {
@@ -451,11 +451,35 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrlY = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
+        Action keyCtrlK = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
         Action keyCtrlP = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
              {
-            	marketScenarioPerson("Marketman", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
+        Action keyCtrl3 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
              }
         };
         
@@ -495,9 +519,18 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrlG = "CTRL G";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.CTRL_MASK), stringCtrlG);
         getActionMap().put(stringCtrlG, keyCtrlG);
+        String stringCtrlY = "CTRL Y";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK), stringCtrlY);
+        getActionMap().put(stringCtrlY, keyCtrlY);
+        String stringCtrlK = "CTRL K";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_K, KeyEvent.CTRL_MASK), stringCtrlK);
+        getActionMap().put(stringCtrlK, keyCtrlK);
         String stringCtrlP = "CTRL P";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK), stringCtrlP);
         getActionMap().put(stringCtrlP, keyCtrlP);
+        String stringCtrl3 = "CTRL 3";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_MASK), stringCtrl3);
+        getActionMap().put(stringCtrl3, keyCtrl3);
         String stringCtrlC = "CTRL C";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
         getActionMap().put(stringCtrlC, keyCtrlC);
