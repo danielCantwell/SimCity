@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 
@@ -51,9 +52,21 @@ public class OwnerRole extends Role implements Owner {
 
 	// MSG from setup
 	public void msgAddTenant(Tenant tenant) {
-		System.out.println("Owner added a tenant");
-		myTenants.add(new MyTenant(tenant));
-		tenant.msgHouseInfo(this, appliances, myTenants.size());
+		boolean newTenant = true;
+		synchronized (myTenants) {
+			for (MyTenant mt : myTenants) {
+				if (mt.tenant == tenant) {
+					newTenant = false;
+				}
+			}
+		}
+
+		if (newTenant) {
+			System.out.println("Owner added a tenant");
+			myTenants.add(new MyTenant(tenant));
+			tenant.msgHouseInfo(appliances, myTenants.size());
+			System.out.println("Owner has " + myTenants.size() + " tenants.");
+		}
 	}
 
 	// MSG from the God class at a certain time

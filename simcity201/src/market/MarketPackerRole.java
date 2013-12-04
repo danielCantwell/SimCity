@@ -73,8 +73,8 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	
     public void workOver()
     {
-        // TODO Auto-generated method stub
-        
+        myPerson.Do("Closing time.");
+        exitBuilding(myPerson);
     }
 
 	/**

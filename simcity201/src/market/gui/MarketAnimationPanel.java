@@ -91,7 +91,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 	
 	public void setBMarket(B_Market mar){
 		market = mar;
-        market.setManager((MarketManagerRole) manager.mainRole);
+        //market.setManager((MarketManagerRole) manager.mainRole);
         market.panel = this;
 	}
 	public B_Market getBMarket(){return market;}

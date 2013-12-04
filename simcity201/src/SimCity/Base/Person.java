@@ -125,6 +125,7 @@ public class Person extends Agent {
 		public TimeState getPersonState() { return timeState;}
 		public Role getMainRole(){ return mainRole;}
 		public Building getWorkPlace(){return workPlace;}
+		public String getName(){return name;};
 		public void setWorkPlace(Building work){workPlace = work;}
 		public void setMainRole(String job) { 
 			Role newRole;
@@ -161,7 +162,7 @@ public class Person extends Agent {
 		this.hungerThreshold = hungerThresh;
 		this.house = houseType; 
 		this.name = name;
-		this.building = God.Get().buildings.get(1);
+		this.building = God.Get().getBuilding(1);
 		myHouse = house;
 		this.workPlace = workplace;
 		God.Get().addPerson(this);

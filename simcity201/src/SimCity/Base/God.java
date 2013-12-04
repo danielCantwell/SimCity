@@ -20,6 +20,7 @@ import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
 import exterior.gui.AnimationPanel;
@@ -62,6 +63,14 @@ public class God {
 			}
 			System.out.println("Could not find building");
 			return null;
+	    }
+	    public B_House getBHouse(int id) {
+	    	for (Building b : simGui.buildingList) {
+	    		if (b.getID() == id) {
+	    			return (B_House) b;
+	    		}
+	    	}
+	    	return null;
 	    }
 	    
 	    public enum BuildingType{

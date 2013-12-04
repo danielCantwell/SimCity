@@ -177,7 +177,8 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     public void workOver()
     {
-        // TODO Auto-generated method stub   
+        myPerson.Do("Closing time.");
+        exitBuilding(myPerson);
     }
 
 	/**
@@ -425,17 +426,20 @@ public class MarketManagerRole extends Role implements MarketManager {
 	public void addPacker(MarketPackerRole r)
 	{
 	    packers.add(new MyPacker(r));
+	    stateChanged();
 	}
 	
 	public void addDeliveryPerson(MarketDeliveryPersonRole r)
 	{
         deliveryPeople.add(new MyDeliveryPerson(r));
+        stateChanged();
 	}
 	
 	public void addClerk(MarketClerkRole r)
 	{
         clerks.add(new MyClerk(r));
         clerkLocs.put(r, new Point(r.getGui().getXPos() - 40, r.getGui().getYPos()));
+        stateChanged();
 	}
 
 	public void setGui(MarketManagerGui gui) {
@@ -462,7 +466,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 
     public boolean isRestaurantReady()
     {
-        return (myPerson != null && !clerks.isEmpty() && !packers.isEmpty() && !deliveryPeople.isEmpty());
+        return (myPerson != null && !clerks.isEmpty() && !packers.isEmpty());// && !deliveryPeople.isEmpty());
     }
 
     /**
