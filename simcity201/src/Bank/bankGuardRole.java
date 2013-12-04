@@ -39,7 +39,7 @@ public class bankGuardRole extends Role implements Guard {
 		//manager = curBank.getBankManager();
 	}
 
-	@Override
+
 	public void setBank(B_Bank bank){
 		curBank = bank;
 		manager = bank.getBankManager();
@@ -47,7 +47,6 @@ public class bankGuardRole extends Role implements Guard {
 
 	//----------------------------------------------Messages-------------------------------------------------
 
-	@Override
 	public void enterBuilding() {
 		s = state.ready;
 		System.out.println("I am a guard");
@@ -56,8 +55,16 @@ public class bankGuardRole extends Role implements Guard {
 		bank.getBankManager().setGuard(this);
 		stateChanged();
 	}
-
-	@Override
+	public void test(bankCustomerRole newC){
+		System.out.println("TESTING MESSAGES");
+		System.out.println("Guard: Customer wants to enter");
+		Entry c = new Entry();
+		c.s = state.entered;
+		c.bc = newC;
+		custEnter.add(c);
+		stateChanged();
+	}
+	
 	public void wantEnter(Customer newC) {
 		System.out.println("Guard: Customer wants to enter");
 		Entry c = new Entry();

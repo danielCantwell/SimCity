@@ -66,7 +66,7 @@ public class B_Bank extends Building{
 	}
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		System.out.println("manager: " + manager + " guard: " + bankGuard);
+		//System.out.println("manager: " + manager + " guard: " + bankGuard);
 		return manager != null  && guard != null;
 	}
 	@Override
@@ -80,16 +80,14 @@ public class B_Bank extends Building{
 	protected void fillNeededRoles(Person p, Role r) {
 		if (r instanceof bankManagerRole){
 			manager = r.myPerson;
-			bankManager = (Manager) r;
+			bankManager = (bankManagerRole)r;
 		}
 		else if (r instanceof bankGuardRole){
 			guard = r.myPerson;
-			bankGuard = (Guard) r;
-			System.out.println(bankGuard);
+			bankGuard = (bankGuardRole)r;
+			System.out.println("This is guard: " + r);
 		}
 		
 	}
-
-	
 
 }

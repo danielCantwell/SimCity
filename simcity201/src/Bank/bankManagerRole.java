@@ -17,6 +17,10 @@ public class bankManagerRole extends Role implements  Manager{
 	
 	Guard guard;
 	
+	public void msgHello(){
+		System.out.println("Manager received a messsage from customer");
+	}
+	
 	@Override
 	public Guard getGuard(){return guard;}
 	

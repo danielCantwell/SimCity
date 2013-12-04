@@ -56,13 +56,13 @@ public class bankCustomerRole extends Role implements Customer{
 		s = state.enter;
 		B_Bank bank = (B_Bank)myPerson.building;
 		guard = (Guard)(bank.getBankGuard());
-		System.out.println("messaging this guard: " + " "+ guard.toString());
-		stateChanged();
+		//System.out.println("messaging this guard: " + " "+ guard.toString());
+		
 		System.out.println("Customer: has entered the building");
 		
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
-			
+		stateChanged();
 	}
 
 	@Override
@@ -142,7 +142,13 @@ public class bankCustomerRole extends Role implements Customer{
 	public void openDoor() {
 		if (!myPerson.building.getOpen()) {leaveBank(); return;}
 		System.out.println("opened door");
-		guard.wantEnter(this);
+		
+		bankGuardRole newGuard = (bankGuardRole)guard;
+		System.out.println("messaging this guard: " + guard + "active? " + newGuard.getActive() );
+		newGuard.test(this);
+		newGuard.wantEnter(this);
+		//B_Bank bank= (B_Bank)myPerson.building;
+		//bank.getBankManager()
 		s = state.waiting;
 	}
 
@@ -175,7 +181,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
-		System.out.println("leaving bank");
+		System.out.println("customer leaving bank");
 		exitBuilding(myPerson);
 	}
 	@Override
