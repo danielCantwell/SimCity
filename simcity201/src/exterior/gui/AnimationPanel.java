@@ -1,6 +1,8 @@
 package exterior.gui;
 
 import housing.roles.OwnerRole;
+import housing.interfaces.Tenant;
+import housing.roles.TenantRole;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -408,8 +410,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
 			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
-			g2.drawString("Current Day: " + God.Get().getDay()+1, 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
-			g2.drawString("Horizontal red light? : " + horizontalRedLight, 20 + scrollPane.getHorizontalScrollBar().getValue(), 90 + scrollPane.getVerticalScrollBar().getValue());
+            g2.drawString("Current Day: " + (God.Get().getDay()+1), 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
+            g2.drawString("Horizontal red light? : " + horizontalRedLight, 20 + scrollPane.getHorizontalScrollBar().getValue(), 90 + scrollPane.getVerticalScrollBar().getValue());
 		}
 
 		for (Gui gui : guis) {
@@ -519,11 +521,35 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrlY = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
+        Action keyCtrlK = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
         Action keyCtrlP = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
              {
-            	marketScenarioPerson("Marketman", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+             }
+        };
+        
+        Action keyCtrl3 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
              }
         };
         
@@ -563,9 +589,18 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrlG = "CTRL G";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.CTRL_MASK), stringCtrlG);
         getActionMap().put(stringCtrlG, keyCtrlG);
+        String stringCtrlY = "CTRL Y";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK), stringCtrlY);
+        getActionMap().put(stringCtrlY, keyCtrlY);
+        String stringCtrlK = "CTRL K";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_K, KeyEvent.CTRL_MASK), stringCtrlK);
+        getActionMap().put(stringCtrlK, keyCtrlK);
         String stringCtrlP = "CTRL P";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK), stringCtrlP);
         getActionMap().put(stringCtrlP, keyCtrlP);
+        String stringCtrl3 = "CTRL 3";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_MASK), stringCtrl3);
+        getActionMap().put(stringCtrl3, keyCtrl3);
         String stringCtrlC = "CTRL C";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
         getActionMap().put(stringCtrlC, keyCtrlC);
@@ -577,22 +612,25 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
     	 System.out.println("Spawning a new pedestrian.");
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+	   	 B_House bHouse = (B_House) house;
 	   	 if (v == Vehicle.walk) {
 	   		 PersonGui g = new PersonGui(gui, aStarTraversal);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
+	   	 	 
 	   	 	 return p;
 	   	 } else if (v == Vehicle.car) {
 	   		 currentID++;
 	   		 CarGui g = new CarGui(gui, currentID);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
-	   	 	 p.startThread();
+	   	 	 p.startThread();   	 	 
+	   	 	 
 	   	 	 return p;
 	   	 }
 	   	 

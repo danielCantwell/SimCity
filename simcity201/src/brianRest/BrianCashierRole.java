@@ -1,6 +1,7 @@
 package brianRest;
 
 import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
 
 
@@ -151,18 +152,18 @@ public boolean pickAndExecuteAnAction() {
 			  market = m;
 		  }
 	}
-
-
 	@Override
 	protected void enterBuilding() {
 		// TODO Auto-generated method stub
-		
+		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
+		rest.cashierFilled = true;
 	}
 
 	@Override
 	public void workOver() {
 		// TODO Auto-generated method stub
-		
+		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
+		rest.cashierFilled = false;
 	}
 
 }

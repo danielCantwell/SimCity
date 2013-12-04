@@ -189,7 +189,7 @@ public class TenantGui implements Gui {
 			break;
 		case 8:
 			xDest = xTable + 280;
-			yDest = yTable + 280;
+			yDest = yTable + 80;
 			break;
 		default:
 			System.out.println("More than 8 tenants in the house.");

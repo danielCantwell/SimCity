@@ -1,6 +1,8 @@
 package brianRest;
 
 
+import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
 import brianRest.gui.CustomerGui;
 import brianRest.interfaces.BrianCashier;
@@ -18,6 +20,8 @@ import java.awt.event.ActionListener;
 
 
 
+
+
 import javax.swing.Timer;
 
 import restaurant.Menu;
@@ -25,7 +29,7 @@ import restaurant.Menu;
 /**
  * Restaurant customer agent.
  */
-public class BrianCustomerRole extends Agent implements BrianCustomer{
+public class BrianCustomerRole extends Role implements BrianCustomer{
 	
 	private final int eatingTime = 15000;
 	private final int readingMenuTime = 5000;
@@ -79,12 +83,9 @@ public class BrianCustomerRole extends Agent implements BrianCustomer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public BrianCustomerRole(String n, BrianCashier cashier){
+	public BrianCustomerRole(String n){
 		super();
-		
 		this.name = n;
-		
-		this.cashier = cashier;
 		totalMoney = 10; //can change in future;
 			//hack to change total money.
 			if (n.equals("0") || n.equals("5.99")){
@@ -420,13 +421,17 @@ public class BrianCustomerRole extends Agent implements BrianCustomer{
 	public CustomerGui getGui() {
 		return customerGui;
 	}
+
 	@Override
-	public void msgFollowMe(Menu m) {
+	protected void enterBuilding() {
 		// TODO Auto-generated method stub
+		B_BrianRestaurant rest = (B_BrianRestaurant)(myPerson.getBuilding()); 
+		cashier = rest.cashierRole;
+		host = rest.hostRole;
 		
 	}
 	@Override
-	public void msgOutOfFood(Menu m) {
+	public void workOver() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,5 +1,6 @@
 package brianRest;
 
+import SimCity.Base.Role;
 import agent.Agent;
 
 
@@ -17,7 +18,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
-public class BrianWaiterRole extends Agent implements BrianWaiter {
+public class BrianWaiterRole extends Role implements BrianWaiter {
 	WaiterGui gui;
 	List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	BrianCook cook;
@@ -51,15 +52,13 @@ public class BrianWaiterRole extends Agent implements BrianWaiter {
 	//Animation stuff - To implement in 2c
 	private Semaphore atTargetLocation = new Semaphore(0, true);
 	boolean idle; //Idle is not a state. It is simply an animation helper variable.
-
 	
-	
-	public BrianWaiterRole(String name, BrianHost h, BrianCook c, BrianCashier cash, int number) {
+	public BrianWaiterRole(String name, BrianHost h, BrianCook c, BrianCashier cash, int numberOfWaiters) {
 		this.name = name;
 		host = h;
 		cook = c;
 		cashier = cash;
-		waiterNumber = number;
+		waiterNumber = numberOfWaiters;
 		
 		breakTimer = new Timer(breakLength*1000, new ActionListener() {
 			   public void actionPerformed(ActionEvent e){
@@ -468,6 +467,18 @@ public class BrianWaiterRole extends Agent implements BrianWaiter {
 				table = t;
 				totalCost = 0;
 			}
+	}
+
+	@Override
+	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

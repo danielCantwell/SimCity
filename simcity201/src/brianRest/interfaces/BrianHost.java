@@ -16,8 +16,4 @@ public interface BrianHost {
 
 	public abstract void msgLeavingEarly(BrianCustomer c);
 
-	void msgWaiterWantsABreak(Waiter waiter);
-
-	void msgWaiterOffBreak(Waiter waiter);
-
 }

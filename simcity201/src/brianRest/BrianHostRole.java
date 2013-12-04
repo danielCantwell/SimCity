@@ -1,6 +1,7 @@
 package brianRest;
 
 import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
 import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
@@ -43,7 +44,6 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	public BrianHostRole(String name) {
 		super();
-
 		this.name = name;
 		// make some tables
 		tables = new ArrayList<BrianTable>(NTABLES);
@@ -282,27 +282,16 @@ public class BrianHostRole extends Role implements BrianHost {
 	@Override
 	protected void enterBuilding() {
 		// TODO Auto-generated method stub
-		
+		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
+		rest.hostFilled = true;
 	}
 
 	@Override
 	public void workOver() {
 		// TODO Auto-generated method stub
-		
+		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
+		rest.hostFilled = false;
 	}
-
-	@Override
-	public void msgWaiterWantsABreak(Waiter waiter) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgWaiterOffBreak(Waiter waiter) {
-		// TODO Auto-generated method stub
-		
-	};
-
 }
 
 

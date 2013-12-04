@@ -2,8 +2,10 @@ package SimCity.Buildings;
 
 import javax.swing.JPanel;
 
+import market.MarketClerkRole;
 import market.MarketCustomerRole;
 import market.MarketManagerRole;
+import market.MarketPackerRole;
 import market.gui.MarketAnimationPanel;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
@@ -71,11 +73,39 @@ public class B_Market extends Building{
             newRole.setPerson(person);
             person.msgCreateRole(newRole, true);
             fillNeededRoles(person, newRole);
+            if (newRole instanceof MarketManagerRole)
+            {
+                MarketManagerRole marketRole = (MarketManagerRole) person.mainRole;
+                managerRole = marketRole;
+                panel.manager = person;
+                panel.addGui(marketRole.getGui());
+            }
+            if (newRole instanceof MarketClerkRole)
+            {
+                MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
+                marketRole.setManager(managerRole);
+                managerRole.addClerk(marketRole);
+                panel.addGui(marketRole.getGui());
+            }
+            if (newRole instanceof MarketPackerRole)
+            {
+                MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
+                marketRole.setManager(managerRole);
+                managerRole.addPacker(marketRole);
+                panel.addGui(marketRole.getGui());
+            }
             if (newRole instanceof MarketCustomerRole)
             {
-                MarketCustomerRole marketRole = (MarketCustomerRole) newRole;
-                marketRole.setManager(managerRole);
-                panel.addGui(marketRole.getGui());
+                MarketCustomerRole marketRole = null;
+                for (Role r : person.roles)
+                {
+                    if (r instanceof MarketCustomerRole)
+                    {
+                        marketRole = (MarketCustomerRole) r;
+                        marketRole.setManager(managerRole);
+                        panel.addGui(marketRole.getGui());
+                    }
+                }
             }
             person.msgEnterBuilding(this);
         } catch(Exception e){
