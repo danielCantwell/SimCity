@@ -1,6 +1,8 @@
 package exterior.gui;
 
 import housing.roles.OwnerRole;
+import housing.interfaces.Tenant;
+import housing.roles.TenantRole;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -542,22 +544,25 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
     	 System.out.println("Spawning a new pedestrian.");
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+	   	 B_House bHouse = (B_House) house;
 	   	 if (v == Vehicle.walk) {
 	   		 PersonGui g = new PersonGui(gui, aStarTraversal);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
+	   	 	 
 	   	 	 return p;
 	   	 } else if (v == Vehicle.car) {
 	   		 currentID++;
 	   		 CarGui g = new CarGui(gui, currentID);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
-	   	 	 p.startThread();
+	   	 	 p.startThread();   	 	 
+	   	 	 
 	   	 	 return p;
 	   	 }
 	   	 
