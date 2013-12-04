@@ -41,6 +41,8 @@ import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import exterior.astar.AStarTraversal;
 
+import brianRest.*;
+
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
@@ -483,6 +485,17 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrl1 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	 createPerson("BrianHost", "brianRest.BrianHostRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+             }
+        };
+        
+        String stringCtrl1 = "CTRL 1";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_MASK), stringCtrl1);
+        getActionMap().put(stringCtrl1, keyCtrl1);
         String stringCtrlN = "CTRL N";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), stringCtrlN);
         getActionMap().put(stringCtrlN, keyCtrlN);

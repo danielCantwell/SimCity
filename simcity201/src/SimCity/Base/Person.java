@@ -137,7 +137,7 @@ public class Person extends Agent {
 				mainRole.myPerson = this;
 			} catch(Exception e){
 				e.printStackTrace();
-				System.out.println ("no class found");
+				System.out.println ("Person: no class found");
 			}
 		}
 		public void resetActiveRoles(){
