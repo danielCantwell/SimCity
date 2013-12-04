@@ -21,8 +21,8 @@ import restaurant.interfaces.Waiter;
 //is proceeded as he wishes.
 public class BrianHostRole extends Role implements BrianHost {
 	
-	private final int WINDOWX = 450;
-	private final int WINDOWY = 350;
+	private final int WINDOWX = 640;
+	private final int WINDOWY = 640;
 	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -33,7 +33,7 @@ public class BrianHostRole extends Role implements BrianHost {
 	//List of waiters
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
-	public Collection<BrianTable> tables;
+	public ArrayList<BrianTable> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 
@@ -48,7 +48,7 @@ public class BrianHostRole extends Role implements BrianHost {
 		// make some tables
 		tables = new ArrayList<BrianTable>(NTABLES);
 		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new BrianTable(ix, WINDOWX/NTABLES * ix, 9*WINDOWY/10)); // animation for later
+			tables.add(new BrianTable(ix, WINDOWX/(NTABLES+2) * ix, 7*WINDOWY/10)); // animation for later
 		}
 	}
 

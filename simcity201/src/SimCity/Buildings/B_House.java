@@ -52,6 +52,7 @@ public class B_House extends Building {
 		owner = new OwnerRole();
 		owner.setPerson(p);
 		owner.myPerson.setHomeType(type);
+		
 	}
 
 	@Override

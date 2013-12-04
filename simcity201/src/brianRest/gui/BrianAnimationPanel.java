@@ -79,11 +79,18 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
         
+        if(building.hostFilled){
+        	g2.setColor(Color.black);
+        	g2.drawString("Host is in", 300, 20);
+        }
+        
         //Cashier
-        g2.setColor(Color.green);
-        g2.fillRect(CashierX, CashierY, CashierW, CashierH);
-        g2.setColor(Color.black);
-        g2.drawString("Cashier", CashierX, CashierY);
+        if (building.cashierFilled){
+	        g2.setColor(Color.green);
+	        g2.fillRect(CashierX, CashierY, CashierW, CashierH);
+	        g2.setColor(Color.black);
+	        g2.drawString("Cashier", CashierX, CashierY);
+        }
         
         
         //Waiting Area
@@ -104,8 +111,7 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(KitchenAreaX, KitchenAreaY + 50, KitchenWidth, KitchenHeight);
         g2.setColor(Color.black);
         g2.drawString("Grills", KitchenAreaX-10, KitchenAreaY + 75);
-        
-        if (host instanceof BrianHost)
+       
         for (BrianTable t : building.hostRole.tables){
         	//Here is the table
             g2.setColor(Color.ORANGE);

@@ -583,7 +583,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-            	 createPerson("BrianHost", "brianRest.BrianHostRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("BrianHost", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
              }
         };
         

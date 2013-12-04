@@ -239,12 +239,11 @@ public class TenantRole extends Role implements Tenant {
 		System.out.println("Tenant is going to work");
 		DoLeaveHouse();
 		myPerson.msgGoToBuilding(myPerson.getWorkPlace(), Intent.work);
-		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
-				.getPanel();
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse.getPanel();
 		myPanel.addGui(gui);
 		exitBuilding(myPerson);
 
-		System.out.println(myPerson.actions.get(0).getGoAction().toString());
+		//System.out.println(myPerson.actions.get(0).getGoAction().toString());
 	}
 
 	public void useAppliance(String type) {

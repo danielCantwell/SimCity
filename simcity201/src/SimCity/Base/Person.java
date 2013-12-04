@@ -21,6 +21,7 @@ import exterior.gui.PersonGui;
 import restaurant.*;
 import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
@@ -72,8 +73,8 @@ public class Person extends Agent {
 		goRestaurant,
 		goMarket,
 		goBank,
-		goSleep;
-	}
+		goSleep
+	, goBrianRestaurant}
 	
 	//This is an inner class that holds a GoAction and an Intent.
 	//How to use? The goAction tells you where to go and the intent tells you why you are going.
@@ -104,6 +105,7 @@ public class Person extends Agent {
 	private int accNum;
 
 		//Getters and setters
+		public String getMainRoleString(){return mainRoleString;}
 		public TimeState getTimeState(){return timeState;}
 		public void setHouse(B_House house){myHouse = house;}
 		public B_House getHouse(){return myHouse;} 
@@ -128,6 +130,14 @@ public class Person extends Agent {
 		public String getName(){return name;};
 		public void setWorkPlace(Building work){workPlace = work;}
 		public void setMainRole(String job) { 
+			
+			//Temporary fix to factory with classes that need parameters
+			if (job.equals("brianRest.BrianHostRole")) return;
+			else if (job.equals("brianRest.BrianCookRole")) return;
+			else if (job.equals("brianRest.BrianCashierRole"))return;
+			
+			
+			
 			Role newRole;
 			try {
 				newRole = (Role)Class.forName(job).newInstance();
@@ -152,6 +162,7 @@ public class Person extends Agent {
 	//USE THIS CONSTRUCTOR.
 	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace){
 		this.gui = gui;
+		
 		setMainRole(mainRole);
 		mainRoleString = mainRole;
 		this.vehicle = vehicle;
@@ -162,7 +173,9 @@ public class Person extends Agent {
 		this.hungerThreshold = hungerThresh;
 		this.house = houseType; 
 		this.name = name;
-		this.building = God.Get().getBuilding(1);
+		if (gui != null){
+			this.building = God.Get().getBuilding(1);
+		}
 		myHouse = house;
 		this.workPlace = workplace;
 		God.Get().addPerson(this);
@@ -242,6 +255,7 @@ public class Person extends Agent {
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
 		else if (b instanceof B_DannyRestaurant){ addAction(new Action(GoAction.goDannyRestaurant, i));}
 		else if (b instanceof B_Market){ addAction(new Action(GoAction.goMarket, i));}
+		else if (b instanceof B_BrianRestaurant){addAction(new Action(GoAction.goBrianRestaurant, i));}
 		stateChanged();
 	}
 	
@@ -461,6 +475,18 @@ public class Person extends Agent {
 	            Do("Delivering to restaurant");
 			}
 		}
+		else
+		if (action.getGoAction() == GoAction.goBrianRestaurant && intent == Intent.customer){
+			b = God.Get().getBuilding(6);
+			Do("Going to Brian Restaurant");
+		}
+		else
+		if (action.getGoAction() == GoAction.goBrianRestaurant && intent == Intent.work){
+			//Put all restaurant roles here
+			b = God.Get().getBuilding(6);
+			Do("Working at Brian Restaurant");
+		}
+		
 		
 		else b = null;
 		
