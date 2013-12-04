@@ -43,6 +43,7 @@ public class tellerGui implements Gui {
 	}
 	//Teller goes to his assigned work counter
 	public void doGoToCounter(int tellerNum) {
+		System.out.println("gui called");
 		xDest = xCounterPos;
 		yDest = yCounterPos;
 	}

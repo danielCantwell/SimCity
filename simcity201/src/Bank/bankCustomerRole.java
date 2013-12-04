@@ -54,12 +54,11 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void enterBuilding() {
 		s = state.enter;
+		wMoney = myPerson.getMoney();
+		System.out.println("This Customer has entered the building with: $"+wMoney.dollars+"."+wMoney.cents);
 		B_Bank bank = (B_Bank)myPerson.building;
-		guard = (Guard)(bank.getBankGuard());
-		//System.out.println("messaging this guard: " + " "+ guard.toString());
-		
-		System.out.println("Customer: has entered the building");
-		
+		guard = bank.getBankGuard();
+		System.out.println("messaging this guard: " + " "+ guard.toString());
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
 		stateChanged();
@@ -68,6 +67,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void requestSearch() {
 		s = state.reqSearch;
+		System.out.println("Customer: Guard requested a search");
 		stateChanged();
 	}
 
@@ -100,7 +100,7 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public void transactionComplete(Money m) {
-		money = m;
+		wMoney = m;
 		s = state.leaving;
 		stateChanged();
 	}
@@ -140,13 +140,13 @@ public class bankCustomerRole extends Role implements Customer{
 	//-----------------------------------------------Actions-------------------------------------------------
 	@Override
 	public void openDoor() {
-		if (!myPerson.building.getOpen()) {leaveBank(); return;}
+		//if (!myPerson.building.getOpen()) {leaveBank(); return;}
 		System.out.println("opened door");
 		
-		bankGuardRole newGuard = (bankGuardRole)guard;
-		System.out.println("messaging this guard: " + guard + "active? " + newGuard.getActive() );
-		newGuard.test(this);
-		newGuard.wantEnter(this);
+		//bankGuardRole newGuard = (bankGuardRole)guard;
+		//System.out.println("messaging this guard: " + guard + "active? " + newGuard.getActive() );
+		//newGuard.test(this);
+		guard.wantEnter(this);
 		//B_Bank bank= (B_Bank)myPerson.building;
 		//bank.getBankManager()
 		s = state.waiting;
@@ -169,12 +169,11 @@ public class bankCustomerRole extends Role implements Customer{
 		if (wMoney.getDollar() < 30) {							//Temporary method for choosing whether to withdraw/deposit
 			teller.requestWithdraw(accNum, money); 			//arbitrary amount to withdraw, can be changed later
 		}
-		else {
-			wMoney.subtract(30, 0);
+		else {	
+			wMoney.subtract(30,0);
 			teller.requestDeposit(accNum,wMoney);				//deposits everything over $30
-			wMoney.add(30,0);
-			System.out.println(wMoney.getDollar());
-
+			wMoney = new Money(30,0);
+			//System.out.println(wMoney.getDollar());
 		}
 	}
 

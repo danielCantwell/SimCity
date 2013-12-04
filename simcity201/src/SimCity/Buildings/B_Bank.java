@@ -20,23 +20,23 @@ import SimCity.Base.Role;
  */
 public class B_Bank extends Building{
 	
-	Manager bankManager;
-	Guard bankGuard;
+	bankManagerRole bankManager;
+	bankGuardRole bankGuard;
 	
 	Person manager = null;
 	Person guard = null;
 	
 	List<tellerRole> tellers = new ArrayList<tellerRole>();
 	
-	public Manager getBankManager(){return bankManager;}
-	public Guard getBankGuard(){return bankGuard;}
+	public bankManagerRole getBankManager(){return bankManager;}
+	public bankGuardRole getBankGuard(){return bankGuard;}
 	public Person getGuard() {return guard;}
 	public List<tellerRole> getTellers(){return tellers;}
 	
-	public void setBankManager(Manager bmr){bankManager = bmr;}
-	public void setBankGuard(Guard bgr){bankGuard = bgr;}
+	public void setBankManager(bankManagerRole bmr){bankManager = bmr;	}
+	public void setBankGuard(bankGuardRole bgr){bankGuard = bgr;}
 	public void addTeller(tellerRole t){ tellers.add(t);}
-	public Bank.interfaces.Teller getTeller(int id){ return tellers.get(id);}
+	public Bank.interfaces.Teller getTeller(int id){return tellers.get(id);}
 	
 	public B_Bank(int id){
 		super(id);
@@ -71,22 +71,24 @@ public class B_Bank extends Building{
 	}
 	@Override
 	public void ExitBuilding(Person person) {
-		if (person == bankGuard) manager =null;
-		else if (person == bankManager) guard = null;
+		if (person == manager) manager =null;
+		else if (person == guard) guard = null;
     	person.resetActiveRoles();
     	person.msgExitBuilding();
 	}
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
-		if (r instanceof bankManagerRole){
-			manager = r.myPerson;
-			bankManager = (bankManagerRole)r;
-		}
-		else if (r instanceof bankGuardRole){
-			guard = r.myPerson;
-			bankGuard = (bankGuardRole)r;
-			System.out.println("This is guard: " + r);
-		}
+//		if (r instanceof bankManagerRole){
+//			manager = r.myPerson;
+//			bankManager = (bankManagerRole)r;
+//		}
+//		else if (r instanceof bankGuardRole){
+//			guard = r.myPerson;
+//			bankGuard = (bankGuardRole) r;
+//			System.out.println("This is guard: " + r);
+//			System.out.println("This is bankguard: " + bankGuard);
+//
+//		}
 		
 	}
 
