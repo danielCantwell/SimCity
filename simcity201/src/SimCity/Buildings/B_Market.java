@@ -41,6 +41,7 @@ public class B_Market extends Building{
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Market";
+		setOpen(areAllNeededRolesFilled());
 	}
 	
 	@Override
@@ -55,7 +56,7 @@ public class B_Market extends Building{
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		return managerRole.isRestaurantReady();
+		return (managerRole != null && managerRole.isRestaurantReady());
 	}
 
 	@Override
@@ -108,6 +109,7 @@ public class B_Market extends Building{
                 }
             }
             person.msgEnterBuilding(this);
+            setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
             e.printStackTrace();
             System.out.println ("God: no class found");
@@ -116,8 +118,37 @@ public class B_Market extends Building{
 
 	@Override
 	public void ExitBuilding(Person person) {
-		// TODO Auto-generated method stub
-		
+        for (int i = 0; i < person.roles.size(); i++)
+        {
+            if (person.roles.get(i) instanceof MarketManagerRole)
+            {
+                MarketManagerRole cRole = (MarketManagerRole)person.roles.get(i);
+                cRole.setActive(false);
+                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+            if (person.roles.get(i) instanceof MarketClerkRole)
+            {
+                MarketClerkRole cRole = (MarketClerkRole)person.roles.get(i);
+                cRole.setActive(false);
+                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+            if (person.roles.get(i) instanceof MarketPackerRole)
+            {
+                MarketPackerRole cRole = (MarketPackerRole)person.roles.get(i);
+                cRole.setActive(false);
+                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+            if (person.roles.get(i) instanceof MarketCustomerRole)
+            {
+                MarketCustomerRole cRole = (MarketCustomerRole)person.roles.get(i);
+                cRole.setActive(false);
+                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+        }
 	}
 	
 
