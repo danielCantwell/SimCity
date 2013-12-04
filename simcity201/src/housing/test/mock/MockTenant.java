@@ -36,7 +36,7 @@ public class MockTenant implements Tenant {
 	}
 
 	@Override
-	public void msgHouseInfo(Owner owner, List<Appliance> a, int tenantNumber) {
+	public void msgHouseInfo(List<Appliance> a, int tenantNumber) {
 		log.add(new LoggedEvent("Received msgHereAreAppliances from owner."));
 	}
 	

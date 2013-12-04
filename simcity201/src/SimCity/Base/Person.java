@@ -161,7 +161,7 @@ public class Person extends Agent {
 		this.hungerThreshold = hungerThresh;
 		this.house = houseType; 
 		this.name = name;
-		this.building = God.Get().buildings.get(1);
+		this.building = God.Get().getBuilding(1);
 		myHouse = house;
 		this.workPlace = workplace;
 		God.Get().addPerson(this);

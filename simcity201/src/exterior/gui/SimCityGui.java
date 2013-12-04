@@ -65,7 +65,7 @@ public class SimCityGui extends JFrame {
     		// Add Apartments:
     		if (i == 0 || i == 1 || i == 4) {
         		buildingPanel = new HousingAnimation();
-      			b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+      			b = new B_House("Apartment", i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Banks:
     		if (i == 2 || i == 8) {
@@ -86,7 +86,7 @@ public class SimCityGui extends JFrame {
     		// Add Houses:
     		if (i == 12 || i == 13 || i == 14 || i == 15) {
         		buildingPanel = new HousingAnimation();
-        		b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+        		b = new B_House("House", i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		if (b != null && buildingPanel != null)
     		{
