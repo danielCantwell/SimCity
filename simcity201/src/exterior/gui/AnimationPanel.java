@@ -50,6 +50,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
     private final int CITY_SIZE = 4;
+    private List<ImageIcon> carsL = new ArrayList<ImageIcon>();
+    private List<ImageIcon> carsR = new ArrayList<ImageIcon>();
+    private List<ImageIcon> carsU = new ArrayList<ImageIcon>();
+    private List<ImageIcon> carsD = new ArrayList<ImageIcon>();
     public final char[][] MAP = new char[][] {
     		
     	/* Map legend:
@@ -111,6 +115,30 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private ImageIcon iconCrossH = new ImageIcon("images/t_cross_h.png");
     private ImageIcon iconBuildingA = new ImageIcon("images/t_building1.png");
     private ImageIcon iconBuildingB = new ImageIcon("images/t_building2.png");
+    private ImageIcon iconCar1R = new ImageIcon("images/car1_r.png");
+    private ImageIcon iconCar1D = new ImageIcon("images/car1_d.png");
+    private ImageIcon iconCar1L = new ImageIcon("images/car1_l.png");
+    private ImageIcon iconCar1U = new ImageIcon("images/car1_u.png");
+    private ImageIcon iconCar2R = new ImageIcon("images/car2_r.png");
+    private ImageIcon iconCar2D = new ImageIcon("images/car2_d.png");
+    private ImageIcon iconCar2L = new ImageIcon("images/car2_l.png");
+    private ImageIcon iconCar2U = new ImageIcon("images/car2_u.png");
+    private ImageIcon iconCar3R = new ImageIcon("images/car3_r.png");
+    private ImageIcon iconCar3D = new ImageIcon("images/car3_d.png");
+    private ImageIcon iconCar3L = new ImageIcon("images/car3_l.png");
+    private ImageIcon iconCar3U = new ImageIcon("images/car3_u.png");
+    private ImageIcon iconCar4R = new ImageIcon("images/car4_r.png");
+    private ImageIcon iconCar4D = new ImageIcon("images/car4_d.png");
+    private ImageIcon iconCar4L = new ImageIcon("images/car4_l.png");
+    private ImageIcon iconCar4U = new ImageIcon("images/car4_u.png");
+    private ImageIcon iconCar5R = new ImageIcon("images/car5_r.png");
+    private ImageIcon iconCar5D = new ImageIcon("images/car5_d.png");
+    private ImageIcon iconCar5L = new ImageIcon("images/car5_l.png");
+    private ImageIcon iconCar5U = new ImageIcon("images/car5_u.png");
+    private ImageIcon iconCar6R = new ImageIcon("images/car6_r.png");
+    private ImageIcon iconCar6D = new ImageIcon("images/car6_d.png");
+    private ImageIcon iconCar6L = new ImageIcon("images/car6_l.png");
+    private ImageIcon iconCar6U = new ImageIcon("images/car6_u.png");
 	
 	public AnimationPanel() {
 		setSize(WINDOWX, WINDOWY);
@@ -118,6 +146,31 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		Timer timer = new Timer(3, this);
 		timer.start();
 
+		carsL.add(iconCar1L);
+		carsL.add(iconCar2L);
+		carsL.add(iconCar3L);
+		carsL.add(iconCar4L);
+		carsL.add(iconCar5L);
+		carsL.add(iconCar6L);
+		carsR.add(iconCar1R);
+		carsR.add(iconCar2R);
+		carsR.add(iconCar3R);
+		carsR.add(iconCar4R);
+		carsR.add(iconCar5R);
+		carsR.add(iconCar6R);
+		carsU.add(iconCar1U);
+		carsU.add(iconCar2U);
+		carsU.add(iconCar3U);
+		carsU.add(iconCar4U);
+		carsU.add(iconCar5U);
+		carsU.add(iconCar6U);
+		carsD.add(iconCar1D);
+		carsD.add(iconCar2D);
+		carsD.add(iconCar3D);
+		carsD.add(iconCar4D);
+		carsD.add(iconCar5D);
+		carsD.add(iconCar6D);
+		
 		God.Get().setAnimationPanel(this);
 
 		// Set up semaphore grid - sidewalks and crosswalks are open
@@ -381,6 +434,21 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					} else if (gui.getRotation() == 3) {
 						iconPedU.paintIcon(this, g, gui.getX() + 00,
 								gui.getY() + 16);
+					}
+				}
+				else if (gui.getType() == "Car") {
+					if (gui.getRotation() == 0) {
+						carsR.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
+					} else if (gui.getRotation() == 1) {
+						carsD.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
+					} else if (gui.getRotation() == 2) {
+						carsL.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
+					} else if (gui.getRotation() == 3) {
+						carsU.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
 					}
 				}
 			}

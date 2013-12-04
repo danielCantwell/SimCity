@@ -96,11 +96,13 @@ public class CarGui implements Gui {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.RED);
-		if (rotation == 0 || rotation == 2) {
-			g.fillRect(xPos, yPos + 12, SPRITE_SIZE, SPRITE_SIZE - 24);
-		} else {
-			g.fillRect(xPos + 12, yPos, SPRITE_SIZE - 24, SPRITE_SIZE);
+		if (SHOW_RECT) {
+			g.setColor(Color.RED);
+			if (rotation == 0 || rotation == 2) {
+				g.fillRect(xPos, yPos + 12, SPRITE_SIZE, SPRITE_SIZE - 24);
+			} else {
+				g.fillRect(xPos + 12, yPos, SPRITE_SIZE - 24, SPRITE_SIZE);
+			}
 		}
 	}
 	
@@ -182,7 +184,7 @@ public class CarGui implements Gui {
 
 	@Override
 	public int getRotation() {
-		return 0;
+		return rotation;
 	}
 
 	@Override
@@ -192,5 +194,10 @@ public class CarGui implements Gui {
 	
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	@Override
+	public int getID() {
+		return myID;
 	}
 }
