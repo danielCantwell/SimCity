@@ -4,6 +4,8 @@
 package exterior.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -13,17 +15,23 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import SimCity.Base.Building;
+import SimCity.Base.Person.Morality;
+import SimCity.Base.Person.Vehicle;
+
 /**
  * @author Daniel
  *
  */
 public class SetupPanel extends JFrame {
 	
-    private final int WINDOWX = 600;
-    private final int WINDOWY = 600;
+    private final int WINDOWX = 1500;
+    private final int WINDOWY = 300;
     
-    private JTextField enterName		= new JTextField();
-    private JButton createPerson		= new JButton();
+    private AnimationPanel animationPanel;
+    
+    private JTextField enterName		= new JTextField("Enter Name of Person");
+    private JButton createPerson		= new JButton("Create Person");
     
     private JPanel optionsPanel			= new JPanel();
     private JPanel mainPanel			= new JPanel();
@@ -63,9 +71,7 @@ public class SetupPanel extends JFrame {
     
     private ButtonGroup housing				= new ButtonGroup();
     
-    private JRadioButton houseOwner			= new JRadioButton("House Owner");
     private JRadioButton houseTenant		= new JRadioButton("House Tenant");
-    private JRadioButton apartmentOwner		= new JRadioButton("Apartment Owner");
     private JRadioButton apartmentTenant	= new JRadioButton("Apartment Tenant");
     
     // --------------- Mode of Transportation ------
@@ -91,11 +97,14 @@ public class SetupPanel extends JFrame {
     private JRadioButton modeCompatibility	= new JRadioButton("Compatibility Mode");
     
     
-    public SetupPanel() {
+    public SetupPanel(AnimationPanel ap) {
+    	animationPanel = ap;
+    	
     	setSize(WINDOWX, WINDOWY);
     	setBounds(50, 50, WINDOWX, WINDOWY);
     	setVisible(true);
     	setTitle("Setup");
+    	setLayout(new BorderLayout());
     	
     	optionsPanel.setLayout(new BorderLayout());
     	
@@ -113,9 +122,7 @@ public class SetupPanel extends JFrame {
     	profession.add(restHost);
     	profession.add(restWaiter);
     	
-    	housing.add(apartmentOwner);
     	housing.add(apartmentTenant);
-    	housing.add(houseOwner);
     	housing.add(houseTenant);
     	
     	transportation.add(vehicleBus);
@@ -145,9 +152,7 @@ public class SetupPanel extends JFrame {
     	professionPanel.add(restHost);
     	professionPanel.add(restWaiter);
     	
-    	housingPanel.add(apartmentOwner);
     	housingPanel.add(apartmentTenant);
-    	housingPanel.add(houseOwner);
     	housingPanel.add(houseTenant);
     	
     	transportationPanel.add(vehicleBus);
@@ -168,8 +173,55 @@ public class SetupPanel extends JFrame {
     	
     	// --- Main Frame ---
     	
-    	add(optionsPanel);
-    	add(mainPanel);
+    	add(optionsPanel, BorderLayout.NORTH);
+    	add(mainPanel, BorderLayout.SOUTH);
+    	
+    	createPerson.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String name = enterName.getText();
+				String role = "Bank.bankCustomerRole"; // default i guess?
+				Vehicle v = Vehicle.walk;
+				Morality m = Morality.good;
+				Building house = animationPanel.getGui().buildingList.get(0);
+				Building b = animationPanel.getGui().buildingList.get(2);
+				
+				if (bankManager.isSelected())			role = "Bank.bankManagerRole";
+				else if (bankGuard.isSelected())		role = "Bank.bankGuardRole";
+				else if (bankTeller.isSelected())		role = "Bank.tellerRole";
+				else if (marketClerk.isSelected())		role = "Market.MarketClerkRole";
+				else if (marketPacker.isSelected())		role = "Market.MarketPackerRole";
+				else if (marketDelivery.isSelected())	role = "Market.MarketDeliveryRole";
+				else if (marketManager.isSelected())	role = "Market.MarketManagerRole";
+				
+				if (vehicleBus.isSelected())		v = Vehicle.bus;
+				else if (vehicleCar.isSelected())	v = Vehicle.car;
+				else if (vehicleWalk.isSelected())	v = Vehicle.walk;
+				
+				if (moralityGood.isSelected())		m = Morality.good;
+				else if (moralityBad.isSelected())	m = Morality.crook;
+				
+				//if (apartmentTenant.isSelected())		house = selectApartment();
+				//else if (houseTenant.isSelected())	house = selectHouse();
+				
+				//b = getWorkplace(role);
+				
+				animationPanel.createPerson(name, role, v, m, house, b);
+			}
+		});
+    }
+    
+    private Building selectApartment() {
+    	return null;
+    }
+    
+    private Building selectHouse() {
+    	return null;
+    }
+    
+    private Building getWorkplace() {
+    	return null;
     }
 
 }

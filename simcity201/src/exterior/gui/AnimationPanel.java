@@ -385,6 +385,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	gui = g;
     }
     
+    public SimCityGui getGui() {
+    	return gui;
+    }
+    
     private Rectangle getBuildingRect(int buildingNumber) {
     	return new Rectangle(((buildingNumber % CITY_SIZE) * 7 + 3)*TILESIZE, ((buildingNumber / CITY_SIZE) * 7 + 3)*TILESIZE, TILESIZE*3, TILESIZE*3);
     }
@@ -492,7 +496,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         getActionMap().put(stringCtrlQ, keyCtrlQ);
     }
     
-    protected Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
+    public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
     	 System.out.println("Spawning a new pedestrian.");
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 if (v == Vehicle.walk) {
