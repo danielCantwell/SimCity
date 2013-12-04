@@ -111,6 +111,7 @@ public class SetupPanel extends JFrame {
 		setVisible(true);
 		setTitle("Setup");
 		setLayout(new BorderLayout());
+		setAlwaysOnTop(true);
 
 		optionsPanel.setLayout(new BorderLayout());
 
