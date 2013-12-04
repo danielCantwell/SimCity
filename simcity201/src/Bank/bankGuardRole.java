@@ -6,6 +6,7 @@ import Bank.gui.bankGuardGui;
 import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
+import Bank.interfaces.Robber;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 
@@ -25,8 +26,9 @@ public class bankGuardRole extends Role implements Guard {
 		List<String> inventory;
 		state s;
 		Customer bc;
+		Robber r;
 	}
-	public enum state { none, ready, onD, offD, entered, requested, complied, searched, leaving };
+	public enum state { none, ready, onD, offD, entered, requested, complied, searched, leaving, robber };
 	private state s = state.none;
 	public bankGuardRole() {
 		badObjs.add("gun");
@@ -37,7 +39,7 @@ public class bankGuardRole extends Role implements Guard {
 		//manager = curBank.getBankManager();
 	}
 
-	@Override
+
 	public void setBank(B_Bank bank){
 		curBank = bank;
 		manager = bank.getBankManager();
@@ -45,7 +47,6 @@ public class bankGuardRole extends Role implements Guard {
 
 	//----------------------------------------------Messages-------------------------------------------------
 
-	@Override
 	public void enterBuilding() {
 		s = state.ready;
 		System.out.println("I am a guard");
@@ -54,8 +55,16 @@ public class bankGuardRole extends Role implements Guard {
 		bank.getBankManager().setGuard(this);
 		stateChanged();
 	}
-
-	@Override
+	public void test(bankCustomerRole newC){
+		System.out.println("TESTING MESSAGES");
+		System.out.println("Guard: Customer wants to enter");
+		Entry c = new Entry();
+		c.s = state.entered;
+		c.bc = newC;
+		custEnter.add(c);
+		stateChanged();
+	}
+	
 	public void wantEnter(Customer newC) {
 		System.out.println("Guard: Customer wants to enter");
 		Entry c = new Entry();
@@ -64,7 +73,16 @@ public class bankGuardRole extends Role implements Guard {
 		custEnter.add(c);
 		stateChanged();
 	}
-
+	
+	public void RobberEnter(Robber newR) {
+		System.out.println("Guard: Robber is forcing entry");
+		Entry c = new Entry();
+		c.s = state.robber;
+		c.r = newR;
+		custEnter.add(c);
+		stateChanged();
+	}
+	
 	@Override
 	public void allowSearch(Customer newC, List<String> inventory) {
 		for (Entry c : custEnter) {
@@ -104,6 +122,14 @@ public class bankGuardRole extends Role implements Guard {
 		}
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
+				if (c.s == state.robber) {
+					forcedEntry(c);
+					return true;
+				}
+			}
+		}
+		synchronized(custEnter) {
+			for (Entry c : custEnter) {
 				if (c.s == state.entered) {
 					askSearch(c);
 					return true;
@@ -115,6 +141,10 @@ public class bankGuardRole extends Role implements Guard {
 
 	//-----------------------------------------------Actions-------------------------------------------------
 
+	public void forcedEntry(Entry c) {
+		c.r.yesEnter();
+		custEnter.remove(c);
+	}
 	@Override
 	public void askSearch(Entry c) {
 		c.bc.requestSearch();
@@ -148,13 +178,13 @@ public class bankGuardRole extends Role implements Guard {
 
 	@Override
 	public void enterBank() {
-		//Make GUI call to enter bank
+		gui.doEnterBank();
 		s = state.onD;
 	}
 
 	@Override
 	public void leaveBank() {
-		//Make GUI call to leave the bank
+		gui.doLeaveBank();
 		s = state.offD;
 	}
 

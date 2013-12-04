@@ -7,6 +7,7 @@ import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 import Bank.gui.*;
 import Bank.interfaces.Customer;
+import Bank.interfaces.Robber;
 import Bank.interfaces.Teller;
 
 /**
@@ -25,9 +26,10 @@ public class tellerRole extends Role implements Teller {
 		Money editmoney;
 		state s;
 		Customer cust;
+		Robber r;
 	}
 	Money empty = new Money(0,0);
-	public enum state{ none, ready, added, noAcc, yesAcc, setUp, askedService, called, withdraw, deposit, leaving };
+	public enum state{ none, ready, added, noAcc, yesAcc, setUp, robbed, askedService, called, withdraw, deposit, leaving };
 	private state s = state.none;
 
 
@@ -69,6 +71,16 @@ public class tellerRole extends Role implements Teller {
 		stateChanged();
 	}
 
+	public void RobTeller(int accNum, Money money, Robber r) {
+		Client c = new Client();
+		c.accountNum = accNum;
+		c.money = money;
+		c.r = r;
+		c.s = state.robbed;
+		clients.add(c);
+		System.out.println("Teller: Robber came and is taking money");
+		stateChanged();
+	}
 	@Override
 	public void requestWithdraw(int acc, Money money) {
 		for (Client c : clients) {
@@ -108,6 +120,14 @@ public class tellerRole extends Role implements Teller {
 		if(s == state.leaving) {
 			leaveBank();
 			return true;
+		}
+		synchronized(clients) {
+			for (Client c : clients) {
+				if(c.s == state.robbed) {
+					robbery(c);
+					return true;
+				}
+			}
 		}
 		synchronized(clients) {
 			for (Client c : clients) {
@@ -161,6 +181,14 @@ public class tellerRole extends Role implements Teller {
 		c.s = state.yesAcc;
 	}
 	
+	public void robbery(Client c) {
+		c.money = c.money.add(20, 0);
+		c.r.doneRobbing(c.money);
+		clients.remove(c);
+	}
+	
+
+
 	public void withdrawDone(Client c) {
 		if( ! (c.editmoney.isGreaterThan(bankAccs.get(c.accountNum)))) {
 			c.money = c.money.add(c.editmoney);

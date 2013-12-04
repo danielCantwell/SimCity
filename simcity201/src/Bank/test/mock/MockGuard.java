@@ -35,11 +35,11 @@ public class MockGuard implements Guard {
 		
 	}
 
-	@Override
+	/*@Override
 	public void wantEnter(bankCustomerRole newC) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 	@Override
 	public void allowSearch(Customer newC, List<String> inventory) {
@@ -96,7 +96,13 @@ public class MockGuard implements Guard {
 	}
 
 	@Override
-	public void wantEnter(Customer newC) {
+	public void RobberEnter(Robber robberRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void wantEnter(bankCustomerRole newC) {
 		// TODO Auto-generated method stub
 		
 	}

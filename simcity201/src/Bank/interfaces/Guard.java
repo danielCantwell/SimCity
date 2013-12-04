@@ -38,6 +38,8 @@ public interface Guard {
 
 	public abstract bankGuardGui getGui();
 
-	void wantEnter(Customer newC);
+	//public abstract void wantEnter(Customer newC);
+
+	public abstract void RobberEnter(Robber robberRole);
 
 }

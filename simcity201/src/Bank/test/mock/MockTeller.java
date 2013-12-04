@@ -116,4 +116,10 @@ public class MockTeller implements Teller {
 		return null;
 	}
 
+	@Override
+	public void RobTeller(int accNum, Money money, Robber robberRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

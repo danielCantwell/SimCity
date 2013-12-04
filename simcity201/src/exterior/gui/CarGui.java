@@ -78,7 +78,7 @@ public class CarGui implements Gui {
 				command = Command.noCommand;
 				isPresent = false;
 				gui.animationPanel.clearVGrid(myID);
-				//person.animation.release();
+				person.animation.release();
 			} else if (command == Command.seekX) {
 				command = Command.seekY;
 				xDestination = xPos;
