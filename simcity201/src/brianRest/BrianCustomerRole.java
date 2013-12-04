@@ -424,10 +424,17 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
+		Do("Going to restaurant");
+		if (!myPerson.building.getOpen()){
+				customerGui.DoExitRestaurant();
+				return;
+		}
+		
 		B_BrianRestaurant rest = (B_BrianRestaurant)(myPerson.getBuilding()); 
 		cashier = rest.cashierRole;
 		host = rest.hostRole;
+		
+		host.msgIWantToEat(this);
 		
 	}
 	@Override

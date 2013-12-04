@@ -1,9 +1,5 @@
 package exterior.gui;
 
-import housing.roles.OwnerRole;
-import housing.interfaces.Tenant;
-import housing.roles.TenantRole;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -629,6 +625,18 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrl0 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Host", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Host", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Host", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Host", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));            	 
+             }
+        };
+        
 
         String stringCtrlE = "CTRL E";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK), stringCtrlE);
@@ -732,6 +740,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setVGrid(int x, int y, int id) {
     	vehicleGrid[x][y] = id;
+    }
+    
+    public void setShowRect(boolean show) {
+    	SHOW_RECT = show;
     }
 
 }

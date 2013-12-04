@@ -33,7 +33,7 @@ public class B_BrianRestaurant extends Building{
 
 	public B_BrianRestaurant(int id, JPanel jp) {
 		super(id, jp);
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public B_BrianRestaurant(int id, JPanel jp, int xCoord, int yCoord){
@@ -48,7 +48,7 @@ public class B_BrianRestaurant extends Building{
 
 	@Override
 	public String getManagerString() {
-		return "restaurant.DannyHost";
+		return "brianRest.BrianCustomerRole";
 	}
 	
 	public BrianCashier getCashier(){return cashierRole;}
@@ -56,19 +56,18 @@ public class B_BrianRestaurant extends Building{
 	@Override
 	public String getCustomerString() {
 		// TODO Auto-generated method stub
-		return "restaurant.DannyCustomer";
+		return "brianRest.BrianCustomerRole";
 	}
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
 		// TODO Auto-generated method stub
-		return false;
+		return hostFilled && cashierFilled && cookFilled && numberOfWaiters > 0;
 	}
 
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
-		// TODO Auto-generated method stub
-		
+			//Should be handled by the roles themselves right now.
 	}
 
 	@Override
