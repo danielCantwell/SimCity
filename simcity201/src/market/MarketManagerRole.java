@@ -177,7 +177,8 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     public void workOver()
     {
-        // TODO Auto-generated method stub   
+        myPerson.Do("Closing time.");
+        exitBuilding(myPerson);
     }
 
 	/**
@@ -465,7 +466,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 
     public boolean isRestaurantReady()
     {
-        return (myPerson != null && !clerks.isEmpty() && !packers.isEmpty() && !deliveryPeople.isEmpty());
+        return (myPerson != null && !clerks.isEmpty() && !packers.isEmpty());// && !deliveryPeople.isEmpty());
     }
 
     /**
