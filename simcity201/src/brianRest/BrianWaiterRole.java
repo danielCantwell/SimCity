@@ -26,7 +26,7 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	BrianCook cook;
 	public BrianHost host;
 	BrianCashier cashier;
-	
+	boolean wantToGoHome = false;
 	int waiterNumber = 0;
 	public int getWaiterNumber(){
 		return waiterNumber;
@@ -85,7 +85,8 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	
 	//Leave restaurant
 	public void msgLeaveRestaurant(){
-		
+		wantToGoHome = true;
+		stateChanged();
 	}
 
 // ######## Messages ################
@@ -272,6 +273,10 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 				TakeABreak();
 				return true;
 			}
+			
+			if (wantToGoHome){
+				leaveRestaurant();
+			}
 		}
 	
 		catch(ConcurrentModificationException e){
@@ -285,6 +290,12 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	}
 	
 //############ Action ################
+	
+	private void leaveRestaurant(){
+		if (myCustomers.size()==0){
+			exitBuilding(myPerson);
+		}
+	}
 	//Want a break;
 	private void IWantABreak(){
 		Do("I'm telling the host I want a break.");

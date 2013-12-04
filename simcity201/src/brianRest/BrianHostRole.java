@@ -213,7 +213,7 @@ public class BrianHostRole extends Role implements BrianHost {
 		if (waitingCustomers.size() == 0){
 			//msg all waiters that they are allowed to leave
 			for (MyWaiter w: waiters){
-				
+				w.waiter.msgLeaveRestaurant();
 			}
 			exitBuilding(myPerson);
 			wantToGoHome = false;
