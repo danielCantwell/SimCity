@@ -346,7 +346,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
 			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
-			g2.drawString("Current Day: " + God.Get().getDay()+1, 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
+			g2.drawString("Current Day: " + (God.Get().getDay()+1), 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
 		}
 
 		for (Gui gui : guis) {
