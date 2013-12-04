@@ -48,7 +48,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
     private final int CITY_SIZE = 4;
-    private final char[][] MAP = new char[][] {
+    public final char[][] MAP = new char[][] {
     		
     	/* Map legend:
     		R: Road
@@ -240,6 +240,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
+		/*
         for (int y = 0; y < 30; y++) {
         	for (int x = 0; x < 30; x++) {
         		System.out.print(vehicleGrid[x][y] + " ");
@@ -247,7 +248,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
             System.out.println("");
         }
         System.out.println("====");
-
+		*/
+		
 		// Draw the city based on the map array
 		for (int y = 0; y < WINDOWY / TILESIZE; y++) {
 			for (int x = 0; x < WINDOWX / TILESIZE; x++) {
