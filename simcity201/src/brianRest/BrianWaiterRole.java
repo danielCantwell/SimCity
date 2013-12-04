@@ -1,9 +1,11 @@
 package brianRest;
 
 import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
 
 
+import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.WaiterGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCook;
@@ -470,9 +472,12 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	}
 
 	@Override
-	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+	protected void enterBuilding() {		
+		//add gui
+		brianRest.gui.WaiterGui wg = new brianRest.gui.WaiterGui(this);
+		gui = wg;
+		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		bap.addGui(wg);
 	}
 
 	@Override

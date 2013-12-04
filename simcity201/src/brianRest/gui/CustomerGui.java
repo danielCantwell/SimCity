@@ -4,16 +4,20 @@ import restaurant.interfaces.Customer;
 
 import java.awt.*;
 
+import brianRest.BrianCustomerRole;
+import brianRest.BrianHostRole;
+import brianRest.BrianTable;
+import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
 import SimCity.gui.Gui;
 
 public class CustomerGui implements Gui{
 
-	private Customer agent = null;
+	private BrianCustomer agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	//private HostAgent host;
+	private BrianHostRole host;
 	
 	int customerNumber = -1;
 	
@@ -32,15 +36,15 @@ public class CustomerGui implements Gui{
 	String displayText = "";
 	
 	//Cache the host so we have access to table locations.
-	BrianHost host; //We only cache the host so that we can ask for the table location.
+	//BrianHost host; //We only cache the host so that we can ask for the table location.
 
-	public CustomerGui(Customer c ){ //HostAgent m) {
-		agent = c;
+	public CustomerGui(BrianCustomer brianCustomerRole, BrianHostRole host){ //HostAgent m) {
+		agent = brianCustomerRole;
 		xPos = -40;
 		yPos = -40;
 		xDestination = -40;
 		yDestination = -40;
-		
+		this.host = host;
 		receivedCoordinates = false;
 		dead = false;
 	}
@@ -57,7 +61,7 @@ public class CustomerGui implements Gui{
 			else if (yPos > yDestination)
 				yPos--;
 	
-			/*if (xPos == xDestination && yPos == yDestination) {
+			if (xPos == xDestination && yPos == yDestination) {
 				if (command==Command.GoToSeat) {
 					if (agent instanceof BrianCustomerRole)
 					((BrianCustomerRole) agent).msgAnimationFinishedGoToSeat();
@@ -66,13 +70,13 @@ public class CustomerGui implements Gui{
 					if (agent instanceof BrianCustomerRole)
 					((BrianCustomerRole) agent).msgAnimationFinishedLeaveRestaurant();
 					isHungry = false;
-					gui.setCustomerEnabled(agent);
+					isPresent = true;
 				}
 				receivedCoordinates = false;
 				displayText = "";
 				if (dead) displayText = "Dead Customer Pile";
 				command=Command.noCommand;
-			}*/
+			}
 		}
 	}
 	
@@ -96,12 +100,12 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void DoGoToSeat(int tableNumber){
-		/*for(Table t : host.tables){
+		for(BrianTable t : host.tables){
 			if (t.getTableNumber() == tableNumber){
 				xDestination = t.getPosX();
 				yDestination = t.getPosY();
 			}
-		}*/
+		}
 		command = Command.GoToSeat;
 		receivedCoordinates = true;
 	}

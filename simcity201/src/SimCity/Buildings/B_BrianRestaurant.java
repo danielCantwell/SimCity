@@ -81,10 +81,10 @@ public class B_BrianRestaurant extends Building{
 		Role newRole = null;
 		try {
 			if (job.equals("brianRest.BrianCustomerRole")) newRole = new BrianCustomerRole("Customer");
-			else if (job.equals("brianRest.BrianHostRole")) {newRole = hostRole; areAllNeededRolesFilled();}
-			else if (job.equals("brianRest.BrianWaiterRole")){ newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters); areAllNeededRolesFilled();}
-			else if (job.equals("brianRest.BrianCookRole")) { newRole = cookRole; areAllNeededRolesFilled();}
-			else if (job.equals("brianRest.BrianCashierRole")) { newRole = cashierRole; areAllNeededRolesFilled();}
+			else if (job.equals("brianRest.BrianHostRole")) {newRole = hostRole; setOpen(areAllNeededRolesFilled());}
+			else if (job.equals("brianRest.BrianWaiterRole")){ numberOfWaiters++; newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters); setOpen(areAllNeededRolesFilled());}
+			else if (job.equals("brianRest.BrianCookRole")) { newRole = cookRole; setOpen(areAllNeededRolesFilled());}
+			else if (job.equals("brianRest.BrianCashierRole")) { newRole = cashierRole; setOpen(areAllNeededRolesFilled());}
 			newRole.setActive(true);
 			newRole.setPerson(person);
 			person.msgCreateRole(newRole, true);

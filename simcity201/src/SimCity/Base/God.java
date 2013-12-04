@@ -231,7 +231,7 @@ public class God {
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole){
 	    			p.msgGoToWork();
 	    		}else
-	    		if (p.getMainRoleString().equals("brianRest.BrianHost")){
+	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
 	    			p.msgGoToWork();
 	    		}
 	    	}
@@ -271,7 +271,10 @@ public class God {
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
 	    			p.msgGoToWork();
 	    		}
-	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiter"));
+
+	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
+	    			p.msgGoToWork();
+	    		}
 	    	}
 	    }
 	    

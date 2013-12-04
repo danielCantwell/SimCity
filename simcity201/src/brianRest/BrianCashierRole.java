@@ -32,8 +32,8 @@ public class BrianCashierRole extends Role implements BrianCashier {
 		
 //########## Messages  ###############
 	public void msgHereIsCheck(String choice, BrianCustomer c, BrianWaiter wa){
-		//Check ch = new Check(choice, c, wa);
-		//checks.add(ch);
+		Check ch = new Check(choice, c, wa);
+		checks.add(ch);
 		stateChanged();
 	}
 	
