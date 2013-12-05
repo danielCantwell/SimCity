@@ -30,6 +30,8 @@ public class DannyHost extends Role {
 	// Later we will see how it is implemented
 
 	private String name;
+	
+	private boolean workOver = false;
 
 	public WaiterGui waiterGui = null;
 
@@ -167,6 +169,11 @@ public class DannyHost extends Role {
 				}
 			}
 		}
+		
+		if (workOver) {
+			leaveRestaurant();
+			return true;
+		}
 
 		return false;
 		// we have tried all our rules and found
@@ -213,6 +220,18 @@ public class DannyHost extends Role {
 		myWaiter.event = WaiterEvent.None;
 		myWaiter.waiter.msgBreakOver();
 		stateChanged();
+	}
+	
+	private void leaveRestaurant() {
+		Do("Leaving Restaurant");
+		if (waitingCustomers.size() == 0){
+			//msg all waiters that they are allowed to leave
+			for (MyWaiter w: waiters){
+				w.waiter.msgLeaveRestaurant();
+			}
+			exitBuilding(myPerson);
+			workOver = false;
+		}
 	}
 
 	// utilities
@@ -314,5 +333,7 @@ public class DannyHost extends Role {
 		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
 		rest.hostFilled = false;
 		rest.setOpen(false);
+		
+		workOver = true;
 	}
 }

@@ -107,12 +107,10 @@ public class B_DannyRestaurant extends Building {
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyWaiter")) {
 				numWaiters++;
-				newRole = new DannyWaiter() {
-					{
-						setNum(numWaiters);
-					}
-				};
+				newRole = new DannyWaiter();
+				((DannyWaiter) newRole).setNum(numWaiters);
 				setOpen(areAllNeededRolesFilled());
+				// TODO hostRole.addWaiter((DannyWaiter) newRole);
 				waiters.add((DannyWaiter) newRole);
 				System.out
 						.println("All roles needed Danny Restaurant : "

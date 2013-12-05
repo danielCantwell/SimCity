@@ -66,6 +66,7 @@ public class DannyWaiter extends Role implements Waiter {
 	public int numWaiter;
 
 	private String name;
+	private boolean workOver = false;
 
 	public DannyWaiter() {
 		
@@ -78,6 +79,11 @@ public class DannyWaiter extends Role implements Waiter {
 	/*
 	 * MESSAGES
 	 */
+	
+	public void msgLeaveRestaurant() {
+		workOver = true;
+		stateChanged();
+	}
 
 	public void msgPleaseSeatCustomer(Customer customer, int table) {
 		print("MESSAGE 2 : Host -> Waiter : PleaseSeatCustomer");
@@ -327,6 +333,11 @@ public class DannyWaiter extends Role implements Waiter {
 					return true;
 				}
 			}
+			
+			if (workOver) {
+				leaveRestaurant();
+				return true;
+			}
 
 		} catch (ConcurrentModificationException e) {
 			print("Concurrent Modifcation Exception has been caught.");
@@ -435,6 +446,12 @@ public class DannyWaiter extends Role implements Waiter {
 		}
 		myCustomer.cashierEvent = CashierEvent.None;
 		myCustomer.customer.msgHereIsYourBill(myCustomer.dues);
+	}
+	
+	private void leaveRestaurant() {
+		if (myCustomers.size()==0){
+			exitBuilding(myPerson);
+		}
 	}
 
 	private void askHostForBreak() {
@@ -556,9 +573,9 @@ public class DannyWaiter extends Role implements Waiter {
 
 	@Override
 	protected void enterBuilding() {
-		WaiterGui wg = new WaiterGui(this, numWaiter);
-		setGui(wg);
 		System.out.println("Waiter enterBuilding");
+		WaiterGui wg = new WaiterGui(this, numWaiter);
+		waiterGui = wg;
 		// add gui
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
