@@ -9,7 +9,7 @@ import SimCity.gui.Gui;
 public class bankGuardGui implements Gui{
 	
 	private Guard guard;
-	private int xPos = 250, yPos = 350;
+	private int xPos = 650, yPos = 350;
 	private int xDest = 570,  yDest = 350;
 	private int xSize = 30, ySize = 30;
 	
@@ -41,12 +41,12 @@ public class bankGuardGui implements Gui{
 	
 	public void doEnterBank() {
 		xDest = 440;
-		yDest = 670;
+		yDest = 320;
 	}
 	
 	public void doLeaveBank() {
-		xDest = 700;
-		yDest = 320;
+		xDest = 650;
+		yDest = 350;
 	}
 
 	@Override

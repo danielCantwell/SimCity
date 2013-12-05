@@ -1,6 +1,7 @@
 package Bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import SimCity.Globals.*;
 import SimCity.Base.*;
@@ -19,6 +20,7 @@ import Bank.interfaces.Teller;
 public class tellerRole extends Role implements Teller {
 	//-----------------------------------------------Data-------------------------------------------------
 	Manager manager;
+	private Semaphore moving = new Semaphore(0,true);
 	private tellerGui gui = new tellerGui(this);
 	public Map<Integer, Money> bankAccs = new HashMap<Integer, Money>();
 	public List<Client> clients = Collections.synchronizedList(new ArrayList<Client>());
@@ -43,7 +45,8 @@ public class tellerRole extends Role implements Teller {
 		B_Bank bank = (B_Bank)myPerson.getBuilding();
 		manager = bank.getBankManager();
 		manager.newTeller(this);
-		gui.doGoToCounter(1);
+		bankGui bankgui = (bankGui)myPerson.building.getPanel();
+		bankgui.addGui(gui);
 		stateChanged();
 	}
 
@@ -115,6 +118,10 @@ public class tellerRole extends Role implements Teller {
 	@Override
 	public void workOver() {
 		s = state.leaving;
+	}
+	
+	public void doneMotion() {
+		moving.release();
 	}
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
@@ -233,14 +240,26 @@ public class tellerRole extends Role implements Teller {
 
 	@Override
 	public void goToCounter() {
-		//Make GUI call to walk to the counter
+		gui.doGoToCounter(1);
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		s = state.atCounter;
 	}
 
 	@Override
 	public void leaveBank() {
+		gui.doLeaveBank();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		exitBuilding(myPerson);
-		//Make GUI call to leave the bank
 	}
 
 	@Override

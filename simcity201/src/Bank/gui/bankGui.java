@@ -67,9 +67,9 @@ public class bankGui extends JPanel implements ActionListener {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, WINDOW_X, WINDOW_Y);
-//		Graphics2D g2 = (Graphics2D) g;
-//		g2.setColor(Color.DARK_GRAY);
-//		g2.fillRect(10, 10, 620, 610);
+		Graphics2D g3 = (Graphics2D) g;
+		g3.setColor(Color.DARK_GRAY);
+		g3.fillRect(10, 10, 620, 610);
 		
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(xCounterPos, yCounterPos, xCounterSize, yCounterSize);

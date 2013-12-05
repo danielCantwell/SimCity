@@ -8,6 +8,7 @@ import Bank.interfaces.Guard;
 import Bank.interfaces.Teller;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import SimCity.Globals.*;
 import SimCity.Base.*;
@@ -22,10 +23,11 @@ import SimCity.Buildings.B_Bank;
 public class bankCustomerRole extends Role implements Customer{
 
 	//-----------------------------------------------Data-------------------------------------------------
-	
+
 	Money wMoney;
 	int accNum;
 	private bankCustomerGui gui = new bankCustomerGui(this);
+	private Semaphore moving = new Semaphore(0,true);
 	Money money = new Money(20,0);
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
 	private Guard guard;
@@ -67,7 +69,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void requestSearch() {
 		s = state.reqSearch;
-		System.out.println("Customer: Guard requested a search");
+		System.out.println("Customer: Guard requested a search "+s);
 		stateChanged();
 	}
 
@@ -104,27 +106,32 @@ public class bankCustomerRole extends Role implements Customer{
 		s = state.leaving;
 		stateChanged();
 	}
-	
+
 	public void workOver() {
-		// make GUI call to leave Bank
+		s = state.leaving;
+		stateChanged();
 	}
 
+	public void doneMotion() {
+		moving.release();
+	}
 	//-----------------------------------------------Scheduler-------------------------------------------------
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		
+		//System.out.println("------------------------------------");
 		if (s == state.enter){
-			
+
 			openDoor();
 			return true;
 		}
-		
+
 		if(s == state.leaving) {
 			leaveBank();
 			return true;
 		}
 		if(s == state.reqSearch) {
+			System.out.println("Customer PAE reqSearch");
 			giveInv();
 			return true;
 		}
@@ -142,25 +149,39 @@ public class bankCustomerRole extends Role implements Customer{
 	public void openDoor() {
 		//if (!myPerson.building.getOpen()) {leaveBank(); return;}
 		System.out.println("opened door");
-		
+
 		//bankGuardRole newGuard = (bankGuardRole)guard;
 		//System.out.println("messaging this guard: " + guard + "active? " + newGuard.getActive() );
 		//newGuard.test(this);
 		guard.wantEnter(this);
 		//B_Bank bank= (B_Bank)myPerson.building;
 		//bank.getBankManager()
+		gui.doEnterBank();
 		s = state.waiting;
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void giveInv() {
+		System.out.println("Customer: is asking guard to search");
 		guard.allowSearch(this, inventory);
 		s = state.gaveInv;
-		System.out.println("Customer: is asking guard to search");
 	}
 
 	@Override
 	public void findTeller() {
+		gui.doGoToTeller();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		teller.foundTeller(accNum, wMoney, this);
 	}
 
@@ -181,6 +202,12 @@ public class bankCustomerRole extends Role implements Customer{
 	public void leaveBank() {
 		gui.doLeaveBank();
 		System.out.println("customer leaving bank");
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		exitBuilding(myPerson);
 	}
 	@Override

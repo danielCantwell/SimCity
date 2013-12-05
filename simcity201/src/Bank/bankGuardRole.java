@@ -186,7 +186,6 @@ public class bankGuardRole extends Role implements Guard {
 		gui.doEnterBank();
 		try {
 			moving.acquire();
-			System.out.println("acquired");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -197,6 +196,12 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		s = state.offD;
 	}
 
