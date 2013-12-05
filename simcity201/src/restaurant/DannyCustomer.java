@@ -1,11 +1,13 @@
 package restaurant;
 
 import restaurant.gui.CustomerGui;
+import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
+import SimCity.Buildings.B_DannyRestaurant;
 import agent.Agent;
 
 import java.util.Timer;
@@ -403,7 +405,14 @@ public class DannyCustomer extends Role implements Customer{
 	
 	@Override
 	protected void enterBuilding() {
-		Do("Going to restaurant");
+		System.out.println("DannyCustomer entered building");
+		
+		B_DannyRestaurant rest = (B_DannyRestaurant)(myPerson.getBuilding());
+		host = rest.hostRole;
+		
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel)myPerson.getBuilding().getPanel();
+		ap.addGui(customerGui);
+		
 		if (!myPerson.building.getOpen()){
 				leaveRestaurant();
 				return;

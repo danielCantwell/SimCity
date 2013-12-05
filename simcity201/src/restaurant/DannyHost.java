@@ -311,8 +311,6 @@ public class DannyHost extends Role {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Host enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.hostFilled = true;
 	}
 
 	@Override
@@ -320,5 +318,6 @@ public class DannyHost extends Role {
 		System.out.println("Host workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
 		rest.hostFilled = false;
+		rest.setOpen(false);
 	}
 }

@@ -6,6 +6,8 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import brianRest.gui.BrianAnimationPanel;
+import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
@@ -185,7 +187,7 @@ public class DannyWaiter extends Role implements Waiter {
 
 	public void msgWantToGoOnBreak() {
 		event = WaiterEvent.RequestingBreak;
-		getGui().gui.restPanel.disableOnBreak(this);
+		// TODO getGui().gui.restPanel.disableOnBreak(this);
 		stateChanged();
 	}
 
@@ -552,8 +554,10 @@ public class DannyWaiter extends Role implements Waiter {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Waiter enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.numWaiters++;
+		//add gui
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel)myPerson.building.getPanel();
+		ap.addGui(waiterGui);
+		waiterGui.DoLeaveCustomer();
 	}
 
 	@Override

@@ -60,6 +60,7 @@ public class B_DannyRestaurant extends Building {
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
+		System.out.println("All roles needed Danny Restaurant : " + (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 		return hostFilled && cookFilled && cashierFilled && numWaiters > 0;
 	}
 
@@ -82,15 +83,19 @@ public class B_DannyRestaurant extends Building {
 				newRole = new DannyCustomer("Customer");
 			} else if (job.equals("restaurant.DannyHost")) {
 				newRole = hostRole;
+				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			} else if (job.equals("restaurant.DannyWaiter")) {
 				newRole = new DannyWaiter("Waiter");
+				numWaiters++;
 				setOpen(areAllNeededRolesFilled());
 			} else if (job.equals("restaurant.DannyCook")) {
 				newRole = cookRole;
+				cookFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			} else if (job.equals("restaurant.DannyCashier")) {
 				newRole = cashierRole;
+				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			}
 			

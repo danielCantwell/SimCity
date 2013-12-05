@@ -284,8 +284,6 @@ public class DannyCook extends Role {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Cook enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cookFilled = true;
 	}
 
 	@Override

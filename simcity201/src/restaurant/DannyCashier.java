@@ -204,8 +204,6 @@ public class DannyCashier extends Role implements Cashier {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Cashier enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = true;
 	}
 
 	@Override
