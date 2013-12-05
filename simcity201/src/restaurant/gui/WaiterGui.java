@@ -14,7 +14,6 @@ public class WaiterGui implements Gui {
 	private boolean pause = false;
 
 	private DannyWaiter agent = null;
-	public RestaurantGui gui;
 
 	private int xPos = -20, yPos = -20;// default waiter position
 	private int xDestination = -20, yDestination = -20;// default start position
@@ -48,9 +47,8 @@ public class WaiterGui implements Gui {
 	static final int xWaiterSize = 20;
 	static final int yWaiterSize = 20;
 
-	public WaiterGui(DannyWaiter agent, RestaurantGui gui) {
+	public WaiterGui(DannyWaiter agent) {
 		this.agent = agent;
-		this.gui = gui;
 		numWaiter++;
 		waiterNum = numWaiter;
 	}

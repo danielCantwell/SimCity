@@ -64,12 +64,16 @@ public class DannyWaiter extends Role implements Waiter {
 	public DannyHost host;
 	public WaiterGui waiterGui = null;
 	public DannyCook cook;
+	public DannyCashier cashier;
+	public int numWaiter;
 
 	private String name;
 
-	public DannyWaiter(String name) {
-		super();
+	public DannyWaiter(String name, DannyHost host, DannyCashier cashier, int num) {
 		this.name = name;
+		this.host = host;
+		this.cashier = cashier;
+		numWaiter = num;
 	}
 
 	/*
@@ -418,7 +422,7 @@ public class DannyWaiter extends Role implements Waiter {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		waiterGui.gui.restPanel.getCashier().msgGetBill(this,
+		cashier.msgGetBill(this,
 				myCustomer.customer, myCustomer.choice);
 		try {
 			getBill.acquire();
@@ -446,20 +450,20 @@ public class DannyWaiter extends Role implements Waiter {
 			print("No host has been assigned. Cannot request to go off break.");
 			state = WaiterState.Available;
 			event = WaiterEvent.BreakDenied;
-			getGui().gui.restPanel.enableOnBreak(this);
+			// TODO getGui().gui.restPanel.enableOnBreak(this);
 		}
 	}
 
 	private void DoBreakDenied() {
 		event = WaiterEvent.None;
-		getGui().gui.restPanel.removeWaiterOnBreakSelection(this);
+		// TODO getGui().gui.restPanel.removeWaiterOnBreakSelection(this);
 	}
 
 	private void goOnBreak() {
 		Do("Going On Break");
 		state = WaiterState.OnBreak;
 		host.msgGoingOnBreak(this);
-		getGui().gui.restPanel.enableOnBreak(this);
+		// TODO getGui().gui.restPanel.enableOnBreak(this);
 	}
 
 	private void goOffBreak() {

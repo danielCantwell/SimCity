@@ -26,8 +26,6 @@ public class CustomerGui implements Gui {
 	private String foodString;
 	private String waitingString;
 
-	public RestaurantGui gui;
-
 	private int xPos, yPos;
 	private int xDestination, yDestination;
 
@@ -49,14 +47,13 @@ public class CustomerGui implements Gui {
 	static final int xCustomerSize = 20;
 	static final int yCustomerSize = 20;
 
-	public CustomerGui(DannyCustomer c, RestaurantGui gui) { // HostAgent m) {
+	public CustomerGui(DannyCustomer c) { // HostAgent m) {
 		agent = c;
 		numCustomer++;
 		xPos = xDefault;
 		yPos = yDefault;
 		xDestination = xDefault;
 		yDestination = yDefault;
-		this.gui = gui;
 	}
 
 	/*
@@ -83,10 +80,7 @@ public class CustomerGui implements Gui {
 					DoPrintDoneEating();
 				} else if (command == Command.LeaveRestaurant) {
 					agent.msgAnimationFinishedLeaveRestaurant();
-					System.out
-							.println("about to call gui.setCustomerEnabled(agent);");
 					isHungry = false;
-					gui.setCustomerEnabled(agent);
 					agent.exitRestaurant();
 				}
 				command = Command.noCommand;

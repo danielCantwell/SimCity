@@ -86,7 +86,7 @@ public class B_DannyRestaurant extends Building {
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			} else if (job.equals("restaurant.DannyWaiter")) {
-				newRole = new DannyWaiter("Waiter");
+				newRole = new DannyWaiter("Waiter", hostRole, cashierRole, numWaiters);
 				numWaiters++;
 				setOpen(areAllNeededRolesFilled());
 			} else if (job.equals("restaurant.DannyCook")) {

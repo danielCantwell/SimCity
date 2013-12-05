@@ -2,6 +2,7 @@ package restaurant;
 
 import restaurant.gui.CustomerGui;
 import restaurant.gui.DannyRestaurantAnimationPanel;
+import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.God;
@@ -34,6 +35,7 @@ public class DannyCustomer extends Role implements Customer{
 	// agent correspondents
 	private DannyHost host;
 	private Waiter waiter;
+	private DannyCashier cashier;
 	
 	private Menu menu;
 	
@@ -361,7 +363,7 @@ public class DannyCustomer extends Role implements Customer{
 		}
 		state = AgentState.Paying;
 		waiter.msgDoneAndPaying(this);
-		customerGui.gui.restPanel.getCashier().msgPayment(this, cash);
+		cashier.msgPayment(this, cash);
 	}
 
 	// Accessors, etc.
@@ -409,6 +411,7 @@ public class DannyCustomer extends Role implements Customer{
 		
 		B_DannyRestaurant rest = (B_DannyRestaurant)(myPerson.getBuilding());
 		host = rest.hostRole;
+		cashier = rest.cashierRole;
 		
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel)myPerson.getBuilding().getPanel();
 		ap.addGui(customerGui);
