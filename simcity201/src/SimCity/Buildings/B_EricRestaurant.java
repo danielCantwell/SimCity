@@ -42,7 +42,8 @@ public class B_EricRestaurant extends Building {
 	@Override
 	public boolean areAllNeededRolesFilled() {
 		// TODO Auto-generated method stub
-		return hostFilled && cashierFilled && cookFilled && numWaiter > 0;
+		return true;
+		//return hostFilled && cashierFilled && cookFilled && numWaiter > 0;
 	}
 
 	@Override
@@ -83,6 +84,7 @@ public class B_EricRestaurant extends Building {
 			}
 			else if(role.equals("EricRestaurant.EricCustomer")) {
 				newRole = new EricCustomer("Customer");
+				System.out.println("Customer Made");
 			}
 			newRole.setActive(true);
 			newRole.setPerson(person);

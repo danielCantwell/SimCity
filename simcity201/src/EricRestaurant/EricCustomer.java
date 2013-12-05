@@ -3,13 +3,17 @@ import java.text.DecimalFormat;
 
 import EricRestaurant.EricHost.Waiter;
 import EricRestaurant.EricHost.state;
+import EricRestaurant.gui.AnimationPanel;
 import EricRestaurant.gui.CustomerGui;
 import EricRestaurant.gui.RestaurantGui;
 import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
 import EricRestaurant.interfaces.Host;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Buildings.B_EricRestaurant;
 import agent.Agent;
+import brianRest.gui.BrianAnimationPanel;
 
 import java.util.*;
 
@@ -29,7 +33,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	String choice = null;
 	DecimalFormat df = new DecimalFormat("#0.00");
 	// agent correspondents
-	private Host host;
+	private EricHost host;
 	private EricWaiter waiter;
 	private EricCashier cashier;
 
@@ -52,9 +56,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		super();
 		this.name = name;
 	}
-
-	@Override
-	public void setHost(Host host) {
+	public void setHost(EricHost host) {
 		this.host = host;
 	}
 
@@ -77,7 +79,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	// Messages
 
 	@Override
-	public void gotHungry() {//from animation
+	public void gotHungry() {
 		if(this.name.equals("salad")) {
 			cash = 5.99;
 		}
@@ -366,15 +368,35 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
-	protected void enterBuilding() {
-		// TODO Auto-generated method stub
+	public void enterBuilding() {
+		System.out.println("Eric Restaurant Customer entered building");
+		B_EricRestaurant rest = (B_EricRestaurant)(myPerson.getBuilding()); 
+		cashier = rest.cashier;
+		host = rest.host;
+		EricRestaurant.gui.CustomerGui cg = new EricRestaurant.gui.CustomerGui(this, rest.host);
+		customerGui = cg;
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.addGui(cg);
 		
+		if (!myPerson.building.getOpen()){
+			System.out.println("Customer leaving restaurant");
+				customerGui.DoExitRestaurant();
+				return;
+		}
+
+		System.out.println(host + " is being messaged. Is active?" + host.getActive());
+		gotHungry();
 	}
+	
 
 	@Override
 	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setHost(Host host) {
 		// TODO Auto-generated method stub
 		
 	}

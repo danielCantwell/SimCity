@@ -121,31 +121,31 @@ public class RestaurantPanel extends JPanel {
 	 * @param type indicates whether the person is a customer or waiter (later)
 	 * @param name name of person
 	 */
-	public void addPerson(String type, String name) {
-
-		if (type.equals("Customers")) {
-			EricCustomer c = new EricCustomer(name);	
-			CustomerGui g = new CustomerGui(c, gui);
-
-			gui.animationPanel.addGui(g);// dw
-			c.setHost(host);
-			c.setGui(g);
-			c.setWaiter(waiter);
-			c.setCash(cashier);
-			customers.add(c);
-//			c.startThread();
-		}
-		if (type.equals("Waiters")) {
-			EricWaiter w = new EricWaiter(name);
-			HostGui hg = new HostGui(w);
-			gui.animationPanel.addGui(hg);// dw
-			w.setHost(host);
-			w.setGui(hg);
-//			w.startThread();
-			w.setCashier(cashier);
-			waiters.add(w);
-		}
-	}
+//	public void addPerson(String type, String name) {
+//
+//		if (type.equals("Customers")) {
+//			EricCustomer c = new EricCustomer(name);	
+//			//CustomerGui g = new CustomerGui(c, gui);
+//
+//			gui.animationPanel.addGui(g);// dw
+//			c.setHost(host);
+//			c.setGui(g);
+//			c.setWaiter(waiter);
+//			c.setCash(cashier);
+//			customers.add(c);
+////			c.startThread();
+//		}
+//		if (type.equals("Waiters")) {
+//			EricWaiter w = new EricWaiter(name);
+//			HostGui hg = new HostGui(w);
+//			gui.animationPanel.addGui(hg);// dw
+//			w.setHost(host);
+//			w.setGui(hg);
+////			w.startThread();
+//			w.setCashier(cashier);
+//			waiters.add(w);
+//		}
+//	}
 
 //	public void pause() {
 //		host.pauseButton();

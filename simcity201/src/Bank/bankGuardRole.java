@@ -60,6 +60,7 @@ public class bankGuardRole extends Role implements Guard {
 		manager.setGuard(this);
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
+		gui.setText("Guard");
 		stateChanged();
 	}
 

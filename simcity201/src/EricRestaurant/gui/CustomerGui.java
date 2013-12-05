@@ -5,9 +5,10 @@ import java.awt.*;
 import EricRestaurant.EricHost;
 import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
+import EricRestaurant.interfaces.Host;
 
 public class CustomerGui implements Gui{
-
+	private Host host;
 	private Customer agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
@@ -24,13 +25,14 @@ public class CustomerGui implements Gui{
 	public static final int yTable = 250;
 	static int count=0;
 
-	public CustomerGui(Customer c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(Customer c, EricHost h){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
 		xDestination = 20;
 		yDestination = 20;
 		//maitreD = m;
+		host = h;
 		this.gui = gui;
 	}
 

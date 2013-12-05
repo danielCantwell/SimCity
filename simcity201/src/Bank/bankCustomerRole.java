@@ -33,7 +33,7 @@ public class bankCustomerRole extends Role implements Customer{
 	private Guard guard;
 	private Teller teller;
 	public state s = state.none;
-	public enum state { none, enter, waiting, called, reqSearch, gaveInv, entered, reqService, leaving};
+	public enum state { none, enter, waiting, inLine, called, finding, reqSearch, gaveInv, entered, reqService, leaving};
 
 	@Override
 	public void setGuard(Guard bg){
@@ -63,6 +63,7 @@ public class bankCustomerRole extends Role implements Customer{
 		System.out.println("messaging this guard: " + " "+ guard.toString());
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
+		gui.setText("Customer");
 		stateChanged();
 	}
 
@@ -87,7 +88,6 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public void tellerCalled(Teller t) {
-		System.out.println("Customer: Teller has called customer to come");
 		s = state.called;
 		teller = t;
 		stateChanged();
@@ -96,8 +96,8 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void whatService() {
 		s = state.reqService;
+		System.out.println("Customer: "+this+" Teller asked which service");
 		stateChanged();
-		System.out.println("Customer: Teller asked which service");
 	}
 
 	@Override
@@ -135,6 +135,10 @@ public class bankCustomerRole extends Role implements Customer{
 			giveInv();
 			return true;
 		}
+		if(s == state.entered) {
+			waiting();
+		}
+		
 		if(s == state.called) {
 			findTeller();
 		}
@@ -173,8 +177,20 @@ public class bankCustomerRole extends Role implements Customer{
 		s = state.gaveInv;
 	}
 
+	public void waiting() {
+		gui.doWaitLine(1);
+		s = state.inLine;
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void findTeller() {
+		s = state.finding;
 		gui.doGoToTeller();
 		try {
 			moving.acquire();
