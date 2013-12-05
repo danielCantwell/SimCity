@@ -29,17 +29,12 @@ public class DannyHost extends Role {
 	// note that tables is typed with Collection semantics.
 	// Later we will see how it is implemented
 
-	private DannyCook cook = new DannyCook("Chef", this);
-	//private RestaurantPanel restPanel;
-
 	private String name;
 
 	public WaiterGui waiterGui = null;
 
-	public DannyHost(String name) {
+	public DannyHost() {
 		super();
-
-		this.name = name;
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		synchronized (tables) {
 			for (int ix = 1; ix <= NTABLES; ix++) {
@@ -54,6 +49,10 @@ public class DannyHost extends Role {
 
 	public String getName() {
 		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List getWaitingCustomers() {
@@ -181,7 +180,7 @@ public class DannyHost extends Role {
 			DannyWaiter waiter) {
 		customer.setWaiter(waiter);
 		table.setOccupant(customer);
-		waiter.msgPleaseSeatCustomer(this, customer, table.tableNumber);
+		waiter.msgPleaseSeatCustomer(customer, table.tableNumber);
 		waitingCustomers.remove(customer);
 	}
 
@@ -229,10 +228,6 @@ public class DannyHost extends Role {
 		stateChanged();
 	}
 
-	public DannyCook getCook() {
-		return cook;
-	}
-	
 	public DannyCashier getCashier() {
 		B_DannyRestaurant dr = (B_DannyRestaurant)myPerson.getBuilding();
 		return dr.getCashier();

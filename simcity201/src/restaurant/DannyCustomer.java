@@ -2,14 +2,11 @@ package restaurant;
 
 import restaurant.gui.CustomerGui;
 import restaurant.gui.DannyRestaurantAnimationPanel;
-import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
-import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_DannyRestaurant;
-import agent.Agent;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -61,9 +58,8 @@ public class DannyCustomer extends Role implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public DannyCustomer(String name){
+	public DannyCustomer(){
 		super();
-		this.name = name;
 		if (name.equals("Flake")) {
 			cash = 0;
 		} else {
@@ -71,6 +67,10 @@ public class DannyCustomer extends Role implements Customer{
 			// of money between $9 and $20      ,(max - min + 1)
 			cash = 9 + (int)(Math.random() * (12));
 		}
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**

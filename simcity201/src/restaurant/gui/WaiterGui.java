@@ -8,8 +8,7 @@ import SimCity.gui.Gui;
 
 public class WaiterGui implements Gui {
 
-	private static int numWaiter = 0;
-	private int waiterNum;
+	private int numWaiter;
 
 	private boolean pause = false;
 
@@ -18,8 +17,8 @@ public class WaiterGui implements Gui {
 	private int xPos = -20, yPos = -20;// default waiter position
 	private int xDestination = -20, yDestination = -20;// default start position
 
-	private final int xDestinationDefault = 5,
-			yDestinationDefault = 60 + 20 * numWaiter;
+	private int xDestinationDefault = 5;
+	private int yDestinationDefault;
 
 	private final int xCookDestination = 200;
 	private final int yCookDestination = 340;
@@ -47,10 +46,12 @@ public class WaiterGui implements Gui {
 	static final int xWaiterSize = 20;
 	static final int yWaiterSize = 20;
 
-	public WaiterGui(DannyWaiter agent) {
+	public WaiterGui(DannyWaiter agent, int num) {
+		numWaiter = num;
 		this.agent = agent;
-		numWaiter++;
-		waiterNum = numWaiter;
+		yDestinationDefault = 60 + 20 * numWaiter;
+		xDestination = xDestinationDefault;
+		yDestination = yDestinationDefault;
 	}
 
 	public void updatePosition() {
@@ -152,7 +153,7 @@ public class WaiterGui implements Gui {
 		} else if (state == State.deliveringBill) {
 			g.drawString("$$" + "", xPos + 4, yPos + 14);
 		} else {
-			g.drawString(waiterNum + "", xPos + 8, yPos + 14);
+			g.drawString(numWaiter + "", xPos + 8, yPos + 14);
 		}
 	}
 

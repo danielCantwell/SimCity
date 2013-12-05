@@ -6,14 +6,12 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import brianRest.gui.BrianAnimationPanel;
 import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
-import agent.Agent;
 
 /**
  * Restaurant Waiter Agent
@@ -69,22 +67,20 @@ public class DannyWaiter extends Role implements Waiter {
 
 	private String name;
 
-	public DannyWaiter(String name, DannyHost host, DannyCashier cashier, int num) {
+	public DannyWaiter() {
+		
+	}
+	
+	public void setName(String name) {
 		this.name = name;
-		this.host = host;
-		this.cashier = cashier;
-		numWaiter = num;
 	}
 
 	/*
 	 * MESSAGES
 	 */
 
-	public void msgPleaseSeatCustomer(DannyHost host, Customer customer,
-			int table) {
+	public void msgPleaseSeatCustomer(Customer customer, int table) {
 		print("MESSAGE 2 : Host -> Waiter : PleaseSeatCustomer");
-		this.host = host;
-		cook = host.getCook();
 		myCustomers.add(new MyCustomer(customer, table));
 		stateChanged();
 	}
@@ -398,7 +394,7 @@ public class DannyWaiter extends Role implements Waiter {
 		}
 		myCustomer.event = CookEvent.None;
 		print("Processing Order");
-		//cook.startThread();
+		// cook.startThread();
 		cook.msgHereIsAnOrder(this, myCustomer.choice, myCustomer.table);
 	}
 
@@ -422,8 +418,7 @@ public class DannyWaiter extends Role implements Waiter {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		cashier.msgGetBill(this,
-				myCustomer.customer, myCustomer.choice);
+		cashier.msgGetBill(this, myCustomer.customer, myCustomer.choice);
 		try {
 			getBill.acquire();
 		} catch (InterruptedException e) {
@@ -534,21 +529,25 @@ public class DannyWaiter extends Role implements Waiter {
 	public void print(String string) {
 		System.out.println(string);
 	}
-	
+
 	public void setGui(WaiterGui gui) {
 		waiterGui = gui;
-	}
-
-	public WaiterGui getGui() {
-		return waiterGui;
 	}
 
 	public void setHost(DannyHost host) {
 		this.host = host;
 	}
 
-	public DannyHost getHost() {
-		return host;
+	public void setNum(int num) {
+		numWaiter = num;
+	}
+
+	public void setCashier(DannyCashier c) {
+		cashier = c;
+	}
+
+	public void setCook(DannyCook c) {
+		cook = c;
 	}
 
 	public String getName() {
@@ -557,17 +556,19 @@ public class DannyWaiter extends Role implements Waiter {
 
 	@Override
 	protected void enterBuilding() {
+		WaiterGui wg = new WaiterGui(this, numWaiter);
+		setGui(wg);
 		System.out.println("Waiter enterBuilding");
-		//add gui
-		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel)myPerson.building.getPanel();
+		// add gui
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
 		ap.addGui(waiterGui);
-		waiterGui.DoLeaveCustomer();
 	}
 
 	@Override
 	public void workOver() {
 		System.out.println("Waiter workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
+		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.numWaiters--;
 	}
 }

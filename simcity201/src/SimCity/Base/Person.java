@@ -140,7 +140,6 @@ public class Person extends Agent {
 			else if (job.equals("brianRest.BrianCustomerRole")) {return;}
 			else if (job.equals("brianRest.BrianWaiterRole")){return;}
 			
-			
 			Role newRole;
 			try {
 				newRole = (Role)Class.forName(job).newInstance();
@@ -461,13 +460,13 @@ public class Person extends Agent {
 		}else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.customer){
 			//Go to restaurant
-			b = God.Get().getBuilding(6);
+			b = God.Get().getBuilding(7);
 			Do("Going to restaurant");
 		}else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.work){
 			//Put all restaurant roles here.
 			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
-				b = God.Get().getBuilding(6);
+				b = God.Get().getBuilding(7);
 				Do("working at restaurant");
 			}
 			// delivery person stuff
