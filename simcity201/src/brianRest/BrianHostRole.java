@@ -29,6 +29,7 @@ public class BrianHostRole extends Role implements BrianHost {
 	//with List semantics.
 	private List<WaitingCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<WaitingCustomer>());
 	private enum WaitingCustomerState {none, full};
+	public int customersInRestaurant = 0;
 	
 	//List of waiters
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
@@ -38,6 +39,7 @@ public class BrianHostRole extends Role implements BrianHost {
 	//Later we will see how it is implemented
 
 	private String name;
+	boolean wantToGoHome = false;
 	
 	private enum MyWaiterState {none, wantBreak, allowedBreak, onBreak};
 	int workingWaiters = 0;
@@ -88,6 +90,7 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	@Override
 	public void msgIWantToEat(BrianCustomer c){
+		System.out.println("Customer wants to eat");
 		waitingCustomers.add(new WaitingCustomer(c));
 		stateChanged();
 	}
@@ -95,6 +98,7 @@ public class BrianHostRole extends Role implements BrianHost {
 	@Override
 	public void msgTableIsClear(BrianTable t){
 		t.occupiedBy = null;
+		customersInRestaurant --;
 		stateChanged();
 	}
 	
@@ -118,6 +122,9 @@ public class BrianHostRole extends Role implements BrianHost {
 		/*if !waitingCustomer.empty() there exists a Table t in tables such that t.occupiedBy == null 
 		 * 
 		 * 			then notifyWaiter(t, w);*/
+		
+		System.out.println("waiter size " + waiters.size());
+		
 		synchronized (waiters){
 			if (!waitingCustomers.isEmpty()){
 				synchronized(waitingCustomers){
@@ -169,6 +176,10 @@ public class BrianHostRole extends Role implements BrianHost {
 			}
 		}
 		
+		if (wantToGoHome){
+			leaveRestaurant();
+		}
+		
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -177,23 +188,36 @@ public class BrianHostRole extends Role implements BrianHost {
 
 // ######################   Actions  ##################
 	private void notifyWaiter(BrianTable t, MyWaiter w){
-		  //Do("is notifying waiter "+ w.waiter.name);
+		 System.out.println("BrianHost is notifying BrianWaiter");
 		   w.numberOfCustomers++;
 		   WaitingCustomer c = waitingCustomers.remove(0);
-		  // w.waiter.msgSeatAtTable(c.customer, t);
+		   w.waiter.msgSeatAtTable(c.customer, t);
+		   customersInRestaurant ++;
 		}
 
 	private void WaiterOnBreak(MyWaiter w){
 		//Do("Allowed "+ w.waiter.name + " to go on break.");
 		w.state = MyWaiterState.onBreak;
-		//w.waiter.msgCanGoOnBreak();
+		w.waiter.msgCanGoOnBreak();
 	}
 	
 	private void notifyCustomerFullHouse(WaitingCustomer c){
 		Do("Notifying customer Restaurant full.");
 		c.state = WaitingCustomerState.full;
-		//c.customer.msgFullHouse();
+		c.customer.msgFullHouse();
 		
+	}
+	
+	private void leaveRestaurant(){
+		Do("Leaving Restaurant");
+		if (waitingCustomers.size() == 0){
+			//msg all waiters that they are allowed to leave
+			for (MyWaiter w: waiters){
+				w.waiter.msgLeaveRestaurant();
+			}
+			exitBuilding(myPerson);
+			wantToGoHome = false;
+		}
 	}
 
 	//utilities
@@ -276,22 +300,22 @@ public class BrianHostRole extends Role implements BrianHost {
 			numberOfCustomers = 0;
 		}
 	}
+	
 
 
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.hostFilled = true;
 		
 	}
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
+		//Do not accept any new people.
 		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.hostFilled = false;
+		rest.setOpen(false);
+		wantToGoHome = true;
+		
 	}
 }
 

@@ -62,6 +62,11 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
+		for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 		repaint();  //Will have paintComponent called
 	}
 	
@@ -118,11 +123,7 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
             g2.fillRect(t.getPosX(), t.getPosY(), TABLEWIDTH, TABLEHEIGHT);//200 and 250 need to be table params
         }
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+        
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {

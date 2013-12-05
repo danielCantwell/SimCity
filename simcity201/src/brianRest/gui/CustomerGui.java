@@ -40,13 +40,14 @@ public class CustomerGui implements Gui{
 
 	public CustomerGui(BrianCustomer brianCustomerRole, BrianHostRole host){ //HostAgent m) {
 		agent = brianCustomerRole;
-		xPos = -40;
-		yPos = -40;
-		xDestination = -40;
-		yDestination = -40;
+		xPos = 5;
+		yPos = 5;
+		xDestination = 5;
+		yDestination =5;
 		this.host = host;
 		receivedCoordinates = false;
 		dead = false;
+		isPresent= true;
 	}
 
 	public void updatePosition() {
