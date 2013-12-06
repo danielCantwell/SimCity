@@ -110,7 +110,6 @@ public class B_DannyRestaurant extends Building {
 				newRole = new DannyWaiter();
 				((DannyWaiter) newRole).setNum(numWaiters);
 				setOpen(areAllNeededRolesFilled());
-				// TODO hostRole.addWaiter((DannyWaiter) newRole);
 				waiters.add((DannyWaiter) newRole);
 				System.out
 						.println("All roles needed Danny Restaurant : "
@@ -133,9 +132,13 @@ public class B_DannyRestaurant extends Building {
 
 			if (areAllNeededRolesFilled()) {
 				for (DannyWaiter waiter : waiters) {
-					waiter.setHost(hostRole);
-					waiter.setCashier(cashierRole);
-					waiter.setCook(cookRole);
+					if (waiter.getHost() != hostRole)
+						waiter.setHost(hostRole);
+					if (waiter.getCashier() != cashierRole)
+						waiter.setCashier(cashierRole);
+					if (waiter.getCook() != cookRole)
+						waiter.setCook(cookRole);
+					hostRole.addWaiter((DannyWaiter) newRole);
 				}
 			}
 

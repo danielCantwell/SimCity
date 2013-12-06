@@ -409,23 +409,30 @@ public class SetupPanel extends JFrame {
 	}
 
 	private Building selectApartment() {
-		if (God.Get().getBHouse(0).getOwner().myTenants.size() < 8) {
+		if (God.Get().getBHouse(0).numTenants < 8) {//(God.Get().getBHouse(0).getOwner().myTenants.size() < 8) {
+			God.Get().getBHouse(0).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(0);
-		} else if (God.Get().getBHouse(1).getOwner().myTenants.size() < 8) {
+		} else if (God.Get().getBHouse(1).numTenants < 8) {//(God.Get().getBHouse(1).getOwner().myTenants.size() < 8) {
+			God.Get().getBHouse(1).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(1);
 		} else {
+			God.Get().getBHouse(4).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(4);
 		}
 	}
 
 	private Building selectHouse() {
-		if (God.Get().getBHouse(12).getOwner().myTenants.size() < 8) {
+		if (God.Get().getBHouse(12).numTenants < 8) {//if (God.Get().getBHouse(12).getOwner().myTenants.size() < 8) {
+			God.Get().getBHouse(12).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(12);
-		} else if (God.Get().getBHouse(13).getOwner().myTenants.size() < 8) {
+		} else if (God.Get().getBHouse(13).numTenants < 8) {//(God.Get().getBHouse(13).getOwner().myTenants.size() < 8) {
+			God.Get().getBHouse(13).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(13);
-		} else if (God.Get().getBHouse(14).getOwner().myTenants.size() < 8) {
+		} else if (God.Get().getBHouse(12).numTenants < 8) {//(God.Get().getBHouse(14).getOwner().myTenants.size() < 8) {
+			God.Get().getBHouse(14).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(14);
 		} else {
+			God.Get().getBHouse(15).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(15);
 		}
 	}

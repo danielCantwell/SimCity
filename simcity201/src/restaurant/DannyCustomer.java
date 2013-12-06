@@ -413,6 +413,9 @@ public class DannyCustomer extends Role implements Customer{
 		host = rest.hostRole;
 		cashier = rest.cashierRole;
 		
+		CustomerGui cg = new CustomerGui(this);
+		customerGui = cg;
+		
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel)myPerson.getBuilding().getPanel();
 		ap.addGui(customerGui);
 		

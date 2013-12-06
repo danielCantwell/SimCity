@@ -554,6 +554,10 @@ public class DannyWaiter extends Role implements Waiter {
 	public void setHost(DannyHost host) {
 		this.host = host;
 	}
+	
+	public DannyHost getHost() {
+		return host;
+	}
 
 	public void setNum(int num) {
 		numWaiter = num;
@@ -562,9 +566,17 @@ public class DannyWaiter extends Role implements Waiter {
 	public void setCashier(DannyCashier c) {
 		cashier = c;
 	}
+	
+	public DannyCashier getCashier() {
+		return cashier;
+	}
 
 	public void setCook(DannyCook c) {
 		cook = c;
+	}
+	
+	public DannyCook getCook() {
+		return cook;
 	}
 
 	public String getName() {
