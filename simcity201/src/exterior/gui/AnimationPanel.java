@@ -205,7 +205,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
 						System.out.println("MOUSE PRESS ON BUILDING: " + i);
-						gui.buildingFrame.setTitle("Building #" + (i + 1)
+						gui.buildingFrame.setTitle("Building #" + (i)
 								+ " - " + gui.buildingList.get(i).getTag());
 						gui.cardLayout.show(gui.buildingPanels, "" + i);
 					}
@@ -473,6 +473,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrl4 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Will", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
+                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
+                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
+             }
+        };
+        
         Action keyCtrlC = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
@@ -521,6 +531,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrl3 = "CTRL 3";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_MASK), stringCtrl3);
         getActionMap().put(stringCtrl3, keyCtrl3);
+        String stringCtrl4 = "CTRL 4";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_MASK), stringCtrl4);
+        getActionMap().put(stringCtrl4, keyCtrl4);
         String stringCtrlC = "CTRL C";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
         getActionMap().put(stringCtrlC, keyCtrlC);

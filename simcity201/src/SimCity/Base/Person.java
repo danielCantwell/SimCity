@@ -19,11 +19,16 @@ import exterior.gui.CarGui;
 import exterior.gui.Gui;
 import exterior.gui.PersonGui;
 import restaurant.*;
+import timRest.TimCashierRole;
+import timRest.TimCookRole;
+import timRest.TimHostRole;
+import timRest.TimWaiterRole;
 import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
+import SimCity.Buildings.B_TimRest;
 import SimCity.Globals.Money;
 import agent.Agent;
 /**
@@ -69,6 +74,7 @@ public class Person extends Agent {
 	public enum GoAction {
 		goHome,
 		goDannyRestaurant,
+		goTimRestaurant,
 		goRestaurant,
 		goMarket,
 		goBank,
@@ -242,6 +248,7 @@ public class Person extends Agent {
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
 		else if (b instanceof B_DannyRestaurant){ addAction(new Action(GoAction.goDannyRestaurant, i));}
 		else if (b instanceof B_Market){ addAction(new Action(GoAction.goMarket, i));}
+        else if (b instanceof B_TimRest){ addAction(new Action(GoAction.goTimRestaurant, i));}
 		stateChanged();
 	}
 	
@@ -460,7 +467,21 @@ public class Person extends Agent {
 			    b = God.Get().getBuilding(dPRole.destinationBuildingID);
 	            Do("Delivering to restaurant");
 			}
-		}
+		}else
+        if (action.getGoAction() == GoAction.goTimRestaurant && action.getIntent() == Intent.work){
+            //Put all restaurant roles here.
+            if (mainRole instanceof TimHostRole || mainRole instanceof TimWaiterRole || mainRole instanceof TimCookRole || mainRole instanceof TimCashierRole){
+                b = God.Get().getBuilding(9);
+                Do("working at restaurant");
+            }
+            // delivery person stuff
+            if (mainRole instanceof MarketDeliveryPersonRole)
+            {
+                MarketDeliveryPersonRole dPRole = (MarketDeliveryPersonRole) mainRole;
+                b = God.Get().getBuilding(dPRole.destinationBuildingID);
+                Do("Delivering to restaurant");
+            }
+        }
 		
 		else b = null;
 		

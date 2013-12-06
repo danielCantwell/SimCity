@@ -1,7 +1,5 @@
 package market;
 
-import housing.gui.HousingAnimation;
-
 import java.util.*;
 
 import exterior.gui.SimCityGui;

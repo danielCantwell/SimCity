@@ -20,7 +20,6 @@ import java.util.TimerTask;
  */
 public class TimCustomerRole extends Role implements TimCustomer{
 	
-	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
 	private TimCustomerGui customerGui;
@@ -49,9 +48,8 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public TimCustomerRole(String name){
+	public TimCustomerRole(){
 		super();
-		this.name = name;
 		choices = null;
 		waitingPos = new Point(-1, -1);
 		amountOwed = 0.0d;
@@ -70,7 +68,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	}
 
 	public String getCustomerName() {
-		return name;
+		return getName();
 	}
 	// Messages
 
@@ -84,15 +82,15 @@ public class TimCustomerRole extends Role implements TimCustomer{
 			cash = 20.0d;
 		}
 		// test names
-		if (name.equals("_Stalin"))
+		if (getName().equals("_Stalin"))
 		{
 			cash = 4.00d;
 		}
-		else if (name.equals("_Plain_Salad"))
+		else if (getName().equals("_Plain_Salad"))
 		{
 			cash = 5.99d;
 		}
-		else if (name.equals("_Rockefeller"))
+		else if (getName().equals("_Rockefeller"))
 		{
 			cash = 20.0d;
 		}
@@ -360,19 +358,19 @@ public class TimCustomerRole extends Role implements TimCustomer{
 			choice = items.get(rand.nextInt(items.size()));
 		}
 		// test names
-		if (name.equals("_Steak"))
+		if (getName().equals("_Steak"))
 		{
 			choice = "Steak";
 		}
-		else if (name.equals("_Chicken"))
+		else if (getName().equals("_Chicken"))
 		{
 			choice = "Chicken";
 		}
-		else if (name.equals("_Salad"))
+		else if (getName().equals("_Salad"))
 		{
 			choice = "Salad";
 		}
-		else if (name.equals("_Pizza"))
+		else if (getName().equals("_Pizza"))
 		{
 			choice = "Pizza";
 		}
@@ -479,7 +477,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	// Accessors, etc.
 
 	public String getName() {
-		return name;
+		return myPerson.name;
 	}
 	
 	public int getHungerLevel() {

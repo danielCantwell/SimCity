@@ -14,8 +14,6 @@ import SimCity.Base.Role;
 
 public class TimCashierRole extends Role implements TimCashier{
 	
-	String name;
-	
 	Timer timer = new Timer();
 
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());
@@ -30,10 +28,9 @@ public class TimCashierRole extends Role implements TimCashier{
 	
 	public enum CheckState { pending, calculating, ready }
 	
-	public TimCashierRole(String name)
+	public TimCashierRole()
 	{
 		super();
-		this.name = name;
 		cashInRegister = 0.0d;
 	}
 	
@@ -174,7 +171,7 @@ public class TimCashierRole extends Role implements TimCashier{
 	}
 	
 	public String getName() {
-		return name;
+		return myPerson.name;
 	}
 	
 	public class Check

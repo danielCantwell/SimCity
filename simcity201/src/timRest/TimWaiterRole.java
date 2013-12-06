@@ -22,8 +22,6 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	public static int count = 0;
 	private int id;
 	
-	private String name;
-	
 	private Menu menu = new Menu();
 	
 	private TimHostRole host;
@@ -48,9 +46,8 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	enum AgentState { idle, seating, takingOrder, serving, reorder, outOfFood, putOnBreak, onBreak, gettingCheck };
 	enum TravelState { idle, toHost, atHost, toTable, atTable, toCook, atCook, toCashier, atCashier };
 	
-	public TimWaiterRole(String name){
+	public TimWaiterRole(){
 		super();
-		this.name = name;
 		id = TimWaiterRole.count;
 		TimWaiterRole.count++;
 		try {
@@ -860,7 +857,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	}
 
 	public String getName() {
-		return name;
+		return myPerson.name;
 	}
 
 	public void setHost(TimHostRole host)

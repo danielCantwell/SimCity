@@ -1,7 +1,6 @@
 package timRest;
 
 import SimCity.Base.Role;
-import agent.Agent;
 import timRest.gui.TimHostGui;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
@@ -30,14 +29,11 @@ public class TimHostRole extends Role {
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 
-	private String name;
-
 	public TimHostGui hostGui = null;
 
-	public TimHostRole(String name) {
+	public TimHostRole() {
 		super();
 
-		this.name = name;
 		// make some tables
 		for (int ix = 0; ix < NTABLES; ix++) {
 			addTableToHash(ix, new Table(ix, 200 + ix*100, 250));
@@ -50,11 +46,11 @@ public class TimHostRole extends Role {
 	}
 
 	public String getMaitreDName() {
-		return name;
+		return getName();
 	}
 
 	public String getName() {
-		return name;
+		return myPerson.name;
 	}
 
 	public List<TimCustomer> getWaitingCustomers() {

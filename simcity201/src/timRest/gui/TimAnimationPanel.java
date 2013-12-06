@@ -2,11 +2,15 @@ package timRest.gui;
 
 import javax.swing.*;
 
+import SimCity.Base.Person;
+import SimCity.Buildings.B_Market;
+import SimCity.Buildings.B_TimRest;
 import SimCity.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -20,8 +24,11 @@ public class TimAnimationPanel extends JPanel implements ActionListener
     private Image bufferImage;
     private Dimension bufferSize;
 
-    private List<Gui> guis = new ArrayList<Gui>();
-    private TimHostRole host;
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+    private TimHostRole hostRole;
+    
+    public Person host;
+    private B_TimRest restaurant;
 
     public TimAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -29,13 +36,28 @@ public class TimAnimationPanel extends JPanel implements ActionListener
         
         bufferSize = this.getSize();
  
-    	Timer timer = new Timer(20, this );
+    	Timer timer = new Timer(10, this );
     	timer.start();
     }
+    
+    public void setBTimRest(B_TimRest rest){
+        restaurant = rest;
+        //market.setManager((MarketManagerRole) manager.mainRole);
+        restaurant.panel = this;
+    }
+    public B_TimRest getBMarket(){return restaurant;}
 
-	public void actionPerformed(ActionEvent e) {
-		repaint();  //Will have paintComponent called
-	}
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        synchronized (guis){
+            for (Gui gui : guis) {
+                if (gui.isPresent()) {
+                    gui.updatePosition();
+                }
+            }
+        }
+        repaint();
+    }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
@@ -47,11 +69,11 @@ public class TimAnimationPanel extends JPanel implements ActionListener
         //Here are the tables
         g2.setColor(Color.ORANGE);
         //Prevent null pointer
-        if (host.getTables() != null)
+        if (hostRole != null && hostRole.getTables() != null)
         {
 	        //Iterate through tables
         	ArrayList<Point> tablePositions = new ArrayList<Point>();
-        	tablePositions.addAll(host.getTablePositions().values());
+        	tablePositions.addAll(hostRole.getTablePositions().values());
 	        for (Point table : tablePositions)
 	        {
 	        	g2.fillRect(table.x, table.y, 50, 50);
@@ -59,29 +81,31 @@ public class TimAnimationPanel extends JPanel implements ActionListener
 	        g2.setColor(Color.BLACK);
 	        for (int i = 0; i < tablePositions.size(); i++)
 	        {
-	        	g2.drawString(host.getTableIcons().get(i), tablePositions.get(i).x+25, tablePositions.get(i).y+35);
+	        	g2.drawString(hostRole.getTableIcons().get(i), tablePositions.get(i).x+25, tablePositions.get(i).y+35);
 	        }
         }
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw(g2);
+        synchronized(guis)
+        {
+            for (Gui gui : guis) {
+                if (gui.isPresent()) {
+                    gui.draw(g2);
+                }
             }
         }
     }
     
     public void setHost(TimHostRole host)
     {
-    	this.host = host;
+    	this.hostRole = host;
     }
 
     public void addGui(Gui gui) {
         guis.add(gui);
+    }
+    
+    public void removeGui(Gui gui)
+    {
+        guis.remove(gui);
     }
 }

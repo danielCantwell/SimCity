@@ -4,6 +4,7 @@ import housing.gui.HousingAnimation;
 
 import javax.swing.*;
 
+import timRest.gui.TimAnimationPanel;
 import market.gui.MarketAnimationPanel;
 import Bank.gui.bankGui;
 import SimCity.Base.Building;
@@ -12,6 +13,7 @@ import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.Buildings.B_TimRest;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -79,9 +81,15 @@ public class SimCityGui extends JFrame {
         		((MarketAnimationPanel) buildingPanel).setBMarket((B_Market)b);
     		}
     		// Add Restaurants:
-    		if (i == 6 || i == 7 || i == 9 || i == 10 || i == 11) {
+    		if (i == 6 || i == 7 || i == 10 || i == 11) {
         		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
         		b = new B_DannyRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+    		}
+    		if (i == 9)
+    		{
+    		    buildingPanel = new timRest.gui.TimAnimationPanel();
+    		    b = new B_TimRest(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+                ((TimAnimationPanel) buildingPanel).setBTimRest((B_TimRest)b);
     		}
     		// Add Houses:
     		if (i == 12 || i == 13 || i == 14 || i == 15) {

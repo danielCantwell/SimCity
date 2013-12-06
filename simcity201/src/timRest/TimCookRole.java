@@ -15,8 +15,6 @@ public class TimCookRole extends Role {
 	
 	private final int NORMAL_AMOUNT_TO_ORDER = 8;
 	
-	String name;
-	
 	private TimCookGui gui;
 	
 	private Timer timer = new Timer();
@@ -33,10 +31,9 @@ public class TimCookRole extends Role {
 	
 	enum OrderState { pending, cooking, justFinished, ready }
 	
-	public TimCookRole(String name)
+	public TimCookRole()
 	{
 		super();
-		this.name = name;
 	}
 
 //	public void msgCannotFulfill(MarketAgent market, String choice)
@@ -346,7 +343,7 @@ public class TimCookRole extends Role {
 //	}
 	
 	public String getName() {
-		return name;
+		return myPerson.name;
 	}
 	
 	private class Order
@@ -397,6 +394,11 @@ public class TimCookRole extends Role {
 
 	public void setGui(TimCookGui cookGui) {
 		gui = cookGui;
+	}
+	
+	public TimCookGui getGui()
+	{
+	    return gui;
 	}
 
 	public void print(String string) {

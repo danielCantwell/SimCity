@@ -41,18 +41,18 @@ public class B_TimRest extends Building{
 		buildingPanel = jp;
 		x = xCoord;
 		y = yCoord;
-		tag = "B_Market";
+		tag = "B_Restaurant";
 		setOpen(areAllNeededRolesFilled());
 	}
 	
 	@Override
 	public String getManagerString() {
-		return "market.MarketManagerRole";
+		return "timRest.TimHostRole";
 	}
 
 	@Override
 	public String getCustomerString() {
-		return "market.MarketCustomerRole";
+		return "timRest.TimCustomerRole";
 	}
 
 	@Override
@@ -75,40 +75,47 @@ public class B_TimRest extends Building{
             newRole.setPerson(person);
             person.msgCreateRole(newRole, true);
             fillNeededRoles(person, newRole);
-            /*if (newRole instanceof TimHostRole)
+            if (newRole instanceof TimHostRole)
             {
-                TimHostRole marketRole = (TimHostRole) person.mainRole;
-                hostRole = marketRole;
-                panel.manager = person;
-                panel.addGui(marketRole.getGui());
+                TimHostRole restaurantRole = (TimHostRole) person.mainRole;
+                hostRole = restaurantRole;
+                panel.host = person;
+                panel.addGui(restaurantRole.getGui());
             }
-            if (newRole instanceof MarketClerkRole)
+            if (newRole instanceof TimCookRole)
             {
-                MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
-                marketRole.setManager(hostRole);
-                hostRole.addClerk(marketRole);
-                panel.addGui(marketRole.getGui());
+                TimCookRole restaurantRole = (TimCookRole) person.mainRole;
+                //restaurantRole.setHost(hostRole);
+                //hostRole.addClerk(restaurantRole);
+                //panel.addGui(restaurantRole.getGui());
             }
-            if (newRole instanceof MarketPackerRole)
+            if (newRole instanceof TimCashierRole)
             {
-                MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
-                marketRole.setManager(hostRole);
-                hostRole.addPacker(marketRole);
-                panel.addGui(marketRole.getGui());
+                TimCashierRole restaurantRole = (TimCashierRole) person.mainRole;
+                //restaurantRole.setHost(hostRole);
+                //hostRole.addClerk(restaurantRole);
+                //panel.addGui(restaurantRole.getGui());
             }
-            if (newRole instanceof MarketCustomerRole)
+            if (newRole instanceof TimWaiterRole)
             {
-                MarketCustomerRole marketRole = null;
+                TimWaiterRole restaurantRole = (TimWaiterRole) person.mainRole;
+                restaurantRole.setHost(hostRole);
+                hostRole.addWaiter(restaurantRole);
+                panel.addGui(restaurantRole.getGui());
+            }
+            if (newRole instanceof TimCustomerRole)
+            {
+                TimCustomerRole restaurantRole = null;
                 for (Role r : person.roles)
                 {
-                    if (r instanceof MarketCustomerRole)
+                    if (r instanceof TimCustomerRole)
                     {
-                        marketRole = (MarketCustomerRole) r;
-                        marketRole.setManager(hostRole);
-                        panel.addGui(marketRole.getGui());
+                        restaurantRole = (TimCustomerRole) r;
+                        restaurantRole.setHost(hostRole);
+                        panel.addGui(restaurantRole.getGui());
                     }
                 }
-            }*/
+            }
             person.msgEnterBuilding(this);
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
@@ -121,34 +128,41 @@ public class B_TimRest extends Building{
 	public void ExitBuilding(Person person) {
         for (int i = 0; i < person.roles.size(); i++)
         {
-            /*if (person.roles.get(i) instanceof TimHostRole)
+            if (person.roles.get(i) instanceof TimHostRole)
             {
                 TimHostRole cRole = (TimHostRole)person.roles.get(i);
                 cRole.setActive(false);
                 ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
-            if (person.roles.get(i) instanceof MarketClerkRole)
+            if (person.roles.get(i) instanceof TimCookRole)
             {
-                MarketClerkRole cRole = (MarketClerkRole)person.roles.get(i);
+                TimCookRole cRole = (TimCookRole)person.roles.get(i);
+                cRole.setActive(false);
+                //((B_TimRest) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+            if (person.roles.get(i) instanceof TimCashierRole)
+            {
+                TimCashierRole cRole = (TimCashierRole)person.roles.get(i);
+                cRole.setActive(false);
+                //((B_TimRest) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+            if (person.roles.get(i) instanceof TimWaiterRole)
+            {
+                TimWaiterRole cRole = (TimWaiterRole)person.roles.get(i);
                 cRole.setActive(false);
                 ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
-            if (person.roles.get(i) instanceof MarketPackerRole)
+            if (person.roles.get(i) instanceof TimCustomerRole)
             {
-                MarketPackerRole cRole = (MarketPackerRole)person.roles.get(i);
+                TimCustomerRole cRole = (TimCustomerRole)person.roles.get(i);
                 cRole.setActive(false);
                 ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
-            if (person.roles.get(i) instanceof MarketCustomerRole)
-            {
-                MarketCustomerRole cRole = (MarketCustomerRole)person.roles.get(i);
-                cRole.setActive(false);
-                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
-                person.msgExitBuilding();
-            }*/
         }
 	}
 	

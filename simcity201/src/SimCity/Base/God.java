@@ -16,6 +16,7 @@ import restaurant.DannyCook;
 import restaurant.DannyCustomer;
 import restaurant.DannyHost;
 import restaurant.DannyWaiter;
+import timRest.TimHostRole;
 import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import SimCity.Base.Person.TimeState;
@@ -217,7 +218,7 @@ public class God {
 	    	announcedTime = true;
 	    	System.out.println("managers going to work");
 	    	for (Person p: persons){
-	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole){
+	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
 	    			p.msgGoToWork();
 	    		}
 	    	}

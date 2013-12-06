@@ -1,6 +1,5 @@
 package market.interfaces;
 
-import market.MarketCustomerRole;
 import SimCity.Globals.Money;
 
 public interface MarketClerk
