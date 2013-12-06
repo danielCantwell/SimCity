@@ -4,6 +4,7 @@ import EricRestaurant.gui.HostGui;
 import EricRestaurant.interfaces.*;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_EricRestaurant;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -124,15 +125,14 @@ public class EricHost extends Role implements Host {
 		stateChanged();
 	}
 
-	@Override
-	public void newWaiter(EricRestaurant.interfaces.Waiter wait) {
+	public void newWaiter(EricWaiter wait) {
 		Waiter mywaiter = new Waiter();
 		mywaiter.w = wait;
 		mywaiter.s = state.free;
 		mywaiter.b = breakstate.offbreak;
 		waiters.add(mywaiter);
 		wCount++;
-		wait.getGui().waiting(wCount);
+		//wait.getGui().waiting(wCount);
 		stateChanged();
 	}
 
@@ -151,6 +151,7 @@ public class EricHost extends Role implements Host {
 	 */
 	protected boolean pickAndExecuteAnAction() {
 		int count = 0;
+		//System.out.println("waiter size " + waiters.size()+" and myPerson is this: "+myPerson.toString());
 
 		for(Waiter w : waiters) {
 			if(w.b == breakstate.offbreak) {
@@ -281,5 +282,6 @@ public class EricHost extends Role implements Host {
 	public void workOver() {
 		
 	}
+
 }
 

@@ -1,19 +1,13 @@
 package EricRestaurant;
 import java.text.DecimalFormat;
 
-import EricRestaurant.EricHost.Waiter;
-import EricRestaurant.EricHost.state;
 import EricRestaurant.gui.AnimationPanel;
 import EricRestaurant.gui.CustomerGui;
-import EricRestaurant.gui.RestaurantGui;
 import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
 import EricRestaurant.interfaces.Host;
 import SimCity.Base.Role;
-import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Buildings.B_EricRestaurant;
-import agent.Agent;
-import brianRest.gui.BrianAnimationPanel;
 
 import java.util.*;
 

@@ -140,12 +140,13 @@ public class Person extends Agent {
 			if (job.equals("brianRest.BrianHostRole")) return;
 			else if (job.equals("brianRest.BrianCookRole")) return;
 			else if (job.equals("brianRest.BrianCashierRole"))return;
+			else if (job.equals("brianRest.BrianCustomerRole")) {return;}
+			else if (job.equals("brianRest.BrianWaiterRole")){return;}
 			else if (job.equals("EricRestaurant.EricHost"))return;
 			else if (job.equals("EricRestaurant.EricCook"))return;
 			else if (job.equals("EricRestaurant.EricCashier"))return;
 			else if (job.equals("EricRestaurant.EricCustomer"))return;
-			else if (job.equals("brianRest.BrianCustomerRole")) {return;}
-			else if (job.equals("brianRest.BrianWaiterRole")){return;}
+			else if (job.equals("EricRestaurant.EricWaiter"))return;
 			
 			
 			Role newRole;
@@ -450,7 +451,7 @@ public class Person extends Agent {
 		Building b = null;
 		createVehicle();
 		//System.out.println("goTo + " + action.toString());
-		System.out.println("***************"+action.getGoAction()+"*****"+intent);
+		
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
 			//Choose a bank to go.
@@ -505,7 +506,7 @@ public class Person extends Agent {
 		else 
 		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.customer) {
 				b = God.Get().getBuilding(11);
-				Do("Working at Eric Restaurant");
+				Do("Going to Eric Restaurant");
 			}
 			
 		else b = null;

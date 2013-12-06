@@ -27,8 +27,8 @@ public class CustomerGui implements Gui{
 
 	public CustomerGui(Customer c, EricHost h){ //HostAgent m) {
 		agent = c;
-		xPos = -40;
-		yPos = -40;
+		xPos = -20;
+		yPos = -20;
 		xDestination = 20;
 		yDestination = 20;
 		//maitreD = m;

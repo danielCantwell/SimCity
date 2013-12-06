@@ -21,10 +21,10 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel {
 
 	//Host, cook, waiters and customers
-	private EricWaiter waiter = new EricWaiter("joe");
 	private EricCook cook = new EricCook("Cook");
 	private EricCashier cashier = new EricCashier();
 	private EricHost host = new EricHost("Host");
+	private EricWaiter waiter = new EricWaiter("joe", host, cashier);
 	private HostGui hostGui = new HostGui(waiter);
 	private CookGui cookGui = new CookGui(cook);
 
