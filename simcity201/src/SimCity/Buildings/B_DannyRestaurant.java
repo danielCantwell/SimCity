@@ -79,11 +79,13 @@ public class B_DannyRestaurant extends Building {
 		for (DannyWaiter waiter : waiters) {
 			if (waiter.myPerson == person) {
 				waiters.remove(waiter);
+				System.out.println("Waiter " + person.name + " removed from restaurant list");
 			}
 		}
 		for (DannyCustomer customer : customers) {
 			if (customer.myPerson == person) {
 				customers.remove(customer);
+				System.out.println("Customer " + person.name + " removed from restaurant list");
 			}
 		}
 	}
