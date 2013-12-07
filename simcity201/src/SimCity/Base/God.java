@@ -127,7 +127,7 @@ public class God {
 	        if (INSTANCE != null) {
 	            throw new IllegalStateException("Already instantiated");
 	        }
-	        System.out.println("God Created");
+	        //System.out.println("God Created");
 	        //set God variables.
 	        hour = 3;
 	        hourOffset = 4000;
@@ -136,27 +136,25 @@ public class God {
 				   public void actionPerformed(ActionEvent e){
 					   if (hour < 24){hour ++; announcedTime = false;} // hour increments everytime this timer fires.
 					   
-					   if (hour == 5 && !announcedTime){
+					   if (hour == 4 && !announcedTime){
+						   
 						   wakeUp();
 					   }
 					   
-					   if (hour == 6 && !announcedTime){
+					   if (hour == 5 && !announcedTime){
 						   flushAllPersonActions();
 						   managersGoToWork();
 					   }
 					   
-					   if (hour == 7 && !announcedTime){
-						   flushAllPersonActions();
+					   if (hour == 8 && !announcedTime){
 						   restaurantPeopleGoWork();
 					   }
 					   
-					   if (hour == 8 && !announcedTime){
-						   flushAllPersonActions();
+					   if (hour == 10 && !announcedTime){
 						   goToWork();
 					   }
 					   
-					   if (hour == 9 && !announcedTime){
-						   flushAllPersonActions();
+					   if (hour == 13 && !announcedTime){
 						   fakeCustomersGoToWork();
 					   }
 					   
@@ -165,7 +163,7 @@ public class God {
 						   getOffWork();
 					   }
 					   
-					   if (hour == 23 && !announcedTime){
+					   if (hour == 20 && !announcedTime){
 						   goHome();
 	        			}
 					   

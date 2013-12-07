@@ -284,6 +284,7 @@ public class Person extends Agent {
 	}
 	
 	public void msgGoToWork(){
+		actions.clear();
 		timeState = TimeState.msgGoToWork;
 		stateChanged();
 	}
