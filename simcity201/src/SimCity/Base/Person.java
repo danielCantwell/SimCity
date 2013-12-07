@@ -489,6 +489,11 @@ public class Person extends Agent {
 	            Do("Delivering to restaurant");
 			}
 		}else
+        if (action.getGoAction() == GoAction.goTimRestaurant && intent == Intent.customer){
+            //Go to restaurant
+            b = God.Get().getBuilding(9);
+            Do("Going to restaurant");
+        }else
         if (action.getGoAction() == GoAction.goTimRestaurant && action.getIntent() == Intent.work){
             //Put all restaurant roles here.
             if (mainRole instanceof TimHostRole || mainRole instanceof TimWaiterRole || mainRole instanceof TimCookRole || mainRole instanceof TimCashierRole){
@@ -598,6 +603,11 @@ public class Person extends Agent {
     public void testMarket()
     {
         addActionToFront(new Action(GoAction.goMarket, Intent.customer));
+    }
+    
+    public void testTim()
+    {
+        addActionToFront(new Action(GoAction.goTimRestaurant, Intent.customer));
     }
 }
 

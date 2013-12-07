@@ -15,7 +15,7 @@ public class TimCookRole extends Role {
 	
 	private final int NORMAL_AMOUNT_TO_ORDER = 8;
 	
-	private TimCookGui gui;
+	private TimCookGui gui = new TimCookGui(this);
 	
 	private Timer timer = new Timer();
 
@@ -412,7 +412,7 @@ public class TimCookRole extends Role {
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+        myPerson.Do("Closing time.");
+        exitBuilding(myPerson);
 	}
 }

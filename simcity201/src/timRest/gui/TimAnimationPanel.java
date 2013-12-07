@@ -19,15 +19,15 @@ import timRest.TimHostRole;
 public class TimAnimationPanel extends JPanel implements ActionListener
 {
 	private static final long serialVersionUID = -3483013053395877018L;
-	private final int WINDOWX = 600;
-    private final int WINDOWY = 600;
+	private final int WINDOWX = 640;
+    private final int WINDOWY = 640;
     private Image bufferImage;
     private Dimension bufferSize;
 
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     private TimHostRole hostRole;
     
-    public Person host;
+    //public Person host;
     private B_TimRest restaurant;
 
     public TimAnimationPanel() {
@@ -101,11 +101,17 @@ public class TimAnimationPanel extends JPanel implements ActionListener
     }
 
     public void addGui(Gui gui) {
-        guis.add(gui);
+        synchronized(guis)
+        {
+            guis.add(gui);
+        }
     }
     
     public void removeGui(Gui gui)
     {
-        guis.remove(gui);
+        synchronized(guis)
+        {
+            guis.remove(gui);
+        }
     }
 }
