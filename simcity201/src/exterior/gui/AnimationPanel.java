@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.AbstractAction;
@@ -30,8 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
-
-//import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
 
 import SimCity.Base.Building;
 import SimCity.Base.God;

@@ -2,11 +2,11 @@ package restaurant;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
-import agent.Agent;
 
 import java.util.*;
 
 import restaurant.gui.CookGui;
+import restaurant.gui.DannyRestaurantAnimationPanel;
 
 
 
@@ -277,6 +277,12 @@ public class DannyCook extends Role {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Cook enterBuilding");
+		CookGui cg = new CookGui();
+		cookGui = cg;
+		// add gui
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.addGui(cookGui);
 	}
 
 	@Override
@@ -284,5 +290,6 @@ public class DannyCook extends Role {
 		System.out.println("Cook workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
 		rest.cookFilled = false;
+		exitBuilding(myPerson);
 	}
 }
