@@ -103,6 +103,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
         guis.add(gui);
     }
     
+    public void removeGui(CustomerGui gui) {
+    	guis.remove(gui);
+    }
+    
+    public void removeGui(WaiterGui gui) {
+    	guis.remove(gui);
+    }
+    
     public void setHost(JesseHost hostToAdd) {
     	host = hostToAdd;
     }
