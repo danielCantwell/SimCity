@@ -31,7 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
+//import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
 
 import SimCity.Base.Building;
 import SimCity.Base.God;
@@ -259,7 +259,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
 						System.out.println("MOUSE PRESS ON BUILDING: " + i);
-						gui.buildingFrame.setTitle("Building #" + (i + 1)
+						gui.buildingFrame.setTitle("Building #" + i
 								+ " - " + gui.buildingList.get(i).getTag());
 					}
 				}
@@ -289,7 +289,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
 						System.out.println("MOUSE PRESS ON BUILDING: " + i);
-						gui.buildingFrame.setTitle("Building #" + (i + 1)
+						gui.buildingFrame.setTitle("Building #" + i
 								+ " - " + gui.buildingList.get(i).getTag());
 						gui.cardLayout.show(gui.buildingPanels, "" + i);
 					}
@@ -599,6 +599,25 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrl4 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Will", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+                 createPerson("Alex", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+             }
+        };
+        
+        Action keyCtrl5 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Tim", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(10));
+             }
+        };
+        
         Action keyCtrlC = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
@@ -665,6 +684,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrl3 = "CTRL 3";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_MASK), stringCtrl3);
         getActionMap().put(stringCtrl3, keyCtrl3);
+        String stringCtrl4 = "CTRL 4";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_MASK), stringCtrl4);
+        getActionMap().put(stringCtrl4, keyCtrl4);
+        String stringCtrl5 = "CTRL 5";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_5, KeyEvent.CTRL_MASK), stringCtrl5);
+        getActionMap().put(stringCtrl5, keyCtrl5);
         String stringCtrlC = "CTRL C";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
         getActionMap().put(stringCtrlC, keyCtrlC);
@@ -728,6 +753,22 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 p.testMarket();
 	   	 
 	   	 return p;
+    }
+    
+    protected Person timScenarioPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
+        System.out.println("Spawning a new pedestrian.");
+         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+         PersonGui g = new PersonGui(gui, aStarTraversal);
+         Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+         g.setPerson(p);
+         addGui(g);
+         God.Get().addPerson(p);
+         p.startThread();
+         
+         //test market
+         p.testTim();
+         
+         return p;
     }
     
     public void setScrollPane(JScrollPane s) {

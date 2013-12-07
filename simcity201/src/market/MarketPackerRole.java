@@ -1,7 +1,6 @@
 package market;
 
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
 import SimCity.Base.Person;
 import SimCity.Base.Role;

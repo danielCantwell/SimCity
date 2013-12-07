@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import Bank.bankGuardRole;
 import Bank.bankManagerRole;
 import Bank.bankManagerRole.Teller;
-import Bank.gui.bankGui;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import Bank.tellerRole;
@@ -21,25 +20,23 @@ import SimCity.Base.Role;
  */
 public class B_Bank extends Building{
 	
-	public bankGui gui = new bankGui();
-	bankManagerRole bankManager;
-	bankGuardRole bankGuard;
+	Manager bankManager;
+	Guard bankGuard;
 	
 	Person manager = null;
 	Person guard = null;
 	
 	List<tellerRole> tellers = new ArrayList<tellerRole>();
 	
-	public bankManagerRole getBankManager(){return bankManager;}
-	public bankGuardRole getBankGuard(){return bankGuard;}
+	public Manager getBankManager(){return bankManager;}
+	public Guard getBankGuard(){return bankGuard;}
 	public Person getGuard() {return guard;}
 	public List<tellerRole> getTellers(){return tellers;}
 	
-	public void setBankManager(bankManagerRole bmr){bankManager = bmr;	}
-	public void setBankGuard(bankGuardRole bgr){bankGuard = bgr;}
-//												gui.addGui(bankGuard.getGui());}
+	public void setBankManager(Manager bmr){bankManager = bmr;}
+	public void setBankGuard(Guard bgr){bankGuard = bgr;}
 	public void addTeller(tellerRole t){ tellers.add(t);}
-	public Bank.interfaces.Teller getTeller(int id){return tellers.get(id);}
+	public Bank.interfaces.Teller getTeller(int id){ return tellers.get(id);}
 	
 	public B_Bank(int id){
 		super(id);
@@ -57,7 +54,7 @@ public class B_Bank extends Building{
 		y = yCoord;
 		tag = "B_Bank";
 	}
-	
+
 
 	@Override
 	public String getManagerString() {
@@ -69,30 +66,30 @@ public class B_Bank extends Building{
 	}
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		//System.out.println("manager: " + manager + " guard: " + bankGuard);
+		System.out.println("manager: " + manager + " guard: " + bankGuard);
 		return manager != null  && guard != null;
 	}
 	@Override
 	public void ExitBuilding(Person person) {
-		if (person == manager) manager =null;
-		else if (person == guard) guard = null;
+		if (person == bankGuard) manager =null;
+		else if (person == bankManager) guard = null;
     	person.resetActiveRoles();
     	person.msgExitBuilding();
 	}
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
-//		if (r instanceof bankManagerRole){
-//			manager = r.myPerson;
-//			bankManager = (bankManagerRole)r;
-//		}
-//		else if (r instanceof bankGuardRole){
-//			guard = r.myPerson;
-//			bankGuard = (bankGuardRole) r;
-//			System.out.println("This is guard: " + r);
-//			System.out.println("This is bankguard: " + bankGuard);
-//
-//		}
+		if (r instanceof bankManagerRole){
+			manager = r.myPerson;
+			bankManager = (Manager) r;
+		}
+		else if (r instanceof bankGuardRole){
+			guard = r.myPerson;
+			bankGuard = (Guard) r;
+			System.out.println(bankGuard);
+		}
 		
 	}
+
+	
 
 }
