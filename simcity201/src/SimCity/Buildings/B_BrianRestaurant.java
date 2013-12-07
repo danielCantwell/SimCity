@@ -88,7 +88,7 @@ public class B_BrianRestaurant extends Building{
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianWaiterRole")){ 
-				numberOfWaiters++; 
+				numberOfWaiters++;
 				newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters);
 				newRole.setPerson(person);
 				hostRole.addWaiter((BrianWaiterRole)newRole);

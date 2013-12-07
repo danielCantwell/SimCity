@@ -133,8 +133,12 @@ public boolean pickAndExecuteAnAction() {
 	}
 	
 	public void leaveRestaurant(){
-		wantToGoHome = false;
+		System.out.println("Brian Cashier is leaving restaurant.");
+		B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
+		br.cashierFilled = false;
+		myPerson.msgGoHome();
 		exitBuilding(myPerson);
+		wantToGoHome = false;
 	}
 	
 //################    Utility     ##################

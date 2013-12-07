@@ -90,6 +90,7 @@ public class BrianCookRole extends Role implements BrianCook {
 	
 	public void msgLeaveRestaurant(){
 		wantToGoHome = true;
+		stateChanged();
 	}
 	
 	
@@ -117,10 +118,10 @@ public class BrianCookRole extends Role implements BrianCook {
 						return true;
 					}
 				}
-				
-				if (searchMarketsFor.trim().length() > 0){
-					return true;
-				}
+		}
+		
+		if (wantToGoHome){
+			leaveRestaurant();
 		}
 	}
 	catch(ConcurrentModificationException e){
@@ -184,6 +185,26 @@ public class BrianCookRole extends Role implements BrianCook {
 		return "Cook " + name;
 	}
 	
+	public void leaveRestaurant(){
+			DoExitBuilding();
+			wantToGoHome = false;
+			exitBuilding(myPerson);
+	}
+	
+	private void DoExitBuilding(){
+		gui.DoLeaveRestaurant();
+		try {
+			atTargetLocation.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		wantToGoHome = false;
+		BrianAnimationPanel br = (BrianAnimationPanel)myPerson.getBuilding().getPanel();
+		br.removeGui(gui);
+		System.out.println("Cook is leaving restaurant");
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
+	}
 	
 	private void atLocAcquire(){
 		try {

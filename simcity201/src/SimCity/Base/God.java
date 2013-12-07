@@ -141,18 +141,22 @@ public class God {
 					   }
 					   
 					   if (hour == 6 && !announcedTime){
+						   flushAllPersonActions();
 						   managersGoToWork();
 					   }
 					   
 					   if (hour == 7 && !announcedTime){
+						   flushAllPersonActions();
 						   restaurantPeopleGoWork();
 					   }
 					   
 					   if (hour == 8 && !announcedTime){
+						   flushAllPersonActions();
 						   goToWork();
 					   }
 					   
 					   if (hour == 9 && !announcedTime){
+						   flushAllPersonActions();
 						   fakeCustomersGoToWork();
 					   }
 					   
@@ -167,12 +171,13 @@ public class God {
 					   
 					   if (hour==24 && !announcedTime){
 						   goToSleep();
+						   flushAllPersonActions();
 					   }
 					   
 					   if (hour >= 24) { //if the hour is 24 hours, then hours is reset back to zero
 						   hour = 0; //and a day is added to the Date.
 						   day ++ ;
-						   System.out.println ("Day: "+ day);
+						   //System.out.println ("Day: "+ day);
 					   }
 					   
 					   //Collect rent.
@@ -319,26 +324,10 @@ public class God {
 	    	}
 	    }
 	    
-	  /*  
-	    //BUILDING MEDIATOR STUFF
-	    public void EnterBuilding(Building building, Person person, String job){
-	    		Role newRole;
-				try {
-					newRole = (Role)Class.forName(job).newInstance();
-					newRole.setActive(true);
-					newRole.setPerson(person);
-					person.msgCreateRole(newRole, true);
-				} catch(Exception e){
-					e.printStackTrace();
-					System.out.println ("God: no class found");
-				}
-				person.msgEnterBuilding(building);
+	    private void flushAllPersonActions(){
+	    	for (Person p: persons){
+	    		p.actions.clear();
+	    	}
 	    }
-	    
-	    public void ExitBuilding(Person person){
-	    	person.resetActiveRoles();
-	    	person.msgExitBuilding();
-	    }
-	    */
 	    
 }

@@ -292,11 +292,14 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 //############ Action ################
 	
 	private void leaveRestaurant(){
-		if (myCustomers.size()==0){
 			DoExitBuilding();
-			wantToGoHome = false;
+			BrianAnimationPanel br = (BrianAnimationPanel)myPerson.getBuilding().getPanel();
+			br.removeGui(gui);
+			System.out.println("Brian Waiter is leaving restaurant");
+			myPerson.msgGoHome();
+			myPerson.roles.remove(this);
 			exitBuilding(myPerson);
-		}
+			wantToGoHome = false;
 	}
 	//Want a break;
 	private void IWantABreak(){
@@ -432,7 +435,6 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	}
 	
 	public void DoWalkToCustomer(MyCustomer mc, String displayText){
-		System.out.println (mc.table + " -- search me --");
 		gui.DoWalkToCustomer(mc.table, displayText);
 		atLocAcquire();
 	}
@@ -455,6 +457,7 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	
 	private void DoExitBuilding(){
 		gui.exitBuilding();
+		atLocAcquire();
 	}
 	
 	private void DoIdle(){
