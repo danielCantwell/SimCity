@@ -1,6 +1,7 @@
 package timRest;
 
 import restaurant.gui.CustomerGui;
+import timRest.gui.TimCookGui;
 import timRest.gui.TimCustomerGui;
 import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;

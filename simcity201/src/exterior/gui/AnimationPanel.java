@@ -477,10 +477,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Will", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(13), gui.buildingList.get(9));
-                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(9));
-                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(9));
-                 createPerson("Alex", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(9));
+                 createPerson("Will", "timRest.TimHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
+                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
+                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
+                 createPerson("Alex", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
+                 createPerson("Customer", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(9));
              }
         };
         

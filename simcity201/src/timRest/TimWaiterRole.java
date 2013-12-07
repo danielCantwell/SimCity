@@ -13,6 +13,7 @@ import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import agent.Agent;
 import timRest.gui.TimAnimationPanel;
+import timRest.gui.TimCookGui;
 import timRest.gui.TimWaiterGui;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;

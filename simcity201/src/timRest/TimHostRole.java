@@ -1,6 +1,7 @@
 package timRest;
 
 import SimCity.Base.Role;
+import timRest.gui.TimCookGui;
 import timRest.gui.TimHostGui;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
