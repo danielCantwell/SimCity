@@ -84,6 +84,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
+            	System.out.println("CalledCalledCalled");
+
                 gui.updatePosition();
             }
         }
