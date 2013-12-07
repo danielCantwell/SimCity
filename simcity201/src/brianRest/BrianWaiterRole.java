@@ -293,6 +293,8 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	
 	private void leaveRestaurant(){
 		if (myCustomers.size()==0){
+			DoExitBuilding();
+			wantToGoHome = false;
 			exitBuilding(myPerson);
 		}
 	}
@@ -430,6 +432,7 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 	}
 	
 	public void DoWalkToCustomer(MyCustomer mc, String displayText){
+		System.out.println (mc.table + " -- search me --");
 		gui.DoWalkToCustomer(mc.table, displayText);
 		atLocAcquire();
 	}
@@ -448,7 +451,10 @@ public class BrianWaiterRole extends Role implements BrianWaiter {
 			
 			e.printStackTrace();
 		}
-		
+	}
+	
+	private void DoExitBuilding(){
+		gui.exitBuilding();
 	}
 	
 	private void DoIdle(){

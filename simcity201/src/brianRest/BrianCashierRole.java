@@ -22,6 +22,7 @@ public class BrianCashierRole extends Role implements BrianCashier {
 	public BrianMenu menu;
 	public enum CheckStatus {pending, calculated, paid};
 	public enum CheckType {restaurant, market};
+	boolean wantToGoHome = false;
 
 	//Constructor
 	public BrianCashierRole(String name){
@@ -31,6 +32,13 @@ public class BrianCashierRole extends Role implements BrianCashier {
 	}
 		
 //########## Messages  ###############
+	//Leave restaurant
+		public void msgLeaveRestaurant(){
+			wantToGoHome = true;
+			stateChanged();
+		}
+	
+	
 	public void msgHereIsCheck(String choice, BrianCustomer c, BrianWaiter wa){
 		Check ch = new Check(choice, c, wa);
 		checks.add(ch);
@@ -41,12 +49,12 @@ public class BrianCashierRole extends Role implements BrianCashier {
 	public void msgHeresIsMyMoney(BrianCustomer c, double totalMoney){
 		synchronized(checks){
 			for (Check ch: checks){
-				//if (ch.customer == c){
+				if (ch.customer == c){
 					ch.state = CheckStatus.paid;
 					ch.customerPayment = totalMoney;
 					stateChanged();
 					return;
-				//}
+				}
 			}
 		}
 	}
@@ -62,6 +70,7 @@ public class BrianCashierRole extends Role implements BrianCashier {
 public boolean pickAndExecuteAnAction() {
 		// if there exists an Order o in pendingOrder such that o.OrderState == pending
 		//then CookOrder(o);
+	
 	synchronized (checks){
 		for(Check ch: checks){
 			if (ch.type == CheckType.restaurant && ch.state == CheckStatus.pending){
@@ -87,6 +96,11 @@ public boolean pickAndExecuteAnAction() {
 		
 		}
 	}
+	
+	if (wantToGoHome){
+		leaveRestaurant();
+	}
+	
 		return false;
 	}
 		
@@ -95,19 +109,19 @@ public boolean pickAndExecuteAnAction() {
 		Do("Calculating Check");
 		c.state = CheckStatus.calculated;
 		c.totalCost = menu.getPrice(c.choice);
-		//c.waiter.msgHereIsCheck(c.totalCost, c.customer);
+		c.waiter.msgHereIsCheck(c.totalCost, c.customer);
 	}
 	
 	public void CheckIsPaid(Check c){
 		if (c.customerPayment - c.totalCost < 0){
-			//c.waiter.msgCleanUpDeadCustomer(c.customer);
-			//c.customer.msgDie();
+			c.waiter.msgCleanUpDeadCustomer(c.customer);
+			c.customer.msgDie();
 			checks.remove(c);
 			return;
 		}
 		
 		Do("Here is your change: $" + (c.customerPayment-c.totalCost));
-		//c.customer.msgHeresYourChange(c.customerPayment - c.totalCost);
+		c.customer.msgHeresYourChange(c.customerPayment - c.totalCost);
 		checks.remove(c);
 	}
 	
@@ -116,6 +130,11 @@ public boolean pickAndExecuteAnAction() {
 		c.market.msgPayMarket(c.totalCost);
 		money -= c.totalCost;
 		checks.remove(c);
+	}
+	
+	public void leaveRestaurant(){
+		wantToGoHome = false;
+		exitBuilding(myPerson);
 	}
 	
 //################    Utility     ##################
@@ -158,9 +177,6 @@ public boolean pickAndExecuteAnAction() {
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = false;
 	}
 
 }

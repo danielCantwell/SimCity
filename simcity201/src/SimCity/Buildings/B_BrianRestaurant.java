@@ -51,7 +51,7 @@ public class B_BrianRestaurant extends Building{
 		return "brianRest.BrianCustomerRole";
 	}
 	
-	public BrianCashier getCashier(){return cashierRole;}
+	public BrianCashierRole getCashier(){return cashierRole;}
 
 	@Override
 	public String getCustomerString() {
@@ -62,7 +62,6 @@ public class B_BrianRestaurant extends Building{
 	@Override
 	public boolean areAllNeededRolesFilled() {
 		// TODO Auto-generated method stub
-		System.out.println("ALL ROLES NEEDED BRIAN REST: " + hostFilled); 
 		return hostFilled && cashierFilled && cookFilled && numberOfWaiters > 0;
 	}
 
@@ -90,7 +89,8 @@ public class B_BrianRestaurant extends Building{
 				setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianWaiterRole")){ 
 				numberOfWaiters++; 
-				newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters); 
+				newRole = new BrianWaiterRole("Waiter", hostRole, cookRole, cashierRole, numberOfWaiters);
+				newRole.setPerson(person);
 				hostRole.addWaiter((BrianWaiterRole)newRole);
 				setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianCookRole")) { 

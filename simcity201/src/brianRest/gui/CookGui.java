@@ -87,15 +87,10 @@ public class CookGui implements Gui {
     	
         g.setColor(Color.DARK_GRAY);
         g.fillRect(xPos, yPos, hostWidth, hostHeight);
-        if (displayText.trim().length() > 0){
-        	if (xPos > 0 && xPos < 600 && yPos>0 && yPos<450){
-        		//g.drawString(displayText, xPos, yPos);
-        	}
-        }
+        
     }
     
     public void DoGoToGrills(String choice){
-    	//setText("Cooking");
     	grilling.add(choice);
     }
     public void DoGoToGrills(){
@@ -104,13 +99,17 @@ public class CookGui implements Gui {
     	receivedAction = true;
     }
     
+    public void DoLeaveRestaurant(){
+    	xDestination = -20;
+    	yDestination = -20;
+    	receivedAction = true;
+    }
+    
     public void DoGoToPlates(String choice){
-    	//setText("Plating");
     	foods.add(choice);
     }
     
     public void DoGoToPlates(){
-    	//setText("Plating");
     	xDestination = 520;
     	yDestination = 50;
     	receivedAction = true;

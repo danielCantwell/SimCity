@@ -215,8 +215,10 @@ public class BrianHostRole extends Role implements BrianHost {
 			for (MyWaiter w: waiters){
 				w.waiter.msgLeaveRestaurant();
 			}
-			exitBuilding(myPerson);
+			B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
+			br.getCashier().msgLeaveRestaurant();
 			wantToGoHome = false;
+			exitBuilding(myPerson);
 		}
 	}
 

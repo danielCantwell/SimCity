@@ -33,8 +33,8 @@ import restaurant.Menu;
  */
 public class BrianCustomerRole extends Role implements BrianCustomer{
 	
-	private final int eatingTime = 15000;
-	private final int readingMenuTime = 5000;
+	private final int eatingTime = 2000;
+	private final int readingMenuTime = 1000;
 	
 	private String name;
 	Timer eatingTimer;
@@ -184,6 +184,9 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	public void msgHeresYourChange(double d){
 		Do("Received: $"+ d);
 		totalMoney = d;
+		customerGui.setPresent(false);
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 	
 	@Override
@@ -371,6 +374,10 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 
 	public String toString() {
 		return "customer " + getName();
+	}
+	
+	public void exitBuildingFunction(){
+		exitBuilding(myPerson);
 	}
 	
 	// ###### GUI Messaging ########

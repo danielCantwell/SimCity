@@ -157,15 +157,15 @@ public class God {
 					   }
 					   
 					   
-					   if (hour == 17 && !announcedTime){
+					   if (hour == 18 && !announcedTime){
 						   getOffWork();
 					   }
 					   
-					   if (hour == 21 && !announcedTime){
+					   if (hour == 23 && !announcedTime){
 						   goHome();
 	        			}
 					   
-					   if (hour==23 && !announcedTime){
+					   if (hour==24 && !announcedTime){
 						   goToSleep();
 					   }
 					   

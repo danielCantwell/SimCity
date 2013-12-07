@@ -152,6 +152,13 @@ public class WaiterGui implements Gui {
     	receivedAction = true;
     	doingIdle = false;
     }
+    
+    public void exitBuilding(){
+    	xDestination = -20; //Host destination
+    	yDestination = -20; // Host Destination
+    	receivedAction = true;
+    	doingIdle = false;
+    }
 
     public void DoLeaveCustomer() {
         xDestination = -movementOffset;

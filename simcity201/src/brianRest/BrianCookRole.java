@@ -47,6 +47,8 @@ public class BrianCookRole extends Role implements BrianCook {
 	private int max_Capacity = 4;
 	
 	private Semaphore atTargetLocation = new Semaphore(0, true);
+	
+	boolean wantToGoHome = false;
 
 	//Constructor
 	public BrianCookRole(String name){
@@ -54,10 +56,10 @@ public class BrianCookRole extends Role implements BrianCook {
 	  orders = new ArrayList<Order>();
 	  
 	  //Tree map
-	  foodDictionary.put("Steak", new Food("Steak", 5000, 1));
-	  foodDictionary.put("Chicken", new Food("Chicken", 4500, 1));
-	  foodDictionary.put("Salad", new Food("Salad", 6000, 1));
-	  foodDictionary.put("Pizza", new Food("Pizza", 7000, 1));
+	  foodDictionary.put("Steak", new Food("Steak", 1000, 1));
+	  foodDictionary.put("Chicken", new Food("Chicken", 1000, 1));
+	  foodDictionary.put("Salad", new Food("Salad", 1000, 1));
+	  foodDictionary.put("Pizza", new Food("Pizza", 1000, 1));
 	  
 	}
 		
@@ -84,6 +86,10 @@ public class BrianCookRole extends Role implements BrianCook {
 			searchMarketsFor = choice;
 			stateChanged();
 		}
+	}
+	
+	public void msgLeaveRestaurant(){
+		wantToGoHome = true;
 	}
 	
 	

@@ -373,8 +373,9 @@ public class Person extends Agent {
 				return false;
 			}
 			
-			goTo(new Action(GoAction.goHome, Intent.customer));
+			
 		}
+		goTo(new Action(GoAction.goHome, Intent.customer));
 		return returnPAEAA;
 	}
 	
