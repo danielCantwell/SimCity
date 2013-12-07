@@ -316,14 +316,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
 		repaint();
-		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -459,7 +452,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		}
 
-<<<<<<< HEAD
 		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
 			for (int j = 0; (j < standees.get(i).size() && j < 6); j++) {
 				iconClock.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
@@ -471,9 +463,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				gui.updatePosition();
 			}
 		}
-=======
-		
->>>>>>> 45b84496b6a1d3afc1eaded2dc73a8adcfe15069
 
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
@@ -714,9 +703,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
-	   	 	 
 	   	 	 standees.get(p.building.getID()-1).add(p);
-	   	 	 System.out.println(standees.get(p.building.getID()-1).size());
 	   	 	 
 	   	 	 return p;
 	   	 }
