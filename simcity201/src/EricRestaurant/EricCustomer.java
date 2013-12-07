@@ -372,7 +372,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		customerGui = cg;
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.addGui(cg);
-		
+		customerGui.setText("Customer");
 		if (!myPerson.building.getOpen()){
 			System.out.println("Customer leaving restaurant");
 				customerGui.DoExitRestaurant();

@@ -237,6 +237,10 @@ public class God {
 	    		if (p.getMainRoleString().equals("EricRestaurant.EricHost")) {
 	    			p.msgGoToWork();
 	    		}
+	    		else
+	    		if (p.getMainRoleString().equals("jesseRest.JesseHost")) {
+	    			p.msgGoToWork();
+	    		}
 	    	}
 	    }
 	    
@@ -279,6 +283,9 @@ public class God {
 	    			p.msgGoToWork();
 	    		}
 	    		else if (p.getMainRoleString().equals("EricRestaurant.EricWaiter") || p.getMainRoleString().equals("EricRestaurant.EricCook") || p.getMainRoleString().equals("EricRestaurant.EricCashier")) {
+	    			p.msgGoToWork();
+	    		}
+	    		else if (p.getMainRoleString().equals("JesseRest.JesseWaiter") || p.getMainRoleString().equals("JesseRest.JesseCook") || p.getMainRoleString().equals("JesseRest.JesseCashier")) {
 	    			p.msgGoToWork();
 	    		}
 	    	}

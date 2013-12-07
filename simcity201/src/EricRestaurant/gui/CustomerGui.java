@@ -16,21 +16,20 @@ public class CustomerGui implements Gui{
 	//private HostAgent host;
 	RestaurantGui gui;
 
-	private int xPos, yPos;
-	private int xDestination, yDestination;
+	private int xPos = -20, yPos = -20;
+	private int xDestination = 20, yDestination = 20;
+	
 	private enum Command {noCommand, GoToSeat, LeaveRestaurant};
 	private Command command=Command.noCommand;
 
 	public static final int xTable = 200;
 	public static final int yTable = 250;
 	static int count=0;
+	String displayText = "";
 
 	public CustomerGui(Customer c, EricHost h){ //HostAgent m) {
 		agent = c;
-		xPos = -20;
-		yPos = -20;
-		xDestination = 20;
-		yDestination = 20;
+		
 		//maitreD = m;
 		host = h;
 		this.gui = gui;
@@ -62,8 +61,14 @@ public class CustomerGui implements Gui{
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(xPos, yPos, 20, 20);
+		if (displayText.trim().length() >0)
+			g.drawString(displayText, (xPos-10), (yPos-3));
 	}
 
+	public void setText(String string) {
+		displayText = string;
+	}
+	
 	public boolean isPresent() {
 		return isPresent;
 	}

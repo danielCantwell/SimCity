@@ -27,6 +27,7 @@ import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_House;
+import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.Globals.Money;
 import agent.Agent;
@@ -76,9 +77,10 @@ public class Person extends Agent {
 		goRestaurant,
 		goMarket,
 		goBank,
-		goSleep
-	, goBrianRestaurant,
-		goEricRestaurant
+		goSleep, 
+		goBrianRestaurant,
+		goEricRestaurant, 
+		goJesseRestaurant
 		}
 	
 	//This is an inner class that holds a GoAction and an Intent.
@@ -147,6 +149,12 @@ public class Person extends Agent {
 			else if (job.equals("EricRestaurant.EricCashier"))return;
 			else if (job.equals("EricRestaurant.EricCustomer"))return;
 			else if (job.equals("EricRestaurant.EricWaiter"))return;
+			else if (job.equals("jesseRest.JesseHost"))return;
+			else if (job.equals("jesseRest.JesseWaiter"))return;
+			else if (job.equals("jesseRest.JesseCustomer"))return;
+			else if (job.equals("jesseRest.JesseCashier"))return;
+			else if (job.equals("jesseRest.JesseCook"))return;
+
 			
 			
 			Role newRole;
@@ -268,6 +276,7 @@ public class Person extends Agent {
 		else if (b instanceof B_Market){ addAction(new Action(GoAction.goMarket, i));}
 		else if (b instanceof B_BrianRestaurant){addAction(new Action(GoAction.goBrianRestaurant, i));}
 		else if (b instanceof B_EricRestaurant){addAction(new Action(GoAction.goEricRestaurant, i));}
+		else if (b instanceof B_JesseRestaurant){addAction(new Action(GoAction.goJesseRestaurant, i));}
 		stateChanged();
 	}
 	
@@ -505,10 +514,19 @@ public class Person extends Agent {
 		}
 		else 
 		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.customer) {
-				b = God.Get().getBuilding(11);
-				Do("Going to Eric Restaurant");
+			b = God.Get().getBuilding(11);
+			Do("Going to Eric Restaurant");
+		}
+		else 
+		if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.customer) {
+			b = God.Get().getBuilding(7);
+			Do("Going to Jesse Restaurant");
+		}
+		else 
+			if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.work) {
+				b = God.Get().getBuilding(7);
+				Do("Going to Jesse Restaurant");
 			}
-			
 		else b = null;
 		
 		//Animation for gui stuff here.

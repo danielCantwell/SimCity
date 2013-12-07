@@ -10,7 +10,11 @@ import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import EricRestaurant.interfaces.*;
-
+/***
+ * 
+ * @author Eric
+ *
+ */
 public class B_EricRestaurant extends Building {
 	
 	public EricHost host = new EricHost("Host");
@@ -41,8 +45,6 @@ public class B_EricRestaurant extends Building {
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		// TODO Auto-generated method stub
-		//return true;
 		System.out.println("Eric Restaurant Roles Filled? Host: "+hostFilled+"  Cook: "+cookFilled+"  Cashier: "+cashierFilled+"  Waiters: "+numWaiter);
 		return hostFilled && cashierFilled && cookFilled && numWaiter > 0;
 	}

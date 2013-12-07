@@ -11,6 +11,7 @@ import SimCity.Base.God;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Buildings.B_House;
+import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_EricRestaurant;
@@ -86,8 +87,8 @@ public class SimCityGui extends JFrame {
     			b = new B_BrianRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		if (i == 7) {
-        		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
-        		b = new B_DannyRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+        		buildingPanel = new jesseRest.gui.AnimationPanel();
+        		b = new B_JesseRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		if (i == 9 || i == 10) {
         		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
