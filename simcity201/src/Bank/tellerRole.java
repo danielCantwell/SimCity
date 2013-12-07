@@ -1,12 +1,14 @@
 package Bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import SimCity.Globals.*;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 import Bank.gui.*;
 import Bank.interfaces.Customer;
+import Bank.interfaces.Manager;
 import Bank.interfaces.Robber;
 import Bank.interfaces.Teller;
 
@@ -17,6 +19,8 @@ import Bank.interfaces.Teller;
 
 public class tellerRole extends Role implements Teller {
 	//-----------------------------------------------Data-------------------------------------------------
+	Manager manager;
+	private Semaphore moving = new Semaphore(0,true);
 	private tellerGui gui = new tellerGui(this);
 	public Map<Integer, Money> bankAccs = new HashMap<Integer, Money>();
 	public List<Client> clients = Collections.synchronizedList(new ArrayList<Client>());
@@ -29,7 +33,7 @@ public class tellerRole extends Role implements Teller {
 		Robber r;
 	}
 	Money empty = new Money(0,0);
-	public enum state{ none, ready, added, noAcc, yesAcc, setUp, robbed, askedService, called, withdraw, deposit, leaving };
+	public enum state{ none, ready, atCounter, added, noAcc, yesAcc, setUp, robbed, askedService, called, withdraw, deposit, leaving };
 	private state s = state.none;
 
 
@@ -37,9 +41,12 @@ public class tellerRole extends Role implements Teller {
 	@Override
 	public void enterBuilding() {
 		s = state.ready;
-		System.out.println("Teller: I am a teller");
+		System.out.println("Teller: I am a teller: "+this);
 		B_Bank bank = (B_Bank)myPerson.getBuilding();
-		bank.getBankManager().newTeller(this);
+		manager = bank.getBankManager();
+		manager.newTeller(this);
+		bankGui bankgui = (bankGui)myPerson.building.getPanel();
+		bankgui.addGui(gui);
 		stateChanged();
 	}
 
@@ -49,26 +56,28 @@ public class tellerRole extends Role implements Teller {
 		cl.cust = c;
 		cl.s = state.added;
 		clients.add(cl);
-		System.out.println("Teller: New customer assigned to me");
+		System.out.println("Teller: New customer assigned to me :"+this+".."+clients.size());
 		stateChanged();
-
 	}
 
 	@Override
 	public void foundTeller(int accNum, Money money, Customer cust) {
-		Client c = new Client();
+		for (Client c : clients) {
+			if (c.cust == cust) {
 		c.accountNum = accNum;
 		c.money = money;
-		c.cust = cust;
-		clients.add(c);
+		System.out.println("Inside PAE scheduler0: "+c+" Client size: "+clients.size());
+
 		if(bankAccs.get(c.accountNum) != null) {
 			c.s = state.yesAcc;
 		} 
 		else {
 			c.s = state.noAcc;
 		}
-		System.out.println("Teller: Customer has come to me accNum: "+accNum+" "+c.s);
+		System.out.println("Teller: Customer has come to me accNum: "+accNum+" "+c.s+" cash: "+c.money.getDollar());
 		stateChanged();
+			}
+		}
 	}
 
 	public void RobTeller(int accNum, Money money, Robber r) {
@@ -100,27 +109,36 @@ public class tellerRole extends Role implements Teller {
 				c.editmoney = money;
 				c.s = state.deposit;
 				System.out.println("Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
+				System.out.println("Inside PAE scheduler: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
+				stateChanged();
 			}	
 		}
-		stateChanged();
 	}
 
 	@Override
 	public void workOver() {
 		s = state.leaving;
 	}
+	
+	public void doneMotion() {
+		moving.release();
+	}
 
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		//System.out.println(".");
 		if(s == state.ready) {
 			goToCounter();
 			return true;
 		}
+		//System.out.println("..");
 		if(s == state.leaving) {
 			leaveBank();
 			return true;
 		}
+		//System.out.println("...");
+
 		synchronized(clients) {
 			for (Client c : clients) {
 				if(c.s == state.robbed) {
@@ -129,6 +147,8 @@ public class tellerRole extends Role implements Teller {
 				}
 			}
 		}
+		//System.out.println("....");
+
 		synchronized(clients) {
 			for (Client c : clients) {
 				if(c.s == state.added) {
@@ -137,6 +157,8 @@ public class tellerRole extends Role implements Teller {
 				}
 			}
 		}
+		//System.out.println(".....");
+
 		synchronized(clients) {
 			for (Client c : clients) {
 				if(c.s == state.yesAcc) {
@@ -149,6 +171,8 @@ public class tellerRole extends Role implements Teller {
 				}
 			}
 		}
+		//System.out.println("......");
+
 		synchronized(clients) {
 			for (Client c : clients) {
 				if(c.s == state.withdraw) {
@@ -156,11 +180,13 @@ public class tellerRole extends Role implements Teller {
 					return true;
 				}
 				else if (c.s == state.deposit) {
+					System.out.println("Inside PAE scheduler2: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
 					depositDone(c);
 					return true;
 				}
 			}
 		}
+		//System.out.println(".......");
 		return false;
 	}
 
@@ -176,7 +202,7 @@ public class tellerRole extends Role implements Teller {
 	}
 
 	public void accSetUp(Client c) {
-		System.out.println("Teller: no existing account, creating...");
+		System.out.println("Teller: no existing account, creating..."+" Client money: "+c.money.getDollar());
 		bankAccs.put(c.accountNum, empty);
 		c.s = state.yesAcc;
 	}
@@ -202,7 +228,6 @@ public class tellerRole extends Role implements Teller {
 	}
 
 	public void depositDone(Client c) {
-		//System.out.println(c.money.getDollar());
 		c.money = c.money.subtract(c.editmoney);
 		//System.out.println("###"+c.money.getDollar());
 		Money temp = bankAccs.get(c.accountNum);
@@ -215,13 +240,26 @@ public class tellerRole extends Role implements Teller {
 
 	@Override
 	public void goToCounter() {
-		//Make GUI call to walk to the counter
+		gui.doGoToCounter(1);
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		s = state.atCounter;
 	}
 
 	@Override
 	public void leaveBank() {
+		gui.doLeaveBank();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		exitBuilding(myPerson);
-		//Make GUI call to leave the bank
 	}
 
 	@Override

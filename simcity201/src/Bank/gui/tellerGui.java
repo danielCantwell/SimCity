@@ -10,11 +10,11 @@ import SimCity.gui.Gui;
 public class tellerGui implements Gui {
 
 	private Teller teller;
-	private int xPos = 30, yPos = 30;
+	private int xPos = 650, yPos = 350;
 	private int xDest = 330,  yDest = 30;
 	private int xSize = 30, ySize = 30;
-	private final int yCounterPos = 1;
-	private final int xCounterPos = 1;
+	private final int yCounterPos = 80;
+	private final int xCounterPos = 330;
 	
 	public void updatePosition() {
 		if (xPos < xDest)
@@ -26,6 +26,9 @@ public class tellerGui implements Gui {
 			yPos++;
 		else if (yPos > yDest)
 			yPos--;
+		if(xPos == xDest && yPos == yDest) {
+			teller.doneMotion();
+		}
 	}
 	
 	public tellerGui(Teller teller) {
@@ -38,11 +41,12 @@ public class tellerGui implements Gui {
 	}
 	//Teller Leaves the Bank at the end of work shift
 	public void doLeaveBank() {
-		xDest = 640;
+		xDest = 650;
 		yDest = 320;
 	}
 	//Teller goes to his assigned work counter
 	public void doGoToCounter(int tellerNum) {
+		System.out.println("gui called");
 		xDest = xCounterPos;
 		yDest = yCounterPos;
 	}

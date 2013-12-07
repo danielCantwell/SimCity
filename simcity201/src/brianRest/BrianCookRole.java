@@ -2,7 +2,10 @@ package brianRest;
 
 //import javax.swing.*;
 
+import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
+import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CookGui;
 import brianRest.interfaces.BrianCook;
 import brianRest.interfaces.BrianWaiter;
@@ -24,7 +27,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.Timer;
 
 
-public class BrianCookRole extends Agent implements BrianCook {
+public class BrianCookRole extends Role implements BrianCook {
 	
 	private String name;
 	CookGui gui;
@@ -253,6 +256,22 @@ public class BrianCookRole extends Agent implements BrianCook {
 			  return choice;
 		  }
 		  
+	}
+
+	@Override
+	protected void enterBuilding() {
+		
+		brianRest.gui.CookGui wg = new brianRest.gui.CookGui(this);
+		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		gui = wg;
+		bap.addGui(wg);
+		
+	}
+
+	@Override
+	public void workOver() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

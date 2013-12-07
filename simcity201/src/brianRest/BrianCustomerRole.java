@@ -1,7 +1,10 @@
 package brianRest;
 
 
+import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
+import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CustomerGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCustomer;
@@ -18,6 +21,9 @@ import java.awt.event.ActionListener;
 
 
 
+
+
+
 import javax.swing.Timer;
 
 import restaurant.Menu;
@@ -25,7 +31,7 @@ import restaurant.Menu;
 /**
  * Restaurant customer agent.
  */
-public class BrianCustomerRole extends Agent implements BrianCustomer{
+public class BrianCustomerRole extends Role implements BrianCustomer{
 	
 	private final int eatingTime = 15000;
 	private final int readingMenuTime = 5000;
@@ -36,20 +42,20 @@ public class BrianCustomerRole extends Agent implements BrianCustomer{
 	private CustomerGui customerGui;
 
 	//Necessary links.
-	private BrianHost host;
-		public BrianHost getHost(){
+	private BrianHostRole host;
+		public BrianHostRole getHost(){
 			return host;
 		}
-		public void setHost(BrianHost w){
+		public void setHost(BrianHostRole w){
 			host = w;
 		}
 	private BrianWaiter waiter;	
 		public BrianWaiter getWaiter(){
 			return waiter;
 		}
-		public void setWaiter(BrianWaiter w){
-			waiter = w;
-		}
+	public void setWaiter(BrianWaiter w){
+		waiter = w;
+	}
 	private BrianCashier cashier;
 		public BrianCashier getCashier(){
 			return cashier;
@@ -79,12 +85,9 @@ public class BrianCustomerRole extends Agent implements BrianCustomer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public BrianCustomerRole(String n, BrianCashier cashier){
+	public BrianCustomerRole(String n){
 		super();
-		
 		this.name = n;
-		
-		this.cashier = cashier;
 		totalMoney = 10; //can change in future;
 			//hack to change total money.
 			if (n.equals("0") || n.equals("5.99")){
@@ -420,14 +423,39 @@ public class BrianCustomerRole extends Agent implements BrianCustomer{
 	public CustomerGui getGui() {
 		return customerGui;
 	}
+
 	@Override
-	public void msgFollowMe(Menu m) {
+	protected void enterBuilding() {
+		System.out.println("BrianCustomer entered building");
+		
+		B_BrianRestaurant rest = (B_BrianRestaurant)(myPerson.getBuilding()); 
+		cashier = rest.cashierRole;
+		host = rest.hostRole;
+		//add the gui
+		brianRest.gui.CustomerGui wg = new brianRest.gui.CustomerGui(this, rest.hostRole);
+		customerGui = wg;
+		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		bap.addGui(wg);
+		
+		if (!myPerson.building.getOpen()){
+			System.out.println("BrianCustomer leaving restaurant");
+				customerGui.DoExitRestaurant();
+				return;
+		}
+
+		System.out.println(host + " is being messaged. Is active?" + host.getActive());
+		msgIsHungry();
+		
+	}
+	@Override
+	public void workOver() {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void msgOutOfFood(Menu m) {
+	public void setWaiter(BrianWaiterRole brianWaiterRole) {
 		// TODO Auto-generated method stub
+		waiter=brianWaiterRole;
 		
 	}
 }

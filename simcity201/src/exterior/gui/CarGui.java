@@ -14,7 +14,7 @@ public class CarGui implements Gui {
 	private Command command = Command.noCommand;
 	private boolean isPresent = false;
 	private Person person;
-	private int myID; 
+	private int myID;
 	
 	public CarGui(SimCityGui gui, int id) {
 		this.gui = gui;
@@ -26,42 +26,45 @@ public class CarGui implements Gui {
 
 	public void updatePosition() {
 		if (xPos < xDestination) {
-			if ((int) Math.floor(xPos/64) + 1 >= 29) {
+			if ((int) Math.floor(xPos/64) + 1 >= 29 || (int) Math.floor(yPos/64) + 1 >= 29 ) {
 				xPos+=4;
 				rotation = 0;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 0) {
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 0
+					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)+1] != 'C' && xPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 'C' && gui.animationPanel.horizontalRedLight)) {
 				xPos+=4;
 				rotation = 0;
 			}
 		}
 		if (xPos > xDestination) {
-			if ((int) Math.floor(xPos/64) - 1 <= 0) {
+			if ((int) Math.floor(xPos/64) - 1 <= 0 || (int) Math.floor(yPos/64) - 1 <= 0) {
 				xPos-=4;
 				rotation = 2;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 0) {
-					//&& gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] ) {
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 0
+					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)-1] != 'C' && xPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 'C' && gui.animationPanel.horizontalRedLight)) {
 				xPos-=4;
 				rotation = 2;
 			}
 		}
 		if (yPos < yDestination) {
-			if ((int) Math.floor(yPos/64) + 1 >= 29) {
+			if ((int) Math.floor(yPos/64) + 1 >= 29 || (int) Math.floor(xPos/64) - 1 <= 0) {
 				yPos+=4;
 				rotation = 1;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 0) {
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 0
+					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] != 'C' && yPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 'C' && !gui.animationPanel.horizontalRedLight)) {
 				yPos+=4;
 				rotation = 1;
 			}
 		}
 		if (yPos > yDestination) {
-			if ((int) Math.floor(yPos/64) - 1 <= 0) {
+			if ((int) Math.floor(yPos/64) - 1 <= 0 || (int) Math.floor(xPos/64) + 1 >= 29) {
 				yPos-=4;
 				rotation = 3;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] == 0) {
+			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] == 0
+					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] != 'C' && yPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)] == 'C' && !gui.animationPanel.horizontalRedLight)) {
 				yPos-=4;
 				rotation = 3;
 			}
@@ -75,7 +78,7 @@ public class CarGui implements Gui {
 				command = Command.noCommand;
 				isPresent = false;
 				gui.animationPanel.clearVGrid(myID);
-				person.animation.release();
+				//person.animation.release();
 			} else if (command == Command.seekX) {
 				command = Command.seekY;
 				xDestination = xPos;
@@ -93,11 +96,13 @@ public class CarGui implements Gui {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.RED);
-		if (rotation == 0 || rotation == 2) {
-			g.fillRect(xPos, yPos + 12, SPRITE_SIZE, SPRITE_SIZE - 24);
-		} else {
-			g.fillRect(xPos + 12, yPos, SPRITE_SIZE - 24, SPRITE_SIZE);
+		if (SHOW_RECT) {
+			g.setColor(Color.RED);
+			if (rotation == 0 || rotation == 2) {
+				g.fillRect(xPos, yPos + 12, SPRITE_SIZE, SPRITE_SIZE - 24);
+			} else {
+				g.fillRect(xPos + 12, yPos, SPRITE_SIZE - 24, SPRITE_SIZE);
+			}
 		}
 	}
 	
@@ -179,7 +184,7 @@ public class CarGui implements Gui {
 
 	@Override
 	public int getRotation() {
-		return 0;
+		return rotation;
 	}
 
 	@Override
@@ -189,5 +194,10 @@ public class CarGui implements Gui {
 	
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	@Override
+	public int getID() {
+		return myID;
 	}
 }

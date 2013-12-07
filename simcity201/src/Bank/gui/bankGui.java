@@ -28,7 +28,7 @@ public class bankGui extends JPanel implements ActionListener {
 	
 	private final int yCounterPos = 80;
 	private final int yCounterSize = 30;
-	private final int xCounterPos = 130;
+	private final int xCounterPos = 150;
 	private final int xCounterSize = 300;
 	
 	/* Extras I might add in later to make the roles more realistic.
@@ -63,13 +63,18 @@ public class bankGui extends JPanel implements ActionListener {
 	
 	public void paintComponent(Graphics g) {
 		
+		
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.DARK_GRAY);
+		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, WINDOW_X, WINDOW_Y);
+		Graphics2D g3 = (Graphics2D) g;
+		g3.setColor(Color.DARK_GRAY);
+		g3.fillRect(10, 10, 620, 610);
 		
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(xCounterPos, yCounterPos, xCounterSize, yCounterSize);
-		//g.fillRect(xVaultSize, yVaultSize, xVaultPos, yVaultPos);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(620, 320, 30, 60);
 
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {

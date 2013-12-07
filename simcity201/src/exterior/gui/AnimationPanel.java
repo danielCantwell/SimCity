@@ -39,6 +39,8 @@ import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import exterior.astar.AStarTraversal;
 
+import brianRest.*;
+
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
     private SimCityGui gui;
@@ -48,6 +50,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WINDOWY = 1920; //1472
     private final int TILESIZE = 64;
     private final int CITY_SIZE = 4;
+    private List<ImageIcon> carsL = new ArrayList<ImageIcon>();
+    private List<ImageIcon> carsR = new ArrayList<ImageIcon>();
+    private List<ImageIcon> carsU = new ArrayList<ImageIcon>();
+    private List<ImageIcon> carsD = new ArrayList<ImageIcon>();
     public final char[][] MAP = new char[][] {
     		
     	/* Map legend:
@@ -91,6 +97,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     private Semaphore[][] pedestrianGrid = new Semaphore[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
     public int[][] vehicleGrid = new int[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
+    public boolean horizontalRedLight = true;
     private String consoleText = "";
     private Font font;
     private int currentID = 1;
@@ -108,6 +115,35 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private ImageIcon iconCrossH = new ImageIcon("images/t_cross_h.png");
     private ImageIcon iconBuildingA = new ImageIcon("images/t_building1.png");
     private ImageIcon iconBuildingB = new ImageIcon("images/t_building2.png");
+    private ImageIcon iconCar1R = new ImageIcon("images/car1_r.png");
+    private ImageIcon iconCar1D = new ImageIcon("images/car1_d.png");
+    private ImageIcon iconCar1L = new ImageIcon("images/car1_l.png");
+    private ImageIcon iconCar1U = new ImageIcon("images/car1_u.png");
+    private ImageIcon iconCar2R = new ImageIcon("images/car2_r.png");
+    private ImageIcon iconCar2D = new ImageIcon("images/car2_d.png");
+    private ImageIcon iconCar2L = new ImageIcon("images/car2_l.png");
+    private ImageIcon iconCar2U = new ImageIcon("images/car2_u.png");
+    private ImageIcon iconCar3R = new ImageIcon("images/car3_r.png");
+    private ImageIcon iconCar3D = new ImageIcon("images/car3_d.png");
+    private ImageIcon iconCar3L = new ImageIcon("images/car3_l.png");
+    private ImageIcon iconCar3U = new ImageIcon("images/car3_u.png");
+    private ImageIcon iconCar4R = new ImageIcon("images/car4_r.png");
+    private ImageIcon iconCar4D = new ImageIcon("images/car4_d.png");
+    private ImageIcon iconCar4L = new ImageIcon("images/car4_l.png");
+    private ImageIcon iconCar4U = new ImageIcon("images/car4_u.png");
+    private ImageIcon iconCar5R = new ImageIcon("images/car5_r.png");
+    private ImageIcon iconCar5D = new ImageIcon("images/car5_d.png");
+    private ImageIcon iconCar5L = new ImageIcon("images/car5_l.png");
+    private ImageIcon iconCar5U = new ImageIcon("images/car5_u.png");
+    private ImageIcon iconCar6R = new ImageIcon("images/car6_r.png");
+    private ImageIcon iconCar6D = new ImageIcon("images/car6_d.png");
+    private ImageIcon iconCar6L = new ImageIcon("images/car6_l.png");
+    private ImageIcon iconCar6U = new ImageIcon("images/car6_u.png");
+    private ImageIcon iconSun = new ImageIcon("images/iconSun.png");
+    private ImageIcon iconMoon = new ImageIcon("images/iconMoon.png");
+    private ImageIcon iconClock = new ImageIcon("images/iconClock.png");
+    private ImageIcon iconRedLightH = new ImageIcon("images/redlightH.png");
+    private ImageIcon iconRedLightV = new ImageIcon("images/redlightV.png");
 	
 	public AnimationPanel() {
 		setSize(WINDOWX, WINDOWY);
@@ -115,6 +151,31 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		Timer timer = new Timer(3, this);
 		timer.start();
 
+		carsL.add(iconCar1L);
+		carsL.add(iconCar2L);
+		carsL.add(iconCar3L);
+		carsL.add(iconCar4L);
+		carsL.add(iconCar5L);
+		carsL.add(iconCar6L);
+		carsR.add(iconCar1R);
+		carsR.add(iconCar2R);
+		carsR.add(iconCar3R);
+		carsR.add(iconCar4R);
+		carsR.add(iconCar5R);
+		carsR.add(iconCar6R);
+		carsU.add(iconCar1U);
+		carsU.add(iconCar2U);
+		carsU.add(iconCar3U);
+		carsU.add(iconCar4U);
+		carsU.add(iconCar5U);
+		carsU.add(iconCar6U);
+		carsD.add(iconCar1D);
+		carsD.add(iconCar2D);
+		carsD.add(iconCar3D);
+		carsD.add(iconCar4D);
+		carsD.add(iconCar5D);
+		carsD.add(iconCar6D);
+		
 		God.Get().setAnimationPanel(this);
 
 		// Set up semaphore grid - sidewalks and crosswalks are open
@@ -152,6 +213,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			e1.printStackTrace();
 		}
 
+		Timer trafficTimer = new Timer(10000, new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   horizontalRedLight = !horizontalRedLight;
+	    }});
+		trafficTimer.start();
+     
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -181,7 +248,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				}
 			}
 		});
-
+		
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -272,9 +339,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 							} else if (MAP[x][y + 1] == 'S') {
 								iconRoadHR.paintIcon(this, g, x * TILESIZE, y
 										* TILESIZE);
-							} else {
-								iconRoad.paintIcon(this, g, x * TILESIZE, y
-										* TILESIZE);
+							} else if (x <= 1 || x >= 28 || y <= 1 || y >= 28) {
+								iconRoad.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
 							}
 						} else {
 							if (x == 0 && MAP[x + 2][y] == 'S') {
@@ -341,12 +407,32 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						g2.fillRect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE);
 					}
 				}
+				
+				if (x != 0 && x != 29 && y != 0 && y != 29 && !SHOW_RECT) {
+					if (MAP[x][y] == 'R' && MAP[x-1][y] == 'C' && MAP[x][y-1] == 'C') {
+						iconRoad.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						iconRoad.paintIcon(this, g, (x+1) * TILESIZE, y * TILESIZE);
+						iconRoad.paintIcon(this, g, x * TILESIZE, (y+1) * TILESIZE);
+						iconRoad.paintIcon(this, g, (x+1) * TILESIZE, (y+1) * TILESIZE);
+						if (horizontalRedLight) {
+							iconRedLightH.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						} else {
+							iconRedLightV.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+						}
+					}
+				}
 			}
 			
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
-			g2.drawString("Time of Day: " + God.Get().getHour() + ":00", 20 + scrollPane.getHorizontalScrollBar().getValue(), 30 + scrollPane.getVerticalScrollBar().getValue());
-			g2.drawString("Current Day: " + (God.Get().getDay()+1), 20 + scrollPane.getHorizontalScrollBar().getValue(), 60 + scrollPane.getVerticalScrollBar().getValue());
+			g2.drawString("" + God.Get().getHour() + ":00", 46 + scrollPane.getHorizontalScrollBar().getValue(), 33 + scrollPane.getVerticalScrollBar().getValue());
+            g2.drawString("Day #" + (God.Get().getDay()+1), 46 + scrollPane.getHorizontalScrollBar().getValue(), 63 + scrollPane.getVerticalScrollBar().getValue());
+			iconClock.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 20 + scrollPane.getVerticalScrollBar().getValue());
+			if (God.Get().getHour() < 6 || God.Get().getHour() >= 18) {
+				iconMoon.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 50 + scrollPane.getVerticalScrollBar().getValue());
+			} else {
+				iconSun.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 50 + scrollPane.getVerticalScrollBar().getValue());
+			}
 		}
 
 		for (Gui gui : guis) {
@@ -373,6 +459,21 @@ public class AnimationPanel extends JPanel implements ActionListener {
 								gui.getY() + 16);
 					}
 				}
+				else if (gui.getType() == "Car") {
+					if (gui.getRotation() == 0) {
+						carsR.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
+					} else if (gui.getRotation() == 1) {
+						carsD.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
+					} else if (gui.getRotation() == 2) {
+						carsL.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
+					} else if (gui.getRotation() == 3) {
+						carsU.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+								gui.getY());
+					}
+				}
 			}
 		}
 	}
@@ -395,6 +496,27 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     protected void addCommands()
     {
+        Action keyCtrlZ = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 //System.out.println("Spawning a new pedestrian.");
+            	 //AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+            	 //PersonGui g = new PersonGui(gui, aStarTraversal);
+            	 //Person p = new Person("Jesse", g, "Bank.bankManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
+            	 
+            	 
+            	 createPerson("Jesse", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Brian", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+            	 createPerson("Omar", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+
+            	 //g.setPerson(p);
+            	 //addGui(g);
+            	 //God.Get().addPerson(p);
+            	 //p.startThread();
+             }
+        };
         Action keyCtrlN = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
@@ -416,7 +538,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 //p.startThread();
              }
         };
-        
+        Action keyCtrlE = new AbstractAction()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		createPerson("Tommy", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+        	}
+        };
         Action keyCtrlM = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
@@ -516,6 +644,27 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrl0 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Customer", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Waiter", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Cashier", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));
+            	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));            	 
+             }
+        };
+        String stringCtrl0 = "CTRL 0";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_0, KeyEvent.CTRL_MASK), stringCtrl0);
+        getActionMap().put(stringCtrl0, keyCtrl0);
+
+        String stringCtrlE = "CTRL E";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK), stringCtrlE);
+        getActionMap().put(stringCtrlE, keyCtrlE);
+        String stringCtrlZ = "CTRL Z";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK), stringCtrlZ);
+        getActionMap().put(stringCtrlZ, keyCtrlZ);
         String stringCtrlN = "CTRL N";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), stringCtrlN);
         getActionMap().put(stringCtrlN, keyCtrlN);
@@ -557,22 +706,25 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
     	 System.out.println("Spawning a new pedestrian.");
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+	   	 B_House bHouse = (B_House) house;
 	   	 if (v == Vehicle.walk) {
 	   		 PersonGui g = new PersonGui(gui, aStarTraversal);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
+	   	 	 
 	   	 	 return p;
 	   	 } else if (v == Vehicle.car) {
 	   		 currentID++;
 	   		 CarGui g = new CarGui(gui, currentID);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
-	   	 	 p.startThread();
+	   	 	 p.startThread();   	 	 
+	   	 	 
 	   	 	 return p;
 	   	 }
 	   	 
@@ -631,6 +783,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setVGrid(int x, int y, int id) {
     	vehicleGrid[x][y] = id;
+    }
+    
+    public void setShowRect(boolean show) {
+    	SHOW_RECT = show;
     }
 
 }

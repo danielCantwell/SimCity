@@ -15,6 +15,7 @@ import SimCity.Base.God;
 import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 
 /**
@@ -24,7 +25,6 @@ import SimCity.Globals.Money;
 public class TenantRole extends Role implements Tenant {
 
 	public TenantRole() {
-
 	}
 
 	// -------------------------------------DATA-------------------------------------
@@ -59,8 +59,7 @@ public class TenantRole extends Role implements Tenant {
 
 	// -----------------------------------MESSAGES-----------------------------------
 
-	public void msgHouseInfo(Owner owner, List<Appliance> a, int tenantNumber) {
-		this.owner = owner;
+	public void msgHouseInfo(List<Appliance> a, int tenantNumber) {
 		appliances = a;
 		this.tenantNumber = tenantNumber;
 	}
@@ -240,12 +239,11 @@ public class TenantRole extends Role implements Tenant {
 		System.out.println("Tenant is going to work");
 		DoLeaveHouse();
 		myPerson.msgGoToBuilding(myPerson.getWorkPlace(), Intent.work);
-		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
-				.getPanel();
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse.getPanel();
 		myPanel.addGui(gui);
 		exitBuilding(myPerson);
 
-		System.out.println(myPerson.actions.get(0).getGoAction().toString());
+		//System.out.println(myPerson.actions.get(0).getGoAction().toString());
 	}
 
 	public void useAppliance(String type) {
@@ -360,6 +358,10 @@ public class TenantRole extends Role implements Tenant {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
+		
+		owner = ((B_House)myPerson.building).getOwner();
+		owner.msgAddTenant(this);
+		
 		time = Time.awake;
 		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
 				.getPanel();
