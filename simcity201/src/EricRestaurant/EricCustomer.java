@@ -209,7 +209,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action
+			leaveRestaurant();
 			return true;
 		}
 		if (state == AgentState.paying) {
@@ -298,12 +298,16 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		Do("Leaving.");
 		waiter.LeavingTable(this);
 		customerGui.DoExitRestaurant();
+		
+	}
+	
+	public void leaveRestaurant(){
+		
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.removeGui(customerGui);
 		myPerson.msgGoHome();
 		exitBuilding(myPerson);
 	}
-
 
 	@Override
 	
