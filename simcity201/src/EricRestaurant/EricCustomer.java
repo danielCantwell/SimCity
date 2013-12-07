@@ -303,11 +303,9 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	}
 	
 	public void leaveRestaurant(){
-		System.out.println(myPerson.actions.size());
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.removeGui(customerGui);
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
-		System.out.println(myPerson.actions.size());
 		exitBuilding(myPerson);
 	}
 
@@ -389,7 +387,6 @@ public class EricCustomer extends Role implements Customer, Cashier {
 				return;
 		}
 
-		System.out.println(host + " is being messaged. Is active?" + host.getActive());
 		customerGui.setHungry();
 	}
 	
