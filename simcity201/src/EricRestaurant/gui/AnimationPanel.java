@@ -35,6 +35,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
+		for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 		repaint();  //Will have paintComponent called
 	}
 
@@ -60,11 +65,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g5.setColor(Color.pink);
         g5.fillRect(500, 0, 30, 30);
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+        
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -83,5 +84,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public void addGui(CookGui gui) {
     	guis.add(gui);
     }
-  
+    
+    public void removeGui(CustomerGui gui) {
+    	guis.remove(gui);
+    }
+    
+    public void removeGui(WaiterGui gui) {
+    	guis.remove(gui);
+    }
 }

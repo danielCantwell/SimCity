@@ -1,8 +1,10 @@
 package brianRest;
 
 
+import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Globals.Money;
 import agent.Agent;
 import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CustomerGui;
@@ -24,6 +26,8 @@ import java.awt.event.ActionListener;
 
 
 
+
+
 import javax.swing.Timer;
 
 import restaurant.Menu;
@@ -33,8 +37,8 @@ import restaurant.Menu;
  */
 public class BrianCustomerRole extends Role implements BrianCustomer{
 	
-	private final int eatingTime = 15000;
-	private final int readingMenuTime = 5000;
+	private final int eatingTime = 2000;
+	private final int readingMenuTime = 1000;
 	
 	private String name;
 	Timer eatingTimer;
@@ -184,6 +188,13 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	public void msgHeresYourChange(double d){
 		Do("Received: $"+ d);
 		totalMoney = d;
+		myPerson.money = new Money((int)d, (int) ((d-(int)d) * 100));
+		myPerson.hungerLevel += 20;
+		customerGui.setPresent(false);
+		BrianAnimationPanel br = (BrianAnimationPanel)myPerson.getBuilding().getPanel();
+		br.removeGui(customerGui);
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 	
 	@Override
@@ -359,7 +370,9 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	
 	private void Dead(){
 		Do("has been terminated for lack of payment.");
+		God.Get().removePerson(myPerson);
 		giveAllMoneyToCashier();
+		
 		customerGui.setText("Dead");
 	}
 
@@ -371,6 +384,10 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 
 	public String toString() {
 		return "customer " + getName();
+	}
+	
+	public void exitBuildingFunction(){
+		exitBuilding(myPerson);
 	}
 	
 	// ###### GUI Messaging ########
@@ -427,7 +444,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	@Override
 	protected void enterBuilding() {
 		System.out.println("BrianCustomer entered building");
-		
+		totalMoney = myPerson.getMoney().dollars + myPerson.getMoney().cents/100.0;
 		B_BrianRestaurant rest = (B_BrianRestaurant)(myPerson.getBuilding()); 
 		cashier = rest.cashierRole;
 		host = rest.hostRole;
@@ -439,11 +456,12 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 		
 		if (!myPerson.building.getOpen()){
 			System.out.println("BrianCustomer leaving restaurant");
-				customerGui.DoExitRestaurant();
+				bap.removeGui(wg);
+				myPerson.msgGoHome();
+				exitBuilding(myPerson);
 				return;
 		}
 
-		System.out.println(host + " is being messaged. Is active?" + host.getActive());
 		msgIsHungry();
 		
 	}

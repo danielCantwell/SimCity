@@ -9,7 +9,7 @@ public interface Gui {
     public int getX();
     public int getY();
     public int getRotation();
-    public boolean SHOW_RECT = true;
+    public boolean SHOW_RECT = false;
     public String getType();
     public int getID();
 }
