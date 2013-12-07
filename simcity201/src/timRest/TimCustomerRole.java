@@ -41,7 +41,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
 	{GotHungry, DoingNothing, GoToWait, WaitingInRestaurant, BeingSeated, Sitting, Deciding, ReadyToOrder, Ordering, ReceivedOrder, Eating, DoneEating, Leaving, 
-		WaitingToPay, GoPay, GoingToCashier, PayingCheck, DonePaying, NoFood, WaitTooLong};
+		WaitingToPay, GoPay, GoingToCashier, PayingCheck, DonePaying, NoFood, WaitTooLong, Left};
 	private AgentState state = AgentState.DoingNothing;//The start state
 
 	/**
@@ -186,6 +186,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
+	    state = AgentState.Left;
 		stateChanged();
 	}
 	
@@ -282,6 +283,11 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		{
 			WaitedTooLong();
 			return true;
+		}
+		if (state == AgentState.Left)
+		{
+	        exitBuilding(myPerson);
+	        return true;
 		}
 		return false;
 	}
@@ -479,7 +485,6 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		customerGui.DoExitRestaurant();
 		state = AgentState.DoingNothing;
 		choices = null;
-		exitBuilding(myPerson);
 	}
 
 	// Accessors, etc.
