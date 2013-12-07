@@ -1,7 +1,6 @@
 package brianRest;
 
 import SimCity.Base.Role;
-import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
 import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
@@ -21,36 +20,35 @@ import restaurant.interfaces.Waiter;
 //is proceeded as he wishes.
 public class BrianHostRole extends Role implements BrianHost {
 	
-	private final int WINDOWX = 640;
-	private final int WINDOWY = 640;
+	private final int WINDOWX = 450;
+	private final int WINDOWY = 350;
 	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
 	private List<WaitingCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<WaitingCustomer>());
 	private enum WaitingCustomerState {none, full};
-	public int customersInRestaurant = 0;
 	
 	//List of waiters
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
-	public ArrayList<BrianTable> tables;
+	public Collection<BrianTable> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 
 	private String name;
-	boolean wantToGoHome = false;
 	
 	private enum MyWaiterState {none, wantBreak, allowedBreak, onBreak};
 	int workingWaiters = 0;
 
 	public BrianHostRole(String name) {
 		super();
+
 		this.name = name;
 		// make some tables
 		tables = new ArrayList<BrianTable>(NTABLES);
 		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new BrianTable(ix, WINDOWX/(NTABLES+2) * ix, 7*WINDOWY/10)); // animation for later
+			tables.add(new BrianTable(ix, WINDOWX/NTABLES * ix, 9*WINDOWY/10)); // animation for later
 		}
 	}
 
@@ -90,15 +88,13 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	@Override
 	public void msgIWantToEat(BrianCustomer c){
-		System.out.println("Customer wants to eat");
-		waitingCustomers.add(new WaitingCustomer(c));
+			waitingCustomers.add(new WaitingCustomer(c));
 		stateChanged();
 	}
 	
 	@Override
 	public void msgTableIsClear(BrianTable t){
 		t.occupiedBy = null;
-		customersInRestaurant --;
 		stateChanged();
 	}
 	
@@ -122,9 +118,6 @@ public class BrianHostRole extends Role implements BrianHost {
 		/*if !waitingCustomer.empty() there exists a Table t in tables such that t.occupiedBy == null 
 		 * 
 		 * 			then notifyWaiter(t, w);*/
-		
-		System.out.println("waiter size " + waiters.size());
-		
 		synchronized (waiters){
 			if (!waitingCustomers.isEmpty()){
 				synchronized(waitingCustomers){
@@ -176,10 +169,6 @@ public class BrianHostRole extends Role implements BrianHost {
 			}
 		}
 		
-		if (wantToGoHome){
-			leaveRestaurant();
-		}
-		
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -188,36 +177,23 @@ public class BrianHostRole extends Role implements BrianHost {
 
 // ######################   Actions  ##################
 	private void notifyWaiter(BrianTable t, MyWaiter w){
-		 System.out.println("BrianHost is notifying BrianWaiter");
+		  //Do("is notifying waiter "+ w.waiter.name);
 		   w.numberOfCustomers++;
 		   WaitingCustomer c = waitingCustomers.remove(0);
-		   w.waiter.msgSeatAtTable(c.customer, t);
-		   customersInRestaurant ++;
+		  // w.waiter.msgSeatAtTable(c.customer, t);
 		}
 
 	private void WaiterOnBreak(MyWaiter w){
 		//Do("Allowed "+ w.waiter.name + " to go on break.");
 		w.state = MyWaiterState.onBreak;
-		w.waiter.msgCanGoOnBreak();
+		//w.waiter.msgCanGoOnBreak();
 	}
 	
 	private void notifyCustomerFullHouse(WaitingCustomer c){
 		Do("Notifying customer Restaurant full.");
 		c.state = WaitingCustomerState.full;
-		c.customer.msgFullHouse();
+		//c.customer.msgFullHouse();
 		
-	}
-	
-	private void leaveRestaurant(){
-		Do("Leaving Restaurant");
-		if (waitingCustomers.size() == 0){
-			//msg all waiters that they are allowed to leave
-			for (MyWaiter w: waiters){
-				w.waiter.msgLeaveRestaurant();
-			}
-			exitBuilding(myPerson);
-			wantToGoHome = false;
-		}
 	}
 
 	//utilities
@@ -300,23 +276,33 @@ public class BrianHostRole extends Role implements BrianHost {
 			numberOfCustomers = 0;
 		}
 	}
-	
 
 
 
 	@Override
 	protected void enterBuilding() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void workOver() {
-		//Do not accept any new people.
-		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.setOpen(false);
-		wantToGoHome = true;
+		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void msgWaiterWantsABreak(Waiter waiter) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgWaiterOffBreak(Waiter waiter) {
+		// TODO Auto-generated method stub
+		
+	};
+
 }
 
 

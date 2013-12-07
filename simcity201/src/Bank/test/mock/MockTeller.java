@@ -122,10 +122,4 @@ public class MockTeller implements Teller {
 		
 	}
 
-	@Override
-	public void doneMotion() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -1,7 +1,6 @@
 package restaurant;
 
 import SimCity.Base.Role;
-import SimCity.Buildings.B_DannyRestaurant;
 import agent.Agent;
 
 import java.util.*;
@@ -283,15 +282,11 @@ public class DannyCook extends Role {
 	
 	@Override
 	protected void enterBuilding() {
-		System.out.println("Cook enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cookFilled = true;
+		
 	}
 
 	@Override
 	public void workOver() {
-		System.out.println("Cook workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cookFilled = false;
+	
 	}
 }

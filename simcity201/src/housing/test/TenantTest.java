@@ -64,7 +64,7 @@ public class TenantTest extends TestCase {
 				tenant.appliances.size());
 
 		// Receive Message
-		tenant.msgHouseInfo(appliances, 1);
+		tenant.msgHouseInfo(mockOwner, appliances, 1);
 		for (Appliance a : tenant.appliances) {
 			System.out.println("Tenant Appliance   ::   " + a.type);
 		}

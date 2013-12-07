@@ -2,8 +2,12 @@ package restaurant;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import agent.Agent;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
+import restaurant.gui.DannyRestaurantAnimationPanel;
+import restaurant.gui.DannyRestaurantAnimationPanel.Table;
+import restaurant.gui.RestaurantPanel;
 import restaurant.gui.WaiterGui;
 
 import java.util.*;
@@ -310,15 +314,13 @@ public class DannyHost extends Role {
 	
 	@Override
 	protected void enterBuilding() {
-		System.out.println("Host enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.hostFilled = true;
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void workOver() {
-		System.out.println("Host workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.hostFilled = false;
+		// TODO Auto-generated method stub
+		
 	}
 }

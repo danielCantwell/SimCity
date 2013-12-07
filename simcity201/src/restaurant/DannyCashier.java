@@ -13,7 +13,6 @@ import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.Role;
-import SimCity.Buildings.B_DannyRestaurant;
 import agent.Agent;
 
 /**
@@ -203,16 +202,12 @@ public class DannyCashier extends Role implements Cashier {
 	
 	@Override
 	protected void enterBuilding() {
-		System.out.println("Cashier enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = true;
+		//Gui call to enter restaurant
 	}
 
 	@Override
 	public void workOver() {
-		System.out.println("Cashier workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = false;
+		//Gui call to leave restaurant
 	}
 
 	@Override

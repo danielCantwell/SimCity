@@ -2,9 +2,7 @@ package brianRest.gui;
 
 import javax.swing.*;
 
-import brianRest.BrianTable;
 import brianRest.interfaces.BrianHost;
-import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.gui.Gui;
 
 import java.awt.*;
@@ -15,8 +13,8 @@ import java.util.ArrayList;
 
 public class BrianAnimationPanel extends JPanel implements ActionListener {
 
-    private final int WINDOWX = 640;
-    private final int WINDOWY = 640;
+    private final int WINDOWX = 600;
+    private final int WINDOWY = 450;
     
     
     private final int TABLEWIDTH = 50;
@@ -42,31 +40,20 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     public Timer timer;
     private List<Gui> guis = new ArrayList<Gui>();
     
-    B_BrianRestaurant building;
-    
     private BrianHost host;
     public void setHost(BrianHost host){
     	this.host = host;
-    }
-    
-    public void setRestaurant(B_BrianRestaurant building){
-    	this.building = building;
     }
 
     public BrianAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
-        
+ 
     	timer = new Timer(timerint, this );
     	timer.start();
     }
 
 	public void actionPerformed(ActionEvent e) {
-		for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
 		repaint();  //Will have paintComponent called
 	}
 	
@@ -84,18 +71,11 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
         
-        if(building.hostFilled){
-        	g2.setColor(Color.black);
-        	g2.drawString("Host is in", 300, 20);
-        }
-        
         //Cashier
-        if (building.cashierFilled){
-	        g2.setColor(Color.green);
-	        g2.fillRect(CashierX, CashierY, CashierW, CashierH);
-	        g2.setColor(Color.black);
-	        g2.drawString("Cashier", CashierX, CashierY);
-        }
+        g2.setColor(Color.green);
+        g2.fillRect(CashierX, CashierY, CashierW, CashierH);
+        g2.setColor(Color.black);
+        g2.drawString("Cashier", CashierX, CashierY);
         
         
         //Waiting Area
@@ -111,19 +91,24 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.black);
         g2.drawString("Plating", KitchenAreaX-10, KitchenAreaY +25);
         
-        //Grills
+      //Grills
         g2.setColor(Color.red);
         g2.fillRect(KitchenAreaX, KitchenAreaY + 50, KitchenWidth, KitchenHeight);
         g2.setColor(Color.black);
         g2.drawString("Grills", KitchenAreaX-10, KitchenAreaY + 75);
-       
-        for (BrianTable t : building.hostRole.tables){
+        
+        if (host instanceof BrianHost)
+        //for (table t : ((BrianHost) host).getTables()){
         	//Here is the table
             g2.setColor(Color.ORANGE);
-            g2.fillRect(t.getPosX(), t.getPosY(), TABLEWIDTH, TABLEHEIGHT);//200 and 250 need to be table params
-        }
+           // g2.fillRect(t.getPosX(), t.getPosY(), TABLEWIDTH, TABLEHEIGHT);//200 and 250 need to be table params
+        //}
 
-        
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -133,13 +118,13 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     }
 
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+       // guis.add(gui);
     }
 
     public void addGui(WaiterGui gui) {
-        guis.add(gui);
+       // guis.add(gui);
     }
     public void addGui(CookGui gui) {
-        guis.add(gui);
+       // guis.add(gui);
     }
 }

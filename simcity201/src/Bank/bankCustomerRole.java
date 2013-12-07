@@ -8,7 +8,6 @@ import Bank.interfaces.Guard;
 import Bank.interfaces.Teller;
 
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
 import SimCity.Globals.*;
 import SimCity.Base.*;
@@ -23,11 +22,10 @@ import SimCity.Buildings.B_Bank;
 public class bankCustomerRole extends Role implements Customer{
 
 	//-----------------------------------------------Data-------------------------------------------------
-
+	
 	Money wMoney;
 	int accNum;
 	private bankCustomerGui gui = new bankCustomerGui(this);
-	private Semaphore moving = new Semaphore(0,true);
 	Money money = new Money(20,0);
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
 	private Guard guard;
@@ -56,20 +54,20 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void enterBuilding() {
 		s = state.enter;
-		wMoney = myPerson.getMoney();
-		System.out.println("This Customer has entered the building with: $"+wMoney.dollars+"."+wMoney.cents);
 		B_Bank bank = (B_Bank)myPerson.building;
-		guard = bank.getBankGuard();
+		guard = (Guard)(bank.getBankGuard());
 		System.out.println("messaging this guard: " + " "+ guard.toString());
+		stateChanged();
+		System.out.println("Customer: has entered the building");
+		
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
-		stateChanged();
+			
 	}
 
 	@Override
 	public void requestSearch() {
 		s = state.reqSearch;
-		System.out.println("Customer: Guard requested a search "+s);
 		stateChanged();
 	}
 
@@ -102,36 +100,31 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public void transactionComplete(Money m) {
-		wMoney = m;
+		money = m;
 		s = state.leaving;
 		stateChanged();
 	}
-
+	
 	public void workOver() {
-		s = state.leaving;
-		stateChanged();
+		// make GUI call to leave Bank
 	}
 
-	public void doneMotion() {
-		moving.release();
-	}
 	//-----------------------------------------------Scheduler-------------------------------------------------
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		//System.out.println("------------------------------------");
+		
 		if (s == state.enter){
-
+			
 			openDoor();
 			return true;
 		}
-
+		
 		if(s == state.leaving) {
 			leaveBank();
 			return true;
 		}
 		if(s == state.reqSearch) {
-			System.out.println("Customer PAE reqSearch");
 			giveInv();
 			return true;
 		}
@@ -147,41 +140,21 @@ public class bankCustomerRole extends Role implements Customer{
 	//-----------------------------------------------Actions-------------------------------------------------
 	@Override
 	public void openDoor() {
-		//if (!myPerson.building.getOpen()) {leaveBank(); return;}
+		if (!myPerson.building.getOpen()) {leaveBank(); return;}
 		System.out.println("opened door");
-
-		//bankGuardRole newGuard = (bankGuardRole)guard;
-		//System.out.println("messaging this guard: " + guard + "active? " + newGuard.getActive() );
-		//newGuard.test(this);
 		guard.wantEnter(this);
-		//B_Bank bank= (B_Bank)myPerson.building;
-		//bank.getBankManager()
-		gui.doEnterBank();
 		s = state.waiting;
-		try {
-			moving.acquire();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
 	public void giveInv() {
-		System.out.println("Customer: is asking guard to search");
 		guard.allowSearch(this, inventory);
 		s = state.gaveInv;
+		System.out.println("Customer: is asking guard to search");
 	}
 
 	@Override
 	public void findTeller() {
-		gui.doGoToTeller();
-		try {
-			moving.acquire();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 		teller.foundTeller(accNum, wMoney, this);
 	}
 
@@ -190,24 +163,19 @@ public class bankCustomerRole extends Role implements Customer{
 		if (wMoney.getDollar() < 30) {							//Temporary method for choosing whether to withdraw/deposit
 			teller.requestWithdraw(accNum, money); 			//arbitrary amount to withdraw, can be changed later
 		}
-		else {	
-			wMoney.subtract(30,0);
+		else {
+			wMoney.subtract(30, 0);
 			teller.requestDeposit(accNum,wMoney);				//deposits everything over $30
-			wMoney = new Money(30,0);
-			//System.out.println(wMoney.getDollar());
+			wMoney.add(30,0);
+			System.out.println(wMoney.getDollar());
+
 		}
 	}
 
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
-		System.out.println("customer leaving bank");
-		try {
-			moving.acquire();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		System.out.println("leaving bank");
 		exitBuilding(myPerson);
 	}
 	@Override

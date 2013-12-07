@@ -46,6 +46,4 @@ public interface Teller {
 
 	public abstract void foundTeller(int accNum, Money money, Customer cust);
 
-	public abstract void doneMotion();
-
 }

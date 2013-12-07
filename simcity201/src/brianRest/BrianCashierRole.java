@@ -1,7 +1,6 @@
 package brianRest;
 
 import SimCity.Base.Role;
-import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
 
 
@@ -32,8 +31,8 @@ public class BrianCashierRole extends Role implements BrianCashier {
 		
 //########## Messages  ###############
 	public void msgHereIsCheck(String choice, BrianCustomer c, BrianWaiter wa){
-		Check ch = new Check(choice, c, wa);
-		checks.add(ch);
+		//Check ch = new Check(choice, c, wa);
+		//checks.add(ch);
 		stateChanged();
 	}
 	
@@ -152,15 +151,18 @@ public boolean pickAndExecuteAnAction() {
 			  market = m;
 		  }
 	}
+
+
 	@Override
 	protected void enterBuilding() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void workOver() {
 		// TODO Auto-generated method stub
-		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = false;
+		
 	}
 
 }

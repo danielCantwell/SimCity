@@ -2,10 +2,10 @@ package restaurant.gui;
 
 import javax.swing.*;
 
-import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.gui.Gui;
 import restaurant.DannyCustomer;
 import restaurant.DannyHost;
+import restaurant.DannyHost.Table;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,7 +44,6 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 	private Dimension bufferSize;
 
 	private DannyHost hostAgent;
-	B_DannyRestaurant building;
 
 	private int NTABLES = 0;
 
@@ -161,10 +160,6 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		g.drawRect(xHost, yHost, xHostSize, yHostSize);
 		g.drawString("Host", xHost + 12, yHost + 15);
 	}
-	
-    public void setRestaurant(B_DannyRestaurant building){
-    	this.building = building;
-    }
 	
 	public class Table {
 		DannyCustomer occupiedBy;

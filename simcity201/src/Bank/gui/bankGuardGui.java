@@ -24,9 +24,6 @@ public class bankGuardGui implements Gui{
 			yPos++;
 		else if (yPos > yDest)
 			yPos--;
-		if(xPos == xDest && yPos == yDest) {
-			guard.doneMotion();
-		}
 	}
 
 	public bankGuardGui(Guard guard) {
@@ -45,8 +42,8 @@ public class bankGuardGui implements Gui{
 	}
 	
 	public void doLeaveBank() {
-		xDest = 650;
-		yDest = 350;
+		xDest = 700;
+		yDest = 320;
 	}
 
 	@Override

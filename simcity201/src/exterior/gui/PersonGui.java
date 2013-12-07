@@ -156,9 +156,4 @@ public class PersonGui implements Gui {
 	public String getType() {
 		return "Person";
 	}
-
-	@Override
-	public int getID() {
-		return 0;
-	}
 }

@@ -1,7 +1,6 @@
 package brianRest.interfaces;
 
 import brianRest.BrianMenu;
-import brianRest.BrianWaiterRole;
 import restaurant.Menu;
 import restaurant.gui.CustomerGui;
 
@@ -9,12 +8,16 @@ public interface BrianCustomer {
 
 	public abstract void msgIsHungry();
 
+	public abstract void msgFollowMe(Menu m);
+
 	public abstract void msgFullHouse();
 
 	//Get a message from customer GUI when we reach the table to handle animation. Once we reach the table set Customer State to seated.
 	public abstract void msgWhatWouldYouLike();
 
 	public abstract void msgHeresYourOrder(String order);
+
+	public abstract void msgOutOfFood(Menu m);
 
 	//Paying
 	public abstract void msgHereIsTotal(double totalCost2);
@@ -27,10 +30,8 @@ public interface BrianCustomer {
 
 	public abstract brianRest.gui.CustomerGui getGui();
 
-	public abstract void msgOutOfFood(BrianMenu m);
+	void msgFollowMe(BrianMenu m);
 
-	public abstract void msgFollowMe(BrianMenu m);
-
-	public abstract void setWaiter(BrianWaiterRole brianWaiterRole);
+	void msgOutOfFood(BrianMenu m);
 
 }

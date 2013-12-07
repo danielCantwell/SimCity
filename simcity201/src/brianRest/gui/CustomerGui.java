@@ -4,20 +4,16 @@ import restaurant.interfaces.Customer;
 
 import java.awt.*;
 
-import brianRest.BrianCustomerRole;
-import brianRest.BrianHostRole;
-import brianRest.BrianTable;
-import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
 import SimCity.gui.Gui;
 
 public class CustomerGui implements Gui{
 
-	private BrianCustomer agent = null;
+	private Customer agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	private BrianHostRole host;
+	//private HostAgent host;
 	
 	int customerNumber = -1;
 	
@@ -36,18 +32,17 @@ public class CustomerGui implements Gui{
 	String displayText = "";
 	
 	//Cache the host so we have access to table locations.
-	//BrianHost host; //We only cache the host so that we can ask for the table location.
+	BrianHost host; //We only cache the host so that we can ask for the table location.
 
-	public CustomerGui(BrianCustomer brianCustomerRole, BrianHostRole host){ //HostAgent m) {
-		agent = brianCustomerRole;
-		xPos = 5;
-		yPos = 5;
-		xDestination = 5;
-		yDestination =5;
-		this.host = host;
+	public CustomerGui(Customer c ){ //HostAgent m) {
+		agent = c;
+		xPos = -40;
+		yPos = -40;
+		xDestination = -40;
+		yDestination = -40;
+		
 		receivedCoordinates = false;
 		dead = false;
-		isPresent= true;
 	}
 
 	public void updatePosition() {
@@ -62,7 +57,7 @@ public class CustomerGui implements Gui{
 			else if (yPos > yDestination)
 				yPos--;
 	
-			if (xPos == xDestination && yPos == yDestination) {
+			/*if (xPos == xDestination && yPos == yDestination) {
 				if (command==Command.GoToSeat) {
 					if (agent instanceof BrianCustomerRole)
 					((BrianCustomerRole) agent).msgAnimationFinishedGoToSeat();
@@ -71,13 +66,13 @@ public class CustomerGui implements Gui{
 					if (agent instanceof BrianCustomerRole)
 					((BrianCustomerRole) agent).msgAnimationFinishedLeaveRestaurant();
 					isHungry = false;
-					isPresent = true;
+					gui.setCustomerEnabled(agent);
 				}
 				receivedCoordinates = false;
 				displayText = "";
 				if (dead) displayText = "Dead Customer Pile";
 				command=Command.noCommand;
-			}
+			}*/
 		}
 	}
 	
@@ -101,12 +96,12 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void DoGoToSeat(int tableNumber){
-		for(BrianTable t : host.tables){
+		/*for(Table t : host.tables){
 			if (t.getTableNumber() == tableNumber){
 				xDestination = t.getPosX();
 				yDestination = t.getPosY();
 			}
-		}
+		}*/
 		command = Command.GoToSeat;
 		receivedCoordinates = true;
 	}

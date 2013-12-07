@@ -6,10 +6,8 @@ import restaurant.interfaces.Customer;
 import java.awt.*;
 
 import SimCity.gui.Gui;
-import brianRest.BrianHostRole;
 import brianRest.BrianTable;
 import brianRest.BrianWaiterRole;
-import brianRest.interfaces.BrianCustomer;
 
 public class WaiterGui implements Gui {
 
@@ -93,8 +91,8 @@ public class WaiterGui implements Gui {
     	doingIdle = false;
     }
 
-    public void DoBringToTable(BrianCustomer customer, int tableNumber) {
-    	for (BrianTable myTable : ((BrianHostRole)(agent.host)).tables){
+    public void DoBringToTable(Customer customer, int tableNumber) {
+    	/*for (restaurant.Table myTable : ((JesseHost) agent.getHost()).getTables()){
     		if (myTable.getTableNumber() == tableNumber){
     			xTable = myTable.getPosX();
     			yTable = myTable.getPosY();
@@ -102,7 +100,7 @@ public class WaiterGui implements Gui {
     			xDestination = xTable + movementOffset;
     			yDestination = yTable - movementOffset;
     		}
-    	}
+    	}*/
     	receivedAction = true;
     }
     

@@ -46,6 +46,4 @@ public interface Customer {
 
 	public abstract bankCustomerGui getGui();
 
-	public abstract void doneMotion();
-
 }

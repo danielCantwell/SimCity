@@ -3,6 +3,7 @@
  */
 package housing.interfaces;
 
+import housing.gui.HousingAnimation;
 import housing.gui.TenantGui;
 import housing.roles.OwnerRole.Appliance;
 
@@ -16,7 +17,7 @@ import SimCity.Globals.Money;
  */
 public interface Tenant {
 	
-	public abstract void msgHouseInfo(List<Appliance> a, int tenantNumber);
+	public abstract void msgHouseInfo(Owner owner, List<Appliance> a, int tenantNumber);
 	
 	public abstract void msgPayRent(Money m);
 	

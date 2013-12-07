@@ -1,6 +1,7 @@
 package EricRestaurant.interfaces;
 
 import EricRestaurant.EricCashier;
+import EricRestaurant.EricHost;
 import EricRestaurant.gui.CustomerGui;
 
 public interface Cashier {
@@ -8,7 +9,7 @@ public interface Cashier {
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public abstract void setHost(Host host);
+	public abstract void setHost(EricHost host);
 
 	public abstract void setCash(EricCashier cash);
 

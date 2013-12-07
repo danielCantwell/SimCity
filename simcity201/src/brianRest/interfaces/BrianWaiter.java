@@ -20,8 +20,6 @@ public interface BrianWaiter {
 	public abstract void msgOrderIsReady(String o, int tableNumber);
 
 	public abstract void msgImDone(BrianCustomer c);
-	
-	public abstract void msgLeaveRestaurant();
 
 	//Having to do with the check.
 	public abstract void msgRequestCheck(BrianCustomer c);

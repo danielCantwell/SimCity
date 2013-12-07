@@ -9,6 +9,4 @@ public interface BrianCook {
 
 	public abstract void msgFillOrder(String choice, int amount, boolean filled);
 
-	public abstract void DoRemovePlate(String choice);
-
 }
