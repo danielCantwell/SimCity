@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
@@ -30,6 +31,8 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
+import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
+
 import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.Person;
@@ -38,7 +41,6 @@ import SimCity.Base.Person.Vehicle;
 import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import exterior.astar.AStarTraversal;
-
 import brianRest.*;
 
 public class AnimationPanel extends JPanel implements ActionListener {
@@ -54,6 +56,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private List<ImageIcon> carsR = new ArrayList<ImageIcon>();
     private List<ImageIcon> carsU = new ArrayList<ImageIcon>();
     private List<ImageIcon> carsD = new ArrayList<ImageIcon>();
+    
+    public HashMap<Integer, List<Person>> standees = new HashMap<Integer, List<Person>>();
     public final char[][] MAP = new char[][] {
     		
     	/* Map legend:
@@ -100,7 +104,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public boolean horizontalRedLight = true;
     private String consoleText = "";
     private Font font;
-    private int currentID = 1;
+    public int currentID = 1;
     
     private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
     private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
@@ -177,6 +181,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		carsD.add(iconCar6D);
 		
 		God.Get().setAnimationPanel(this);
+		
+		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
+			List<Person> l = new ArrayList<Person>();
+			standees.put(i, l);
+		}
 
 		// Set up semaphore grid - sidewalks and crosswalks are open
 		for (int y = 0; y < WINDOWY / (TILESIZE); y++) {
@@ -218,6 +227,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				   horizontalRedLight = !horizontalRedLight;
 	    }});
 		trafficTimer.start();
+		
+		Timer busTimer = new Timer(2000, new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   if (currentID == 1) {
+					   spawnBuses();
+				   }
+	    }});
+		busTimer.start();
      
 		this.addMouseListener(new MouseListener() {
 			@Override
@@ -435,6 +452,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		}
 
+		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
+			for (int j = 0; (j < standees.get(i).size() && j < 6); j++) {
+				iconClock.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
+			}
+		}
+		
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();
@@ -636,9 +659,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-            	 currentID++;
-            	 CarGui g = new CarGui(gui, currentID);
-            	 addGui(g);
+            	 //CarGui g = new CarGui(gui, currentID);
+              	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.bus, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+
              }
         };
         
@@ -720,6 +743,18 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 	 p.startThread();   	 	 
 	   	 	 
 	   	 	 return p;
+	   	 } else if (v == Vehicle.bus) {
+	   		 PersonGui g = new PersonGui(gui, aStarTraversal);
+	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b);
+	   		 g.setPerson(p);
+	   		 addGui(g);
+	   	 	 God.Get().addPerson(p);
+	   	 	 p.startThread();
+	   	 	 
+	   	 	 standees.get(p.building.getID()-1).add(p);
+	   	 	 System.out.println(standees.get(p.building.getID()-1).size());
+	   	 	 
+	   	 	 return p;
 	   	 }
 	   	 
 	   	 //test market
@@ -765,6 +800,24 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setShowRect(boolean show) {
     	SHOW_RECT = show;
+    }
+    
+    public int getBuildingX(int position) {
+    	return ((position % 4) * 7 + 2)*64;
+    }
+    
+    public int getBuildingY(int position) {
+    	return ((position / 4) * 7 + 7)*64;
+    }
+    
+    public void spawnBuses() {
+	 	currentID++;
+	 	BusGui g1 = new BusGui(gui, currentID);
+	 	addGui(g1);
+	 	
+	 	currentID++;
+	 	BusGui g2 = new BusGui(gui, currentID);
+	 	addGui(g2);
     }
 
 }

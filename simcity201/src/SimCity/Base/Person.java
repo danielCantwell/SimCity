@@ -539,12 +539,16 @@ public class Person extends Agent {
 		}
 		
 		//Call person gui animation. acquire my semaphore.
+		destination = b;
 		System.out.println("Going from :" + building.getTag() + " to " + b.getTag() + ".");
 		if (gui instanceof PersonGui) {
-			((PersonGui) gui).DoTravel(building.id, b.id);
+			if (vehicle != Vehicle.bus) {
+				((PersonGui) gui).DoTravel(building.id, b.id);
+			}
 		} else if (gui instanceof CarGui) {
 			((CarGui) gui).DoTravel(building.id, b.id);
 		}
+		
 		try {
 			animation.acquire();
 		} catch (InterruptedException e) {
