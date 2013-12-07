@@ -22,7 +22,7 @@ public class EricWaiter extends Role implements Waiter {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
-	public List<myCustomer> customer = new ArrayList<myCustomer>();
+	public List<myCustomer> customer = Collections.synchronizedList(new ArrayList<myCustomer>());
 	public class myCustomer {
 		Waiter w;
 		int wNum;
@@ -251,10 +251,12 @@ public class EricWaiter extends Role implements Waiter {
 
 	@Override
 	public void LeavingTable(Customer c) {
-		for (myCustomer mc : customer) {
-			if(mc.c == c) {
-				mc.s = state.leaving;
-				stateChanged();
+		synchronized(customer){
+			for (myCustomer mc : customer) {
+				if(mc.c == c) {
+					mc.s = state.leaving;
+					stateChanged();
+				}
 			}
 		}
 	}
