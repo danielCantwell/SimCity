@@ -293,6 +293,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
     	{
     		inTransit.release();// = true;
     		travelState = TravelState.atTable;
+    		Do("Reached Table.");
     	}
 		stateChanged();
 	}
@@ -653,6 +654,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		}
 		catch (ConcurrentModificationException e)
 		{
+		    System.out.println("Waiter CME!");
 			return false;
 		}
 		catch (Exception e)

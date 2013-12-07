@@ -125,13 +125,19 @@ public class TimHostRole extends Role {
 	// Messages
 
 	public void msgIWantFood(TimCustomer cust) {
-		waitingCustomers.add(new MyCustomer(cust));
-		stateChanged();
+	    synchronized(waitingCustomers)
+	    {
+	        waitingCustomers.add(new MyCustomer(cust));
+	    }
+	    stateChanged();
 	}
 	
 	public void msgImLeaving(TimCustomer cust)
 	{
+        synchronized(waitingCustomers)
+        {
 		waitingCustomers.remove(cust);
+        }
 		stateChanged();
 	}
 

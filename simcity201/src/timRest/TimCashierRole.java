@@ -135,6 +135,7 @@ public class TimCashierRole extends Role implements TimCashier{
 			public void run() {
 				state = AgentState.idle;
 				check.state = CheckState.ready;
+				Do("Check Ready");
 				//isHungry = false;
 				stateChanged();
 			}
@@ -144,7 +145,7 @@ public class TimCashierRole extends Role implements TimCashier{
 				return this;
 			}
 		}.init(check);
-		timer.schedule(t, 5000);//getHungerLevel() * 1000);//how long to wait before running task
+		timer.schedule(t, 2000);//getHungerLevel() * 1000);//how long to wait before running task
 	}
 	
 	private void giveCheckToWaiter(Check check)

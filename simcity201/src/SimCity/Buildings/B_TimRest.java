@@ -90,6 +90,10 @@ public class B_TimRest extends Building{
                 //restaurantRole.setHost(hostRole);
                 //hostRole.addClerk(restaurantRole);
                 panel.addGui(restaurantRole.getGui());
+                restaurantRole.addItemToInventory("Steak", 10, 2000);
+                restaurantRole.addItemToInventory("Chicken", 10, 3000);
+                restaurantRole.addItemToInventory("Salad", 10, 1000);
+                restaurantRole.addItemToInventory("Pizza", 10, 2000);
             }
             if (newRole instanceof TimCashierRole)
             {
