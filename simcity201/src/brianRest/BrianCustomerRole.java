@@ -462,7 +462,6 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 				return;
 		}
 
-		System.out.println(host + " is being messaged. Is active?" + host.getActive());
 		msgIsHungry();
 		
 	}
