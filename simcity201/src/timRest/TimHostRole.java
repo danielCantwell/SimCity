@@ -23,16 +23,13 @@ public class TimHostRole extends Role {
 	public List<MyCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public Map<Integer, Table> tables = Collections.synchronizedMap(new Hashtable<Integer, Table>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
-
-    private TimCookRole cook;
-    private TimCashierRole cashier;
 	
 	public List<Integer> openWaitSeats = Collections.synchronizedList(new ArrayList<Integer>());
 	//public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 
-	public TimHostGui hostGui = new TimHostGui(this);
+	public TimHostGui hostGui = null;
 
 	public TimHostRole() {
 		super();
@@ -332,42 +329,9 @@ public class TimHostRole extends Role {
 	public void addWaiter(TimWaiterRole waiter)
 	{
 		MyWaiter myWaiter = new MyWaiter(waiter);
-		myWaiter.waiter.setHost(this);
-		if (cashier != null)
-		{
-		    myWaiter.waiter.setCashier(cashier);
-		}
-        if (cook != null)
-        {
-            myWaiter.waiter.setCook(cook);
-        }
 		waiters.add(myWaiter);
 		stateChanged();
 	}
-
-    public void setCashier(TimCashierRole cashier)
-    {
-        this.cashier = cashier;
-        synchronized(waiters)
-        {
-            for (MyWaiter myWaiter : waiters)
-            {
-                myWaiter.waiter.setCashier(cashier);
-            }
-        }
-    }
-
-    public void setCook(TimCookRole cook)
-    {
-        this.cook = cook;
-        synchronized(waiters)
-        {
-            for (MyWaiter myWaiter : waiters)
-            {
-                myWaiter.waiter.setCook(cook);
-            }
-        }
-    }
 	
 	public class Table
 	{
@@ -435,13 +399,14 @@ public class TimHostRole extends Role {
 
 	@Override
 	public void workOver() {
-        myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+		// TODO Auto-generated method stub
+		
 	}
 
     public boolean isRestaurantReady()
     {
-        return !waiters.isEmpty() && cook != null && cashier != null;
+        // TODO Auto-generated method stub
+        return false;
     }
 }
 

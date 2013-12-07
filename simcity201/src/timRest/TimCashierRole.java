@@ -215,8 +215,8 @@ public class TimCashierRole extends Role implements TimCashier{
 
 	@Override
 	public void workOver() {
-        myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -22,7 +22,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
-	private TimCustomerGui customerGui = new TimCustomerGui(this);
+	private TimCustomerGui customerGui;
 	
 	private HashMap<String, Double> choices;
 	private double cash;
@@ -50,7 +50,6 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	 */
 	public TimCustomerRole(){
 		super();
-		state = AgentState.GotHungry;
 		choices = null;
 		waitingPos = new Point(-1, -1);
 		amountOwed = 0.0d;
@@ -516,8 +515,8 @@ public class TimCustomerRole extends Role implements TimCustomer{
 
 	@Override
 	public void workOver() {
-        myPerson.Do("The restaurant is closing...");
-        exitBuilding(myPerson);
+		// TODO Auto-generated method stub
+		
 	}
 }
 
