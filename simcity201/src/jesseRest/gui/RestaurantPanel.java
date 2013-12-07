@@ -129,7 +129,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
     public void addPerson(String type, String name, boolean isChecked) {
     	if (type.equals("Customers")) {
     		JesseCustomer c = new JesseCustomer(name);	
-    		CustomerGui g = new CustomerGui(c, gui);
+    		CustomerGui g = new CustomerGui(c);
     		gui.animationPanel.addGui(g);
   
     		if (isChecked) g.setHungry();

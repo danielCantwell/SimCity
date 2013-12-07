@@ -29,7 +29,7 @@ public class CustomerGui implements Gui{
 	public static final int TABLEX = TABLESIZE;
 	public static final int TABLEY = TABLESIZE;
     
-	public CustomerGui(JesseCustomer c, RestaurantGui gui) {
+	public CustomerGui(JesseCustomer c) {
 		agent = c;
 		xPos = X_INIT;
 		yPos = Y_INIT;

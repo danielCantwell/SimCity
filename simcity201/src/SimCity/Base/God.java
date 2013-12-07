@@ -288,7 +288,7 @@ public class God {
 	    		else if (p.getMainRoleString().equals("EricRestaurant.EricWaiter") || p.getMainRoleString().equals("EricRestaurant.EricCook") || p.getMainRoleString().equals("EricRestaurant.EricCashier")) {
 	    			p.msgGoToWork();
 	    		}
-	    		else if (p.getMainRoleString().equals("JesseRest.JesseWaiter") || p.getMainRoleString().equals("JesseRest.JesseCook") || p.getMainRoleString().equals("JesseRest.JesseCashier")) {
+	    		else if (p.getMainRoleString().equals("jesseRest.JesseWaiter") || p.getMainRoleString().equals("jesseRest.JesseCook") || p.getMainRoleString().equals("jesseRest.JesseCashier")) {
 	    			p.msgGoToWork();
 	    		}
 	    	}

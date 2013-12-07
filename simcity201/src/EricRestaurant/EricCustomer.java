@@ -298,6 +298,10 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		Do("Leaving.");
 		waiter.LeavingTable(this);
 		customerGui.DoExitRestaurant();
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.removeGui(customerGui);
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 
 

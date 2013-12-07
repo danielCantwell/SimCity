@@ -33,31 +33,31 @@ public class B_JesseRestaurant extends Building{
 		tag = "B_JesseRestaurant";
 	}
 	
-	@Override
 	public void EnterBuilding(Person person, String role) {
 		Role newRole = null;
 		try {
-			if(role.equals("jesseRestaurant.JesseHost")) { 
+			if(role.equals("jesseRest.JesseHost")) { 
 				newRole = host;
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
 				}
-			else if(role.equals("jesseRestaurant.JesseWaiter")) {
+			else if(role.equals("jesseRest.JesseWaiter")) {
 				newRole = new JesseWaiter("JWaiter");
 				numWaiter++;
+				host.addWaiter((JesseWaiter) newRole);
 				setOpen(areAllNeededRolesFilled());
 			}
-			else if(role.equals("jesseRestaurant.JesseCook")) { 
+			else if(role.equals("jesseRest.JesseCook")) { 
 				newRole = cook;
 				cookFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			}
-			else if(role.equals("jesseRestaurant.JesseCashier")) {
+			else if(role.equals("jesseRest.JesseCashier")) {
 				newRole = cashier;
 				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			}
-			else if(role.equals("jesseRestaurant.JesseCustomer")) {
+			else if(role.equals("jesseRest.JesseCustomer")) {
 				newRole = new JesseCustomer("JCustomer");
 				System.out.println("JCustomer Made");
 			}

@@ -458,8 +458,11 @@ public class JesseWaiter extends Role implements Waiter {
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		jesseRest.gui.WaiterGui w = new jesseRest.gui.WaiterGui(this);
+		waiterGui = w;
+		System.out.println(w);
+		jesseRest.gui.AnimationPanel ap = new jesseRest.gui.AnimationPanel();
+		ap.addGui(w);
 	}
 
 	@Override

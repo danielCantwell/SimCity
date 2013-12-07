@@ -55,7 +55,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         // Draw the tables.
         g2.setColor(Color.ORANGE);
-//		COMMENTED OUT FOR NOW BEFORE ROLES ARE IMPLEMENTED     
+//		COMMENTED OUT SINCE STATIC TABLES    
        // for (int i = 0; i < host.getTables().size(); i++) {
         for (int i = 0; i < 3; i++) {
             g2.fillRect(TABLEX*2 + (2*i)*TABLESIZE, TABLEY*2, TABLESIZE, TABLESIZE);
@@ -101,6 +101,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
     public void addGui(WaiterGui gui) {
         guis.add(gui);
+    }
+    
+    public void removeGui(CustomerGui gui) {
+    	guis.remove(gui);
+    }
+    
+    public void removeGui(WaiterGui gui) {
+    	guis.remove(gui);
     }
     
     public void setHost(JesseHost hostToAdd) {
