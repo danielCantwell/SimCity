@@ -1,12 +1,12 @@
 package restaurant;
 
 import restaurant.gui.CustomerGui;
+import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
-import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
-import agent.Agent;
+import SimCity.Buildings.B_DannyRestaurant;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +32,7 @@ public class DannyCustomer extends Role implements Customer{
 	// agent correspondents
 	private DannyHost host;
 	private Waiter waiter;
+	private DannyCashier cashier;
 	
 	private Menu menu;
 	
@@ -57,9 +58,8 @@ public class DannyCustomer extends Role implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public DannyCustomer(String name){
+	public DannyCustomer(){
 		super();
-		this.name = name;
 		if (name.equals("Flake")) {
 			cash = 0;
 		} else {
@@ -67,6 +67,10 @@ public class DannyCustomer extends Role implements Customer{
 			// of money between $9 and $20      ,(max - min + 1)
 			cash = 9 + (int)(Math.random() * (12));
 		}
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -359,7 +363,7 @@ public class DannyCustomer extends Role implements Customer{
 		}
 		state = AgentState.Paying;
 		waiter.msgDoneAndPaying(this);
-		customerGui.gui.restPanel.getCashier().msgPayment(this, cash);
+		cashier.msgPayment(this, cash);
 	}
 
 	// Accessors, etc.
@@ -403,7 +407,18 @@ public class DannyCustomer extends Role implements Customer{
 	
 	@Override
 	protected void enterBuilding() {
-		Do("Going to restaurant");
+		System.out.println("DannyCustomer entered building");
+		
+		B_DannyRestaurant rest = (B_DannyRestaurant)(myPerson.getBuilding());
+		host = rest.hostRole;
+		cashier = rest.cashierRole;
+		
+		CustomerGui cg = new CustomerGui(this);
+		customerGui = cg;
+		
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel)myPerson.getBuilding().getPanel();
+		ap.addGui(customerGui);
+		
 		if (!myPerson.building.getOpen()){
 				leaveRestaurant();
 				return;

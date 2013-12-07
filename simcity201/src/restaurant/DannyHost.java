@@ -29,17 +29,14 @@ public class DannyHost extends Role {
 	// note that tables is typed with Collection semantics.
 	// Later we will see how it is implemented
 
-	private DannyCook cook = new DannyCook("Chef", this);
-	//private RestaurantPanel restPanel;
-
 	private String name;
+	
+	private boolean workOver = false;
 
 	public WaiterGui waiterGui = null;
 
-	public DannyHost(String name) {
+	public DannyHost() {
 		super();
-
-		this.name = name;
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		synchronized (tables) {
 			for (int ix = 1; ix <= NTABLES; ix++) {
@@ -54,6 +51,10 @@ public class DannyHost extends Role {
 
 	public String getName() {
 		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List getWaitingCustomers() {
@@ -168,6 +169,11 @@ public class DannyHost extends Role {
 				}
 			}
 		}
+		
+		if (workOver) {
+			leaveRestaurant();
+			return true;
+		}
 
 		return false;
 		// we have tried all our rules and found
@@ -181,7 +187,7 @@ public class DannyHost extends Role {
 			DannyWaiter waiter) {
 		customer.setWaiter(waiter);
 		table.setOccupant(customer);
-		waiter.msgPleaseSeatCustomer(this, customer, table.tableNumber);
+		waiter.msgPleaseSeatCustomer(customer, table.tableNumber);
 		waitingCustomers.remove(customer);
 	}
 
@@ -215,6 +221,18 @@ public class DannyHost extends Role {
 		myWaiter.waiter.msgBreakOver();
 		stateChanged();
 	}
+	
+	private void leaveRestaurant() {
+		Do("Leaving Restaurant");
+		if (waitingCustomers.size() == 0){
+			//msg all waiters that they are allowed to leave
+			for (MyWaiter w: waiters){
+				w.waiter.msgLeaveRestaurant();
+			}
+			exitBuilding(myPerson);
+			workOver = false;
+		}
+	}
 
 	// utilities
 
@@ -229,10 +247,6 @@ public class DannyHost extends Role {
 		stateChanged();
 	}
 
-	public DannyCook getCook() {
-		return cook;
-	}
-	
 	public DannyCashier getCashier() {
 		B_DannyRestaurant dr = (B_DannyRestaurant)myPerson.getBuilding();
 		return dr.getCashier();
@@ -311,8 +325,6 @@ public class DannyHost extends Role {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Host enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.hostFilled = true;
 	}
 
 	@Override
@@ -320,5 +332,8 @@ public class DannyHost extends Role {
 		System.out.println("Host workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
 		rest.hostFilled = false;
+		rest.setOpen(false);
+		
+		workOver = true;
 	}
 }

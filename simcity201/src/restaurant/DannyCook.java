@@ -29,8 +29,6 @@ public class DannyCook extends Role {
 
 	private String name;
 	
-	private DannyHost host;
-	
 	Timer timer = new Timer();
 
 	// type. timer. inventory. low. cap
@@ -50,14 +48,15 @@ public class DannyCook extends Role {
 		Pending, OutOfStock, Cooking, Done, Plated, PickedUp
 	};
 
-	public DannyCook(String name, DannyHost host) {
-		this.name = name;
-		this.host = host;
-
+	public DannyCook() {
 		foods.put("Steak", steak);
 		foods.put("Chicken", chicken);
 		foods.put("Pizza", pizza);
 		foods.put("Salad", salad);
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	// Messages
@@ -87,8 +86,6 @@ public class DannyCook extends Role {
 			}
 		}
 	}
-
-	// From Market
 	
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
@@ -225,10 +222,6 @@ public class DannyCook extends Role {
 	public CookGui getGui() {
 		return cookGui;
 	}
-	
-	public DannyHost getHost() {
-		return host;
-	}
 
 	public class Order {
 
@@ -284,8 +277,6 @@ public class DannyCook extends Role {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Cook enterBuilding");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cookFilled = true;
 	}
 
 	@Override
