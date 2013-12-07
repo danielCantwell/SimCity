@@ -130,6 +130,9 @@ public class B_DannyRestaurant extends Building {
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			}
 
+			newRole.setActive(true);
+			newRole.setPerson(person);
+			
 			if (areAllNeededRolesFilled()) {
 				for (DannyWaiter waiter : waiters) {
 					if (waiter.getHost() != hostRole)
@@ -138,12 +141,9 @@ public class B_DannyRestaurant extends Building {
 						waiter.setCashier(cashierRole);
 					if (waiter.getCook() != cookRole)
 						waiter.setCook(cookRole);
-					hostRole.addWaiter((DannyWaiter) newRole);
+					hostRole.addWaiter(waiter);
 				}
 			}
-
-			newRole.setActive(true);
-			newRole.setPerson(person);
 
 			if (newRole instanceof DannyHost)
 				((DannyHost) newRole).setName(newRole.myPerson.name);
