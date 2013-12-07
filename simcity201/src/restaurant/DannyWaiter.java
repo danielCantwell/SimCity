@@ -449,9 +449,8 @@ public class DannyWaiter extends Role implements Waiter {
 	}
 	
 	private void leaveRestaurant() {
-		if (myCustomers.size()==0){
-			exitBuilding(myPerson);
-		}
+		exitBuilding(myPerson);	// TODO possibly check customer size
+		workOver = false;
 	}
 
 	private void askHostForBreak() {
