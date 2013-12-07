@@ -164,9 +164,10 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		stateChanged();
 	}
 	
-	public void msgHereIsTheCheck(Money price)
+	public void msgHereIsTheCheck(TimCashier cashier, Money price)
 	{
 		amountOwed.add(price);
+		this.cashier = cashier;
 		state = AgentState.GoPay;
 		stateChanged();
 	}

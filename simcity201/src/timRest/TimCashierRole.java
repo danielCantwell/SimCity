@@ -27,7 +27,7 @@ public class TimCashierRole extends Role implements TimCashier{
 
 	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	
-	public enum CheckState { pending, calculating, ready }
+	public enum CheckState { pending, calculating, ready, requested }
 	
 	public TimCashierRole()
 	{
@@ -51,7 +51,7 @@ public class TimCashierRole extends Role implements TimCashier{
 			{
 				if (check.tableNumber == tableNumber)
 				{
-					check.state = CheckState.ready;
+					check.state = CheckState.requested;
 					stateChanged();
 					return;
 				}
@@ -107,7 +107,7 @@ public class TimCashierRole extends Role implements TimCashier{
 			{
 				for (Check check : checks)
 				{
-					if (check.state == CheckState.ready)
+					if (check.state == CheckState.requested)
 					{
 						giveCheckToWaiter(check);
 						return true;

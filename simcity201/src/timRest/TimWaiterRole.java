@@ -15,6 +15,7 @@ import agent.Agent;
 import timRest.gui.TimAnimationPanel;
 import timRest.gui.TimCookGui;
 import timRest.gui.TimWaiterGui;
+import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
 import timRest.interfaces.TimCustomer;
@@ -218,6 +219,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		if (myCustomer != null)
 		{
 			myCustomer.amountOwed = amount;
+			Do("Got check.");
 			stateChanged();
 		}
 	}
@@ -656,11 +658,13 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		catch (ConcurrentModificationException e)
 		{
 		    System.out.println("Waiter CME!");
-			return false;
+            e.printStackTrace();
+			return true;
 		}
 		catch (Exception e)
 		{
-			return false;
+            e.printStackTrace();
+			return true;
 		}
 	}
 
@@ -722,7 +726,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	private void giveCheckToCustomer(MyCustomer customer)
 	{
 		Do("Here is your check.");
-		customer.customerRef.msgHereIsTheCheck(customer.amountOwed);
+		customer.customerRef.msgHereIsTheCheck(cashier, customer.amountOwed);
 		customersThatNeedChecks.remove(customer);
 		customer.state = CustomerState.idle;
 		waiterGui.GoToIdle();

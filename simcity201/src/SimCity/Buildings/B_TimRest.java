@@ -102,6 +102,10 @@ public class B_TimRest extends Building{
                 //restaurantRole.setHost(hostRole);
                 //hostRole.addClerk(restaurantRole);
                 //panel.addGui(restaurantRole.getGui());
+                restaurantRole.addItemToMenu("Steak", new Money(15, 99));
+                restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
+                restaurantRole.addItemToMenu("Salad", new Money(5, 99));
+                restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
             }
             if (newRole instanceof TimWaiterRole)
             {

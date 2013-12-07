@@ -35,7 +35,7 @@ public abstract class Role {
 	}
 	
 	protected void Do(String s){
-		System.out.println(this.getClass().toString() + s);
+		System.out.println(this.myPerson.name.toString() + ": " + s);
 	}
 }
 

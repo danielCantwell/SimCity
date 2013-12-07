@@ -3,6 +3,7 @@ package timRest.interfaces;
 import java.awt.Point;
 import java.util.HashMap;
 
+import timRest.interfaces.TimCashier;
 import SimCity.Globals.Money;
 
 /**
@@ -21,7 +22,7 @@ public interface TimCustomer {
 	public abstract void msgWeAreOut(HashMap<String, Money> newChoices);
 	public abstract void msgNoMoreFood();
 	public abstract void msgHereIsYourOrder(String choice);
-	public abstract void msgHereIsTheCheck(Money price);
+	public abstract void msgHereIsTheCheck(TimCashier cashier, Money price);
 	public abstract void msgAnimationFinishedGoToSeat();
 	public abstract void msgAnimationFinishedLeaveRestaurant();
 	public abstract void msgAnimationFinishedGoToCashier();
