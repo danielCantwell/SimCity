@@ -32,8 +32,8 @@ public class BrianCashierRole extends Role implements BrianCashier {
 		
 //########## Messages  ###############
 	public void msgHereIsCheck(String choice, BrianCustomer c, BrianWaiter wa){
-		//Check ch = new Check(choice, c, wa);
-		//checks.add(ch);
+		Check ch = new Check(choice, c, wa);
+		checks.add(ch);
 		stateChanged();
 	}
 	
@@ -154,9 +154,6 @@ public boolean pickAndExecuteAnAction() {
 	}
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = true;
 	}
 
 	@Override

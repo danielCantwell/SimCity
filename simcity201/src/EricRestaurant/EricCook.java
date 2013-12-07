@@ -1,4 +1,5 @@
 package EricRestaurant;
+import EricRestaurant.gui.AnimationPanel;
 import EricRestaurant.gui.CookGui;
 import EricRestaurant.gui.HostGui;
 //import EricRestaurant.interfaces.Market;
@@ -130,6 +131,7 @@ public class EricCook extends Role {
 	//scheduler
 
 	protected boolean pickAndExecuteAnAction() {
+//		System.out.println("order size "+orders.size()+" and myPerson is: "+myPerson);
 //		if (cs == cookState.specordering) {
 //			msgMarket("Pizza");
 //		}
@@ -259,8 +261,11 @@ public class EricCook extends Role {
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		EricRestaurant.gui.CookGui cg = new EricRestaurant.gui.CookGui(this);
+		cookGui = cg;
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.addGui(cg);	
+		cookGui.setText("Cook");
 	}
 
 	@Override

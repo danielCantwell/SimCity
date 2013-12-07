@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import Bank.bankGuardRole;
 import Bank.bankManagerRole;
 import Bank.bankManagerRole.Teller;
+import Bank.gui.bankGui;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import Bank.tellerRole;
@@ -20,6 +21,7 @@ import SimCity.Base.Role;
  */
 public class B_Bank extends Building{
 	
+	public bankGui gui = new bankGui();
 	bankManagerRole bankManager;
 	bankGuardRole bankGuard;
 	
@@ -35,6 +37,7 @@ public class B_Bank extends Building{
 	
 	public void setBankManager(bankManagerRole bmr){bankManager = bmr;	}
 	public void setBankGuard(bankGuardRole bgr){bankGuard = bgr;}
+//												gui.addGui(bankGuard.getGui());}
 	public void addTeller(tellerRole t){ tellers.add(t);}
 	public Bank.interfaces.Teller getTeller(int id){return tellers.get(id);}
 	
@@ -54,7 +57,7 @@ public class B_Bank extends Building{
 		y = yCoord;
 		tag = "B_Bank";
 	}
-
+	
 
 	@Override
 	public String getManagerString() {

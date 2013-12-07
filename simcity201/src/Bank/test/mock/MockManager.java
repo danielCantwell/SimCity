@@ -6,6 +6,7 @@ import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
 import SimCity.gui.Gui;
 import Bank.bankCustomerRole;
+import Bank.tellerRole;
 import Bank.interfaces.*;
 /**
  * 
@@ -53,6 +54,12 @@ public class MockManager implements Manager {
 
 	@Override
 	public void workOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tellerReady(tellerRole tellerRole) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -70,7 +70,15 @@ public class bankManagerRole extends Role implements  Manager{
 	public void newClient(Customer c) {
 		clients.add(c);
 		stateChanged();
-		System.out.println("Manager: New customer has been added");
+		System.out.println("Manager: New customer has been added: "+c);
+	}
+	
+	public void tellerReady(tellerRole teller) {
+		for (Teller t : tellers) {
+			if(t.teller == teller) {
+				t.busy = state.no;
+			}
+		}
 	}
 	
 	//----------------------------------------------Scheduler-------------------------------------------------
@@ -93,7 +101,7 @@ public class bankManagerRole extends Role implements  Manager{
 	@Override
 	public void callTeller(Customer c, Teller t) {
 		t.teller.tellerAssigned(c);
-		tellers.remove(t);
+		t.busy = state.yes;
 		clients.remove(c);
 	}
 
@@ -101,5 +109,6 @@ public class bankManagerRole extends Role implements  Manager{
 		// GUI call to leave bank
 		exitBuilding(myPerson);
 	}
+
 
 }

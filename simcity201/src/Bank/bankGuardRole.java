@@ -1,8 +1,10 @@
 package Bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import Bank.gui.bankGuardGui;
+import Bank.gui.bankGui;
 import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
@@ -20,6 +22,7 @@ public class bankGuardRole extends Role implements Guard {
 	B_Bank curBank;
 	Manager manager;
 	bankGuardGui gui = new bankGuardGui(this);
+	private Semaphore moving = new Semaphore(0,true);
 	public List<String> badObjs = new ArrayList<String>();
 	public List<Entry> custEnter = Collections.synchronizedList(new ArrayList<Entry>());
 	public class Entry {
@@ -55,6 +58,9 @@ public class bankGuardRole extends Role implements Guard {
 		bank.setBankGuard(this);
 		manager = bank.getBankManager();
 		manager.setGuard(this);
+		bankGui bankgui = (bankGui)myPerson.building.getPanel();
+		bankgui.addGui(gui);
+		gui.setText("Guard");
 		stateChanged();
 	}
 
@@ -94,6 +100,9 @@ public class bankGuardRole extends Role implements Guard {
 		stateChanged();
 	}
 
+	public void doneMotion() {
+		moving.release();
+	}
 	//----------------------------------------------Scheduler-------------------------------------------------
 
 	@Override
@@ -176,12 +185,24 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public void enterBank() {
 		gui.doEnterBank();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		s = state.onD;
 	}
 
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		s = state.offD;
 	}
 

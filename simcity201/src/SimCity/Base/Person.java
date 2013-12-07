@@ -14,6 +14,8 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import brianRest.BrianCustomerRole;
+import brianRest.BrianWaiterRole;
 import market.MarketDeliveryPersonRole;
 import exterior.gui.CarGui;
 import exterior.gui.Gui;
@@ -23,7 +25,9 @@ import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_House;
+import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.Globals.Money;
 import agent.Agent;
@@ -73,8 +77,11 @@ public class Person extends Agent {
 		goRestaurant,
 		goMarket,
 		goBank,
-		goSleep
-	, goBrianRestaurant}
+		goSleep, 
+		goBrianRestaurant,
+		goEricRestaurant, 
+		goJesseRestaurant
+		}
 	
 	//This is an inner class that holds a GoAction and an Intent.
 	//How to use? The goAction tells you where to go and the intent tells you why you are going.
@@ -135,7 +142,19 @@ public class Person extends Agent {
 			if (job.equals("brianRest.BrianHostRole")) return;
 			else if (job.equals("brianRest.BrianCookRole")) return;
 			else if (job.equals("brianRest.BrianCashierRole"))return;
-			
+			else if (job.equals("brianRest.BrianCustomerRole")) {return;}
+			else if (job.equals("brianRest.BrianWaiterRole")){return;}
+			else if (job.equals("EricRestaurant.EricHost"))return;
+			else if (job.equals("EricRestaurant.EricCook"))return;
+			else if (job.equals("EricRestaurant.EricCashier"))return;
+			else if (job.equals("EricRestaurant.EricCustomer"))return;
+			else if (job.equals("EricRestaurant.EricWaiter"))return;
+			else if (job.equals("jesseRest.JesseHost"))return;
+			else if (job.equals("jesseRest.JesseWaiter"))return;
+			else if (job.equals("jesseRest.JesseCustomer"))return;
+			else if (job.equals("jesseRest.JesseCashier"))return;
+			else if (job.equals("jesseRest.JesseCook"))return;
+
 			
 			
 			Role newRole;
@@ -256,6 +275,8 @@ public class Person extends Agent {
 		else if (b instanceof B_DannyRestaurant){ addAction(new Action(GoAction.goDannyRestaurant, i));}
 		else if (b instanceof B_Market){ addAction(new Action(GoAction.goMarket, i));}
 		else if (b instanceof B_BrianRestaurant){addAction(new Action(GoAction.goBrianRestaurant, i));}
+		else if (b instanceof B_EricRestaurant){addAction(new Action(GoAction.goEricRestaurant, i));}
+		else if (b instanceof B_JesseRestaurant){addAction(new Action(GoAction.goJesseRestaurant, i));}
 		stateChanged();
 	}
 	
@@ -486,8 +507,26 @@ public class Person extends Agent {
 			b = God.Get().getBuilding(6);
 			Do("Working at Brian Restaurant");
 		}
-		
-		
+		else 
+		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.work) {
+			b = God.Get().getBuilding(11);
+			Do("Working at Eric Restaurant");
+		}
+		else 
+		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.customer) {
+			b = God.Get().getBuilding(11);
+			Do("Going to Eric Restaurant");
+		}
+		else 
+		if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.customer) {
+			b = God.Get().getBuilding(7);
+			Do("Going to Jesse Restaurant");
+		}
+		else 
+			if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.work) {
+				b = God.Get().getBuilding(7);
+				Do("Going to Jesse Restaurant");
+			}
 		else b = null;
 		
 		//Animation for gui stuff here.

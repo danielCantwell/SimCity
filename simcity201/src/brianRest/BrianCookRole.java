@@ -3,7 +3,9 @@ package brianRest;
 //import javax.swing.*;
 
 import SimCity.Base.Role;
+import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
+import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CookGui;
 import brianRest.interfaces.BrianCook;
 import brianRest.interfaces.BrianWaiter;
@@ -258,7 +260,11 @@ public class BrianCookRole extends Role implements BrianCook {
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
+		
+		brianRest.gui.CookGui wg = new brianRest.gui.CookGui(this);
+		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		gui = wg;
+		bap.addGui(wg);
 		
 	}
 

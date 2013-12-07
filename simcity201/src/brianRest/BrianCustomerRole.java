@@ -4,6 +4,7 @@ package brianRest;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
+import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CustomerGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCustomer;
@@ -12,6 +13,7 @@ import brianRest.interfaces.BrianWaiter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 
 
@@ -40,20 +42,20 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	private CustomerGui customerGui;
 
 	//Necessary links.
-	private BrianHost host;
-		public BrianHost getHost(){
+	private BrianHostRole host;
+		public BrianHostRole getHost(){
 			return host;
 		}
-		public void setHost(BrianHost w){
+		public void setHost(BrianHostRole w){
 			host = w;
 		}
 	private BrianWaiter waiter;	
 		public BrianWaiter getWaiter(){
 			return waiter;
 		}
-		public void setWaiter(BrianWaiter w){
-			waiter = w;
-		}
+	public void setWaiter(BrianWaiter w){
+		waiter = w;
+	}
 	private BrianCashier cashier;
 		public BrianCashier getCashier(){
 			return cashier;
@@ -424,22 +426,36 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 
 	@Override
 	protected void enterBuilding() {
-		Do("Going to restaurant");
-		if (!myPerson.building.getOpen()){
-				customerGui.DoExitRestaurant();
-				return;
-		}
+		System.out.println("BrianCustomer entered building");
 		
 		B_BrianRestaurant rest = (B_BrianRestaurant)(myPerson.getBuilding()); 
 		cashier = rest.cashierRole;
 		host = rest.hostRole;
+		//add the gui
+		brianRest.gui.CustomerGui wg = new brianRest.gui.CustomerGui(this, rest.hostRole);
+		customerGui = wg;
+		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		bap.addGui(wg);
 		
-		host.msgIWantToEat(this);
+		if (!myPerson.building.getOpen()){
+			System.out.println("BrianCustomer leaving restaurant");
+				customerGui.DoExitRestaurant();
+				return;
+		}
+
+		System.out.println(host + " is being messaged. Is active?" + host.getActive());
+		msgIsHungry();
 		
 	}
 	@Override
 	public void workOver() {
 		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setWaiter(BrianWaiterRole brianWaiterRole) {
+		// TODO Auto-generated method stub
+		waiter=brianWaiterRole;
 		
 	}
 }

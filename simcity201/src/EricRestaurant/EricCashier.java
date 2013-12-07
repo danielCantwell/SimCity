@@ -102,6 +102,7 @@ public class EricCashier extends Role {
 //				return true;
 //			}
 //		}
+		//System.out.println("check size "+checks.size()+" and myPerson is this: "+myPerson);
 		synchronized(checks){
 			for( Check ck : checks) {
 				if(ck.s == state.prepared) {

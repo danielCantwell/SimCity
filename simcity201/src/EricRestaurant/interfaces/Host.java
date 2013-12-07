@@ -6,6 +6,7 @@ import java.util.List;
 import EricRestaurant.EricCashier;
 import EricRestaurant.EricCook;
 import EricRestaurant.EricCustomer;
+import EricRestaurant.EricWaiter;
 import EricRestaurant.gui.HostGui;
 
 public interface Host {
@@ -29,7 +30,7 @@ public interface Host {
 	public abstract void msgLeavingTable(Customer cust,
 			EricRestaurant.interfaces.Waiter w);
 
-	public abstract void newWaiter(EricRestaurant.interfaces.Waiter wait);
+	public abstract void newWaiter(EricWaiter wait);
 
 	public abstract void canIBreak(EricRestaurant.interfaces.Waiter w);
 

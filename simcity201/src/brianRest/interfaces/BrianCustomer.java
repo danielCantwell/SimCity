@@ -1,6 +1,7 @@
 package brianRest.interfaces;
 
 import brianRest.BrianMenu;
+import brianRest.BrianWaiterRole;
 import restaurant.Menu;
 import restaurant.gui.CustomerGui;
 
@@ -29,5 +30,7 @@ public interface BrianCustomer {
 	public abstract void msgOutOfFood(BrianMenu m);
 
 	public abstract void msgFollowMe(BrianMenu m);
+
+	public abstract void setWaiter(BrianWaiterRole brianWaiterRole);
 
 }

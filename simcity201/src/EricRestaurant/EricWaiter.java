@@ -2,12 +2,14 @@ package EricRestaurant;
 
 import EricRestaurant.EricCook.Food;
 import EricRestaurant.EricCustomer.AgentState;
+import EricRestaurant.gui.AnimationPanel;
 import EricRestaurant.gui.HostGui;
 import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
 import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import agent.Agent;
+import brianRest.gui.BrianAnimationPanel;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -46,25 +48,23 @@ public class EricWaiter extends Role implements Waiter {
 	public String lowFood = null;
 	Map<String, Double> mymap = new HashMap<String, Double>();
 
-	public EricWaiter(String name) {
+	public EricWaiter(String name, EricHost h, EricCashier c) {
 		super();
 		this.name = name;
+		host = h;
+		ca = c;
 		mymap.put("Steak", 15.99);
 		mymap.put("Pizza", 8.99);
 		mymap.put("Chicken", 10.99);
 		mymap.put("Salad", 5.99);
 	}
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#msgWaiter(java.lang.String)
-	 */
+
 	@Override
 	public void msgWaiter(String c) {
 		print("Cook no longer has any "+c);
 		lowFood = c;
 	}
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#restock(java.lang.String)
-	 */
+
 	@Override
 	public void restock(String c) {
 		print("Cook restocked on "+c);
@@ -73,49 +73,27 @@ public class EricWaiter extends Role implements Waiter {
 	private void print(String string) {
 		System.out.println(string);
 	}
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#setCashier(restaurant.CashierAgent)
-	 */
+
 	@Override
 	public void setCashier(EricCashier c) {
 		ca = c;
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#setHost(restaurant.HostAgent)
-	 */
 	@Override
 	public void setHost(EricHost h) {
 		host = h;
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#getMaitreDName()
-	 */
 	@Override
 	public String getMaitreDName() {
 		return name;
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#getName()
-	 */
 	@Override
 	public String getName() {
 		return name;
 	}
 
-
-	// Messages
-
-	//	public void msgIWantFood(CustomerAgent cust) {
-	//		waitingCustomers.add(cust);
-	//		stateChanged();
-	//	}
-
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#HostCalled(restaurant.CustomerAgent, int)
-	 */
 	@Override
 	public void HostCalled(EricCustomer cust, int table, int num){
 		myCustomer mycust = new myCustomer();
@@ -130,9 +108,6 @@ public class EricWaiter extends Role implements Waiter {
 		stateChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#takeMyOrder(restaurant.interfaces.Customer)
-	 */
 	@Override
 	public void takeMyOrder(Customer cust) {
 		for(myCustomer mc : customer) {
@@ -144,9 +119,6 @@ public class EricWaiter extends Role implements Waiter {
 		stateChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#hereIsOrder(restaurant.interfaces.Cashier, java.lang.String)
-	 */
 	@Override
 	public void hereIsOrder(Cashier cust, String choice) {
 		if(cust.getName().equals("bum")) {
@@ -199,9 +171,6 @@ public class EricWaiter extends Role implements Waiter {
 		stateChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#reorder(restaurant.WaiterAgent.myCustomer)
-	 */
 	@Override
 	public void reorder(myCustomer cx) {
 		if (cx.money < 5.99) {
@@ -232,25 +201,16 @@ public class EricWaiter extends Role implements Waiter {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#atTheCook()
-	 */
 	@Override
 	public void atTheCook() {
 		toCook.release();
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#atTheCust()
-	 */
 	@Override
 	public void atTheCust() {
 		atCust.release();
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#orderDone(java.lang.String)
-	 */
 	@Override
 	public void orderDone(String choice) {
 		for (myCustomer mc : customer) {
@@ -262,10 +222,6 @@ public class EricWaiter extends Role implements Waiter {
 	}
 
 
-
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#msgAtTable()
-	 */
 	@Override
 	public void msgAtTable() {//from animation
 		//print("msgAtTable() called");
@@ -273,9 +229,6 @@ public class EricWaiter extends Role implements Waiter {
 		stateChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#atCook(java.lang.String)
-	 */
 	@Override
 	public void atCook(String choice) {
 		for (myCustomer mc : customer) {
@@ -286,9 +239,6 @@ public class EricWaiter extends Role implements Waiter {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#waiterGotCheck(double, restaurant.interfaces.Customer, restaurant.CashierAgent)
-	 */
 	@Override
 	public void waiterGotCheck(double p, Customer c, EricCashier cs) {
 		print("Recieved check from Cashier");
@@ -299,9 +249,6 @@ public class EricWaiter extends Role implements Waiter {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#LeavingTable(restaurant.interfaces.Customer)
-	 */
 	@Override
 	public void LeavingTable(Customer c) {
 		for (myCustomer mc : customer) {
@@ -316,11 +263,7 @@ public class EricWaiter extends Role implements Waiter {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
+		//System.out.println("customer size "+customer.size()+" and myPerson is this: "+myPerson.toString());
 		try {
 			for(myCustomer mc : customer) {
 				if(mc.s == state.hostcalled) {
@@ -382,9 +325,7 @@ public class EricWaiter extends Role implements Waiter {
 			return false;
 		}
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
+
 	}
 
 	// Actions
@@ -426,16 +367,19 @@ public class EricWaiter extends Role implements Waiter {
 	}
 
 	private void gotOrder(myCustomer c) {
-		Do("Giving Customer order to cook");
-		host.cook.giveCook(c.choice, this);
+		Do(" Giving Customer order to cook");
+		try {
+			host.cook.giveCook(c.choice, this);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("----------Host: "+host+"     Cook: "+host.cook);
+		}
 		c.s = state.gavecook;
 
 		//customer.remove(c);	//if i don't remove it, it continually alternates between this and the msg in Cook
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#deliver(restaurant.WaiterAgent.myCustomer)
-	 */
 	@Override
 	public void deliver(myCustomer c) {
 
@@ -451,10 +395,6 @@ public class EricWaiter extends Role implements Waiter {
 		host.cook.msgImHere(this);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#bringToCust(restaurant.WaiterAgent.myCustomer)
-	 */
 	@Override
 	public void bringToCust(myCustomer c) {
 		print("Bringing "+c.choice+" to "+c.c.getName());
@@ -471,61 +411,45 @@ public class EricWaiter extends Role implements Waiter {
 		hostGui.waiting(c.wNum);
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#alertHost(restaurant.WaiterAgent.myCustomer)
-	 */
 	@Override
 	public void alertHost(myCustomer c) {
 		host.msgLeavingTable(c.c, this);
 		customer.remove(c);
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#askBreak()
-	 */
 	@Override
 	public void askBreak() {
 		host.canIBreak(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#offBreak()
-	 */
 	@Override
 	public void offBreak() {
 		host.backFromBreak(this);
 	}
 
 
-	//utilities
-
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#addWaiter()
-	 */
 	@Override
 	public void addWaiter() {
 		host.newWaiter(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#setGui(restaurant.gui.HostGui)
-	 */
 	@Override
 	public void setGui(HostGui gui) {
 		hostGui = gui;
 	}
 
-	/* (non-Javadoc)
-	 * @see restaurant.Waiter#getGui()
-	 */
 	@Override
 	public HostGui getGui() {
 		return hostGui;
 	}
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		EricRestaurant.gui.HostGui hg = new EricRestaurant.gui.HostGui(this);
+		hostGui = hg;
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.addGui(hg);	
+		hostGui.setText("Waiter");
+		hostGui.waiting(1);
 	}
 	@Override
 	public void workOver() {

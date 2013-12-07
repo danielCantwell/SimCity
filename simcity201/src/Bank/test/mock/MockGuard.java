@@ -107,4 +107,10 @@ public class MockGuard implements Guard {
 		
 	}
 
+	@Override
+	public void doneMotion() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

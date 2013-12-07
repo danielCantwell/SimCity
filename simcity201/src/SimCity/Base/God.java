@@ -129,7 +129,7 @@ public class God {
 	        }
 	        System.out.println("God Created");
 	        //set God variables.
-	        hour = 0;
+	        hour = 3;
 	        hourOffset = 4000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
@@ -216,7 +216,6 @@ public class God {
 	    
 	    public void fakeCustomersGoToWork(){
 	    	announcedTime = true;
-	    	System.out.println("Customer Roles are goin to do their customer things.");
 	    	for (Person p: persons){
 	    		if (p.getTimeState() != TimeState.working){
 	    			p.msgGoToWork();
@@ -231,7 +230,15 @@ public class God {
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole){
 	    			p.msgGoToWork();
 	    		}else
-	    		if (p.getMainRoleString().equals("brianRest.BrianHost")){
+	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
+	    			p.msgGoToWork();
+	    		}
+	    		else 
+	    		if (p.getMainRoleString().equals("EricRestaurant.EricHost")) {
+	    			p.msgGoToWork();
+	    		}
+	    		else
+	    		if (p.getMainRoleString().equals("jesseRest.JesseHost")) {
 	    			p.msgGoToWork();
 	    		}
 	    	}
@@ -271,8 +278,15 @@ public class God {
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
 	    			p.msgGoToWork();
 	    		}
+
 	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
-	    			
+	    			p.msgGoToWork();
+	    		}
+	    		else if (p.getMainRoleString().equals("EricRestaurant.EricWaiter") || p.getMainRoleString().equals("EricRestaurant.EricCook") || p.getMainRoleString().equals("EricRestaurant.EricCashier")) {
+	    			p.msgGoToWork();
+	    		}
+	    		else if (p.getMainRoleString().equals("JesseRest.JesseWaiter") || p.getMainRoleString().equals("JesseRest.JesseCook") || p.getMainRoleString().equals("JesseRest.JesseCashier")) {
+	    			p.msgGoToWork();
 	    		}
 	    	}
 	    }

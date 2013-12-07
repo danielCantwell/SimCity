@@ -22,31 +22,31 @@ import javax.swing.Timer;
 import SimCity.gui.Gui;
 
 public class bankGui extends JPanel implements ActionListener {
-	
+
 	private final int WINDOW_X = 640;
 	private final int WINDOW_Y = 640;
-	
+
 	private final int yCounterPos = 80;
 	private final int yCounterSize = 30;
 	private final int xCounterPos = 150;
 	private final int xCounterSize = 300;
-	
+
 	/* Extras I might add in later to make the roles more realistic.
 	private final int yVaultPos = 1;
 	private final int yVaultSize = 1;
 	private final int xVaultPos = 1;
 	private final int xVaultSize = 1;
-	
+
 	private final int xCouches = 1;
 	private final int yCouches = 1;
-	*/
-	
+	 */
+
 	private final int tellerSpeed = 3;
 	//private Teller teller = new tellerRole();
 	//private Guard guard = new bankGuardRole();
 	//private Customer cust = new bankCustomerRole();;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-	
+
 	public bankGui() {
 		setSize(WINDOW_X, WINDOW_Y);
 		setVisible(true);
@@ -56,21 +56,21 @@ public class bankGui extends JPanel implements ActionListener {
 		Timer timer = new Timer(tellerSpeed, this);
 		timer.start();
 	}
-	
+
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
 	}
-	
+
 	public void paintComponent(Graphics g) {
-		
-		
-		Graphics2D g3 = (Graphics2D) g;
-		g3.setColor(Color.WHITE);
-		g3.fillRect(0, 0, WINDOW_X, WINDOW_Y);
+
+
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.DARK_GRAY);
-		g2.fillRect(10, 10, 620, 610);
-		
+		g2.setColor(Color.WHITE);
+		g2.fillRect(0, 0, WINDOW_X, WINDOW_Y);
+		Graphics2D g3 = (Graphics2D) g;
+		g3.setColor(Color.DARK_GRAY);
+		g3.fillRect(10, 10, 620, 610);
+
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(xCounterPos, yCounterPos, xCounterSize, yCounterSize);
 		g.setColor(Color.LIGHT_GRAY);
@@ -81,14 +81,16 @@ public class bankGui extends JPanel implements ActionListener {
 				gui.updatePosition();
 			}
 		}
-
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(g2);
+		synchronized(guis) {
+			for (Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.draw(g3);
+					gui.draw(g2);
+				}
 			}
 		}
 	}
-	
+
 	public void addGui(tellerGui tGui){ 
 		guis.add(tGui);
 	}

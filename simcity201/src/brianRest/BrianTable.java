@@ -1,9 +1,10 @@
 package brianRest;
 
+import brianRest.interfaces.BrianCustomer;
 import restaurant.interfaces.Customer;
 
 public class BrianTable {
-	Customer occupiedBy;
+	BrianCustomer occupiedBy;
 	int tableNumber;
 	int guiPosX;
 	int guiPosY;
@@ -20,7 +21,7 @@ public class BrianTable {
 		guiPosY = posY;
 	}
 
-	void setOccupant(Customer cust) {
+	void setOccupant(BrianCustomer cust) {
 		occupiedBy = cust;
 	}
 	
@@ -41,7 +42,7 @@ public class BrianTable {
 		occupiedBy = null;
 	}
 
-	Customer getOccupant() {
+	BrianCustomer getOccupant() {
 		return occupiedBy;
 	}
 

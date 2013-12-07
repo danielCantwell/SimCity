@@ -12,6 +12,7 @@ public class bankGuardGui implements Gui{
 	private int xPos = 650, yPos = 350;
 	private int xDest = 570,  yDest = 350;
 	private int xSize = 30, ySize = 30;
+	String displayText = "";
 	
 	@Override
 	public void updatePosition() {
@@ -24,6 +25,9 @@ public class bankGuardGui implements Gui{
 			yPos++;
 		else if (yPos > yDest)
 			yPos--;
+		if(xPos == xDest && yPos == yDest) {
+			guard.doneMotion();
+		}
 	}
 
 	public bankGuardGui(Guard guard) {
@@ -32,8 +36,14 @@ public class bankGuardGui implements Gui{
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.BLUE);
+		g.setColor(Color.WHITE);
 		g.fillRect(xPos, yPos, xSize, ySize);	
+		if (displayText.trim().length() >0)
+			g.drawString(displayText, (xPos-5), (yPos-3));
+	}
+	
+	public void setText(String text){
+		displayText = text;
 	}
 	
 	public void doEnterBank() {
@@ -42,8 +52,8 @@ public class bankGuardGui implements Gui{
 	}
 	
 	public void doLeaveBank() {
-		xDest = 700;
-		yDest = 320;
+		xDest = 650;
+		yDest = 350;
 	}
 
 	@Override
