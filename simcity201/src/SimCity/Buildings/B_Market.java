@@ -12,6 +12,7 @@ import SimCity.Base.Person;
 import SimCity.Base.Role;
 /**
  * @author Brian
+ *         Timothy So
  *
  */
 public class B_Market extends Building{

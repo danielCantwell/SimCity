@@ -8,12 +8,10 @@ import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
-import market.MarketCustomerRole.Order;
 import market.gui.MarketClerkGui;
 import market.interfaces.MarketClerk;
 import market.interfaces.MarketCustomer;
 import market.interfaces.MarketManager;
-import market.test.mock.MockMarketManager;
 
 /**
  * Market Manager Agent
