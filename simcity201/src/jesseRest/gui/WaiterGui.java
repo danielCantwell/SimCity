@@ -12,7 +12,7 @@ public class WaiterGui implements Gui {
     private String icon = "";
     private int xCook = 800-180, yCook = 290; //Cooking area position
     private int speed = 1;
-    private int xDestination, yDestination; //default start position
+    private int xDestination = 30, yDestination = 30; //default start position
     private int tableNumber = 0;
     private int position;
     private int xFront, yFront;
@@ -47,7 +47,7 @@ public class WaiterGui implements Gui {
     }
 
     public void updatePosition() {
-        if (xPos < xDestination)
+        if (xPos < xDestination) 
             xPos+=speed;
         else if (xPos > xDestination)
             xPos-=speed;

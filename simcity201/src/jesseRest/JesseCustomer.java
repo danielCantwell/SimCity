@@ -1,6 +1,8 @@
 package jesseRest;
 
 import SimCity.Base.Role;
+import SimCity.Buildings.B_EricRestaurant;
+import SimCity.Buildings.B_JesseRestaurant;
 import jesseRest.Check;
 import jesseRest.Menu;
 
@@ -358,8 +360,20 @@ public class JesseCustomer extends Role implements Customer {
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Jesse Restaurant Customer entered building");
+		B_JesseRestaurant rest = (B_JesseRestaurant)(myPerson.getBuilding()); 
+		cashier = rest.cashier;
+		host = rest.host;
+		jesseRest.gui.CustomerGui c = new jesseRest.gui.CustomerGui(this);
+		customerGui = c;
+		jesseRest.gui.AnimationPanel ap = new jesseRest.gui.AnimationPanel();
+		ap.addGui(c);
+		if (!myPerson.building.getOpen()){
+			System.out.println("Customer leaving restaurant");
+				customerGui.DoExitRestaurant();
+				return;
+		}
+		gotHungry();
 	}
 
 	@Override
