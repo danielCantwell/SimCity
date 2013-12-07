@@ -9,6 +9,7 @@ import jesseRest.Menu;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import brianRest.gui.BrianAnimationPanel;
 import jesseRest.gui.CustomerGui;
 import jesseRest.interfaces.Customer;
 
@@ -366,7 +367,8 @@ public class JesseCustomer extends Role implements Customer {
 		host = rest.host;
 		jesseRest.gui.CustomerGui c = new jesseRest.gui.CustomerGui(this);
 		customerGui = c;
-		jesseRest.gui.AnimationPanel ap = new jesseRest.gui.AnimationPanel();
+		//BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)myPerson.building.getPanel();
 		ap.addGui(c);
 		if (!myPerson.building.getOpen()){
 			System.out.println("Customer leaving restaurant");
