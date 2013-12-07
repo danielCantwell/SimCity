@@ -79,19 +79,21 @@ public class B_TimRest extends Building{
             {
                 TimHostRole restaurantRole = (TimHostRole) person.mainRole;
                 hostRole = restaurantRole;
-                panel.host = person;
+                panel.setHost(restaurantRole);
                 panel.addGui(restaurantRole.getGui());
             }
             if (newRole instanceof TimCookRole)
             {
                 TimCookRole restaurantRole = (TimCookRole) person.mainRole;
+                hostRole.setCook(restaurantRole);
                 //restaurantRole.setHost(hostRole);
                 //hostRole.addClerk(restaurantRole);
-                //panel.addGui(restaurantRole.getGui());
+                panel.addGui(restaurantRole.getGui());
             }
             if (newRole instanceof TimCashierRole)
             {
                 TimCashierRole restaurantRole = (TimCashierRole) person.mainRole;
+                hostRole.setCashier(restaurantRole);
                 //restaurantRole.setHost(hostRole);
                 //hostRole.addClerk(restaurantRole);
                 //panel.addGui(restaurantRole.getGui());
@@ -139,7 +141,7 @@ public class B_TimRest extends Building{
             {
                 TimCookRole cRole = (TimCookRole)person.roles.get(i);
                 cRole.setActive(false);
-                //((B_TimRest) person.building).panel.removeGui(cRole.getGui());
+                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
             if (person.roles.get(i) instanceof TimCashierRole)

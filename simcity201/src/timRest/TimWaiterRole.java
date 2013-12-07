@@ -28,7 +28,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	private TimCookRole cook;
 	private TimCashierRole cashier;
 	
-	private TimWaiterGui waiterGui;
+	private TimWaiterGui waiterGui = new TimWaiterGui(this);
 	
 	private Semaphore inTransit = new Semaphore(1, true);
 	private List<MyCustomer> myCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
@@ -964,8 +964,8 @@ public class TimWaiterRole extends Role implements TimWaiter{
     @Override
     public void workOver()
     {
-        // TODO Auto-generated method stub
-        
+        myPerson.Do("Closing time.");
+        exitBuilding(myPerson);
     }
 
 }
