@@ -38,7 +38,7 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     private final int CashierW = 20;
     private final int CashierH = 20;
     
-    private final int timerint = 5;
+    private final int timerint = 1;
     public Timer timer;
     private List<Gui> guis = new ArrayList<Gui>();
     
@@ -141,5 +141,10 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     }
     public void addGui(CookGui gui) {
         guis.add(gui);
+    }
+    
+    public void removeGui(Gui gui){
+    	
+    	guis.remove(gui);
     }
 }

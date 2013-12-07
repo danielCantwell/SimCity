@@ -13,7 +13,7 @@ import SimCity.gui.Gui;
 
 public class CustomerGui implements Gui{
 
-	private BrianCustomer agent = null;
+	private BrianCustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
@@ -38,7 +38,7 @@ public class CustomerGui implements Gui{
 	//Cache the host so we have access to table locations.
 	//BrianHost host; //We only cache the host so that we can ask for the table location.
 
-	public CustomerGui(BrianCustomer brianCustomerRole, BrianHostRole host){ //HostAgent m) {
+	public CustomerGui(BrianCustomerRole brianCustomerRole, BrianHostRole host){ //HostAgent m) {
 		agent = brianCustomerRole;
 		xPos = 5;
 		yPos = 5;
@@ -86,6 +86,7 @@ public class CustomerGui implements Gui{
 		yDestination = -20; //home base
 		receivedCoordinates = true;
 	}
+	
 	
 	public void DoGoToWaitingArea(){
 		xDestination = 20+30*(customerNumber%2);

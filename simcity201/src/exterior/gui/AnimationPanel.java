@@ -299,7 +299,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		
+		for (Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.updatePosition();
+			}
+		}
 		repaint();
+		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -435,11 +442,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		}
 
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
+		
 
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {

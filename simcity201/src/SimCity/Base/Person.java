@@ -201,20 +201,6 @@ public class Person extends Agent {
 		setUpHungerTimer();
 	}
 	
-	/*public Person(String name, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh){
-		setMainRole(mainRole);
-		this.vehicle = vehicle;
-		this.mor = morality;
-		this.money = money;
-		this.moneyThreshold = moneyThresh;
-		this.hungerLevel = hunger;
-		this.hungerThreshold = hungerThresh;
-		house = "apartment";
-		this.name = name;
-        God.Get().addPerson(this);
-	}
-	*/
-	
 	//Test constructor. DO NOT FKING USE UNLESS FOR TESTING!!!
 	public Person(String mainRole){
 		this.name = "Brian";
@@ -232,7 +218,7 @@ public class Person extends Agent {
 	}
 //Messages ---------------------------------------
 	
-	private void addAction(Action a){actions.add(a); stateChanged();}
+	private void addAction(Action a){actions.addLast(a);; stateChanged();}
 	public void addActionToFront(Action a){actions.addFirst(a); stateChanged();}
 	
 	public void msgCreateRole(Role r, boolean enterBuilding){
@@ -269,7 +255,7 @@ public class Person extends Agent {
 	//If the person is in the interior world, the person will continue to do whatever he is currently doing.
 	public void msgGoToBuilding(Building b, Intent i){
 		if (b == null) return;
-		Do("msgGoToBuilding "+ b.toString());
+		//Do("msgGoToBuilding "+ b.toString());
 		if (b instanceof B_Bank){ addAction(new Action(GoAction.goBank, i));}
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
 		else if (b instanceof B_DannyRestaurant){ addAction(new Action(GoAction.goDannyRestaurant, i));}
@@ -298,6 +284,7 @@ public class Person extends Agent {
 	}
 	
 	public void msgGoToWork(){
+		actions.clear();
 		timeState = TimeState.msgGoToWork;
 		stateChanged();
 	}
@@ -368,7 +355,6 @@ public class Person extends Agent {
 		//pop the first thing off the action
 		//System.out.println("holy shit");
 		if (actions.size() > 0){	
-			//System.out.println("popping");
 			goTo(actions.pop());
 			return false; //might be true
 		}
@@ -383,12 +369,13 @@ public class Person extends Agent {
 			
 			//Check if he is hungry
 			if (hungerLevel < hungerThreshold){
-				goTo(new Action(GoAction.goDannyRestaurant, Intent.customer));
+				//goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); handled in tenant role.
 				return false;
 			}
-			
 			goTo(new Action(GoAction.goHome, Intent.customer));
+			
 		}
+		
 		return returnPAEAA;
 	}
 	
@@ -417,7 +404,6 @@ public class Person extends Agent {
 				if (r instanceof TenantRole){
 					TenantRole tr = (TenantRole)r;
 					tr.msgGoToWork();
-					//timeState = TimeState.none;
 					return;
 				}
 			}
@@ -539,7 +525,7 @@ public class Person extends Agent {
 		}
 		
 		//Call person gui animation. acquire my semaphore.
-		System.out.println("Going from :" + building.getTag() + " to " + b.getTag() + ".");
+		//System.out.println("Going from :" + building.getTag() + " to " + b.getTag() + ".");
 		if (gui instanceof PersonGui) {
 			((PersonGui) gui).DoTravel(building.id, b.id);
 		} else if (gui instanceof CarGui) {

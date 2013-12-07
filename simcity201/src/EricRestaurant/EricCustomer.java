@@ -380,7 +380,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		}
 
 		System.out.println(host + " is being messaged. Is active?" + host.getActive());
-		gotHungry();
+		customerGui.setHungry();
 	}
 	
 

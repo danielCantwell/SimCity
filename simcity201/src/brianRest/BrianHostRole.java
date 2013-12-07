@@ -215,8 +215,15 @@ public class BrianHostRole extends Role implements BrianHost {
 			for (MyWaiter w: waiters){
 				w.waiter.msgLeaveRestaurant();
 			}
-			exitBuilding(myPerson);
+			B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
+			br.getCashier().msgLeaveRestaurant();
+			br.cookRole.msgLeaveRestaurant();
+			br.hostFilled = false;
+			br.cookFilled = false;
+			br.numberOfWaiters = 0;
 			wantToGoHome = false;
+			myPerson.msgGoHome();
+			exitBuilding(myPerson);
 		}
 	}
 
@@ -261,7 +268,7 @@ public class BrianHostRole extends Role implements BrianHost {
 		}
 	}
 	
-	public void addWaiter(BrianWaiter w){
+	public void addWaiter(BrianWaiterRole w){
 		waiters.add(new MyWaiter(w));
 		workingWaiters++;
 		stateChanged();

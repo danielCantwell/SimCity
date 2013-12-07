@@ -127,7 +127,7 @@ public class God {
 	        if (INSTANCE != null) {
 	            throw new IllegalStateException("Already instantiated");
 	        }
-	        System.out.println("God Created");
+	        //System.out.println("God Created");
 	        //set God variables.
 	        hour = 3;
 	        hourOffset = 4000;
@@ -136,43 +136,46 @@ public class God {
 				   public void actionPerformed(ActionEvent e){
 					   if (hour < 24){hour ++; announcedTime = false;} // hour increments everytime this timer fires.
 					   
-					   if (hour == 5 && !announcedTime){
+					   if (hour == 4 && !announcedTime){
+						   
 						   wakeUp();
 					   }
 					   
-					   if (hour == 6 && !announcedTime){
+					   if (hour == 5 && !announcedTime){
+						   flushAllPersonActions();
 						   managersGoToWork();
 					   }
 					   
-					   if (hour == 7 && !announcedTime){
+					   if (hour == 8 && !announcedTime){
 						   restaurantPeopleGoWork();
 					   }
 					   
-					   if (hour == 8 && !announcedTime){
+					   if (hour == 10 && !announcedTime){
 						   goToWork();
 					   }
 					   
-					   if (hour == 9 && !announcedTime){
+					   if (hour == 13 && !announcedTime){
 						   fakeCustomersGoToWork();
 					   }
 					   
 					   
-					   if (hour == 17 && !announcedTime){
+					   if (hour == 18 && !announcedTime){
 						   getOffWork();
 					   }
 					   
-					   if (hour == 21 && !announcedTime){
+					   if (hour == 20 && !announcedTime){
 						   goHome();
 	        			}
 					   
-					   if (hour==23 && !announcedTime){
+					   if (hour==24 && !announcedTime){
 						   goToSleep();
+						   flushAllPersonActions();
 					   }
 					   
 					   if (hour >= 24) { //if the hour is 24 hours, then hours is reset back to zero
 						   hour = 0; //and a day is added to the Date.
 						   day ++ ;
-						   System.out.println ("Day: "+ day);
+						   //System.out.println ("Day: "+ day);
 					   }
 					   
 					   //Collect rent.
@@ -319,26 +322,10 @@ public class God {
 	    	}
 	    }
 	    
-	  /*  
-	    //BUILDING MEDIATOR STUFF
-	    public void EnterBuilding(Building building, Person person, String job){
-	    		Role newRole;
-				try {
-					newRole = (Role)Class.forName(job).newInstance();
-					newRole.setActive(true);
-					newRole.setPerson(person);
-					person.msgCreateRole(newRole, true);
-				} catch(Exception e){
-					e.printStackTrace();
-					System.out.println ("God: no class found");
-				}
-				person.msgEnterBuilding(building);
+	    private void flushAllPersonActions(){
+	    	for (Person p: persons){
+	    		p.actions.clear();
+	    	}
 	    }
-	    
-	    public void ExitBuilding(Person person){
-	    	person.resetActiveRoles();
-	    	person.msgExitBuilding();
-	    }
-	    */
 	    
 }
