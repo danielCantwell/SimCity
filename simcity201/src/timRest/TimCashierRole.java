@@ -11,15 +11,16 @@ import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 
 public class TimCashierRole extends Role implements TimCashier{
 	
 	Timer timer = new Timer();
 
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());
-	public HashMap<String, Double> priceMap = new HashMap<String, Double>();
+	public HashMap<String, Money> priceMap = new HashMap<String, Money>();
 	
-	private double cashInRegister;
+	private Money cashInRegister;
 	
 	public enum AgentState { idle, calculating };
 	public AgentState state = AgentState.idle;
@@ -31,7 +32,7 @@ public class TimCashierRole extends Role implements TimCashier{
 	public TimCashierRole()
 	{
 		super();
-		cashInRegister = 0.0d;
+		cashInRegister = new Money(0, 0);
 	}
 	
 	public void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber)
@@ -58,17 +59,17 @@ public class TimCashierRole extends Role implements TimCashier{
 		}
 	}
 
-	public void msgHereIsTheMoney(double cash)
+	public void msgHereIsTheMoney(Money cash)
 	{
 		// good
-		cashInRegister += cash;
+		cashInRegister.add(cash);
 		Do("Thank you, come again.");
 		stateChanged();
 	}
 	
-	public void msgHereIsPartialMoney(double cash, double amountOwed)
+	public void msgHereIsPartialMoney(Money cash, Money amountOwed)
 	{
-		cashInRegister += cash;
+		cashInRegister.add(cash);
 		Do("You owe me money next time.");
 		stateChanged();
 	}
@@ -88,7 +89,7 @@ public class TimCashierRole extends Role implements TimCashier{
 			{
 				for (Bill bill : billsToPay)
 				{
-					if (bill.price <= cashInRegister)
+					if (!bill.price.isGreaterThan(cashInRegister))
 					{
 						//payMarket(bill);
 						billsToPay.remove(bill);
@@ -96,9 +97,9 @@ public class TimCashierRole extends Role implements TimCashier{
 					}
 					else if (!bill.interest)
 					{
-						Do("Cannot pay bill right now. I will pay 10% interest when I do pay.");
+						Do("Cannot pay bill right now. I will pay $5 extra when I do pay.");
 						bill.interest = true;
-						bill.price *= 1.10;
+						bill.price.add(5, 0);
 					}
 				}
 			}
@@ -159,13 +160,13 @@ public class TimCashierRole extends Role implements TimCashier{
 //		cashInRegister -= bill.price;
 //	}
 	
-	public void addItemToMenu(String choice, double price)
+	public void addItemToMenu(String choice, Money price)
 	{
 		priceMap.put(choice, price);
 		stateChanged();
 	}
 	
-	public double getCashInRegister()
+	public Money getCashInRegister()
 	{
 		return cashInRegister;
 	}
@@ -193,7 +194,7 @@ public class TimCashierRole extends Role implements TimCashier{
 	public class Bill
 	{
 		//public Market market;
-		public double price;
+		public Money price;
 		public boolean interest;
 		
 //		public Bill(Market market, double price)

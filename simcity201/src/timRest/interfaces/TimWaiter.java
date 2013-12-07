@@ -2,6 +2,8 @@ package timRest.interfaces;
 
 import java.awt.Point;
 
+import SimCity.Globals.Money;
+
 public interface TimWaiter {
 	public abstract void msgSeatAtTable(TimCustomer customer, int tableNumber, Point tablePos);
 	public abstract void msgImReadyToOrder(TimCustomer customer);
@@ -10,7 +12,7 @@ public interface TimWaiter {
 	public abstract void msgOutOfFood(int tableNumber);
 	public abstract void msgOrderIsReady(int tableNumber, String choice);
 	public abstract void msgCanIHaveCheck(TimCustomer customer);
-	public abstract void msgHereIsACheck(int tableNumber, double price);
+	public abstract void msgHereIsACheck(int tableNumber, Money price);
 	public abstract void msgLeavingTable(TimCustomer customer);
 	public abstract void msgGoOnBreak();
 	public abstract void msgCannotBreak();

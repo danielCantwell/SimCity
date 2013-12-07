@@ -6,6 +6,7 @@ import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 import agent.Agent;
 
 import java.awt.Point;
@@ -24,9 +25,9 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	Timer timer = new Timer();
 	private TimCustomerGui customerGui = new TimCustomerGui(this);
 	
-	private HashMap<String, Double> choices;
-	private double cash;
-	private double amountOwed;
+	private HashMap<String, Money> choices;
+	private Money cash;
+	private Money amountOwed;
 	private Random rand = new Random();
 	private Point waitingPos;
 	private Point tablePos;
@@ -50,10 +51,10 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	 */
 	public TimCustomerRole(){
 		super();
-		state = AgentState.GotHungry;
+		state = AgentState.DoingNothing;
 		choices = null;
 		waitingPos = new Point(-1, -1);
-		amountOwed = 0.0d;
+		amountOwed = new Money(0, 0);
 	}
 
 	/**
@@ -76,8 +77,8 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	public void gotHungry() {//from animation
 		print("I'm hungry");
 		state = AgentState.GotHungry;
-		cash += 3.0d + (double)rand.nextInt(15);
-		if (cash >= 20.0d)
+		cash = myPerson.getMoney();
+		/*if (cash >= 20.0d)
 		{
 			// cap money at $20
 			cash = 20.0d;
@@ -94,8 +95,8 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		else if (getName().equals("_Rockefeller"))
 		{
 			cash = 20.0d;
-		}
-		if (amountOwed > 0.0d)
+		}*/
+		if (amountOwed.isGreaterThan(0, 0))
 		{
 			Do("I have $" + cash + " and I owe this restaurant $" + amountOwed + ".");
 		}
@@ -126,7 +127,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		stateChanged();
 	}
 
-	public void msgSitAtTable(Point tablePos, HashMap<String, Double> choices) 
+	public void msgSitAtTable(Point tablePos, HashMap<String, Money> choices) 
 	{
 		//print("Received msgSitAtTable");
 		this.tablePos = tablePos;
@@ -141,7 +142,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		stateChanged();
 	}
 	
-	public void msgWeAreOut(HashMap<String, Double> newMenu)
+	public void msgWeAreOut(HashMap<String, Money> newMenu)
 	{
 		state = AgentState.Deciding;
 		choices = newMenu;
@@ -151,7 +152,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	public void msgNoMoreFood()
 	{
 		state = AgentState.NoFood;
-		choices = new HashMap<String, Double>();
+		choices = new HashMap<String, Money>();
 		stateChanged();
 	}
 	
@@ -162,9 +163,9 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		stateChanged();
 	}
 	
-	public void msgHereIsTheCheck(double price)
+	public void msgHereIsTheCheck(Money price)
 	{
-		amountOwed += price;
+		amountOwed.add(price);
 		state = AgentState.GoPay;
 		stateChanged();
 	}
@@ -230,6 +231,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 			{
 				state = AgentState.Leaving;
 				LeaveTable();
+			    LeaveRestaurant();
 			}
 			else
 			{
@@ -348,7 +350,9 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		for (int i = choices.size()-1; i >= 0; i--)
 		{
 			// if it is too expensive, remove the option of choosing it
-			if (choices.get(items.get(i)) > cash - amountOwed)
+		    Money amountToPay = new Money(0, 0);
+		    amountToPay.add(cash).subtract(amountOwed);
+			if (choices.get(items.get(i)).isGreaterThan(amountToPay))
 			{
 				items.remove(i);
 			}
@@ -438,18 +442,18 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	private void PayCheck()
 	{
 		// if enough money, pay
-		if (amountOwed <= cash)
+		if (!amountOwed.isGreaterThan(cash))
 		{
 			cashier.msgHereIsTheMoney(amountOwed);
-			cash -= amountOwed;
-			amountOwed = 0.0d;
+			cash.subtract(amountOwed);
+			amountOwed = new Money(0, 0);
 		}
 		// not enough money
 		else
 		{
 			cashier.msgHereIsPartialMoney(cash, amountOwed);
-			amountOwed -= cash;
-			cash = 0.0d;
+			amountOwed.subtract(cash);
+			cash = new Money(0, 0);
 		}
 		state = AgentState.DonePaying;
 		stateChanged();
@@ -473,6 +477,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		customerGui.DoExitRestaurant();
 		state = AgentState.DoingNothing;
 		choices = null;
+		exitBuilding(myPerson);
 	}
 
 	// Accessors, etc.

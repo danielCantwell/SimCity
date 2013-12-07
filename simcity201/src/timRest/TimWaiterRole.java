@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 import agent.Agent;
 import timRest.gui.TimAnimationPanel;
 import timRest.gui.TimWaiterGui;
@@ -199,7 +200,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		}
 	}
 	
-	public void msgHereIsACheck(int tableNumber, double amount)
+	public void msgHereIsACheck(int tableNumber, Money amount)
 	{
 		MyCustomer myCustomer = null;
 		synchronized(myCustomers)
@@ -577,7 +578,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 					{
 						// out of place msg
 						Do("Sorry, we are out of food.");
-						HashMap<String, Double> newChoices = menu.getChoices();
+						HashMap<String, Money> newChoices = menu.getChoices();
 						newChoices.remove(c.choice);
 						c.customerRef.msgNoMoreFood();
 						DoSetTableIcon(c.tableNumber, "", false); //GUI stuff
@@ -677,7 +678,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	{
 		//table.setOccupant(customer);
 		//myCustomers.remove(customer);
-		HashMap<String, Double> availableItems = menu.getChoices();
+		HashMap<String, Money> availableItems = menu.getChoices();
 		customer.customerRef.msgSitAtTable(customer.tablePos, availableItems);
 	}
 	
@@ -728,7 +729,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	
 	private void tellCustomerWeAreOut(MyCustomer c)
 	{
-		HashMap<String, Double> newChoices = menu.getChoices();
+		HashMap<String, Money> newChoices = menu.getChoices();
 		newChoices.remove(c.choice);
 		c.customerRef.msgWeAreOut(newChoices);
 		DoSetTableIcon(c.tableNumber, "", false); //GUI stuff
@@ -889,7 +890,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		return waiterGui;
 	}
 	
-	public void addItemToMenu(String choice, double price)
+	public void addItemToMenu(String choice, Money price)
 	{
 		menu.addItem(choice, price);
 	}
@@ -906,7 +907,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		Point tablePos;
 		String choice;
 		CustomerState state;
-		double amountOwed;
+		Money amountOwed;
 		
 		MyCustomer(TimCustomer c, int t, Point tablePos)
 		{
@@ -914,7 +915,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 			tableNumber = t;
 			this.tablePos = tablePos;
 			state = CustomerState.waiting;
-			amountOwed = 0.0d;
+			amountOwed = new Money(0, 0);
 		}
 	}
 	
@@ -926,14 +927,14 @@ public class TimWaiterRole extends Role implements TimWaiter{
 			items = new ArrayList<Item>();
 		}
 		
-		public void addItem(String choice, double price)
+		public void addItem(String choice, Money price)
 		{
 			items.add(new Item(choice, price));
 		}
 		
-		public HashMap<String, Double> getChoices()
+		public HashMap<String, Money> getChoices()
 		{
-			HashMap<String, Double> choices = new HashMap<String, Double>();
+			HashMap<String, Money> choices = new HashMap<String, Money>();
 			for (Item item : items)
 			{
 				choices.put(item.choice, item.price);
@@ -944,9 +945,9 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		public class Item
 		{
 			String choice;
-			double price;
+			Money price;
 			
-			public Item(String choice, double price)
+			public Item(String choice, Money price)
 			{
 				this.choice = choice;
 				this.price = price;

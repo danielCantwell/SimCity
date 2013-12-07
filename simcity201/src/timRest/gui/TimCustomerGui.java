@@ -13,7 +13,7 @@ public class TimCustomerGui implements Gui{
 	private final int SPEED = 5;
 	
 	private TimCustomerRole agent = null;
-	private boolean isPresent = false;
+	private boolean isPresent = true;
 	private boolean isHungry = false;
 
 	//private HostAgent host;

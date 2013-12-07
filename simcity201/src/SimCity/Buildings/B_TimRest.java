@@ -11,6 +11,7 @@ import timRest.gui.TimAnimationPanel;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 /**
  * @author Timothy So
  *
@@ -103,6 +104,10 @@ public class B_TimRest extends Building{
                 TimWaiterRole restaurantRole = (TimWaiterRole) person.mainRole;
                 restaurantRole.setHost(hostRole);
                 hostRole.addWaiter(restaurantRole);
+                restaurantRole.addItemToMenu("Steak", new Money(15, 99));
+                restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
+                restaurantRole.addItemToMenu("Salad", new Money(5, 99));
+                restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
                 panel.addGui(restaurantRole.getGui());
             }
             if (newRole instanceof TimCustomerRole)
@@ -115,6 +120,7 @@ public class B_TimRest extends Building{
                         restaurantRole = (TimCustomerRole) r;
                         restaurantRole.setHost(hostRole);
                         panel.addGui(restaurantRole.getGui());
+                        restaurantRole.gotHungry();
                     }
                 }
             }

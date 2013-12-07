@@ -3,10 +3,12 @@ package timRest.interfaces;
 import java.awt.Point;
 import java.util.HashMap;
 
+import SimCity.Globals.Money;
+
 /**
  * A sample Customer interface built to unit test a CashierAgent.
  *
- * @author Monroe Ekilah
+ * @author Timothy So
  *
  */
 public interface TimCustomer {
@@ -14,12 +16,12 @@ public interface TimCustomer {
 	public abstract void msgPleaseSit(Point pos);
 	public abstract void msgWeAreFull();
 	public abstract void msgFollowMeToTable(TimWaiter waiter);
-	public abstract void msgSitAtTable(Point tablePos, HashMap<String, Double> choices);
+	public abstract void msgSitAtTable(Point tablePos, HashMap<String, Money> choices);
 	public abstract void msgWhatWouldYouLike();
-	public abstract void msgWeAreOut(HashMap<String, Double> newChoices);
+	public abstract void msgWeAreOut(HashMap<String, Money> newChoices);
 	public abstract void msgNoMoreFood();
 	public abstract void msgHereIsYourOrder(String choice);
-	public abstract void msgHereIsTheCheck(double price);
+	public abstract void msgHereIsTheCheck(Money price);
 	public abstract void msgAnimationFinishedGoToSeat();
 	public abstract void msgAnimationFinishedLeaveRestaurant();
 	public abstract void msgAnimationFinishedGoToCashier();

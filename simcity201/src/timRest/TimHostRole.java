@@ -58,9 +58,12 @@ public class TimHostRole extends Role {
 
 	public List<TimCustomer> getWaitingCustomers() {
 		ArrayList<TimCustomer> wC = new ArrayList<TimCustomer>();
-		for (MyCustomer c : waitingCustomers)
+		synchronized(waitingCustomers)
 		{
-			wC.add(c.customerRef);
+    		for (MyCustomer c : waitingCustomers)
+    		{
+    			wC.add(c.customerRef);
+    		}
 		}
 		return wC;
 	}
