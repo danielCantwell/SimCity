@@ -373,7 +373,7 @@ public class JesseCustomer extends Role implements Customer {
 				customerGui.DoExitRestaurant();
 				return;
 		}
-		gotHungry();
+		customerGui.setHungry();
 	}
 
 	@Override
