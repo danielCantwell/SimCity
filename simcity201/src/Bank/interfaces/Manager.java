@@ -3,6 +3,7 @@ package Bank.interfaces;
 import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import Bank.bankManagerRole.Teller;
+import Bank.tellerRole;
 
 public interface Manager {
 
@@ -23,5 +24,7 @@ public interface Manager {
 	public abstract void callTeller(Customer c, Teller t);
 
 	public abstract void workOver();
+
+	public abstract void tellerReady(tellerRole tellerRole);
 
 }

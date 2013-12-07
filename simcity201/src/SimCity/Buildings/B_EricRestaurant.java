@@ -10,7 +10,11 @@ import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import EricRestaurant.interfaces.*;
-
+/***
+ * 
+ * @author Eric
+ *
+ */
 public class B_EricRestaurant extends Building {
 	
 	public EricHost host = new EricHost("Host");
@@ -41,7 +45,7 @@ public class B_EricRestaurant extends Building {
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		// TODO Auto-generated method stub
+		System.out.println("Eric Restaurant Roles Filled? Host: "+hostFilled+"  Cook: "+cookFilled+"  Cashier: "+cashierFilled+"  Waiters: "+numWaiter);
 		return hostFilled && cashierFilled && cookFilled && numWaiter > 0;
 	}
 
@@ -57,6 +61,9 @@ public class B_EricRestaurant extends Building {
 		return "EricRestaurant.EricCustomer";
 	}
 
+	public EricCashier getCashier() {
+		return cashier;
+	}
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
 		// TODO Auto-generated method stub
@@ -68,21 +75,29 @@ public class B_EricRestaurant extends Building {
 		try {
 			if(role.equals("EricRestaurant.EricHost")) { 
 				newRole = host;
+				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
 				}
 			else if(role.equals("EricRestaurant.EricWaiter")) {
-				newRole = new EricWaiter("Waiter");
+				newRole = new EricWaiter("Waiter", host, cashier);
+				host.newWaiter((EricWaiter) newRole);
+				numWaiter++;
+				setOpen(areAllNeededRolesFilled());
 			}
 			else if(role.equals("EricRestaurant.EricCook")) { 
 				newRole = cook;
+				host.setCook(cook);
+				cookFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			}
 			else if(role.equals("EricRestaurant.EricCashier")) {
 				newRole = cashier;
+				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			}
 			else if(role.equals("EricRestaurant.EricCustomer")) {
 				newRole = new EricCustomer("Customer");
+				System.out.println("Customer Made");
 			}
 			newRole.setActive(true);
 			newRole.setPerson(person);

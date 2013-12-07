@@ -233,6 +233,14 @@ public class God {
 	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
 	    			p.msgGoToWork();
 	    		}
+	    		else 
+	    		if (p.getMainRoleString().equals("EricRestaurant.EricHost")) {
+	    			p.msgGoToWork();
+	    		}
+	    		else
+	    		if (p.getMainRoleString().equals("jesseRest.JesseHost")) {
+	    			p.msgGoToWork();
+	    		}
 	    	}
 	    }
 	    
@@ -272,6 +280,12 @@ public class God {
 	    		}
 
 	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
+	    			p.msgGoToWork();
+	    		}
+	    		else if (p.getMainRoleString().equals("EricRestaurant.EricWaiter") || p.getMainRoleString().equals("EricRestaurant.EricCook") || p.getMainRoleString().equals("EricRestaurant.EricCashier")) {
+	    			p.msgGoToWork();
+	    		}
+	    		else if (p.getMainRoleString().equals("JesseRest.JesseWaiter") || p.getMainRoleString().equals("JesseRest.JesseCook") || p.getMainRoleString().equals("JesseRest.JesseCashier")) {
 	    			p.msgGoToWork();
 	    		}
 	    	}

@@ -16,6 +16,7 @@ public class HostGui implements Gui {
     public static final int xTable = 200;
     public static final int yTable = 250;
     public int tn;
+    private String displayText = "";
 
     public HostGui(Waiter agent) {
         this.agent = agent;
@@ -45,6 +46,12 @@ public class HostGui implements Gui {
     public void draw(Graphics2D g) {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, 20, 20);
+        if (displayText.trim().length() >0)
+			g.drawString(displayText, (xPos-10), (yPos-3));
+    }
+    
+    public void setText(String text){
+    	displayText = text;
     }
     
     public void setWaiter() {

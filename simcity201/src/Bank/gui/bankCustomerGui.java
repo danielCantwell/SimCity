@@ -15,6 +15,7 @@ public class bankCustomerGui implements Gui {
 	private int xSize = 30, ySize = 30;
 	private final int yCounterPos = 110;
 	private final int xCounterPos = 330;
+	String displayText = "";
 	
 	public void updatePosition() {
 		if (xPos < xDest)
@@ -41,7 +42,8 @@ public class bankCustomerGui implements Gui {
 	}
 	//Customer waits in line
 	public void doWaitLine(int custNum) {
-		//customer waits in his position in line
+		xDest = 270;
+		yDest = 320;
 	}
 	//Customer goes to the teller
 	public void doGoToTeller() {
@@ -56,8 +58,14 @@ public class bankCustomerGui implements Gui {
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(Color.WHITE);
 		g.fillRect(xPos, yPos, xSize, ySize);	
+		if (displayText.trim().length() >0)
+			g.drawString(displayText, (xPos-10), (yPos-3));
+	}
+	
+	public void setText(String text){
+		displayText = text;
 	}
 
 	@Override

@@ -9,9 +9,10 @@ import EricRestaurant.interfaces.Waiter;
 
 public class CookGui implements Gui{
 	private EricCook agent = null;
-    public int xPos = 420, yPos = 30;//default waiter position
-    private int xDestination = 420, yDestination = 30;//default start position
-
+    public int xPos = -20, yPos = -20;
+    private int xDestination = 420, yDestination = 30;
+    String displayText = "";
+    
 	  public CookGui(EricCook agent) {
 	        this.agent = agent;
 	    }
@@ -19,6 +20,8 @@ public class CookGui implements Gui{
 	  public void draw(Graphics2D g) {
 	        g.setColor(Color.RED);
 	        g.fillRect(xPos, yPos, 20, 20);
+	        if (displayText.trim().length() >0)
+				g.drawString(displayText, (xPos-10), (yPos-3));
 	    }
 	  
 	  public void updatePosition() {
@@ -32,6 +35,10 @@ public class CookGui implements Gui{
 	        else if (yPos > yDestination)
 	            yPos-=5;
 	    }
+	  
+	  public void setText(String string) {
+		displayText = string;  
+	  }
 	  
 	  public void getIng() {
 		  xDestination = 510;

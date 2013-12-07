@@ -15,6 +15,7 @@ public class tellerGui implements Gui {
 	private int xSize = 30, ySize = 30;
 	private final int yCounterPos = 80;
 	private final int xCounterPos = 330;
+	String displayText = "";
 	
 	public void updatePosition() {
 		if (xPos < xDest)
@@ -52,8 +53,14 @@ public class tellerGui implements Gui {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
+		g.setColor(Color.WHITE);
 		g.fillRect(xPos, yPos, xSize, ySize);
+		if (displayText.trim().length() >0)
+			g.drawString(displayText, (xPos-5), (yPos-3));
+	}
+	
+	public void setText(String text){
+		displayText = text;
 	}
 
 	@Override

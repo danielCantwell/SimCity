@@ -14,8 +14,8 @@ import jesseRest.JesseCook.Order;
 
 public class AnimationPanel extends JPanel implements ActionListener {
 
-    private final int WINDOWX = 800;
-    private final int WINDOWY = 400;
+    private final int WINDOWX = 640;
+    private final int WINDOWY = 640;
     private final int TABLESIZE = 50;
     private final int TABLEX = TABLESIZE;
     private final int TABLEY = TABLESIZE;
@@ -55,7 +55,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         // Draw the tables.
         g2.setColor(Color.ORANGE);
-        for (int i = 0; i < host.getTables().size(); i++) {
+//		COMMENTED OUT FOR NOW BEFORE ROLES ARE IMPLEMENTED     
+       // for (int i = 0; i < host.getTables().size(); i++) {
+        for (int i = 0; i < 3; i++) {
             g2.fillRect(TABLEX*2 + (2*i)*TABLESIZE, TABLEY*2, TABLESIZE, TABLESIZE);
         }
         
