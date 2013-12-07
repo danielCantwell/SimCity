@@ -54,7 +54,7 @@ public class CustomerGui implements Gui{
 				
 				agent.msgAnimationFinishedLeaveRestaurant();
 				//System.out.println("about to call gui.setCustomerEnabled(agent);");
-				
+				return;
 				
 			}
 			command=Command.noCommand;

@@ -7,6 +7,7 @@ import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
 import EricRestaurant.interfaces.Host;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_EricRestaurant;
 
 import java.util.*;
@@ -302,10 +303,11 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	}
 	
 	public void leaveRestaurant(){
-		
+		System.out.println(myPerson.actions.size());
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.removeGui(customerGui);
-		myPerson.msgGoHome();
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		System.out.println(myPerson.actions.size());
 		exitBuilding(myPerson);
 	}
 
