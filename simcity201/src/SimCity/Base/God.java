@@ -21,6 +21,7 @@ import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
 import exterior.gui.AnimationPanel;
@@ -61,8 +62,18 @@ public class God {
 					return b;
 				}
 			}
-			System.out.println("Could not find building");
+			System.out.println("Could not find building: " + id);
+			//throw new Exception();
+			
 			return null;
+	    }
+	    public B_House getBHouse(int id) {
+	    	for (Building b : simGui.buildingList) {
+	    		if (b.getID() == id) {
+	    			return (B_House) b;
+	    		}
+	    	}
+	    	return null;
 	    }
 	    
 	    public enum BuildingType{
@@ -119,7 +130,7 @@ public class God {
 	        }
 	        System.out.println("God Created");
 	        //set God variables.
-	        hour = 0;
+	        hour = 3;
 	        hourOffset = 4000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
@@ -198,7 +209,7 @@ public class God {
 	    
 	    public void wakeUp(){
 	    	announcedTime = true;
-	    	System.out.println ("its morning");
+	    	System.out.println ("Morning");
 	    	for(Person p: persons){
 	    		p.msgMorning();
 	    	}
@@ -206,7 +217,6 @@ public class God {
 	    
 	    public void fakeCustomersGoToWork(){
 	    	announcedTime = true;
-	    	System.out.println("customers going to buy");
 	    	for (Person p: persons){
 	    		if (p.getTimeState() != TimeState.working){
 	    			p.msgGoToWork();
@@ -219,6 +229,9 @@ public class God {
 	    	System.out.println("managers going to work");
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
+	    			p.msgGoToWork();
+	    		}else
+	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
 	    			p.msgGoToWork();
 	    		}
 	    	}
@@ -256,6 +269,10 @@ public class God {
 	    	System.out.println("Restaurant Work Time");
 	    	for(Person p: persons){
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
+	    			p.msgGoToWork();
+	    		}
+
+	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
 	    			p.msgGoToWork();
 	    		}
 	    	}

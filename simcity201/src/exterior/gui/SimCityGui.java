@@ -10,10 +10,12 @@ import Bank.gui.bankGui;
 import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_TimRest;
+import SimCity.Buildings.B_EricRestaurant;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -67,7 +69,7 @@ public class SimCityGui extends JFrame {
     		// Add Apartments:
     		if (i == 0 || i == 1 || i == 4) {
         		buildingPanel = new HousingAnimation();
-      			b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+      			b = new B_House("Apartment", i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Banks:
     		if (i == 2 || i == 8) {
@@ -81,20 +83,32 @@ public class SimCityGui extends JFrame {
         		((MarketAnimationPanel) buildingPanel).setBMarket((B_Market)b);
     		}
     		// Add Restaurants:
-    		if (i == 6 || i == 7 || i == 10 || i == 11) {
+    		if (i==6){
+    			buildingPanel = new brianRest.gui.BrianAnimationPanel();
+    			b = new B_BrianRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+    		}
+    		if (i == 7) {
         		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
         		b = new B_DannyRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		if (i == 9)
-    		{
-    		    buildingPanel = new timRest.gui.TimAnimationPanel();
-    		    b = new B_TimRest(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+            {
+                buildingPanel = new timRest.gui.TimAnimationPanel();
+                b = new B_TimRest(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
                 ((TimAnimationPanel) buildingPanel).setBTimRest((B_TimRest)b);
+            }
+    		if (i == 10) {
+        		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
+        		b = new B_DannyRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+    		}
+    		if(i == 11) {
+    			buildingPanel = new EricRestaurant.gui.AnimationPanel();
+        		b = new B_EricRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		// Add Houses:
     		if (i == 12 || i == 13 || i == 14 || i == 15) {
         		buildingPanel = new HousingAnimation();
-        		b = new B_House(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+        		b = new B_House("House", i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		if (b != null && buildingPanel != null)
     		{

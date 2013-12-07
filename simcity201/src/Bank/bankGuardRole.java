@@ -1,8 +1,10 @@
 package Bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import Bank.gui.bankGuardGui;
+import Bank.gui.bankGui;
 import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
@@ -20,6 +22,7 @@ public class bankGuardRole extends Role implements Guard {
 	B_Bank curBank;
 	Manager manager;
 	bankGuardGui gui = new bankGuardGui(this);
+	private Semaphore moving = new Semaphore(0,true);
 	public List<String> badObjs = new ArrayList<String>();
 	public List<Entry> custEnter = Collections.synchronizedList(new ArrayList<Entry>());
 	public class Entry {
@@ -39,7 +42,7 @@ public class bankGuardRole extends Role implements Guard {
 		//manager = curBank.getBankManager();
 	}
 
-	@Override
+
 	public void setBank(B_Bank bank){
 		curBank = bank;
 		manager = bank.getBankManager();
@@ -47,23 +50,26 @@ public class bankGuardRole extends Role implements Guard {
 
 	//----------------------------------------------Messages-------------------------------------------------
 
-	@Override
 	public void enterBuilding() {
+		//System.out.println("---------------------"+this);
 		s = state.ready;
 		System.out.println("I am a guard");
 		B_Bank bank = (B_Bank)myPerson.building;
 		bank.setBankGuard(this);
-		bank.getBankManager().setGuard(this);
+		manager = bank.getBankManager();
+		manager.setGuard(this);
+		bankGui bankgui = (bankGui)myPerson.building.getPanel();
+		bankgui.addGui(gui);
 		stateChanged();
 	}
 
-	@Override
 	public void wantEnter(Customer newC) {
 		System.out.println("Guard: Customer wants to enter");
 		Entry c = new Entry();
 		c.s = state.entered;
 		c.bc = newC;
 		custEnter.add(c);
+		//System.out.println("Myperson.mainrole: "+myPerson.mainRole+" Guard address: "+this+" Size: "+custEnter.size());
 		stateChanged();
 	}
 	
@@ -93,18 +99,24 @@ public class bankGuardRole extends Role implements Guard {
 		stateChanged();
 	}
 
+	public void doneMotion() {
+		moving.release();
+	}
 	//----------------------------------------------Scheduler-------------------------------------------------
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		//System.out.println("Myperson.mainrole: "+myPerson.mainRole+" ~Made it to Guard "+this+" PEA size: "+custEnter.size());
 		if( s == state.ready) {
 			enterBank();
 			return true;
 		}
+
 		if ( s== state.leaving) {
 			leaveBank();
 			return true;
 		}
+
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
 				if (c.s == state.complied) {
@@ -172,12 +184,24 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public void enterBank() {
 		gui.doEnterBank();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		s = state.onD;
 	}
 
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
+		try {
+			moving.acquire();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		s = state.offD;
 	}
 
@@ -189,11 +213,5 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public bankGuardGui getGui() { 
 		return gui;
-	}
-
-	@Override
-	public void wantEnter(bankCustomerRole newC) {
-		// TODO Auto-generated method stub
-		
 	}
 }

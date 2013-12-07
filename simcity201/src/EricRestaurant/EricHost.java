@@ -1,11 +1,9 @@
 package EricRestaurant;
 
-import EricRestaurant.EricCustomer.AgentState;
 import EricRestaurant.gui.HostGui;
-import EricRestaurant.interfaces.Customer;
+import EricRestaurant.interfaces.*;
 import SimCity.Base.Role;
-import agent.Agent;
-
+import SimCity.Buildings.B_EricRestaurant;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -16,7 +14,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class EricHost extends Role {
+public class EricHost extends Role implements Host {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -55,29 +53,57 @@ public class EricHost extends Role {
 			tables.add(new Table(ix));//how you add to a collections
 		}
 	}
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#setWaiter(EricRestaurant.interfaces.Waiter)
+	 */
+	@Override
 	public void setWaiter(EricRestaurant.interfaces.Waiter w) {
 		waiter = w;
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#setCook(EricRestaurant.EricCook)
+	 */
+	@Override
 	public void setCook(EricCook ck) {
 		cook = ck;
 	}
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#setCashier(EricRestaurant.EricCashier)
+	 */
+	@Override
 	public void setCashier(EricCashier cash) {
 		cashier = cash;
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#getMaitreDName()
+	 */
+	@Override
 	public String getMaitreDName() {
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#getName()
+	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#getWaitingCustomers()
+	 */
+	@Override
 	public List getWaitingCustomers() {
 		return waitingCustomers;
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#getTables()
+	 */
+	@Override
 	public Collection getTables() {
 		return tables;
 	}
@@ -85,6 +111,10 @@ public class EricHost extends Role {
 
 	// Messages
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#msgIWantFood(EricRestaurant.EricCustomer, double)
+	 */
+	@Override
 	public void msgIWantFood(EricCustomer cust, double c) {
 		Random generator = new Random(); 
 		if (fullcheck > 2) {
@@ -105,6 +135,10 @@ public class EricHost extends Role {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#msgLeavingTable(EricRestaurant.interfaces.Customer, EricRestaurant.interfaces.Waiter)
+	 */
+	@Override
 	public void msgLeavingTable(Customer cust, EricRestaurant.interfaces.Waiter w) {
 		for (Waiter mw : waiters) {
 			if(mw.w == w) {
@@ -122,6 +156,10 @@ public class EricHost extends Role {
 		stateChanged();
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#newWaiter(EricRestaurant.interfaces.Waiter)
+	 */
+	@Override
 	public void newWaiter(EricRestaurant.interfaces.Waiter wait) {
 		Waiter mywaiter = new Waiter();
 		mywaiter.w = wait;
@@ -133,10 +171,18 @@ public class EricHost extends Role {
 		stateChanged();
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#canIBreak(EricRestaurant.interfaces.Waiter)
+	 */
+	@Override
 	public void canIBreak(EricRestaurant.interfaces.Waiter w) {
 		checkBreak(w);	
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#backFromBreak(EricRestaurant.interfaces.Waiter)
+	 */
+	@Override
 	public void backFromBreak(EricRestaurant.interfaces.Waiter w) {
 		waiterBack(w);
 	}
@@ -262,10 +308,18 @@ public class EricHost extends Role {
 
 	//utilities
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#setGui(EricRestaurant.gui.HostGui)
+	 */
+	@Override
 	public void setGui(HostGui gui) {
 		hostGui = gui;
 	}
 
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#getGui()
+	 */
+	@Override
 	public HostGui getGui() {
 		return hostGui;
 	}
@@ -304,6 +358,10 @@ public class EricHost extends Role {
 		// TODO Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 * @see EricRestaurant.Host#workOver()
+	 */
+	
 	@Override
 	public void workOver() {
 		// TODO Auto-generated method stub

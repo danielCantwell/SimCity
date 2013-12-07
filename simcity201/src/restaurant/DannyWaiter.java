@@ -10,6 +10,7 @@ import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_DannyRestaurant;
 import agent.Agent;
 
 /**
@@ -550,13 +551,15 @@ public class DannyWaiter extends Role implements Waiter {
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Waiter enterBuilding");
+		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
+		rest.numWaiters++;
 	}
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Waiter workOver");
+		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
+		rest.numWaiters--;
 	}
 }

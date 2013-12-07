@@ -126,6 +126,12 @@ public class MockCustomer implements Customer{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void doneMotion() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
