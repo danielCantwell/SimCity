@@ -9,6 +9,8 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import jesseRest.JesseCustomer;
+import brianRest.BrianCustomerRole;
 import market.MarketCustomerRole;
 import market.MarketManagerRole;
 import restaurant.DannyCashier;
@@ -18,10 +20,12 @@ import restaurant.DannyHost;
 import restaurant.DannyWaiter;
 import timRest.TimCashierRole;
 import timRest.TimCookRole;
+import timRest.TimCustomerRole;
 import timRest.TimHostRole;
 import timRest.TimWaiterRole;
 import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
+import EricRestaurant.EricCustomer;
 import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
@@ -145,33 +149,56 @@ public class God {
 						   wakeUp();
 					   }
 					   
+					   //SHIFT #1
 					   if (hour == 5 && !announcedTime){
 						   flushAllPersonActions();
-						   managersGoToWork();
+						   managersGoToWork(1);
+					   }
+					   
+					   if (hour == 7 && !announcedTime){
+						   restaurantPeopleGoWork(1);
 					   }
 					   
 					   if (hour == 8 && !announcedTime){
-						   restaurantPeopleGoWork();
+						   goToWork(1);
 					   }
 					   
-					   if (hour == 10 && !announcedTime){
-						   goToWork();
+					   if (hour == 9 && !announcedTime){
+						   fakeCustomersGoToWork(1);
 					   }
 					   
+					   if (hour == 12 && !announcedTime){
+						   getOffWork(1);
+					   }
+					   
+					   //SHIFT #2
 					   if (hour == 13 && !announcedTime){
-						   fakeCustomersGoToWork();
+						   flushAllPersonActions();
+						   managersGoToWork(2);
+					   }
+					   
+					   if (hour == 14 && !announcedTime){
+						   restaurantPeopleGoWork(2);
+					   }
+					   
+					   if (hour == 15 && !announcedTime){
+						   goToWork(2);
+					   }
+					   
+					   if (hour == 16 && !announcedTime){
+						   fakeCustomersGoToWork(2);
 					   }
 					   
 					   
-					   if (hour == 18 && !announcedTime){
-						   getOffWork();
+					   if (hour == 19 && !announcedTime){
+						   getOffWork(2);
 					   }
 					   
-					   if (hour == 20 && !announcedTime){
+					   if (hour == 21 && !announcedTime){
 						   goHome();
 	        			}
 					   
-					   if (hour==24 && !announcedTime){
+					   if (hour==23 && !announcedTime){
 						   goToSleep();
 						   flushAllPersonActions();
 					   }
@@ -221,31 +248,36 @@ public class God {
 	    	}
 	    }
 	    
-	    public void fakeCustomersGoToWork(){
+	    public void fakeCustomersGoToWork(int shift){
 	    	announcedTime = true;
 	    	for (Person p: persons){
 	    		if (p.getTimeState() != TimeState.working){
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    	}
 	    }
 	    
-	    public void managersGoToWork(){
+	    public void managersGoToWork(int shift){
 	    	announcedTime = true;
 	    	System.out.println("managers going to work");
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}else
 	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    		else 
 	    		if (p.getMainRoleString().equals("EricRestaurant.EricHost")) {
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    		else
 	    		if (p.getMainRoleString().equals("jesseRest.JesseHost")) {
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    	}
@@ -267,43 +299,55 @@ public class God {
 	    	}
 	    }
 	    
-	    public void goToWork(){
+	    public void goToWork(int shift){
 	    	announcedTime = true;
-	    	System.out.println("go to work now!");
+	    	System.out.println("Employee Work Time");
 	    	for (Person p: persons){
 	    		if(p.getTimeState() != TimeState.working)
-	    		if (!(p.mainRole instanceof bankCustomerRole) && !(p.mainRole instanceof DannyCustomer) && !(p.mainRole instanceof MarketCustomerRole)){
-	    			p.msgGoToWork();
-	    		}
+	    			if (!(p.getMainRole() instanceof DannyCustomer))
+    				if (!(p.getMainRole() instanceof BrianCustomerRole))
+					if (!(p.getMainRole() instanceof EricCustomer))
+					if (!(p.getMainRole() instanceof TimCustomerRole))
+					if (!(p.getMainRole() instanceof JesseCustomer))
+					if (!(p.getMainRole() instanceof MarketCustomerRole))
+					if (!(p.getMainRole() instanceof bankCustomerRole))
+						if (p.getShift() == shift)
+						p.msgGoToWork();
 	    	}
 	    }
 	    
-	    public void restaurantPeopleGoWork(){
+	    public void restaurantPeopleGoWork(int shift){
 	    	announcedTime = false;
 	    	System.out.println("Restaurant Work Time");
 	    	for(Person p: persons){
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    		else if (p.mainRole instanceof TimHostRole || p.mainRole instanceof TimWaiterRole || p.mainRole instanceof TimCookRole || p.mainRole instanceof TimCashierRole){
-                    p.msgGoToWork();
+	    			if (p.getShift() == shift)
+	    			p.msgGoToWork();
                 }
 	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    		else if (p.getMainRoleString().equals("EricRestaurant.EricWaiter") || p.getMainRoleString().equals("EricRestaurant.EricCook") || p.getMainRoleString().equals("EricRestaurant.EricCashier")) {
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    		else if (p.getMainRoleString().equals("jesseRest.JesseWaiter") || p.getMainRoleString().equals("jesseRest.JesseCook") || p.getMainRoleString().equals("jesseRest.JesseCashier")) {
+	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
 	    	}
 	    }
 	    
-	    public void getOffWork(){
+	    public void getOffWork(int shift){
 	    	announcedTime = true;
 	    	System.out.println("its time to go off work");
 	    	for (Person p: persons){
+	    		if (p.getShift() == shift)
 	    		p.msgWorkOver();
 	    	}
 	    }

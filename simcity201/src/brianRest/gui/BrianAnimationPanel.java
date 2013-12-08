@@ -124,11 +124,12 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
         }
 
         
-
+        synchronized (guis){
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
             }
+        }
         }
     }
 
