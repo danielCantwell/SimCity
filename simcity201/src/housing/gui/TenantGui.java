@@ -181,7 +181,7 @@ public class TenantGui implements Gui {
 			break;
 		case 6:
 			xDest = xTable + 280;
-			yDest = yTable + 80;
+			yDest = yTable;
 			break;
 		case 7:
 			xDest = xTable + 200;
@@ -191,10 +191,42 @@ public class TenantGui implements Gui {
 			xDest = xTable + 280;
 			yDest = yTable + 80;
 			break;
+		case 9:
+			xDest = xTable;
+			yDest = yTable + 130;
+			break;
+		case 10:
+			xDest = xTable + 80;
+			yDest = yTable + 130;
+			break;
+		case 11:
+			xDest = xTable;
+			yDest = yTable + 210;
+			break;
+		case 12:
+			xDest = xTable + 80;
+			yDest = yTable + 210;
+			break;
+		case 13:
+			xDest = xTable + 200;
+			yDest = yTable + 130;
+			break;
+		case 14:
+			xDest = xTable + 280;
+			yDest = yTable + 130;
+			break;
+		case 15:
+			xDest = xTable + 200;
+			yDest = yTable + 210;
+			break;
+		case 16:
+			xDest = xTable + 280;
+			yDest = yTable + 210;
+			break;
 		default:
-			System.out.println("More than 8 tenants in the house.");
+			System.out.println("More than 16 tenants in the house.");
 			System.out.println(num + " tenants");
-			xDest = xTable - 30;
+			xDest = xTable - 40;
 			yDest = yTable;
 			break;
 		}

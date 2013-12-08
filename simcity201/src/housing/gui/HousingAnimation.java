@@ -32,9 +32,9 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	private final int yDoorSize	= 65;
 	
 	private final int xBedPos	= 10;
-	private final int xBedSize	= 100;
+	private final int xBedSize	= 80;
 	private final int yBedPos	= 10;
-	private final int yBedSize	= 200;
+	private final int yBedSize	= 100;
 	
 	private final int xFridgePos	= 10;
 	private final int xFridgeSize	= 60;
@@ -102,10 +102,16 @@ public class HousingAnimation extends JPanel implements ActionListener {
 		g.fillRect(xBedPos + 120, yBedPos, xBedSize, yBedSize);
 		g.fillRect(xBedPos + 240, yBedPos, xBedSize, yBedSize);
 		g.fillRect(xBedPos + 360, yBedPos, xBedSize, yBedSize);
+		g.fillRect(xBedPos, yBedPos + 140, xBedSize, yBedSize);
+		g.fillRect(xBedPos + 120, yBedPos + 140, xBedSize, yBedSize);
+		g.fillRect(xBedPos + 240, yBedPos + 140, xBedSize, yBedSize);
+		g.fillRect(xBedPos + 360, yBedPos + 140, xBedSize, yBedSize);
 		g.fillRect(xFridgePos, yFridgePos, xFridgeSize, yFridgeSize);
 		g.fillRect(xStovePos, yStovePos, xStoveSize, yStoveSize);
 		g.fillRect(xTablePos, yTablePos, xTableSize, yTableSize);
 		g.fillRect(xTablePos + 200, yTablePos, xTableSize, yTableSize);
+		g.fillRect(xTablePos, yTablePos + 130, xTableSize, yTableSize);
+		g.fillRect(xTablePos + 200, yTablePos + 130, xTableSize, yTableSize);
 		g.fillRect(xMailPos, yMailPos, xMailSize, yMailSize);
 		
 		// Draw Names for Housing Appliances
