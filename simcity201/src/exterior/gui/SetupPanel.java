@@ -154,7 +154,7 @@ public class SetupPanel extends JFrame {
 		animationPanel = ap;
 
 		setSize(WINDOWX, WINDOWY);
-		setBounds(0, 640, WINDOWX, WINDOWY);
+		setBounds(0, 0, WINDOWX, WINDOWY);
 		setVisible(true);
 		setTitle("Setup");
 		setLayout(new BorderLayout());
