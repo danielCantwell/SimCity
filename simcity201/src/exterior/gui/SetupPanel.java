@@ -5,7 +5,11 @@ package exterior.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,8 +33,8 @@ import SimCity.Base.Person.Vehicle;
  */
 public class SetupPanel extends JFrame {
 
-	private final int WINDOWX = 960;
-	private final int WINDOWY = 320;
+	private final int WINDOWX = 1000;
+	private final int WINDOWY = 330;
 
 	private AnimationPanel animationPanel;
 
@@ -141,6 +145,10 @@ public class SetupPanel extends JFrame {
 
 	private JButton dannyRestScenario = new JButton("Test Danny Restaurant");
 	private JButton ericRestScenario = new JButton("Test Eric Restaurant");
+	private JButton s1 = new JButton("Scenario One - Does Nothing");
+	private JButton s2 = new JButton("Scenario Two - Does Nothing");
+	private JButton s3 = new JButton("Scenario Three - Does Nothing");
+	private JButton s4 = new JButton("Scenario Four - Does Nothing");
 
 	public SetupPanel(AnimationPanel ap) {
 		animationPanel = ap;
@@ -306,9 +314,15 @@ public class SetupPanel extends JFrame {
 		optionsPanel.add(modePanel, BorderLayout.SOUTH);
 
 		// Scenario Panel
+		
+		scenarioPanel.setLayout(new GridLayout(2, 3));
 
 		scenarioPanel.add(dannyRestScenario);
 		scenarioPanel.add(ericRestScenario);
+		scenarioPanel.add(s1);
+		scenarioPanel.add(s2);
+		scenarioPanel.add(s3);
+		scenarioPanel.add(s4);
 
 		// --- Main Frame ---
 
@@ -465,54 +479,58 @@ public class SetupPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				animationPanel.createPerson("HostBob", "restaurant.DannyHost",
+				animationPanel.createPerson("D_Host", "restaurant.DannyHost",
 						Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(12),
+						animationPanel.getGui().buildingList.get(1),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("CashierJim",
+				animationPanel.createPerson("D_Cashier",
 						"restaurant.DannyCashier", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(12),
+						animationPanel.getGui().buildingList.get(1),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("CookMike", "restaurant.DannyCook",
+				animationPanel.createPerson("D_Cook", "restaurant.DannyCook",
 						Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(12),
+						animationPanel.getGui().buildingList.get(1),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("WaiterTim",
+				animationPanel.createPerson("D_Waiter_One",
+						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
+						animationPanel.getGui().buildingList.get(1),
+						animationPanel.getGui().buildingList.get(9));
+				animationPanel.createPerson("D_Waiter_Two",
+						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
+						animationPanel.getGui().buildingList.get(1),
+						animationPanel.getGui().buildingList.get(9));
+				/*
+				animationPanel.createPerson("D_Waiter_Three",
 						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(12),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("WaiterChris",
+				animationPanel.createPerson("D_Waiter_Four",
 						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(12),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("WaiterMatt",
-						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(12),
+						*/
+				animationPanel.createPerson("D_Customer_One",
+						"restaurant.DannyCustomer", Vehicle.walk,
+						Morality.good,
+						animationPanel.getGui().buildingList.get(1),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("WaiterJoe",
-						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(12),
+				animationPanel.createPerson("D_Customer_Two",
+						"restaurant.DannyCustomer", Vehicle.walk,
+						Morality.good,
+						animationPanel.getGui().buildingList.get(1),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("CustomerJeff",
+				/*
+				animationPanel.createPerson("D_Customer_Three",
 						"restaurant.DannyCustomer", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(0),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("CustomerKitty",
+				animationPanel.createPerson("D_Customer_Four",
 						"restaurant.DannyCustomer", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(0),
 						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("CustomerKim",
-						"restaurant.DannyCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("CustomerDanny",
-						"restaurant.DannyCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9));
+						*/
 			}
 		});
 
@@ -553,6 +571,38 @@ public class SetupPanel extends JFrame {
 						Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(0),
 						animationPanel.getGui().buildingList.get(11));
+			}
+		});
+		
+		s1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioOne();
+			}
+		});
+		
+		s2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioTwo();
+			}
+		});
+		
+		s3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioThree();
+			}
+		});
+		
+		s4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioFour();
 			}
 		});
 	}
@@ -622,6 +672,22 @@ public class SetupPanel extends JFrame {
 		}
 
 		return animationPanel.getGui().buildingList.get(building);
+	}
+	
+	public void runScenarioOne() {
+		
+	}
+	
+	public void runScenarioTwo() {
+		
+	}
+	
+	public void runScenarioThree() {
+		
+	}
+	
+	public void runScenarioFour() {
+		
 	}
 
 }

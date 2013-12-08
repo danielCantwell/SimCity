@@ -41,8 +41,8 @@ public class B_DannyRestaurant extends Building {
 	public B_DannyRestaurant(int id, JPanel jp, int xCoord, int yCoord) {
 		this.id = id;
 		buildingPanel = jp;
-		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) jp;
-		ap.setRestaurant(this);
+		//DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) jp;
+		//ap.setRestaurant(this);
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
@@ -134,16 +134,21 @@ public class B_DannyRestaurant extends Building {
 
 			newRole.setActive(true);
 			newRole.setPerson(person);
+
+			person.msgCreateRole(newRole, true);
+			fillNeededRoles(person, newRole);
+			person.msgEnterBuilding(this);
 			
+
 			if (areAllNeededRolesFilled()) {
 				for (DannyWaiter waiter : waiters) {
 					if (waiter.getHost() != hostRole)
+						hostRole.addWaiter(waiter);
 						waiter.setHost(hostRole);
 					if (waiter.getCashier() != cashierRole)
 						waiter.setCashier(cashierRole);
 					if (waiter.getCook() != cookRole)
 						waiter.setCook(cookRole);
-					hostRole.addWaiter(waiter);
 				}
 			}
 
@@ -157,10 +162,6 @@ public class B_DannyRestaurant extends Building {
 				((DannyCook) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyCustomer)
 				((DannyCustomer) newRole).setName(newRole.myPerson.name);
-
-			person.msgCreateRole(newRole, true);
-			fillNeededRoles(person, newRole);
-			person.msgEnterBuilding(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Building: no class found");
