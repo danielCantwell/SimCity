@@ -521,6 +521,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
+
                  //System.out.println("Spawning a new pedestrian.");
             	 //AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
             	 //PersonGui g = new PersonGui(gui, aStarTraversal);
