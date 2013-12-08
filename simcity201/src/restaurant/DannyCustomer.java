@@ -441,7 +441,8 @@ public class DannyCustomer extends Role implements Customer {
 
 	@Override
 	public void workOver() {
-		customerGui.DoExitRestaurant(); // Leaves restaurant
+		exitBuilding(myPerson);
+		leaveRestaurant(); // Leaves restaurant
 	}
 
 	@Override

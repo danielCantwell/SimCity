@@ -335,7 +335,8 @@ public class DannyHost extends Role {
 		rest.hostFilled = false;
 		rest.setOpen(false);
 		
-		workOver = true;
+		exitBuilding(myPerson);
+		//workOver = true;
 	}
 
 	@Override
