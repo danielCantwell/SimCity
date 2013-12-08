@@ -3,6 +3,8 @@ package jesseRest;
 import java.util.ArrayList;
 import java.util.List;
 
+import SimCity.Globals.Money;
+
 public class Menu {
 	public List<String> foodChoices = new ArrayList<String>();
 	
@@ -13,14 +15,14 @@ public class Menu {
 		foodChoices.add("Pizza");
 	}
 	
-	public double getPrice(String choice) {
+	public Money getPrice(String choice) {
 		// Prices of food are on the Menu
-		if (choice == "Steak") return 15.99;
-		if (choice == "Chicken") return 11.99;
-		if (choice == "Salad") return 5.99;
-		if (choice == "Pizza") return 8.99;
+		if (choice == "Steak") return new Money(15, 99);
+		if (choice == "Chicken") return new Money(11, 99);
+		if (choice == "Salad") return new Money(5, 99);
+		if (choice == "Pizza") return new Money(8, 99);
 		
-		return -1;
+		return null;
 		
 	}
 }

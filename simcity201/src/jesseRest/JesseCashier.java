@@ -1,6 +1,7 @@
 package jesseRest;
 
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 import agent.Agent;
 import jesseRest.Check;
 import jesseRest.Menu;
@@ -19,7 +20,7 @@ import jesseRest.interfaces.Waiter;
 public class JesseCashier extends Role implements Cashier {
 	public List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
 	public List<MyBill> bills = Collections.synchronizedList(new ArrayList<MyBill>());
-	public double money = 100;
+	public Money money = new Money(100, 0);
 	public enum CheckState {Created, Pending, Paid, Closed, Debt};
 	private Menu mymenu = new Menu();
 	private String name;
@@ -42,7 +43,7 @@ public class JesseCashier extends Role implements Cashier {
 	 */
 
 	public void msgComputeCheck(String choice, Customer c, Waiter w) {
-		double amt = mymenu.getPrice(choice);
+		Money amt = mymenu.getPrice(choice);
 		Check check = new Check(c, amt);
 		MyCheck mcheck = new MyCheck(check, w);
 		mcheck.state = CheckState.Created;
@@ -50,12 +51,12 @@ public class JesseCashier extends Role implements Cashier {
 		stateChanged();
 	}
 	
-	public void msgPaying(Check c, double amt) {
+	public void msgPaying(Check c, Money amt) {
 		synchronized(checks){
 			for (MyCheck mc : checks) {
 				if (mc.check == c) {
-					mc.check.amount -= amt;
-					money += amt;
+					mc.check.amount.subtract(amt);
+					money.add(amt);
 					mc.state = CheckState.Paid;
 					stateChanged();
 				}
@@ -63,7 +64,7 @@ public class JesseCashier extends Role implements Cashier {
 		}
 	}
 	
-	public void msgPayForItems(Market m, int orderPrice) {
+	public void msgPayForItems(Market m, Money orderPrice) {
 		MyBill bill = new MyBill(m, orderPrice);
 		bills.add(bill);
 		stateChanged();
@@ -92,7 +93,7 @@ public class JesseCashier extends Role implements Cashier {
 		}
 		synchronized(bills){
 			for (MyBill b : bills) {
-				if (b.amountOwed <= money) {
+				if (!b.amountOwed.isGreaterThan(money)) {
 					PayMarket(b);
 					return true;
 				}
@@ -112,7 +113,7 @@ public class JesseCashier extends Role implements Cashier {
 	}
 	
 	private void ComputePayment(MyCheck c) {
-		if (c.check.amount <= 0) {
+		if (!c.check.amount.isGreaterThan(0, 0)) {
 			c.state = CheckState.Closed;
 		} else {
 			c.state = CheckState.Debt;
@@ -122,7 +123,7 @@ public class JesseCashier extends Role implements Cashier {
 	
 	private void PayMarket(MyBill b) {
 		bills.remove(b);
-		money -= b.amountOwed;
+		money.subtract(b.amountOwed);
 		print("Cashier can pay bill from Market. Money left: " + money);
 		b.market.msgHereIsPayment(b.amountOwed);
 	}
@@ -147,9 +148,9 @@ public class JesseCashier extends Role implements Cashier {
 	// MyBill Class - represents a payment due to Market. Especially useful if you dont have enough cash at hand.
 	public class MyBill {
 		Market market;
-		public int amountOwed;
+		public Money amountOwed;
 		
-		public MyBill(Market m, int i) {
+		public MyBill(Market m, Money i) {
 			market = m;
 			amountOwed = i;
 		}
