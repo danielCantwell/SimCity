@@ -151,6 +151,7 @@ public class Person extends Agent {
 			else if (job.equals("brianRest.BrianCashierRole"))return;
 			else if (job.equals("brianRest.BrianCustomerRole")) {return;}
 			else if (job.equals("brianRest.BrianWaiterRole")){return;}
+			else if (job.equals("brianRest.BrianPCWaiterRole")){return;}
 			else if (job.equals("EricRestaurant.EricHost"))return;
 			else if (job.equals("EricRestaurant.EricCook"))return;
 			else if (job.equals("EricRestaurant.EricCashier"))return;

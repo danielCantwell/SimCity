@@ -78,6 +78,8 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
 		}
 		else timer.start();
 	}
+	
+	public String orderStandString = "";
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
@@ -112,6 +114,13 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(KitchenAreaX, KitchenAreaY, KitchenWidth, KitchenHeight);
         g2.setColor(Color.black);
         g2.drawString("Plating", KitchenAreaX-10, KitchenAreaY +25);
+        
+        //OrderStand
+        g2.setColor(Color.blue);
+        g2.fillRect(KitchenAreaX, KitchenAreaY + 100, KitchenWidth, KitchenHeight);
+        g2.setColor(Color.black);
+        g2.drawString("Blue OrderStand", KitchenAreaX-110, KitchenAreaY+100);
+        g2.drawString(orderStandString, KitchenAreaX-110, KitchenAreaY+110);
         
         //Grills
         g2.setColor(Color.red);

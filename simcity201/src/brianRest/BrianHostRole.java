@@ -266,8 +266,8 @@ public class BrianHostRole extends Role implements BrianHost {
 		}
 	}
 	
-	public void addWaiter(BrianWaiterRole w){
-		waiters.add(new MyWaiter(w));
+	public void addWaiter(BrianWaiter newRole){
+		waiters.add(new MyWaiter(newRole));
 		workingWaiters++;
 		stateChanged();
 	}
@@ -319,6 +319,11 @@ public class BrianHostRole extends Role implements BrianHost {
 		rest.setOpen(false);
 		wantToGoHome = true;
 		
+	}
+
+	@Override
+	public String toString() {
+		return "BrianHost";
 	}
 }
 
