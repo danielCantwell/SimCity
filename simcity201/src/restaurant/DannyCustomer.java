@@ -390,9 +390,10 @@ public class DannyCustomer extends Role implements Customer {
 		// could be a state change. Maybe you don't
 		// need to eat until hunger lever is > 5?
 	}
-
+	
+	@Override
 	public String toString() {
-		return "customer " + getName();
+		return "Danny Customer";
 	}
 
 	public void setGui(CustomerGui g) {
@@ -434,7 +435,8 @@ public class DannyCustomer extends Role implements Customer {
 			leaveRestaurant();
 			return;
 		}
-		host.msgIWantFood(this);
+		gotHungry();
+		customerGui.setHungry();
 	}
 
 	@Override
@@ -444,7 +446,6 @@ public class DannyCustomer extends Role implements Customer {
 
 	@Override
 	public void msgIsHungry() {
-		// TODO Auto-generated method stub
-
+		gotHungry();
 	}
 }
