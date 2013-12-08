@@ -586,6 +586,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
              public void actionPerformed(ActionEvent e)
              {
                  createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),1);
+                 createPerson("Del", "market.MarketDeliveryPersonRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),1);
              }
         };
         

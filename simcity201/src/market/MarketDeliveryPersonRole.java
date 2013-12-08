@@ -2,6 +2,7 @@ package market;
 
 import java.util.*;
 
+import timRest.TimHostRole;
 import exterior.gui.SimCityGui;
 import SimCity.Base.Building;
 import SimCity.Base.God;
@@ -9,6 +10,8 @@ import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_Market;
+import SimCity.Buildings.B_TimRest;
+import SimCity.Globals.Money;
 import market.gui.MarketDeliveryPersonGui;
 import market.interfaces.MarketDeliveryPerson;
 
@@ -30,11 +33,11 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     public enum AgentLocation { Market, Destination, InTransit };
     public AgentLocation location;
-    public int destinationBuildingID;
     public B_Market home;
 	
 	public MarketDeliveryPersonRole() {
 		super();
+		location = AgentLocation.Market;
 	}
 
 	/** 
@@ -44,10 +47,6 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     public void msgMakeDelivery(int id, String choice, int amount)
     {
         orders.add(new Order(id, choice, amount));
-        destinationBuildingID = id;
-        myPerson.msgExitBuilding();
-        myPerson.mainRole.setActive(false);
-        myPerson.msgGoToBuilding(God.Get().getBuilding(id), Intent.work);
         stateChanged();
     }
     
@@ -65,19 +64,13 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     public void workOver()
     {
-        // TODO Auto-generated method stub
+        exitBuilding(myPerson);
         stateChanged();
     }
 
     @Override
     protected void enterBuilding() {
-    }
-    
-    @Override
-    protected void exitBuilding(Person p)
-    {
-        gui.setPresent(false);
-        super.exitBuilding(p);
+        
     }
 
 	/**
@@ -100,7 +93,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     	        }
     	    }
 	    }
-	    if(location == AgentLocation.Market)
+	    if(location == AgentLocation.Destination)
         {
             synchronized(orders)
             {
@@ -129,19 +122,29 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
 	private void goToDestination(Order order)
 	{
+        exitBuilding(myPerson);
 	    location = AgentLocation.InTransit;
-		Building dest = God.Get().getPerson(order.id).building;
+		Building dest = God.Get().getBuilding(order.id);
+		order.state = OrderState.Delivering;
 		myPerson.msgGoToBuilding(dest, Intent.work);
 	}
 	
 	private void deliver(Order order)
 	{
-	    //God.Get().getBuilding(order.id)
-	    // TODO: cannot implement without solid restaurant design document
+	    Building building = God.Get().getBuilding(order.id);
+	    // input code for each restaurant
+	    if (building instanceof B_TimRest)
+	    {
+	        // cast to correct rest
+	        B_TimRest r = (B_TimRest)building;
+	        TimHostRole host = r.getManager();
+	        host.getCook().msgHereIsYourFood(order.choice, order.amount, manager, new Money(0, 0));
+	    }
 	}
 
     private void goToMarket()
     {
+        exitBuilding(myPerson);
         location = AgentLocation.InTransit;
         myPerson.msgGoToBuilding(home, Intent.work);
     }
@@ -169,7 +172,6 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     {
         super.setPerson(person);
     }
-	
 
     /**
      * Inner Classes
@@ -179,7 +181,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		
 		public class Order
 		{
-				int id;
+			int id;
 		    String choice;
 		    int amount;
 		    OrderState state;

@@ -212,7 +212,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	{
 	    if (money.isGreaterThan(amountToKeep))
 	    {
-	        manager.msgHereIsTheMoney(this, -1, money.subtract(amountToKeep));
+	        manager.msgHereIsTheMoney(money.subtract(amountToKeep));
 	        money = amountToKeep;
 	    }
 	}

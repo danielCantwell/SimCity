@@ -482,13 +482,6 @@ public class Person extends Agent {
 				b = God.Get().getBuilding(9);
 				Do("working at restaurant");
 			}
-			// delivery person stuff
-			if (mainRole instanceof MarketDeliveryPersonRole)
-			{
-			    MarketDeliveryPersonRole dPRole = (MarketDeliveryPersonRole) mainRole;
-			    b = God.Get().getBuilding(dPRole.destinationBuildingID);
-	            Do("Delivering to restaurant");
-			}
 		}
 		else
         if (action.getGoAction() == GoAction.goTimRestaurant && intent == Intent.customer){
@@ -501,13 +494,6 @@ public class Person extends Agent {
             if (mainRole instanceof TimHostRole || mainRole instanceof TimWaiterRole || mainRole instanceof TimCookRole || mainRole instanceof TimCashierRole){
                 b = God.Get().getBuilding(10);
                 Do("working at restaurant");
-            }
-            // delivery person stuff
-            if (mainRole instanceof MarketDeliveryPersonRole)
-            {
-                MarketDeliveryPersonRole dPRole = (MarketDeliveryPersonRole) mainRole;
-                b = God.Get().getBuilding(dPRole.destinationBuildingID);
-                Do("Delivering to restaurant");
             }
         }
 		else

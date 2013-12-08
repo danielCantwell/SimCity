@@ -5,7 +5,6 @@ import housing.roles.OwnerRole;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -30,7 +29,6 @@ import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
-import SimCity.Buildings.B_DannyRestaurant;
 import exterior.gui.AnimationPanel;
 import exterior.gui.SimCityGui;
 /**
