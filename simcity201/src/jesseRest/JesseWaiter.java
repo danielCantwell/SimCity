@@ -1,5 +1,6 @@
 package jesseRest;
 
+import EricRestaurant.gui.AnimationPanel;
 import SimCity.Base.Role;
 import agent.Agent;
 import jesseRest.Check;
@@ -22,7 +23,7 @@ public class JesseWaiter extends Role implements Waiter {
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public enum CustomerState {DoingNothing, Waiting, Seated, Ready, AskedToOrder, AskedToReorder, Ordered, GettingFood, Eating, Done};
 	public WaiterGui waiterGui = null;
-	
+	jesseRest.gui.AnimationPanel AP;
 	private JesseHost myhost;
 	private JesseCook cook;
 	private JesseCashier cashier;
@@ -461,10 +462,14 @@ public class JesseWaiter extends Role implements Waiter {
 		jesseRest.gui.WaiterGui w = new jesseRest.gui.WaiterGui(this);
 		waiterGui = w;
 		System.out.println(w);
-		jesseRest.gui.AnimationPanel ap = new jesseRest.gui.AnimationPanel();
+		jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)myPerson.building.getPanel();
+		AP = ap;
 		ap.addGui(w);
 	}
 
+	public jesseRest.gui.AnimationPanel getAP() {
+		return AP;
+	}
 	@Override
 	public void workOver() {
 		// TODO Auto-generated method stub

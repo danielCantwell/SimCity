@@ -225,7 +225,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	// Actions
 
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		Do("Going to restaurant because my hungerLevel is : "+myPerson.hungerLevel);
 		customerGui.custWait();
 		host.msgIWantFood(this, cash);//send our instance, so he can respond to us
 	}
@@ -296,7 +296,8 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	@Override
 	
 	public void leaveTable() {
-		Do("Leaving.");
+		myPerson.hungerLevel = myPerson.hungerLevel + 30;
+		Do("Leaving, My currrent hunger level is : "+myPerson.hungerLevel+".");
 		waiter.LeavingTable(this);
 		customerGui.DoExitRestaurant();
 		

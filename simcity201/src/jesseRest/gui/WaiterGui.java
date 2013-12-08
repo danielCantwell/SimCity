@@ -11,7 +11,7 @@ public class WaiterGui implements Gui {
     private JesseWaiter agent = null;
     private String icon = "";
     private int xCook = 800-180, yCook = 290; //Cooking area position
-    private int speed = 1;
+    private int speed = 5;
     private int xDestination = 30, yDestination = 30; //default start position
     private int tableNumber = 0;
     private int position;
