@@ -598,6 +598,8 @@ public class DannyWaiter extends Role implements Waiter {
 		System.out.println("Waiter workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.numWaiters--;
+		
+		exitBuilding(myPerson);
 	}
 
 	@Override

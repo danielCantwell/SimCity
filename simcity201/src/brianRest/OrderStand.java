@@ -25,16 +25,18 @@ public class OrderStand{
 	private List<Orders> orders = Collections.synchronizedList(new ArrayList<Orders>());
 	B_BrianRestaurant br;
 	BrianAnimationPanel bap;
+	BrianCookRole cook;
 	
-	public OrderStand(B_BrianRestaurant br){
+	public OrderStand(B_BrianRestaurant br, BrianCookRole cr){
 		this.br = br;
 		bap = (BrianAnimationPanel)br.getPanel();
+		cook = cr;
 	}
 	
 	private String ordersToString(){
 		String s = "";
 		for (Orders o: orders){
-			s += "\n" + o.choice;
+			s += " \n " + o.choice;
 		}
 		return s;
 	}
@@ -42,6 +44,7 @@ public class OrderStand{
 	public void addOrder(String choice, BrianWaiter bw, int tableNumber){
 		orders.add(new Orders(choice, bw, tableNumber));
 		bap.orderStandString = ordersToString();
+		cook.msgStateChanged();
 	}
 	
 	public Orders popFirstOrder(){

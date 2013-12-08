@@ -49,7 +49,7 @@ public class B_BrianRestaurant extends Building{
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
-		orderstand = new OrderStand(this);
+		orderstand = new OrderStand(this, cookRole);
 	}
 
 	@Override
@@ -111,7 +111,8 @@ public class B_BrianRestaurant extends Building{
 				numberOfWaiters++;
 				newRole = new BrianPCWaiterRole("PCWaiter", hostRole, cookRole, cashierRole, numberOfWaiters);
 				newRole.setPerson(person);
-				hostRole.addWaiter((BrianPCWaiterRole)newRole);}
+				hostRole.addWaiter((BrianPCWaiterRole)newRole);
+				setOpen(areAllNeededRolesFilled());}
 			newRole.setActive(true);
 			newRole.setPerson(person);
 			person.msgCreateRole(newRole, true);

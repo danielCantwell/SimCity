@@ -51,7 +51,7 @@ public class PersonGui implements Gui {
 		    	guiMoveFromCurrentPositionTo(new Position(getBuildingX(iDestination), getBuildingY(iDestination)));
 			} 
 		}
-		if (xPos == getBuildingX(iDestination)*SPRITE_SIZE && yPos == getBuildingY(iDestination)*SPRITE_SIZE) {
+		if (currentPosition != null && xPos == getBuildingX(iDestination)*SPRITE_SIZE && yPos == getBuildingY(iDestination)*SPRITE_SIZE) {
 			isPresent = false;
             currentPosition.release(aStar.getGrid());
 			command = Command.none;

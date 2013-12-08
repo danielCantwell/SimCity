@@ -5,7 +5,6 @@ import housing.roles.OwnerRole;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -30,7 +29,6 @@ import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
-import SimCity.Buildings.B_DannyRestaurant;
 import exterior.gui.AnimationPanel;
 import exterior.gui.SimCityGui;
 /**
@@ -167,38 +165,38 @@ public class God {
 						   fakeCustomersGoToWork(1);
 					   }
 					   
-					   if (hour == 12 && !announcedTime){
+					   if (hour == 13 && !announcedTime){
 						   getOffWork(1);
 					   }
 					   
 					   //SHIFT #2
-					   if (hour == 13 && !announcedTime){
+					   if (hour == 14 && !announcedTime){
 						   flushAllPersonActions();
 						   managersGoToWork(2);
 					   }
 					   
-					   if (hour == 14 && !announcedTime){
+					   if (hour == 15 && !announcedTime){
 						   restaurantPeopleGoWork(2);
 					   }
 					   
-					   if (hour == 15 && !announcedTime){
+					   if (hour == 16 && !announcedTime){
 						   goToWork(2);
 					   }
 					   
-					   if (hour == 16 && !announcedTime){
+					   if (hour == 17 && !announcedTime){
 						   fakeCustomersGoToWork(2);
 					   }
 					   
 					   
-					   if (hour == 19 && !announcedTime){
+					   if (hour == 20 && !announcedTime){
 						   getOffWork(2);
 					   }
 					   
-					   if (hour == 21 && !announcedTime){
+					   if (hour == 22 && !announcedTime){
 						   goHome();
 	        			}
 					   
-					   if (hour==23 && !announcedTime){
+					   if (hour==24 && !announcedTime){
 						   goToSleep();
 						   flushAllPersonActions();
 					   }
@@ -263,6 +261,7 @@ public class God {
 	    	System.out.println("managers going to work");
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
+	    			if (!isWeekend)
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}else
@@ -328,7 +327,7 @@ public class God {
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
                 }
-	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
+	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianPCWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}

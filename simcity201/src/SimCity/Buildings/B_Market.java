@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import market.MarketClerkRole;
 import market.MarketCustomerRole;
+import market.MarketDeliveryPersonRole;
 import market.MarketManagerRole;
 import market.MarketPackerRole;
 import market.gui.MarketAnimationPanel;
@@ -98,6 +99,14 @@ public class B_Market extends Building{
                     managerRole.addPacker(marketRole);
                     panel.addGui(marketRole.getGui());
                 }
+                if (newRole instanceof MarketDeliveryPersonRole)
+                {
+                    MarketDeliveryPersonRole marketRole = (MarketDeliveryPersonRole) person.mainRole;
+                    marketRole.setManager(managerRole);
+                    marketRole.setHomeMarket(this);
+                    managerRole.addDeliveryPerson(marketRole);
+                    panel.addGui(marketRole.getGui());
+                }
                 if (getOpen() && newRole instanceof MarketCustomerRole)
                 {
                     MarketCustomerRole marketRole = null;
@@ -113,6 +122,7 @@ public class B_Market extends Building{
                 }
                 person.msgEnterBuilding(this);
             }
+            panel.repaint();
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
             e.printStackTrace();
@@ -141,6 +151,13 @@ public class B_Market extends Building{
             if (person.roles.get(i) instanceof MarketPackerRole)
             {
                 MarketPackerRole cRole = (MarketPackerRole)person.roles.get(i);
+                cRole.setActive(false);
+                ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+            if (person.roles.get(i) instanceof MarketDeliveryPersonRole)
+            {
+                MarketDeliveryPersonRole cRole = (MarketDeliveryPersonRole)person.roles.get(i);
                 cRole.setActive(false);
                 ((B_Market) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();

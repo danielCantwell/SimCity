@@ -2,6 +2,7 @@ package SimCity.Buildings;
 
 import javax.swing.JPanel;
 
+import market.MarketDeliveryPersonRole;
 import timRest.TimHostRole;
 import timRest.TimCookRole;
 import timRest.TimCustomerRole;
@@ -9,6 +10,8 @@ import timRest.TimCashierRole;
 import timRest.TimWaiterRole;
 import timRest.gui.TimAnimationPanel;
 import SimCity.Base.Building;
+import SimCity.Base.God;
+import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
@@ -92,11 +95,14 @@ public class B_TimRest extends Building{
                     hostRole.setCook(restaurantRole);
                     //restaurantRole.setHost(hostRole);
                     //hostRole.addClerk(restaurantRole);
+                    restaurantRole.setHost(hostRole);
+                    B_Market m = (B_Market)God.Get().findBuildingOfType(BuildingType.Market);
                     panel.addGui(restaurantRole.getGui());
-                    restaurantRole.addItemToInventory("Steak", 10, 2000);
-                    restaurantRole.addItemToInventory("Chicken", 10, 3000);
-                    restaurantRole.addItemToInventory("Salad", 10, 1000);
-                    restaurantRole.addItemToInventory("Pizza", 10, 2000);
+                    restaurantRole.addItemToInventory("Steak", 4, 2000);
+                    restaurantRole.addItemToInventory("Chicken", 4, 3000);
+                    restaurantRole.addItemToInventory("Salad", 4, 1000);
+                    restaurantRole.addItemToInventory("Pizza", 4, 2000);
+                    restaurantRole.addMarket(m.getManager());
                 }
                 if (newRole instanceof TimCashierRole)
                 {
@@ -121,6 +127,11 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
                     panel.addGui(restaurantRole.getGui());
                 }
+                if (getOpen() && newRole instanceof MarketDeliveryPersonRole)
+                {
+                    MarketDeliveryPersonRole restaurantRole = (MarketDeliveryPersonRole) person.mainRole;
+                    restaurantRole.msgGuiArrivedAtDestination();
+                }
                 if (getOpen() && newRole instanceof TimCustomerRole)
                 {
                     TimCustomerRole restaurantRole = null;
@@ -138,6 +149,7 @@ public class B_TimRest extends Building{
                 person.msgEnterBuilding(this);
             }
             setOpen(areAllNeededRolesFilled());
+            panel.repaint();
         } catch(Exception e){
             e.printStackTrace();
             System.out.println ("God: no class found");
@@ -172,6 +184,13 @@ public class B_TimRest extends Building{
             if (person.roles.get(i) instanceof TimWaiterRole)
             {
                 TimWaiterRole cRole = (TimWaiterRole)person.roles.get(i);
+                cRole.setActive(false);
+                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
+                person.msgExitBuilding();
+            }
+            if (person.roles.get(i) instanceof MarketDeliveryPersonRole)
+            {
+                MarketDeliveryPersonRole cRole = (MarketDeliveryPersonRole)person.roles.get(i);
                 cRole.setActive(false);
                 ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
