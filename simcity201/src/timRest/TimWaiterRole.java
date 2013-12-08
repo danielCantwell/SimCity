@@ -976,4 +976,10 @@ public class TimWaiterRole extends Role implements TimWaiter{
         exitBuilding(myPerson);
     }
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TimWaiterRole";
+	}
+
 }

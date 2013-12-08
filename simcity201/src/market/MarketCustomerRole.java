@@ -255,4 +255,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	        return choice.equals(other.choice) && amount == other.amount;
 	    }
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "MarketCustomerRole";
+	}
 }

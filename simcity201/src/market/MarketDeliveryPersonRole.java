@@ -192,4 +192,10 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		        state = OrderState.Pending;
 		    }
 		}
+
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return "MarketDeliveryPerson";
+		}
 }

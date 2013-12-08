@@ -453,5 +453,11 @@ public class TimHostRole extends Role {
     {
         return !waiters.isEmpty() && cook != null && cashier != null;
     }
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TimeHostRole";
+	}
 }
 
