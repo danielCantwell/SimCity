@@ -10,7 +10,7 @@ public interface Teller {
 	//-----------------------------------------------Messages-------------------------------------------------
 	public abstract void enterBuilding();
 
-	public abstract void tellerAssigned(Customer c);
+	public abstract void tellerAssigned(Customer c, int accNum);
 
 	
 	public abstract void RobTeller(int accNum, Money money,
@@ -44,8 +44,10 @@ public interface Teller {
 
 	public abstract tellerGui getGui();
 
-	public abstract void foundTeller(int accNum, Money money, Customer cust);
+	public abstract void foundTeller( Money money, Customer cust);
 
 	public abstract void doneMotion();
+
+	public abstract void tellerAssigned(Customer c);
 
 }

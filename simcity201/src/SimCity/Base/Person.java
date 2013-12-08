@@ -115,7 +115,7 @@ public class Person extends Agent {
 	public Building destination = null;
 	public Morality mor = Morality.good;
 	public TimeState timeState = TimeState.none;
-	private int accNum;
+	public int accNum = -1;
 
 		//Getters and setters
 		public String getMainRoleString(){return mainRoleString;}

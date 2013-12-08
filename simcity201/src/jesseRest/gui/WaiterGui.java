@@ -2,7 +2,7 @@ package jesseRest.gui;
 
 
 import java.awt.*;
-
+import jesseRest.gui.AnimationPanel;
 import jesseRest.JesseCustomer;
 import jesseRest.JesseWaiter;
 
@@ -133,6 +133,11 @@ public class WaiterGui implements Gui {
 
     public int getYPos() {
         return yPos;
+    }
+    
+    public void DoLeaveCustomer() {
+    	xDestination = -20;
+    	yDestination = -20;
     }
     
 	public void setOnBreak(boolean selected) {

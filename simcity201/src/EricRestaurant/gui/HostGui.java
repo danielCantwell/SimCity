@@ -89,7 +89,7 @@ public class HostGui implements Gui {
         xDestination = -20;
         yDestination = -20;
     }
-
+    
     public int getXPos() {
         return xPos;
     }
