@@ -537,7 +537,10 @@ public class Person extends Agent {
 		
 		//Call person gui animation. acquire my semaphore.
 		destination = b;
-		System.out.println("Going from :" + building.getTag() + " to " + b.getTag() + ".");
+		System.out.println("Going from :" + 
+		building.getTag() + " to " +
+		b.getTag() 
+		+ ".");
 		
 		if (gui instanceof PersonGui) {
 			if (vehicle != Vehicle.bus) {

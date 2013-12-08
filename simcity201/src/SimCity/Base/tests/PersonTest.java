@@ -3,6 +3,7 @@
  */
 package SimCity.Base.tests;
 
+import exterior.gui.SimCityGui;
 import SimCity.Base.God;
 import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person;
@@ -35,7 +36,11 @@ public class PersonTest extends TestCase {
 	 */
 	public void setUp() throws Exception {
 		super.setUp();
-		person = new Person("Briiiannn", null, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(60,3), new Money(10, 0), 10, 3, "house", new B_House(25, null), null, 1);
+		God.Get();
+		SimCityGui scg = new SimCityGui();
+		God.Get().setSimGui(scg);
+		person = new Person("Briiiannn",null, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(60,3), new Money(10, 0), 10, 3, "house", (B_House)God.Get().getBuilding(1), God.Get().getBuilding(3), 1);
+		person.building = person.getHouse();
 	}
 	
 	public void set(){
@@ -72,17 +77,18 @@ public class PersonTest extends TestCase {
 		System.out.println(person.roles.toString());
 		//Lets set up a god class so that the person can enter the bank. First we need to create a bank!
 		God.Get();
-		B_Bank bank= new B_Bank(25);
-		God.Get().addBuilding(bank); //I'm making a bank.
-		assertTrue("God should have a bank in its list.", God.Get().buildings.size() == 1 && God.Get().buildings.get(0) instanceof B_Bank);
-		assertTrue("The bank's ID should be 0 and the bank's tag should be B_Bank", God.Get().buildings.get(0).getID()==25 && God.Get().buildings.get(0).getTag().equals("B_Bank"));
+		//B_Bank bank= new B_Bank(2); simcity gui should auto spawn our buildings now.
+		//God.Get().addBuilding(bank); //I'm making a bank.
+		//assertTrue("God should have a bank in its list.", God.Get().buildings.size() == 1 && God.Get().buildings.get(0) instanceof B_Bank);
 		
-		//Let's make sure the god can find the bank.
-		assertTrue("Can god find the bank using the findType function?", God.Get().findBuildingOfType(BuildingType.Bank) == God.Get().buildings.get(0));
-		assertTrue ("Can god find the bank using the findbyid function?", God.Get().getBuilding(25) == God.Get().buildings.get(0));
+		//Ok now the sim gui is suppose to spawn a bank at building #2
+		assertTrue("The bank's ID should be 0 and the bank's tag should be B_Bank", God.Get().getBuilding(2) instanceof B_Bank);
+		
+		//Cannot implement the below test because we changed the way GOD functions.
+		//assertTrue ("Can god find the bank using the findbyid function?", God.Get().getBuilding(2) == God.Get().buildings.get(0));
 		
 		//At this point the bank should be pretty much set up and ready to go. Let's add the person to the bank.
-		person.msgGoToBuilding(bank, Intent.customer);
+		person.msgGoToBuilding(God.Get().getBuilding(2), Intent.customer);
 		//One roles should be in your roles list.
 		assertTrue("There should be one role in the roles list", person.roles.size() == 1);
 		//That role should be inactive
@@ -95,7 +101,7 @@ public class PersonTest extends TestCase {
 		assertTrue("Does that goBank action have an intent of customer??", person.actions.get(0).getIntent() == Intent.customer);
 		
 		//Now what if we added a second action but it is work this time!
-		person.msgGoToBuilding(bank, Intent.work);
+		person.msgGoToBuilding(God.Get().getBuilding(2), Intent.work);
 		assertTrue("Are there now 2 things in the action list of the person?", person.actions.size() == 2);
 		assertTrue("Are they both of type bank?", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(1).getGoAction() == GoAction.goBank);
 		assertTrue("Is the first action's intent customer", person.actions.get(0).getIntent() == Intent.customer);
@@ -109,6 +115,21 @@ public class PersonTest extends TestCase {
 		assertTrue("That action should have a GoAction of goBank and an intent of work.", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(0).getIntent() == Intent.work);
 		
 		assertTrue("There should be one role that is active in the person.", person.roles.get(0).getActive());
+	}
+	
+	public void testPersonMoneyLevel(){
+		set();
+		System.out.println(person.roles.toString());
+		
+		//Manually set the person's money level down low to 2, which is below the money threshold.
+		person.money = new Money(1,0);
+		
+		//Make sure that the Money level is actually less than the Money threshold.
+		assertTrue ("Money level is less than the Money threshold.", person.moneyThreshold.isGreaterThan(person.money));
+		
+		person.pickAndExecuteAnAction();
+		
+		assertTrue ("The person should now have some kind of hunger action", person.actions.size() == 1);
 	}
 	
 }

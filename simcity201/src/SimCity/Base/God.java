@@ -68,7 +68,6 @@ public class God {
 				}
 			}
 			System.out.println("Could not find building: " + id);
-			//throw new Exception();
 			
 			return null;
 	    }
@@ -221,12 +220,12 @@ public class God {
 					   }
 					   
 					   if (day % 6 == 0 || day % 7 == 0 && !banksClosed){
-						   //notifyBanksClosed();
+						   //notifyBanksClosed(); //handled by hosts now.
 						   isWeekend = true;
 					   }
 					   else {
 						   if (banksClosed)
-							   	//notifyBanksOpen();
+							   	//notifyBanksOpen(); //handled by hosts now.
 						   isWeekend = false;
 					   }
 				   }

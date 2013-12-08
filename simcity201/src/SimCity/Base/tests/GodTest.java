@@ -50,7 +50,7 @@ public class GodTest extends TestCase {
 	
 	public void test_CheckConstructor() {
 		set();
-		assertTrue("God should have zero hour", God.Get().hour == 0);
+		assertTrue("God should have zero hour", God.Get().hour == 3);
 		assertTrue("God should have zero day", God.Get().day == 0);
 		
 		
