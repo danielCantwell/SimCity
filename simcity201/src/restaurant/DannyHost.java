@@ -186,6 +186,7 @@ public class DannyHost extends Role {
 
 	private void seatCustomer(DannyCustomer customer, Table table,
 			DannyWaiter waiter) {
+		System.out.println("Danny Host -- Seat Customer");
 		customer.setWaiter(waiter);
 		table.setOccupant(customer);
 		waiter.msgPleaseSeatCustomer(customer, table.tableNumber);

@@ -165,38 +165,38 @@ public class God {
 						   fakeCustomersGoToWork(1);
 					   }
 					   
-					   if (hour == 12 && !announcedTime){
+					   if (hour == 13 && !announcedTime){
 						   getOffWork(1);
 					   }
 					   
 					   //SHIFT #2
-					   if (hour == 13 && !announcedTime){
+					   if (hour == 14 && !announcedTime){
 						   flushAllPersonActions();
 						   managersGoToWork(2);
 					   }
 					   
-					   if (hour == 14 && !announcedTime){
+					   if (hour == 15 && !announcedTime){
 						   restaurantPeopleGoWork(2);
 					   }
 					   
-					   if (hour == 15 && !announcedTime){
+					   if (hour == 16 && !announcedTime){
 						   goToWork(2);
 					   }
 					   
-					   if (hour == 16 && !announcedTime){
+					   if (hour == 17 && !announcedTime){
 						   fakeCustomersGoToWork(2);
 					   }
 					   
 					   
-					   if (hour == 19 && !announcedTime){
+					   if (hour == 20 && !announcedTime){
 						   getOffWork(2);
 					   }
 					   
-					   if (hour == 21 && !announcedTime){
+					   if (hour == 22 && !announcedTime){
 						   goHome();
 	        			}
 					   
-					   if (hour==23 && !announcedTime){
+					   if (hour==24 && !announcedTime){
 						   goToSleep();
 						   flushAllPersonActions();
 					   }
