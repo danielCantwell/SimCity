@@ -69,7 +69,7 @@ public class God {
 					return b;
 				}
 			}
-			System.out.println("Could not find building: " + id);
+			//System.out.println("Could not find building: " + id);
 			AlertLog.getInstance().logError(AlertTag.God, "God", "Line 73: Could not find building" + id);
 			
 			return null;
@@ -135,7 +135,7 @@ public class God {
 	        if (INSTANCE != null) {
 	            throw new IllegalStateException("Already instantiated");
 	        }
-	        //System.out.println("God Created");
+	        
 	        //set God variables.
 	        hour = 3;
 	        hourOffset = 10000;
@@ -206,7 +206,7 @@ public class God {
 					   if (hour >= 24) { //if the hour is 24 hours, then hours is reset back to zero
 						   hour = 0; //and a day is added to the Date.
 						   day ++ ;
-						   //System.out.println ("Day: "+ day);
+						   AlertLog.getInstance().logInfo(AlertTag.God, "God", "Day " + day+ " : It is now morning.");
 					   }
 					   
 					   //Collect rent.
@@ -242,7 +242,7 @@ public class God {
 	    
 	    public void wakeUp(){
 	    	announcedTime = true;
-	    	AlertLog.getInstance().logMessage(AlertTag.God, "God", "Hour " + hour + " A.M. : It is now morning.");
+	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : It is now morning.");
 	    	for(Person p: persons){
 	    		p.msgMorning();
 	    	}
@@ -260,7 +260,7 @@ public class God {
 	    
 	    public void managersGoToWork(int shift){
 	    	announcedTime = true;
-	    	System.out.println("managers going to work");
+	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Managers are going to work.");
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
 	    			if (!isWeekend)
@@ -286,7 +286,7 @@ public class God {
 	    
 	    public void goHome(){
 	    	announcedTime = true;
-	    	System.out.println("EVERYONE GO HOME");
+	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : All citizens are required to go home.");
 	    	for(Person p: persons){
 	    		p.msgGoHome();
 	    	}
@@ -294,7 +294,7 @@ public class God {
 	    
 	    public void goToSleep(){
 	    	announcedTime = true;
-	    	System.out.println("go to sleep now.");
+	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : All citizens are required to sleep.");
 	    	for (Person p: persons){
 	    		p.msgSleep();
 	    	}
@@ -302,7 +302,7 @@ public class God {
 	    
 	    public void goToWork(int shift){
 	    	announcedTime = true;
-	    	System.out.println("Employee Work Time");
+	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Employees must go to work.");
 	    	for (Person p: persons){
 	    		if(p.getTimeState() != TimeState.working)
 	    			if (!(p.getMainRole() instanceof DannyCustomer))
@@ -319,7 +319,7 @@ public class God {
 	    
 	    public void restaurantPeopleGoWork(int shift){
 	    	announcedTime = false;
-	    	System.out.println("Restaurant Work Time");
+	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Restaurant employees must go to work.");
 	    	for(Person p: persons){
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
 	    			if (p.getShift() == shift)
@@ -346,7 +346,7 @@ public class God {
 	    
 	    public void getOffWork(int shift){
 	    	announcedTime = true;
-	    	System.out.println("its time to go off work");
+	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Shift ["+ shift+"] is now over.");
 	    	for (Person p: persons){
 	    		if (p.getShift() == shift)
 	    		p.msgWorkOver();

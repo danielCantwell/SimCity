@@ -24,6 +24,7 @@ import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
+import SimCity.trace.Alert;
 import SimCity.trace.AlertLevel;
 import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
@@ -366,6 +367,9 @@ public class SetupPanel extends JFrame {
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
 		
+		AlertLog.getInstance().logInfo(AlertTag.God, "God", "Welcome to SimCity201.");
+        AlertLog.getInstance().logInfo(AlertTag.God, "God", "This is the Trace Panel.");
+		
 		//----Initialize trace panel here --
 		
 		logsPanel.setLayout(new BoxLayout(logsPanel, BoxLayout.X_AXIS));
@@ -500,8 +504,118 @@ public class SetupPanel extends JFrame {
 				//================================================================================
 			}
 		});
+		showPerson.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showPerson.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.PERSON);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.PERSON);
+				//================================================================================
+			}
+		});
+		showBank.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showBank.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.BANK);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.BANK);
+				//================================================================================
+			}
+		});
+		showHouse.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showHouse.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.House);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.House);
+				//================================================================================
+			}
+		});
+		showMarket.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showMarket.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.Market);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.Market);
+				//================================================================================
+			}
+		});
 		
+		showBrianRest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showBrianRest.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.BrianRest);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.BrianRest);
+				//================================================================================
+			}
+		});
+		showTimRest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showTimRest.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.TimRest);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.TimRest);
+				//================================================================================
+			}
+		});
 		
+		showEricRest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showEricRest.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.EricRest);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.EricRest);
+				//================================================================================
+			}
+		});
+		
+		showJesseRest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showJesseRest.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.JesseRest);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.JesseRest);
+				//================================================================================
+			}
+		});
+		
+		showDannyRest.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showDannyRest.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.DannyRest);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.DannyRest);
+				//================================================================================
+			}
+		});
 		
 		
 		
