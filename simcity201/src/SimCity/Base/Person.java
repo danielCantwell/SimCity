@@ -14,9 +14,6 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import brianRest.BrianCustomerRole;
-import brianRest.BrianWaiterRole;
-import market.MarketDeliveryPersonRole;
 import exterior.gui.CarGui;
 import exterior.gui.Gui;
 import exterior.gui.PersonGui;
