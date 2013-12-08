@@ -1,5 +1,6 @@
 package jesseRest.interfaces;
 
+import SimCity.Globals.Money;
 import jesseRest.Check;
 
 /**
@@ -9,5 +10,5 @@ import jesseRest.Check;
  *
  */
 public interface Market {
-	public abstract void msgHereIsPayment(int amountOwed);
+	public abstract void msgHereIsPayment(Money amountOwed);
 }

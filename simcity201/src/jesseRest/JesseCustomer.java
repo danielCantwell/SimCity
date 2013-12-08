@@ -5,6 +5,7 @@ import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_JesseRestaurant;
+import SimCity.Globals.Money;
 import jesseRest.Check;
 import jesseRest.Menu;
 
@@ -37,7 +38,7 @@ public class JesseCustomer extends Role implements Customer {
 	public boolean ordersFoodWhenCantAfford = true;
 	
 	// Customers start with $15.
-	public double money = 15;
+	public Money money = new Money(15, 0);
 
 	public enum AgentState {DoingNothing, WaitingInRestaurant, BeingSeated, Seated, Deciding, Ordering, DoneOrdering, GivingOrder, Eating, DoneEating, Paying, Leaving};
 	private AgentState state = AgentState.DoingNothing;
@@ -256,17 +257,17 @@ public class JesseCustomer extends Role implements Customer {
 		// Mechanism to choose what to order (randomly generated)
 		if (ordersFoodWhenCantAfford) {
 			choice = menu.foodChoices.get((int)Math.floor(Math.random() * menu.foodChoices.size()));
-			if (menu.getPrice(choice) > money) {
+			if (menu.getPrice(choice).isGreaterThan(money)) {
 				print("This customer is a flake! Ordered " + choice + " but only has $" + money);
 			}
 		} else {
-			if (money > menu.getPrice("Steak")) {
+			if (money.isGreaterThan(menu.getPrice("Steak"))) {
 				choice = "Steak";
-			} else if (money > menu.getPrice("Chicken")) {
+			} else if (money.isGreaterThan(menu.getPrice("Chicken"))) {
 				choice = "Chicken";
-			} else if (money > menu.getPrice("Pizza")) {
+			} else if (money.isGreaterThan(menu.getPrice("Pizza"))) {
 				choice = "Pizza";
-			} else if (money > menu.getPrice("Salad")) {
+			} else if (money.isGreaterThan(menu.getPrice("Salad"))) {
 				choice = "Salad";
 			} else {
 				print("Customer does not have enough money to afford absolutely anything");
@@ -330,13 +331,15 @@ public class JesseCustomer extends Role implements Customer {
 	
 	private void PayCashier() {
 		print("Message: Sending Paying from Customer to Cashier");
-		if (mycheck.amount > money) {
+		if (mycheck.amount.isGreaterThan(money)) {
 			print("Customer is in debt of the cashier.");
-			cashier.msgPaying(mycheck, mycheck.amount - money);
+			Money payAmount = mycheck.amount;
+			payAmount.subtract(money);
+			cashier.msgPaying(mycheck, payAmount);
 		} else {
 			cashier.msgPaying(mycheck, mycheck.amount);
 		}
-		money -= mycheck.amount;
+		money.subtract(mycheck.amount);
 		customerGui.DoExitRestaurant();
 		print("Customer has " + money + " dollars left.");
 		print("Customer paid and is leaving restaurant.");

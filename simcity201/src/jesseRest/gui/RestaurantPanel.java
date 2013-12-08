@@ -2,6 +2,8 @@ package jesseRest.gui;
 
 import javax.swing.*;
 
+import SimCity.Globals.Money;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -220,7 +222,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
              {
                  System.out.println("All customers have money decreased to $0.");
                  for (JesseCustomer c : customers) {
-                	 c.money = 0;
+                	 c.money = new Money(0, 0);
                  }
              }
         };
@@ -240,7 +242,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
              public void actionPerformed(ActionEvent e)
              {
                  System.out.println("Cashier money reduced to $0.");
-                 cashier.money = 0;
+                 cashier.money = new Money(0, 0);
              }
         };
         Action keyCtrlA = new AbstractAction()
@@ -248,7 +250,7 @@ public class RestaurantPanel extends JPanel implements ActionListener {
              public void actionPerformed(ActionEvent e)
              {
                  System.out.println("Cashier money raised by $100.");
-                 cashier.money += 100;
+                 cashier.money.add(100, 0);
              }
         };
 //        Action keyCtrlR = new AbstractAction()
