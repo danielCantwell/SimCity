@@ -25,9 +25,6 @@ public class B_DannyRestaurant extends Building {
 	public DannyCashier cashierRole = new DannyCashier();
 	public DannyCook cookRole = new DannyCook();
 
-	List<DannyWaiter> waiters = new ArrayList<DannyWaiter>();
-	List<DannyCustomer> customers = new ArrayList<DannyCustomer>();
-
 	public int numWaiters = 0;
 
 	public boolean hostFilled = false;
@@ -41,8 +38,6 @@ public class B_DannyRestaurant extends Building {
 	public B_DannyRestaurant(int id, JPanel jp, int xCoord, int yCoord) {
 		this.id = id;
 		buildingPanel = jp;
-		//DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) jp;
-		//ap.setRestaurant(this);
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
@@ -76,30 +71,14 @@ public class B_DannyRestaurant extends Building {
 	public void ExitBuilding(Person person) {
 		person.resetActiveRoles();
 		person.msgExitBuilding();
-		for (DannyWaiter waiter : waiters) {
-			if (waiter.myPerson == person) {
-				waiters.remove(waiter);
-				System.out.println("Waiter " + person.name + " removed from restaurant list");
-			}
-		}
-		for (DannyCustomer customer : customers) {
-			if (customer.myPerson == person) {
-				customers.remove(customer);
-				System.out.println("Customer " + person.name + " removed from restaurant list");
-			}
-		}
 	}
 
 	public void EnterBuilding(Person person, String job) {
 		Role newRole = null;
 		try {
 			if (job.equals("restaurant.DannyCustomer")) {
-				newRole = new DannyCustomer() {
-					{
-						setHost(hostRole);
-					}
-				};
-				customers.add((DannyCustomer) newRole);
+				newRole = new DannyCustomer();
+				((DannyCustomer) newRole).setHost(hostRole);
 			} else if (job.equals("restaurant.DannyHost")) {
 				newRole = hostRole;
 				hostFilled = true;
@@ -111,8 +90,10 @@ public class B_DannyRestaurant extends Building {
 				numWaiters++;
 				newRole = new DannyWaiter();
 				((DannyWaiter) newRole).setNum(numWaiters);
+				((DannyWaiter) newRole).setHost(hostRole);
+				((DannyWaiter) newRole).setCook(cookRole);
+				((DannyWaiter) newRole).setCashier(cashierRole);
 				setOpen(areAllNeededRolesFilled());
-				waiters.add((DannyWaiter) newRole);
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
@@ -138,19 +119,6 @@ public class B_DannyRestaurant extends Building {
 			person.msgCreateRole(newRole, true);
 			fillNeededRoles(person, newRole);
 			person.msgEnterBuilding(this);
-			
-
-			if (areAllNeededRolesFilled()) {
-				for (DannyWaiter waiter : waiters) {
-					if (waiter.getHost() != hostRole)
-						hostRole.addWaiter(waiter);
-						waiter.setHost(hostRole);
-					if (waiter.getCashier() != cashierRole)
-						waiter.setCashier(cashierRole);
-					if (waiter.getCook() != cookRole)
-						waiter.setCook(cookRole);
-				}
-			}
 
 			if (newRole instanceof DannyHost)
 				((DannyHost) newRole).setName(newRole.myPerson.name);
