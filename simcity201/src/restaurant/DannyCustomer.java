@@ -317,9 +317,9 @@ public class DannyCustomer extends Role implements Customer {
 		Do("Leaving.");
 		state = AgentState.Leaving;
 		cashierEvent = CashierEvent.none;
-		if (customerGui != null)
+		if (customerGui != null) {
 			customerGui.DoExitRestaurant();
-		else {
+		} else {
 			myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 			exitRestaurant();
 		}
@@ -390,7 +390,7 @@ public class DannyCustomer extends Role implements Customer {
 		// could be a state change. Maybe you don't
 		// need to eat until hunger lever is > 5?
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Danny Customer";
@@ -413,6 +413,9 @@ public class DannyCustomer extends Role implements Customer {
 	}
 
 	public void exitRestaurant() {
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson
+				.getBuilding().getPanel();
+		ap.removeGui(customerGui);
 		exitBuilding(myPerson);
 	}
 
@@ -441,7 +444,6 @@ public class DannyCustomer extends Role implements Customer {
 	@Override
 	public void workOver() {
 		leaveRestaurant();
-		exitBuilding(myPerson);
 	}
 
 	@Override

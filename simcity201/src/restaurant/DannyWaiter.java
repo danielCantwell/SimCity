@@ -36,6 +36,7 @@ public class DannyWaiter extends Role implements Waiter {
 	private Semaphore customerSeated = new Semaphore(0, true);
 	private Semaphore readyToTakeOrder = new Semaphore(0, true);
 	private Semaphore seatingCustomer = new Semaphore(0, true);
+	private Semaphore leftRestaurant = new Semaphore(0, true);
 
 	enum CustomerState {
 		Waiting, Seated, ReadyToOder, AskedToOrder, WaitingForOrder, Paying
@@ -82,8 +83,7 @@ public class DannyWaiter extends Role implements Waiter {
 	 */
 	
 	public void msgLeaveRestaurant() {
-		workOver = true;
-		stateChanged();
+		leftRestaurant.release();
 	}
 
 	public void msgPleaseSeatCustomer(Customer customer, int table) {
@@ -604,6 +604,19 @@ public class DannyWaiter extends Role implements Waiter {
 		System.out.println("Waiter workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.numWaiters--;
+		
+		waiterGui.DoLeaveRestaurant();
+		
+		try {
+			leftRestaurant.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.removeGui(waiterGui);
+		
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
 	}
