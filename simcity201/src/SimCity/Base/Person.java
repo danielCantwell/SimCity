@@ -211,7 +211,7 @@ public class Person extends Agent {
 		setMainRole(mainRole);
 		this.vehicle = Vehicle.walk;
 		this.mor = Morality.good;
-		this.money = new Money(100,10);
+		this.money = new Money(70,10);
 		this.accNum = 1;
 		this.moneyThreshold = new Money(1, 0);
 		this.hungerLevel = 10;

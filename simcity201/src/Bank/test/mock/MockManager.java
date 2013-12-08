@@ -1,4 +1,6 @@
 package Bank.test.mock;
+import java.util.Map;
+
 import restaurant.test.mock.EventLog;
 import restaurant.test.mock.LoggedEvent;
 import SimCity.Base.Person;
@@ -60,6 +62,12 @@ public class MockManager implements Manager {
 
 	@Override
 	public void tellerReady(tellerRole tellerRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void giveMap(Map<Integer, Money> bankAccs) {
 		// TODO Auto-generated method stub
 		
 	}

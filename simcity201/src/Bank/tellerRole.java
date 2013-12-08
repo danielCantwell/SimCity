@@ -47,10 +47,16 @@ public class tellerRole extends Role implements Teller {
 		manager.newTeller(this);
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
+		bankgui.repaint();
 		gui.setText("Teller");
 		stateChanged();
 	}
-
+	@Override
+	public void managerMap(Map<Integer, Money> managerAccs){
+		bankAccs = managerAccs;
+		System.out.println("__________________________"+bankAccs.get(2000).getDollar());
+	}
+	
 	@Override
 	public void tellerAssigned(Customer c, int accNum) {
 		Client cl = new Client();
@@ -127,7 +133,7 @@ public class tellerRole extends Role implements Teller {
 					c.s = state.deposit;
 					c.editmoney = money;
 					System.out.println("Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
-					System.out.println("Before PAE scheduler: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
+//					System.out.println("Before PAE scheduler: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
 					stateChanged();
 				}	
 			}
@@ -203,7 +209,7 @@ public class tellerRole extends Role implements Teller {
 					return true;
 				}
 				else if (c.s == state.deposit) {
-					System.out.println("Inside PAE scheduler2: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
+//					System.out.println("Inside PAE scheduler2: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
 					depositDone(c);
 					return true;
 				}
@@ -231,7 +237,7 @@ public class tellerRole extends Role implements Teller {
 	}
 
 	public void robbery(Client c) {
-		c.money = c.money.add(20, 0);
+		c.money.add(20, 0);
 		c.r.doneRobbing(c.money);
 		clients.remove(c);
 	}
@@ -240,7 +246,7 @@ public class tellerRole extends Role implements Teller {
 
 	public void withdrawDone(Client c) {
 		if( ! (c.editmoney.isGreaterThan(bankAccs.get(c.accountNum)))) {
-			c.money = c.money.add(c.editmoney);
+			c.money.add(c.editmoney);
 			Money temp = bankAccs.get(c.accountNum);
 			bankAccs.put(c.accountNum, temp.subtract(c.editmoney));
 			c.cust.transactionComplete(c.money);
@@ -253,13 +259,9 @@ public class tellerRole extends Role implements Teller {
 
 	public void depositDone(Client c) {
 		c.s = state.inTrans;
-		c.money = c.money.subtract(c.editmoney);
-		//System.out.println("###"+c.money.getDollar());
-		Money temp = bankAccs.get(c.accountNum);
-		bankAccs.put(c.accountNum, temp.add(c.editmoney));
+		c.money.subtract(c.editmoney);
+		bankAccs.put(c.accountNum, bankAccs.get(c.accountNum).add(c.editmoney));
 		c.cust.transactionComplete(c.money);
-		System.out.println("Customer current total: $"+c.money.dollars);
-		//System.out.println(bankAccs.get(1).getDollar());
 		clients.remove(c);
 		manager.tellerReady(this);
 
@@ -279,6 +281,7 @@ public class tellerRole extends Role implements Teller {
 
 	@Override
 	public void leaveBank() {
+		manager.giveMap(bankAccs);
 		gui.doLeaveBank();
 		try {
 			moving.acquire();

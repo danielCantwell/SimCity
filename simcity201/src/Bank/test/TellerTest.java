@@ -48,7 +48,7 @@ public class TellerTest extends TestCase {
 		assertTrue("cust1 should have logged \"Teller called for me but instead his log reads"+cust1.log.getLastLoggedEvent().toString(),
 				cust1.log.containsString("Teller called for me"));
 		//Receive message
-		teller.foundTeller(accNum, money, cust1);
+		teller.foundTeller( money, cust1);
 		// PickAndExecuteAnAction should return true
 		assertTrue(teller.pickAndExecuteAnAction());
 		//check postConditions, accounts created successfully
@@ -79,7 +79,7 @@ public class TellerTest extends TestCase {
 		assertTrue("cust1 should have logged \"Teller called for me but instead his log reads"+cust1.log.getLastLoggedEvent().toString(),
 				cust1.log.containsString("Teller called for me"));
 		//Receive message
-		teller.foundTeller(accNum, money, cust1);
+		teller.foundTeller( money, cust1);
 		// PickAndExecuteAnAction should return true
 		assertTrue(teller.pickAndExecuteAnAction());
 		//check postConditions, accounts created successfully

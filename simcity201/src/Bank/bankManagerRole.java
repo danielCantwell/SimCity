@@ -8,6 +8,7 @@ import Bank.interfaces.Manager;
 import Bank.interfaces.Teller;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
+import SimCity.Globals.Money;
 /**
  * Manager Role
  * @author Eric
@@ -16,6 +17,7 @@ import SimCity.Buildings.B_Bank;
 public class bankManagerRole extends Role implements  Manager{
 
 	Guard guard;
+	public Map<Integer, Money> ManagerAccs = new HashMap<Integer, Money>();
 
 	public void msgHello(){
 		System.out.println("Manager received a messsage from customer");
@@ -34,6 +36,7 @@ public class bankManagerRole extends Role implements  Manager{
 
 	//----------------------------------------------Data-------------------------------------------------
 	int accNum = 0;
+	Money RMoney = new Money(500,0);
 	List<Teller> tellers = Collections.synchronizedList(new ArrayList<Teller>());
 
 	public class Teller {
@@ -43,6 +46,14 @@ public class bankManagerRole extends Role implements  Manager{
 	}
 	private enum state { yes, no };
 	List<Customer>clients = Collections.synchronizedList(new ArrayList<Customer>());
+	
+	public bankManagerRole() {
+		ManagerAccs.put(1000, RMoney);
+		ManagerAccs.put(2000, RMoney);
+		ManagerAccs.put(3000, RMoney);
+		ManagerAccs.put(4000, RMoney);
+		ManagerAccs.put(5000, RMoney);
+	}
 
 	//----------------------------------------------Messages-------------------------------------------------
 
@@ -81,6 +92,11 @@ public class bankManagerRole extends Role implements  Manager{
 			}
 		}
 	}
+	
+	public void giveMap(Map<Integer, Money> bankAccs) {
+		ManagerAccs = bankAccs;
+	}
+
 
 	//----------------------------------------------Scheduler-------------------------------------------------
 	@Override
@@ -101,6 +117,7 @@ public class bankManagerRole extends Role implements  Manager{
 
 	@Override
 	public void callTeller(Customer c, Teller t) {
+		t.teller.managerMap(ManagerAccs);
 		if (c.getAccNum() == -1) {
 			t.teller.tellerAssigned(c, accNum);
 			accNum++;
@@ -114,7 +131,7 @@ public class bankManagerRole extends Role implements  Manager{
 		// GUI call to leave bank
 		exitBuilding(myPerson);
 	}
-
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
