@@ -78,18 +78,8 @@ public class B_Bank extends Building{
 	}
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
-		if (r instanceof bankManagerRole){
-			manager = r.myPerson;
-			bankManager = (Manager) r;
-		}
-		else if (r instanceof bankGuardRole){
-			guard = r.myPerson;
-			bankGuard = (Guard) r;
-			System.out.println(bankGuard);
-		}
+		// TODO Auto-generated method stub
 		
 	}
-
-	
 
 }
