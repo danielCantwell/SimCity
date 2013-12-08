@@ -88,6 +88,7 @@ public class DannyWaiter extends Role implements Waiter {
 
 	public void msgPleaseSeatCustomer(Customer customer, int table) {
 		print("MESSAGE 2 : Host -> Waiter : PleaseSeatCustomer");
+		System.out.println("Waiter: " + hashCode() + " msgPleaseSeatCustomer");
 		myCustomers.add(new MyCustomer(customer, table));
 		stateChanged();
 	}
@@ -256,6 +257,8 @@ public class DannyWaiter extends Role implements Waiter {
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
+		
+		System.out.println("Waiter: " + hashCode() + " Pick and Execute an Action");
 
 		try {
 
@@ -282,6 +285,7 @@ public class DannyWaiter extends Role implements Waiter {
 			}
 
 			for (MyCustomer myCustomer : myCustomers) {
+				System.out.println("Waiter: " + hashCode() + " myCustomer");
 				if (myCustomer.state == CustomerState.Waiting) {
 					print("seatCustomer");
 					seatCustomer(myCustomer);
@@ -585,13 +589,13 @@ public class DannyWaiter extends Role implements Waiter {
 
 	@Override
 	protected void enterBuilding() {
-		System.out.println("Waiter enterBuilding");
 		WaiterGui wg = new WaiterGui(this, numWaiter);
 		waiterGui = wg;
 		// add gui
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		ap.addGui(waiterGui);
+		System.out.println("Waiter: " + hashCode() + " enterBuilding");
 	}
 
 	@Override
@@ -605,7 +609,6 @@ public class DannyWaiter extends Role implements Waiter {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Danny Waiter";
 	}
 }
