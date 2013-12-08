@@ -73,6 +73,9 @@ public class BrianCookRole extends Role implements BrianCook {
 		 orders.add(order);
 		 stateChanged();
 	}
+	public void msgStateChanged(){
+		stateChanged();
+	}
 	
 	@Override
 	public void msgFillOrder(String choice, int amount, boolean filled){
@@ -102,10 +105,6 @@ public class BrianCookRole extends Role implements BrianCook {
 		// if there exists an Order o in pendingOrder such that o.OrderState == pending
 		//then CookOrder(o);
 	try{
-		if (orderstand.getSize() > 0){
-			makeCookOrder(orderstand.popFirstOrder());
-			return true;
-		}
 
 		if (orders.size() > 0){
 				//Look for all pending orders.
@@ -115,6 +114,11 @@ public class BrianCookRole extends Role implements BrianCook {
 						return true;
 					}
 					
+				}
+				
+				if (orderstand.getSize() > 0){
+					makeCookOrder(orderstand.popFirstOrder());
+					return true;
 				}
 				
 				for (int i=0; i<orders.size();i++){

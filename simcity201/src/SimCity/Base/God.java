@@ -263,6 +263,7 @@ public class God {
 	    	System.out.println("managers going to work");
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
+	    			if (!isWeekend)
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}else
@@ -328,7 +329,7 @@ public class God {
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
                 }
-	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
+	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianPCWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
