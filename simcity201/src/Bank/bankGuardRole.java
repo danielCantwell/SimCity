@@ -70,7 +70,7 @@ public class bankGuardRole extends Role implements Guard {
 		c.s = state.entered;
 		c.bc = newC;
 		custEnter.add(c);
-		//System.out.println("Myperson.mainrole: "+myPerson.mainRole+" Guard address: "+this+" Size: "+custEnter.size());
+		System.out.println("Myperson.mainrole: "+myPerson.mainRole+" Guard address: "+this+" Size: "+custEnter.size());
 		stateChanged();
 	}
 	
@@ -107,7 +107,7 @@ public class bankGuardRole extends Role implements Guard {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		//System.out.println("Myperson.mainrole: "+myPerson.mainRole+" ~Made it to Guard "+this+" PEA size: "+custEnter.size());
+		System.out.println("Myperson.mainrole: "+myPerson.mainRole+" ~Made it to Guard "+this+" PEA size: "+custEnter.size());
 		if( s == state.ready) {
 			enterBank();
 			return true;
@@ -137,6 +137,7 @@ public class bankGuardRole extends Role implements Guard {
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
 				if (c.s == state.entered) {
+					System.out.println("BOOOOOOOOOOOOOOOOBS");
 					askSearch(c);
 					return true;
 				}
