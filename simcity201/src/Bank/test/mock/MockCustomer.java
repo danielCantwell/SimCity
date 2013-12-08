@@ -28,7 +28,6 @@ public class MockCustomer implements Customer{
 		
 	}
 
-	@Override
 	public void setAccNum(int a) {
 		// TODO Auto-generated method stub
 		
@@ -56,7 +55,6 @@ public class MockCustomer implements Customer{
 		
 	}
 
-	@Override
 	public void tellerCalled(Teller t) {
 		log.add(new LoggedEvent ("Teller called for me"));
 	}
@@ -131,6 +129,18 @@ public class MockCustomer implements Customer{
 	public void doneMotion() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void tellerCalled(Teller t, int accNUm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getAccNum() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

@@ -32,7 +32,6 @@ public class MockTeller implements Teller {
 		
 	}
 
-	@Override
 	public void foundTeller(int accNum, Money money, Customer cust) {
 		// TODO Auto-generated method stub
 		
@@ -124,6 +123,18 @@ public class MockTeller implements Teller {
 
 	@Override
 	public void doneMotion() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tellerAssigned(Customer c, int accNum) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void foundTeller(Money money, Customer cust) {
 		// TODO Auto-generated method stub
 		
 	}
