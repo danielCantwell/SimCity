@@ -7,6 +7,7 @@ import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import SimCity.Globals.Money;
 import agent.Agent;
 
@@ -286,6 +287,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		}
 		if (state == AgentState.Left)
 		{
+	        myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 	        exitBuilding(myPerson);
 	        return true;
 		}
@@ -522,8 +524,10 @@ public class TimCustomerRole extends Role implements TimCustomer{
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+        if (!myPerson.building.getOpen()){
+            myPerson.Do("Restaurant is closed...");
+            exitBuilding(myPerson);
+        }
 	}
 
 	@Override

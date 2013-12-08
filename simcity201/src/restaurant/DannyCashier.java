@@ -213,6 +213,7 @@ public class DannyCashier extends Role implements Cashier {
 		System.out.println("Cashier workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
 		rest.cashierFilled = false;
+		exitBuilding(myPerson);
 	}
 
 	@Override

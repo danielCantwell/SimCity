@@ -41,8 +41,8 @@ public class B_DannyRestaurant extends Building {
 	public B_DannyRestaurant(int id, JPanel jp, int xCoord, int yCoord) {
 		this.id = id;
 		buildingPanel = jp;
-		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) jp;
-		ap.setRestaurant(this);
+		//DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) jp;
+		//ap.setRestaurant(this);
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
@@ -79,11 +79,13 @@ public class B_DannyRestaurant extends Building {
 		for (DannyWaiter waiter : waiters) {
 			if (waiter.myPerson == person) {
 				waiters.remove(waiter);
+				System.out.println("Waiter " + person.name + " removed from restaurant list");
 			}
 		}
 		for (DannyCustomer customer : customers) {
 			if (customer.myPerson == person) {
 				customers.remove(customer);
+				System.out.println("Customer " + person.name + " removed from restaurant list");
 			}
 		}
 	}
@@ -130,20 +132,25 @@ public class B_DannyRestaurant extends Building {
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			}
 
+			newRole.setActive(true);
+			newRole.setPerson(person);
+
+			person.msgCreateRole(newRole, true);
+			fillNeededRoles(person, newRole);
+			person.msgEnterBuilding(this);
+			
+
 			if (areAllNeededRolesFilled()) {
 				for (DannyWaiter waiter : waiters) {
 					if (waiter.getHost() != hostRole)
+						hostRole.addWaiter(waiter);
 						waiter.setHost(hostRole);
 					if (waiter.getCashier() != cashierRole)
 						waiter.setCashier(cashierRole);
 					if (waiter.getCook() != cookRole)
 						waiter.setCook(cookRole);
-					hostRole.addWaiter((DannyWaiter) newRole);
 				}
 			}
-
-			newRole.setActive(true);
-			newRole.setPerson(person);
 
 			if (newRole instanceof DannyHost)
 				((DannyHost) newRole).setName(newRole.myPerson.name);
@@ -155,10 +162,6 @@ public class B_DannyRestaurant extends Building {
 				((DannyCook) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyCustomer)
 				((DannyCustomer) newRole).setName(newRole.myPerson.name);
-
-			person.msgCreateRole(newRole, true);
-			fillNeededRoles(person, newRole);
-			person.msgEnterBuilding(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Building: no class found");

@@ -82,57 +82,61 @@ public class B_TimRest extends Building{
                 hostRole = restaurantRole;
                 panel.setHost(restaurantRole);
                 panel.addGui(restaurantRole.getGui());
+                person.msgEnterBuilding(this);
             }
-            if (newRole instanceof TimCookRole)
+            else if (hostRole != null)
             {
-                TimCookRole restaurantRole = (TimCookRole) person.mainRole;
-                hostRole.setCook(restaurantRole);
-                //restaurantRole.setHost(hostRole);
-                //hostRole.addClerk(restaurantRole);
-                panel.addGui(restaurantRole.getGui());
-                restaurantRole.addItemToInventory("Steak", 10, 2000);
-                restaurantRole.addItemToInventory("Chicken", 10, 3000);
-                restaurantRole.addItemToInventory("Salad", 10, 1000);
-                restaurantRole.addItemToInventory("Pizza", 10, 2000);
-            }
-            if (newRole instanceof TimCashierRole)
-            {
-                TimCashierRole restaurantRole = (TimCashierRole) person.mainRole;
-                hostRole.setCashier(restaurantRole);
-                //restaurantRole.setHost(hostRole);
-                //hostRole.addClerk(restaurantRole);
-                //panel.addGui(restaurantRole.getGui());
-                restaurantRole.addItemToMenu("Steak", new Money(15, 99));
-                restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
-                restaurantRole.addItemToMenu("Salad", new Money(5, 99));
-                restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
-            }
-            if (newRole instanceof TimWaiterRole)
-            {
-                TimWaiterRole restaurantRole = (TimWaiterRole) person.mainRole;
-                restaurantRole.setHost(hostRole);
-                hostRole.addWaiter(restaurantRole);
-                restaurantRole.addItemToMenu("Steak", new Money(15, 99));
-                restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
-                restaurantRole.addItemToMenu("Salad", new Money(5, 99));
-                restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
-                panel.addGui(restaurantRole.getGui());
-            }
-            if (newRole instanceof TimCustomerRole)
-            {
-                TimCustomerRole restaurantRole = null;
-                for (Role r : person.roles)
+                if (newRole instanceof TimCookRole)
                 {
-                    if (r instanceof TimCustomerRole)
+                    TimCookRole restaurantRole = (TimCookRole) person.mainRole;
+                    hostRole.setCook(restaurantRole);
+                    //restaurantRole.setHost(hostRole);
+                    //hostRole.addClerk(restaurantRole);
+                    panel.addGui(restaurantRole.getGui());
+                    restaurantRole.addItemToInventory("Steak", 10, 2000);
+                    restaurantRole.addItemToInventory("Chicken", 10, 3000);
+                    restaurantRole.addItemToInventory("Salad", 10, 1000);
+                    restaurantRole.addItemToInventory("Pizza", 10, 2000);
+                }
+                if (newRole instanceof TimCashierRole)
+                {
+                    TimCashierRole restaurantRole = (TimCashierRole) person.mainRole;
+                    hostRole.setCashier(restaurantRole);
+                    //restaurantRole.setHost(hostRole);
+                    //hostRole.addClerk(restaurantRole);
+                    //panel.addGui(restaurantRole.getGui());
+                    restaurantRole.addItemToMenu("Steak", new Money(15, 99));
+                    restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
+                    restaurantRole.addItemToMenu("Salad", new Money(5, 99));
+                    restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
+                }
+                if (newRole instanceof TimWaiterRole)
+                {
+                    TimWaiterRole restaurantRole = (TimWaiterRole) person.mainRole;
+                    restaurantRole.setHost(hostRole);
+                    hostRole.addWaiter(restaurantRole);
+                    restaurantRole.addItemToMenu("Steak", new Money(15, 99));
+                    restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
+                    restaurantRole.addItemToMenu("Salad", new Money(5, 99));
+                    restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
+                    panel.addGui(restaurantRole.getGui());
+                }
+                if (getOpen() && newRole instanceof TimCustomerRole)
+                {
+                    TimCustomerRole restaurantRole = null;
+                    for (Role r : person.roles)
                     {
-                        restaurantRole = (TimCustomerRole) r;
-                        restaurantRole.setHost(hostRole);
-                        panel.addGui(restaurantRole.getGui());
-                        restaurantRole.gotHungry();
+                        if (r instanceof TimCustomerRole)
+                        {
+                            restaurantRole = (TimCustomerRole) r;
+                            restaurantRole.setHost(hostRole);
+                            panel.addGui(restaurantRole.getGui());
+                            restaurantRole.gotHungry();
+                        }
                     }
                 }
+                person.msgEnterBuilding(this);
             }
-            person.msgEnterBuilding(this);
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
             e.printStackTrace();

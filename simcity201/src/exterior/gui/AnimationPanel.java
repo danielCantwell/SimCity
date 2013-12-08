@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.AbstractAction;
@@ -30,8 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
-
-//import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
 
 import SimCity.Base.Building;
 import SimCity.Base.God;
@@ -222,7 +219,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			e1.printStackTrace();
 		}
 
-		Timer trafficTimer = new Timer(10000, new ActionListener() {
+		Timer trafficTimer = new Timer(5000, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   horizontalRedLight = !horizontalRedLight;
 	    }});
@@ -314,9 +311,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		repaint();
+	
+	@Override
+    public void actionPerformed(ActionEvent arg0) {
+        for (Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+        repaint();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -457,12 +460,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				iconClock.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
 			}
 		}
-		
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
 
 		for (Gui gui : guis) {
 			if (gui.isPresent()) {
@@ -571,7 +568,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
              }
         };
         
@@ -579,7 +576,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
              }
         };
         
@@ -587,7 +584,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3));
+                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
              }
         };
         
@@ -595,7 +592,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2));
+                 marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2));
              }
         };
         
@@ -614,7 +611,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Tim", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(10));
+                 createPerson("Tim", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(10));
+                 timScenarioPerson("Graham", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
              }
         };
         
