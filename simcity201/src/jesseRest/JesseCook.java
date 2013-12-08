@@ -242,5 +242,11 @@ public class JesseCook extends Role {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "JesseCook";
+	}
 }
 

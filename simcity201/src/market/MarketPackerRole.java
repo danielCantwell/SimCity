@@ -237,4 +237,10 @@ public class MarketPackerRole extends Role implements MarketPacker {
             return other.id == id && other.choice.equals(choice) && other.amount == amount && other.location == location;
         }
     }
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "MarketPackerRole";
+	}
 }

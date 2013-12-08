@@ -269,4 +269,10 @@ public class MarketClerkRole extends Role implements MarketClerk {
             return id == other.id && choice.equals(other.choice) && amount == other.amount;
         }
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "MarketClerkRole";
+	}
 }

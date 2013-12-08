@@ -615,4 +615,10 @@ public class MarketManagerRole extends Role implements MarketManager {
             return location;
         }
     }
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "MarketManagerRole";
+	}
 }

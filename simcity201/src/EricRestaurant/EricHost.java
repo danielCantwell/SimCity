@@ -283,5 +283,11 @@ public class EricHost extends Role implements Host {
 		exitBuilding(myPerson);
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "EricHost";
+	}
+
 }
 

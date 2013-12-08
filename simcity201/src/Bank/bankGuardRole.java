@@ -214,4 +214,11 @@ public class bankGuardRole extends Role implements Guard {
 	public bankGuardGui getGui() { 
 		return gui;
 	}
+
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "bankGuardRole";
+	}
 }

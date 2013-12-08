@@ -415,4 +415,10 @@ public class TimCookRole extends Role {
         myPerson.Do("Closing time.");
         exitBuilding(myPerson);
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TimCookRole";
+	}
 }

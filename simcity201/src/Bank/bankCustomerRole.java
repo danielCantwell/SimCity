@@ -239,4 +239,10 @@ public class bankCustomerRole extends Role implements Customer{
 		return gui;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "bankCustomerRole";
+	}
+
 }

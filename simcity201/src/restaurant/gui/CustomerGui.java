@@ -255,6 +255,7 @@ public class CustomerGui implements Gui {
 	 * Animation to Exit Restaurant
 	 */
 	public void DoExitRestaurant() {
+		System.out.println("Customer DoExitRestaurant");
 		xDestination = -40;
 		yDestination = 2;
 		command = Command.LeaveRestaurant;

@@ -160,4 +160,10 @@ public class EricCashier extends Role {
 	public void workOver() {
 		exitBuilding(myPerson);
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "EricCashier";
+	}
 }

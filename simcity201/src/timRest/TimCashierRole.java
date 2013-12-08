@@ -221,4 +221,10 @@ public class TimCashierRole extends Role implements TimCashier{
         exitBuilding(myPerson);
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TimCashierRole";
+	}
+
 }
