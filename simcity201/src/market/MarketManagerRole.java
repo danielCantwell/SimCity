@@ -117,20 +117,9 @@ public class MarketManagerRole extends Role implements MarketManager {
         stateChanged();
     }
 	
-    public void msgHereIsTheMoney(MarketClerk clerk, int id, Money amount)
+    public void msgHereIsTheMoney(Money amount)
     {
         money.add(amount);
-        synchronized(orders)
-        {
-            for (Order o : orders)
-            {
-                if (o.id == id && o.getCost().equals(amount))
-                {
-                    orders.remove(o);
-                    break;
-                }
-            }
-        }
         stateChanged();
     }
     
@@ -245,6 +234,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	    if (customer != null)
 	    {
 	        giveToClerk(customer);
+	        return true;
 	    }
 	    
         synchronized(orders)

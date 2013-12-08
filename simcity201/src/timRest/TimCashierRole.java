@@ -7,13 +7,16 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import market.MarketManagerRole;
+import market.interfaces.MarketDeliveryCashier;
 import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
+import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 
-public class TimCashierRole extends Role implements TimCashier{
+public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCashier{
 	
 	Timer timer = new Timer();
 
@@ -58,6 +61,11 @@ public class TimCashierRole extends Role implements TimCashier{
 			}
 		}
 	}
+	
+	public void msgPayMarket(MarketManagerRole manager, Money money)
+	{
+	    billsToPay.add(new Bill(manager, money));
+	}
 
 	public void msgHereIsTheMoney(Money cash)
 	{
@@ -91,7 +99,7 @@ public class TimCashierRole extends Role implements TimCashier{
 				{
 					if (!bill.price.isGreaterThan(cashInRegister))
 					{
-						//payMarket(bill);
+						payMarket(bill);
 						billsToPay.remove(bill);
 						return true;
 					}
@@ -154,12 +162,12 @@ public class TimCashierRole extends Role implements TimCashier{
 		checks.remove(check);
 	}
 	
-//	private void payMarket(Bill bill)
-//	{
-//		Do("Paying $" + bill.price + " to " + bill.market.getName() + ".");
-//		bill.market.msgHereIsPayment(bill.price);
-//		cashInRegister -= bill.price;
-//	}
+	private void payMarket(Bill bill)
+	{;
+		Do("Paying $" + bill.price + " to " + bill.manager.myPerson.getName() + ".");
+		bill.manager.msgHereIsTheMoney(bill.price);
+		cashInRegister.subtract(bill.price);
+	}
 	
 	public void addItemToMenu(String choice, Money price)
 	{
@@ -194,16 +202,16 @@ public class TimCashierRole extends Role implements TimCashier{
 	
 	public class Bill
 	{
-		//public Market market;
+		public MarketManagerRole manager;
 		public Money price;
 		public boolean interest;
 		
-//		public Bill(Market market, double price)
-//		{
-//			this.market = market;
-//			this.price = price;
-//			interest = false;
-//		}
+		public Bill(MarketManagerRole manager, Money price)
+		{
+			this.manager = manager;
+			this.price = price;
+			interest = false;
+		}
 	}
 	public void print(String string) {
 		System.out.println(string);

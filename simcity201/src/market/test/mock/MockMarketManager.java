@@ -36,7 +36,7 @@ public class MockMarketManager implements MarketManager
     }
 
     @Override
-    public void msgHereIsTheMoney(MarketClerk clerk, int id, Money amount)
+    public void msgHereIsTheMoney(Money amount)
     {
         // TODO Auto-generated method stub
 

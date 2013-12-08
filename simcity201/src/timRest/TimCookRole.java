@@ -7,21 +7,29 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import market.MarketManagerRole;
+import market.interfaces.MarketDeliveryCook;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 import timRest.gui.TimCookGui;
+import timRest.gui.TimHostGui;
 import timRest.interfaces.TimWaiter;
 
-public class TimCookRole extends Role {
+public class TimCookRole extends Role implements MarketDeliveryCook {
 	
 	private final int NORMAL_AMOUNT_TO_ORDER = 8;
 	
 	private TimCookGui gui = new TimCookGui(this);
 	
+	private TimHostRole host;
+	
 	private Timer timer = new Timer();
 
 	private List<Order> itemsToCook = Collections.synchronizedList(new ArrayList<Order>());
 	private List<Food> foods = Collections.synchronizedList(new ArrayList<Food>());
-//	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
+	private List<Delivery> deliveries = Collections.synchronizedList(new ArrayList<Delivery>());
+	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
 	
 	private HashMap<String, Integer> cookingMap = new HashMap<String, Integer>();
 	
@@ -100,23 +108,30 @@ public class TimCookRole extends Role {
 //		}
 //	}
 //	
-	public void msgOrderDelivered(String choice, int amount)
-	{
-		synchronized(foods)
-		{
-			for (Food f : foods)
-			{
-				if (f.name.equals(choice))
-				{
-					f.state = FoodState.inStock;
-					f.inventory += amount;
-					outOfFood = false;
-					stateChanged();
-					return;
-				}
-			}
-		}
-	}
+
+    @Override
+    public void msgHereIsYourFood(String food, int amount, MarketManagerRole manager, Money price)
+    {
+        synchronized(foods)
+        {
+            for (Food f : foods)
+            {
+                if (f.name.equals(food))
+                {
+                    f.state = FoodState.inStock;
+                    f.inventory += amount;
+                    outOfFood = false;
+                    Do("Recieved delivery! Now I have " + f.inventory + " " + f.name + " in stock.");
+                    stateChanged();
+                    return;
+                }
+            }
+        }
+        synchronized(deliveries)
+        {
+            deliveries.add(new Delivery(manager, price));
+        }
+    }
 	
 //	public void msgPartialOrderDelivered(Market market, String choice, int amount)
 //	{
@@ -223,6 +238,11 @@ public class TimCookRole extends Role {
 	@Override
 	protected boolean pickAndExecuteAnAction()
 	{
+        if (!deliveries.isEmpty())
+        {
+            askCashierToPay(deliveries.get(0));
+            return true;
+        }
 		if (state == CookState.idle)
 		{
 			synchronized(itemsToCook)
@@ -247,23 +267,23 @@ public class TimCookRole extends Role {
 		}
 		synchronized(itemsToCook)
 		{
-//			for (Food f : foods)
-//			{
-//				if (f.inventory <= 3)
-//				{
-//					// out of item
-//					// notify waiter
-//					// order more if haven't already
-//					if (f.state == FoodState.inStock)
-//					{
-//						// order more;
-//						orderMoreFood(f, f.amountToOrder);
-//						// if amount was changed, reset to initial value
-//						f.amountToOrder = NORMAL_AMOUNT_TO_ORDER;
-//						return true;
-//					}
-//				}
-//			}
+			for (Food f : foods)
+			{
+				if (f.inventory <= 3)
+				{
+					// out of item
+					// notify waiter
+					// order more if haven't already
+					if (f.state == FoodState.inStock)
+					{
+						// order more;
+						orderMoreFood(f, f.amountToOrder);
+						// if amount was changed, reset to initial value
+						f.amountToOrder = NORMAL_AMOUNT_TO_ORDER;
+						return true;
+					}
+				}
+			}
 			// find out if cook has no food
 			for (Food f : foods)
 			{
@@ -307,21 +327,27 @@ public class TimCookRole extends Role {
 		order.waiter.msgOrderIsReady(order.tableNumber, order.choice);
 	}
 	
-//	private void orderMoreFood(Food food, int amount)
-//	{
-//		// sequentially chooses markets
-//		for (MyMarket market : markets)
-//		{
-//			// if market has food
-//			if (market.foodAvail.contains(food.name))
-//			{
-//				food.state = FoodState.onOrder;
-//				Do("Ordering " + amount + "x " + food.name + " from " + market.marketRef.getName() + ".");
-//				market.marketRef.msgWantMoreFood(this, food.name, amount);
-//				break;
-//			}
-//		}
-//	}
+	private void askCashierToPay(Delivery delivery)
+	{
+        host.getCashier().msgPayMarket(delivery.manager, delivery.price);
+        deliveries.remove(delivery);
+	}
+	
+	private void orderMoreFood(Food food, int amount)
+	{
+		// sequentially chooses markets
+		for (MyMarket market : markets)
+		{
+			// if market has food
+			if (market.foodAvail.contains(food.name))
+			{
+				food.state = FoodState.onOrder;
+				Do("Ordering " + amount + "x " + food.name + ".");
+				market.manager.msgWantFood(myPerson.getBuilding().getID(), food.name, amount);
+				break;
+			}
+		}
+	}
 	
 	public void addItemToInventory(String choice, int amount, int cookingTime)
 	{
@@ -331,16 +357,16 @@ public class TimCookRole extends Role {
 		stateChanged();
 	}
 
-//	public void addMarket(Market market)
-//	{
-//		ArrayList<String> foodList = new ArrayList<String>();
-//		for (Food food : foods)
-//		{
-//			foodList.add(food.name);
-//		}
-//		markets.add(new MyMarket(market, foodList));
-//		stateChanged();
-//	}
+	public void addMarket(MarketManagerRole marketManager)
+	{
+		ArrayList<String> foodList = new ArrayList<String>();
+		for (Food food : foods)
+		{
+			foodList.add(food.name);
+		}
+		markets.add(new MyMarket(marketManager, foodList));
+		stateChanged();
+	}
 	
 	public String getName() {
 		return myPerson.name;
@@ -380,17 +406,29 @@ public class TimCookRole extends Role {
 		}
 	}
 	
-//	private class MyMarket
-//	{
-//		Market marketRef;
-//		ArrayList<String> foodAvail;
-//		
-//		public MyMarket(Market market, ArrayList<String> foods)
-//		{
-//			marketRef = market;
-//			foodAvail = foods;
-//		}
-//	}
+	public class Delivery
+	{
+	    MarketManagerRole manager;
+	    Money price;
+	    
+	    public Delivery(MarketManagerRole manager, Money price)
+	    {
+	        this.manager = manager;
+	        this.price = price;
+	    }
+	}
+	
+	private class MyMarket
+	{
+		MarketManagerRole manager;
+		ArrayList<String> foodAvail;
+		
+		public MyMarket(MarketManagerRole manager, ArrayList<String> foods)
+		{
+			this.manager = manager;
+			foodAvail = foods;
+		}
+	}
 
 	public void setGui(TimCookGui cookGui) {
 		gui = cookGui;
@@ -399,6 +437,11 @@ public class TimCookRole extends Role {
 	public TimCookGui getGui()
 	{
 	    return gui;
+	}
+	
+	public void setHost(TimHostRole host)
+	{
+	    this.host = host;
 	}
 
 	public void print(String string) {

@@ -354,6 +354,16 @@ public class TimHostRole extends Role {
 		waiters.add(myWaiter);
 		stateChanged();
 	}
+	
+	public TimCookRole getCook()
+	{
+	    return cook;
+	}
+
+    public TimCashierRole getCashier()
+    {
+        return cashier;
+    }
 
     public void setCashier(TimCashierRole cashier)
     {

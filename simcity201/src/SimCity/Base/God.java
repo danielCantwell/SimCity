@@ -9,8 +9,11 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import market.MarketClerkRole;
 import market.MarketCustomerRole;
+import market.MarketDeliveryPersonRole;
 import market.MarketManagerRole;
+import market.MarketPackerRole;
 import restaurant.DannyCashier;
 import restaurant.DannyCook;
 import restaurant.DannyCustomer;
@@ -275,6 +278,9 @@ public class God {
 	    		if (!(p.mainRole instanceof bankCustomerRole) && !(p.mainRole instanceof DannyCustomer) && !(p.mainRole instanceof MarketCustomerRole)){
 	    			p.msgGoToWork();
 	    		}
+	    		else if (!(p.mainRole instanceof MarketPackerRole) && !(p.mainRole instanceof MarketClerkRole) && !(p.mainRole instanceof MarketDeliveryPersonRole)){
+                    p.msgGoToWork();
+                }
 	    	}
 	    }
 	    
