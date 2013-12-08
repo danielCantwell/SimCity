@@ -878,11 +878,11 @@ public class SetupPanel extends JFrame {
 				animationPanel.getGui().buildingList.get(13),
 				animationPanel.getGui().buildingList.get(10), 2);
 		animationPanel.createPerson("T_Host_One", "timRest.TimWaiterRole",
-				vehicle.walk, Morality.good,
+				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(13),
 				animationPanel.getGui().buildingList.get(10), 1);
 		animationPanel.createPerson("T_Host_Two", "timRest.TimWaiterRole",
-				vehicle.walk, Morality.good,
+				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(13),
 				animationPanel.getGui().buildingList.get(10), 2);
 		// housing building 14
