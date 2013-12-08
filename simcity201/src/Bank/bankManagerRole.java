@@ -115,5 +115,11 @@ public class bankManagerRole extends Role implements  Manager{
 		exitBuilding(myPerson);
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "bankManagerRole";
+	}
+
 
 }

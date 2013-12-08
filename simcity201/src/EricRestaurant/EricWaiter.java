@@ -462,4 +462,10 @@ public class EricWaiter extends Role implements Waiter {
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "EricWaiter";
+	}
 }
