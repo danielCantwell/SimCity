@@ -158,7 +158,6 @@ public class EricCashier extends Role {
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		exitBuilding(myPerson);
 	}
 }

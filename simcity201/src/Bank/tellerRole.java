@@ -52,21 +52,33 @@ public class tellerRole extends Role implements Teller {
 	}
 
 	@Override
-	public void tellerAssigned(Customer c) {
+	public void tellerAssigned(Customer c, int accNum) {
 		Client cl = new Client();
 		cl.cust = c;
+		cl.accountNum = accNum;
 		cl.s = state.added;
 		clients.add(cl);
 		System.out.println("Teller: New customer assigned to me :"+this+".."+clients.size());
 		stateChanged();
 	}
-
+	
 	@Override
-	public void foundTeller(int accNum, Money money, Customer cust) {
+	public void tellerAssigned(Customer c) {
+		Client cl = new Client();
+		cl.cust = c;
+		cl.accountNum = c.getAccNum();
+		cl.s = state.added;
+		clients.add(cl);
+		System.out.println("Teller: New customer assigned to me :"+this+".."+clients.size());
+		stateChanged();
+	}
+	
+	@Override
+	public void foundTeller(Money money, Customer cust) {
 		synchronized(clients) {
 			for (Client c : clients) {
 				if (c.cust == cust) {
-					c.accountNum = accNum;
+					//c.accountNum = accNum;
 					c.money = money;
 //					System.out.println("Inside PAE scheduler0: "+c+" Client size: "+clients.size());
 
@@ -76,7 +88,7 @@ public class tellerRole extends Role implements Teller {
 					else {
 						c.s = state.noAcc;
 					}
-					System.out.println("Teller: Customer has come to me accNum: "+accNum+" "+c.s+" cash: "+c.money.getDollar());
+					System.out.println("Teller: Customer has come to me accNum: "+c.accountNum+" "+c.s+" cash: "+c.money.getDollar());
 					stateChanged();
 				}
 			}
@@ -203,7 +215,7 @@ public class tellerRole extends Role implements Teller {
 
 	//-----------------------------------------------Actions-------------------------------------------------
 	public void callClient(Client c) {
-		c.cust.tellerCalled(this);
+		c.cust.tellerCalled(this, c.accountNum);
 		c.s = state.called;
 	}
 

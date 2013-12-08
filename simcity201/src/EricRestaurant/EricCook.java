@@ -5,6 +5,7 @@ import EricRestaurant.gui.HostGui;
 //import EricRestaurant.interfaces.Market;
 import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import agent.Agent;
 
 import javax.swing.Timer;
@@ -270,7 +271,10 @@ public class EricCook extends Role {
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		cookGui.doLeaveBuilding();
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.removeGui(cookGui);
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		exitBuilding(myPerson);		
 	}
 }

@@ -532,10 +532,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("Omar", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
 
-            	 //g.setPerson(p);
-            	 //addGui(g);
-            	 //God.Get().addPerson(p);
-            	 //p.startThread();
              }
         };
         

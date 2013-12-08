@@ -1,7 +1,8 @@
 package jesseRest;
 
-import EricRestaurant.gui.AnimationPanel;
+import jesseRest.gui.*;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import agent.Agent;
 import jesseRest.Check;
 import jesseRest.Menu;
@@ -472,8 +473,11 @@ public class JesseWaiter extends Role implements Waiter {
 	}
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		waiterGui.DoLeaveCustomer();
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.removeGui(waiterGui);
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		exitBuilding(myPerson);		
 	}
 }
 

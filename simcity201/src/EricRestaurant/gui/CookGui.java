@@ -50,6 +50,11 @@ public class CookGui implements Gui{
 		  yDestination = 20;
 	  }
 	  
+	  public void doLeaveBuilding() {
+		  xDestination = -20;
+		  yDestination = -20;
+	  }
+	  
 	  public void goCounter() {
 		  xDestination = 420;
 		  yDestination = 50;

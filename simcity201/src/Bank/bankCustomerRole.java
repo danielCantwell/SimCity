@@ -25,7 +25,7 @@ public class bankCustomerRole extends Role implements Customer{
 	//-----------------------------------------------Data-------------------------------------------------
 
 	Money wMoney;
-	int accNum;
+	public int accNum;
 	private bankCustomerGui gui = new bankCustomerGui(this);
 	private Semaphore moving = new Semaphore(0,true);
 	Money money = new Money(20,0);
@@ -46,17 +46,13 @@ public class bankCustomerRole extends Role implements Customer{
 		System.out.println("This Customer has :$"+wMoney.dollars+"."+wMoney.cents);
 	}
 
-	@Override
-	public void setAccNum(int a) {
-		accNum = myPerson.getAccNum();
-		System.out.println("This Customer's account number: "+accNum);
-	}
 	//-----------------------------------------------Messages------------------------------------------------
 
 	@Override
 	public void enterBuilding() {
 		s = state.enter;
 		wMoney = myPerson.getMoney();
+		accNum = myPerson.getAccNum();
 		System.out.println("This Customer has entered the building with: $"+wMoney.dollars+"."+wMoney.cents);
 		B_Bank bank = (B_Bank)myPerson.building;
 		guard = bank.getBankGuard();
@@ -87,9 +83,11 @@ public class bankCustomerRole extends Role implements Customer{
 	}
 
 	@Override
-	public void tellerCalled(Teller t) {
+	public void tellerCalled(Teller t, int num) {
 		s = state.called;
 		teller = t;
+		accNum = num;
+		myPerson.accNum = num;
 		stateChanged();
 	}
 
@@ -198,7 +196,7 @@ public class bankCustomerRole extends Role implements Customer{
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		teller.foundTeller(accNum, wMoney, this);
+		teller.foundTeller(wMoney, this);
 	}
 
 	@Override
@@ -226,6 +224,11 @@ public class bankCustomerRole extends Role implements Customer{
 		}
 		exitBuilding(myPerson);
 	}
+	
+	public int getAccNum() {
+		return accNum;
+	}
+	
 	@Override
 	public void setGui(bankCustomerGui gui) {
 		this.gui = gui;

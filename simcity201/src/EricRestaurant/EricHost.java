@@ -280,7 +280,7 @@ public class EricHost extends Role implements Host {
 
 	@Override
 	public void workOver() {
-		
+		exitBuilding(myPerson);
 	}
 
 }
