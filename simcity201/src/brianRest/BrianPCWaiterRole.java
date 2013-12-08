@@ -340,7 +340,8 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 		DoGiveOrderToCook();
 		mc.state = MyCustomerState.orderCooking;
 		//cook.msgHeresAnOrder(mc.choice, this, mc.table.tableNumber);
-		
+		B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
+		br.getOrderStand().addOrder(mc.choice, this, mc.table.tableNumber);
 	}
 	
 	private void TakeReorder(MyCustomer mc){
@@ -491,8 +492,11 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public String toString() {
+		return "BrianPCWaiter";
 	}
 
 

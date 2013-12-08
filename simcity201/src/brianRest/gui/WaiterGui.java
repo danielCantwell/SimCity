@@ -72,7 +72,11 @@ public class WaiterGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
+    	if (agent instanceof BrianWaiterRole)
         g.setColor(Color.MAGENTA);
+    	else if (agent instanceof BrianPCWaiterRole){
+    		g.setColor(Color.ORANGE);
+    	}
         g.fillRect(xPos, yPos, hostWidth, hostHeight);
         if (displayText.trim().length() > 0){
         	if (xPos > 0 && xPos < 600 && yPos>0 && yPos<450){

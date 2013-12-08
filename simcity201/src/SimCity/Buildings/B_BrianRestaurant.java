@@ -6,6 +6,7 @@ import brianRest.BrianCashierRole;
 import brianRest.BrianCookRole;
 import brianRest.BrianCustomerRole;
 import brianRest.BrianHostRole;
+import brianRest.BrianPCWaiterRole;
 import brianRest.BrianWaiterRole;
 import brianRest.OrderStand;
 import brianRest.gui.BrianAnimationPanel;
@@ -48,7 +49,7 @@ public class B_BrianRestaurant extends Building{
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
-		orderstand = new OrderStand();
+		orderstand = new OrderStand(this);
 	}
 
 	@Override
@@ -106,6 +107,11 @@ public class B_BrianRestaurant extends Building{
 				newRole = cashierRole; 
 				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());}
+			else  if (job.equals("brianRest.BrianPCWaiterRole")){ 
+				numberOfWaiters++;
+				newRole = new BrianPCWaiterRole("PCWaiter", hostRole, cookRole, cashierRole, numberOfWaiters);
+				newRole.setPerson(person);
+				hostRole.addWaiter((BrianPCWaiterRole)newRole);}
 			newRole.setActive(true);
 			newRole.setPerson(person);
 			person.msgCreateRole(newRole, true);
