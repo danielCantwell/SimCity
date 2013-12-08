@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	private final int xHostSize = 50;
 	private final int yHostSize = 20;
 
-	static final int HOST_SPEED = 20;
+	static final int HOST_SPEED = 0;
 
 	private Image bufferImage;
 	private Dimension bufferSize;
@@ -123,7 +124,11 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	}
 
 	public void removeGui(CustomerGui gui) {
-		guis.remove(gui);
+		try {
+			guis.remove(gui);
+		} catch (ConcurrentModificationException e) {
+
+		}
 	}
 
 	public void addGui(WaiterGui gui) {
@@ -131,7 +136,11 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	}
 
 	public void removeGui(WaiterGui gui) {
-		guis.remove(gui);
+		try {
+			guis.remove(gui);
+		} catch (ConcurrentModificationException e) {
+
+		}
 	}
 
 	public void addGui(CookGui gui) {
@@ -139,7 +148,11 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	}
 
 	public void removeGui(CookGui gui) {
-		guis.remove(gui);
+		try {
+			guis.remove(gui);
+		} catch (ConcurrentModificationException e) {
+
+		}
 	}
 
 	private void drawCookStation(Graphics2D g) {

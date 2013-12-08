@@ -86,13 +86,15 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	public void msgGoToWork() {
-		System.out.println(myPerson.getName() + " Tenant should be going to work");
+		System.out.println(myPerson.getName()
+				+ " Tenant should be going to work");
 		time = Time.work;
 		stateChanged();
 	}
 
 	public void msgSleeping() {
-		System.out.println(myPerson.getName() + " Tenant should be going to sleep");
+		System.out.println(myPerson.getName()
+				+ " Tenant should be going to sleep");
 		time = Time.msgSleep;
 		stateChanged();
 	}
@@ -137,15 +139,10 @@ public class TenantRole extends Role implements Tenant {
 			return false;
 		}
 		/*
-		synchronized (appliances) {
-			for (Appliance a : appliances) {
-				if (a.state == ApplianceState.NeedsFixing) {
-					a.fixAppliance();
-					return true;
-				}
-			}
-		}
-*/
+		 * synchronized (appliances) { for (Appliance a : appliances) { if
+		 * (a.state == ApplianceState.NeedsFixing) { a.fixAppliance(); return
+		 * true; } } }
+		 */
 		if (state == State.owesRent) {
 			tryToPayRent();
 			return true;
@@ -188,7 +185,8 @@ public class TenantRole extends Role implements Tenant {
 	// ------------------------------------ACTIONS------------------------------------
 
 	private void tryToPayRent() {
-		System.out.println(myPerson.getName() + " Tenant is trying to pay rent");
+		System.out
+				.println(myPerson.getName() + " Tenant is trying to pay rent");
 		// go to the mailbox
 		gui.DoGoToMailbox();
 		try {
@@ -215,12 +213,14 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	private void goToMarket() {
-		System.out.println(myPerson.getName() + " Tenant is going to the market");
+		System.out.println(myPerson.getName()
+				+ " Tenant is going to the market");
 		DoGoToMarket();
 	}
 
 	private void getReady() {
-		System.out.println(myPerson.getName() + " Tenant has woken up and is getting ready");
+		System.out.println(myPerson.getName()
+				+ " Tenant has woken up and is getting ready");
 		if (myPerson.getMainRoleString().contains("usto")) {
 			// if the person is a dedicated customer
 			DoCookFood();
@@ -273,7 +273,8 @@ public class TenantRole extends Role implements Tenant {
 	public void useAppliance(String type) {
 		for (Appliance a : appliances) {
 			if (a.type == type) {
-				System.out.println(myPerson.getName() + " Tenant is using appliance: " + type);
+				System.out.println(myPerson.getName()
+						+ " Tenant is using appliance: " + type);
 				a.useAppliance();
 				if (a.durability <= 0) {
 					owner.msgApplianceBroken(this, a);
@@ -293,7 +294,8 @@ public class TenantRole extends Role implements Tenant {
 
 	public void DoGoToRestaurant() {
 		// Leave house to go to Restaurant
-		System.out.println(myPerson.getName() + " Tenant is going to a restaurant to eat");
+		System.out.println(myPerson.getName()
+				+ " Tenant is going to a restaurant to eat");
 		DoLeaveHouse();
 		// God selects a random restaurant for Tenant to go to
 		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
@@ -307,7 +309,8 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	public void DoCookFood() {
-		System.out.println(myPerson.getName() + " Tenant is going to cook food");
+		System.out
+				.println(myPerson.getName() + " Tenant is going to cook food");
 		// Get food from fridge
 		gui.DoGoToFridge();
 		try {
@@ -387,22 +390,25 @@ public class TenantRole extends Role implements Tenant {
 		owner = ((B_House) myPerson.building).getOwner();
 		owner.msgAddTenant(this);
 
-		//time = Time.sleeping;
 		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
 				.getPanel();
 		if (myPanel.getGuis().contains(gui)) {
 			gui.setPresent(true);
 		} else {
 			myPanel.addGui(gui);
-		}/*
-		gui.DoGoToTable(tenantNumber);
-		try {
-			atTable.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
-		stateChanged();*/
-		msgSleeping();
+		if (God.Get().getHour() < 5)
+			msgSleeping();
+		else {
+			time = Time.awake;
+			gui.DoGoToTable(tenantNumber);
+			try {
+				atTable.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		stateChanged();
 	}
 
 	@Override

@@ -613,6 +613,7 @@ public class DannyWaiter extends Role implements Waiter {
 			e.printStackTrace();
 		}
 		
+		waiterGui.setPresent(false);
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		ap.removeGui(waiterGui);

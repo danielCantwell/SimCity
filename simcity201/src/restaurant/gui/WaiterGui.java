@@ -11,6 +11,7 @@ public class WaiterGui implements Gui {
 	private int numWaiter;
 
 	private boolean pause = false;
+	private boolean isPresent = false;
 
 	private DannyWaiter agent = null;
 
@@ -55,6 +56,7 @@ public class WaiterGui implements Gui {
 		yDestinationDefault = 60 + 20 * numWaiter;
 		xDestination = xDestinationDefault;
 		yDestination = yDestinationDefault;
+		isPresent = true;
 	}
 
 	public void updatePosition() {
@@ -168,7 +170,11 @@ public class WaiterGui implements Gui {
 	}
 
 	public boolean isPresent() {
-		return true;
+		return isPresent;
+	}
+	
+	public void setPresent(Boolean present) {
+		isPresent = present;
 	}
 
 	public void DoBringToTable(int table) {

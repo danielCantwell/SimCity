@@ -415,6 +415,7 @@ public class DannyCustomer extends Role implements Customer {
 	public void exitRestaurant() {
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson
 				.getBuilding().getPanel();
+		customerGui.setPresent(false);
 		ap.removeGui(customerGui);
 		exitBuilding(myPerson);
 	}
