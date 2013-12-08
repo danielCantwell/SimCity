@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.AbstractAction;
@@ -30,8 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
-
-import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
 
 import SimCity.Base.Building;
 import SimCity.Base.God;
@@ -222,7 +219,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			e1.printStackTrace();
 		}
 
-		Timer trafficTimer = new Timer(10000, new ActionListener() {
+		Timer trafficTimer = new Timer(5000, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   horizontalRedLight = !horizontalRedLight;
 	    }});
@@ -259,7 +256,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
 						System.out.println("MOUSE PRESS ON BUILDING: " + i);
-						gui.buildingFrame.setTitle("Building #" + (i + 1)
+						gui.buildingFrame.setTitle("Building #" + i
 								+ " - " + gui.buildingList.get(i).getTag());
 					}
 				}
@@ -289,7 +286,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
 						System.out.println("MOUSE PRESS ON BUILDING: " + i);
-						gui.buildingFrame.setTitle("Building #" + (i + 1)
+						gui.buildingFrame.setTitle("Building #" + i
 								+ " - " + gui.buildingList.get(i).getTag());
 						gui.cardLayout.show(gui.buildingPanels, "" + i);
 					}
@@ -314,16 +311,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		});
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
-		repaint();
-		
+	
+	@Override
+    public void actionPerformed(ActionEvent arg0) {
+        for (Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+        repaint();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -464,12 +460,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				iconClock.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
 			}
 		}
-		
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
 
 
 		for (Gui gui : guis) {
@@ -579,7 +569,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
+<<<<<<< HEAD
                 createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3), 1);
+=======
+                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
+>>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
              }
         };
         
@@ -587,7 +581,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
+<<<<<<< HEAD
                  createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3), 1);
+=======
+                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
+>>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
              }
         };
         
@@ -595,7 +593,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
+<<<<<<< HEAD
                  createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3), 1);
+=======
+                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
+>>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
              }
         };
         
@@ -603,7 +605,31 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
+<<<<<<< HEAD
                  marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+=======
+                 marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2));
+             }
+        };
+        
+        Action keyCtrl4 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Will", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+                 createPerson("Alex", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+             }
+        };
+        
+        Action keyCtrl5 = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+                 createPerson("Tim", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(10));
+                 timScenarioPerson("Graham", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
+>>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
              }
         };
         
@@ -673,6 +699,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrl3 = "CTRL 3";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_MASK), stringCtrl3);
         getActionMap().put(stringCtrl3, keyCtrl3);
+        String stringCtrl4 = "CTRL 4";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_MASK), stringCtrl4);
+        getActionMap().put(stringCtrl4, keyCtrl4);
+        String stringCtrl5 = "CTRL 5";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_5, KeyEvent.CTRL_MASK), stringCtrl5);
+        getActionMap().put(stringCtrl5, keyCtrl5);
         String stringCtrlC = "CTRL C";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK), stringCtrlC);
         getActionMap().put(stringCtrlC, keyCtrlC);
@@ -711,9 +743,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
-	   	 	 
 	   	 	 standees.get(p.building.getID()-1).add(p);
-	   	 	 System.out.println(standees.get(p.building.getID()-1).size());
 	   	 	 
 	   	 	 return p;
 	   	 }
@@ -738,6 +768,22 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 p.testMarket();
 	   	 
 	   	 return p;
+    }
+    
+    protected Person timScenarioPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
+        System.out.println("Spawning a new pedestrian.");
+         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+         PersonGui g = new PersonGui(gui, aStarTraversal);
+         Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+         g.setPerson(p);
+         addGui(g);
+         God.Get().addPerson(p);
+         p.startThread();
+         
+         //test market
+         p.testTim();
+         
+         return p;
     }
     
     public void setScrollPane(JScrollPane s) {

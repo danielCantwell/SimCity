@@ -11,31 +11,28 @@ import timRest.interfaces.TimCashier;
 import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
 import SimCity.Base.Role;
-import agent.Agent;
+import SimCity.Globals.Money;
 
-public class timCashier extends Role implements TimCashier{
-	
-	String name;
+public class TimCashierRole extends Role implements TimCashier{
 	
 	Timer timer = new Timer();
 
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());
-	public HashMap<String, Double> priceMap = new HashMap<String, Double>();
+	public HashMap<String, Money> priceMap = new HashMap<String, Money>();
 	
-	private double cashInRegister;
+	private Money cashInRegister;
 	
 	public enum AgentState { idle, calculating };
 	public AgentState state = AgentState.idle;
 
 	public List<Bill> billsToPay = Collections.synchronizedList(new ArrayList<Bill>());
 	
-	public enum CheckState { pending, calculating, ready }
+	public enum CheckState { pending, calculating, ready, requested }
 	
-	public timCashier(String name)
+	public TimCashierRole()
 	{
 		super();
-		this.name = name;
-		cashInRegister = 0.0d;
+		cashInRegister = new Money(0, 0);
 	}
 	
 	public void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber)
@@ -54,7 +51,7 @@ public class timCashier extends Role implements TimCashier{
 			{
 				if (check.tableNumber == tableNumber)
 				{
-					check.state = CheckState.ready;
+					check.state = CheckState.requested;
 					stateChanged();
 					return;
 				}
@@ -62,17 +59,17 @@ public class timCashier extends Role implements TimCashier{
 		}
 	}
 
-	public void msgHereIsTheMoney(double cash)
+	public void msgHereIsTheMoney(Money cash)
 	{
 		// good
-		cashInRegister += cash;
+		cashInRegister.add(cash);
 		Do("Thank you, come again.");
 		stateChanged();
 	}
 	
-	public void msgHereIsPartialMoney(double cash, double amountOwed)
+	public void msgHereIsPartialMoney(Money cash, Money amountOwed)
 	{
-		cashInRegister += cash;
+		cashInRegister.add(cash);
 		Do("You owe me money next time.");
 		stateChanged();
 	}
@@ -92,7 +89,7 @@ public class timCashier extends Role implements TimCashier{
 			{
 				for (Bill bill : billsToPay)
 				{
-					if (bill.price <= cashInRegister)
+					if (!bill.price.isGreaterThan(cashInRegister))
 					{
 						//payMarket(bill);
 						billsToPay.remove(bill);
@@ -100,9 +97,9 @@ public class timCashier extends Role implements TimCashier{
 					}
 					else if (!bill.interest)
 					{
-						Do("Cannot pay bill right now. I will pay 10% interest when I do pay.");
+						Do("Cannot pay bill right now. I will pay $5 extra when I do pay.");
 						bill.interest = true;
-						bill.price *= 1.10;
+						bill.price.add(5, 0);
 					}
 				}
 			}
@@ -110,7 +107,7 @@ public class timCashier extends Role implements TimCashier{
 			{
 				for (Check check : checks)
 				{
-					if (check.state == CheckState.ready)
+					if (check.state == CheckState.requested)
 					{
 						giveCheckToWaiter(check);
 						return true;
@@ -138,6 +135,7 @@ public class timCashier extends Role implements TimCashier{
 			public void run() {
 				state = AgentState.idle;
 				check.state = CheckState.ready;
+				Do("Check Ready");
 				//isHungry = false;
 				stateChanged();
 			}
@@ -147,7 +145,7 @@ public class timCashier extends Role implements TimCashier{
 				return this;
 			}
 		}.init(check);
-		timer.schedule(t, 5000);//getHungerLevel() * 1000);//how long to wait before running task
+		timer.schedule(t, 2000);//getHungerLevel() * 1000);//how long to wait before running task
 	}
 	
 	private void giveCheckToWaiter(Check check)
@@ -163,19 +161,19 @@ public class timCashier extends Role implements TimCashier{
 //		cashInRegister -= bill.price;
 //	}
 	
-	public void addItemToMenu(String choice, double price)
+	public void addItemToMenu(String choice, Money price)
 	{
 		priceMap.put(choice, price);
 		stateChanged();
 	}
 	
-	public double getCashInRegister()
+	public Money getCashInRegister()
 	{
 		return cashInRegister;
 	}
 	
 	public String getName() {
-		return name;
+		return myPerson.name;
 	}
 	
 	public class Check
@@ -197,7 +195,7 @@ public class timCashier extends Role implements TimCashier{
 	public class Bill
 	{
 		//public Market market;
-		public double price;
+		public Money price;
 		public boolean interest;
 		
 //		public Bill(Market market, double price)
@@ -219,8 +217,8 @@ public class timCashier extends Role implements TimCashier{
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+        myPerson.Do("Closing time.");
+        exitBuilding(myPerson);
 	}
 
 }

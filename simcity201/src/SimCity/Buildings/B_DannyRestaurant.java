@@ -1,5 +1,8 @@
 package SimCity.Buildings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JPanel;
 
 import restaurant.DannyCashier;
@@ -8,8 +11,6 @@ import restaurant.DannyCustomer;
 import restaurant.DannyHost;
 import restaurant.DannyWaiter;
 import restaurant.gui.DannyRestaurantAnimationPanel;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
@@ -20,9 +21,12 @@ import SimCity.Base.Role;
  */
 public class B_DannyRestaurant extends Building {
 
-	public DannyHost hostRole = new DannyHost("Host");
-	public DannyCashier cashierRole = new DannyCashier("Cashier");
-	public DannyCook cookRole = new DannyCook("Cook", hostRole);
+	public DannyHost hostRole = new DannyHost();
+	public DannyCashier cashierRole = new DannyCashier();
+	public DannyCook cookRole = new DannyCook();
+
+	List<DannyWaiter> waiters = new ArrayList<DannyWaiter>();
+	List<DannyCustomer> customers = new ArrayList<DannyCustomer>();
 
 	public int numWaiters = 0;
 
@@ -37,8 +41,8 @@ public class B_DannyRestaurant extends Building {
 	public B_DannyRestaurant(int id, JPanel jp, int xCoord, int yCoord) {
 		this.id = id;
 		buildingPanel = jp;
-		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) jp;
-		ap.setRestaurant(this);
+		//DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) jp;
+		//ap.setRestaurant(this);
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
@@ -65,7 +69,6 @@ public class B_DannyRestaurant extends Building {
 
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -73,32 +76,92 @@ public class B_DannyRestaurant extends Building {
 	public void ExitBuilding(Person person) {
 		person.resetActiveRoles();
 		person.msgExitBuilding();
+		for (DannyWaiter waiter : waiters) {
+			if (waiter.myPerson == person) {
+				waiters.remove(waiter);
+				System.out.println("Waiter " + person.name + " removed from restaurant list");
+			}
+		}
+		for (DannyCustomer customer : customers) {
+			if (customer.myPerson == person) {
+				customers.remove(customer);
+				System.out.println("Customer " + person.name + " removed from restaurant list");
+			}
+		}
 	}
 
 	public void EnterBuilding(Person person, String job) {
 		Role newRole = null;
 		try {
 			if (job.equals("restaurant.DannyCustomer")) {
-				newRole = new DannyCustomer("Customer");
+				newRole = new DannyCustomer() {
+					{
+						setHost(hostRole);
+					}
+				};
+				customers.add((DannyCustomer) newRole);
 			} else if (job.equals("restaurant.DannyHost")) {
 				newRole = hostRole;
+				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
+				System.out
+						.println("All roles needed Danny Restaurant : "
+								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyWaiter")) {
-				newRole = new DannyWaiter("Waiter");
+				numWaiters++;
+				newRole = new DannyWaiter();
+				((DannyWaiter) newRole).setNum(numWaiters);
 				setOpen(areAllNeededRolesFilled());
+				waiters.add((DannyWaiter) newRole);
+				System.out
+						.println("All roles needed Danny Restaurant : "
+								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyCook")) {
 				newRole = cookRole;
+				cookFilled = true;
 				setOpen(areAllNeededRolesFilled());
+				System.out
+						.println("All roles needed Danny Restaurant : "
+								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyCashier")) {
 				newRole = cashierRole;
+				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());
+				System.out
+						.println("All roles needed Danny Restaurant : "
+								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			}
-			
+
 			newRole.setActive(true);
 			newRole.setPerson(person);
+
 			person.msgCreateRole(newRole, true);
 			fillNeededRoles(person, newRole);
 			person.msgEnterBuilding(this);
+			
+
+			if (areAllNeededRolesFilled()) {
+				for (DannyWaiter waiter : waiters) {
+					if (waiter.getHost() != hostRole)
+						hostRole.addWaiter(waiter);
+						waiter.setHost(hostRole);
+					if (waiter.getCashier() != cashierRole)
+						waiter.setCashier(cashierRole);
+					if (waiter.getCook() != cookRole)
+						waiter.setCook(cookRole);
+				}
+			}
+
+			if (newRole instanceof DannyHost)
+				((DannyHost) newRole).setName(newRole.myPerson.name);
+			if (newRole instanceof DannyWaiter)
+				((DannyWaiter) newRole).setName(newRole.myPerson.name);
+			if (newRole instanceof DannyCashier)
+				((DannyCashier) newRole).setName(newRole.myPerson.name);
+			if (newRole instanceof DannyCook)
+				((DannyCook) newRole).setName(newRole.myPerson.name);
+			if (newRole instanceof DannyCustomer)
+				((DannyCustomer) newRole).setName(newRole.myPerson.name);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Building: no class found");

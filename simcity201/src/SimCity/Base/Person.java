@@ -21,6 +21,10 @@ import exterior.gui.CarGui;
 import exterior.gui.Gui;
 import exterior.gui.PersonGui;
 import restaurant.*;
+import timRest.TimCashierRole;
+import timRest.TimCookRole;
+import timRest.TimHostRole;
+import timRest.TimWaiterRole;
 import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_BrianRestaurant;
@@ -29,6 +33,7 @@ import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
+import SimCity.Buildings.B_TimRest;
 import SimCity.Globals.Money;
 import agent.Agent;
 /**
@@ -81,7 +86,8 @@ public class Person extends Agent {
 		goSleep, 
 		goBrianRestaurant,
 		goEricRestaurant, 
-		goJesseRestaurant
+		goJesseRestaurant,
+		goTimRestaurant
 		}
 	
 	//This is an inner class that holds a GoAction and an Intent.
@@ -156,7 +162,6 @@ public class Person extends Agent {
 			else if (job.equals("jesseRest.JesseCashier"))return;
 			else if (job.equals("jesseRest.JesseCook"))return;
 
-			
 			
 			Role newRole;
 			try {
@@ -264,6 +269,7 @@ public class Person extends Agent {
 		else if (b instanceof B_BrianRestaurant){addAction(new Action(GoAction.goBrianRestaurant, i));}
 		else if (b instanceof B_EricRestaurant){addAction(new Action(GoAction.goEricRestaurant, i));}
 		else if (b instanceof B_JesseRestaurant){addAction(new Action(GoAction.goJesseRestaurant, i));}
+		else if (b instanceof B_TimRest){ addAction(new Action(GoAction.goTimRestaurant, i));}
 		stateChanged();
 	}
 	
@@ -466,13 +472,13 @@ public class Person extends Agent {
 		}else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.customer){
 			//Go to restaurant
-			b = God.Get().getBuilding(6);
+			b = God.Get().getBuilding(9);
 			Do("Going to restaurant");
 		}else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.work){
 			//Put all restaurant roles here.
 			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
-				b = God.Get().getBuilding(6);
+				b = God.Get().getBuilding(9);
 				Do("working at restaurant");
 			}
 			// delivery person stuff
@@ -483,6 +489,26 @@ public class Person extends Agent {
 	            Do("Delivering to restaurant");
 			}
 		}
+		else
+        if (action.getGoAction() == GoAction.goTimRestaurant && intent == Intent.customer){
+            //Go to restaurant
+            b = God.Get().getBuilding(10);
+            Do("Going to restaurant");
+        }else
+        if (action.getGoAction() == GoAction.goTimRestaurant && action.getIntent() == Intent.work){
+            //Put all restaurant roles here.
+            if (mainRole instanceof TimHostRole || mainRole instanceof TimWaiterRole || mainRole instanceof TimCookRole || mainRole instanceof TimCashierRole){
+                b = God.Get().getBuilding(10);
+                Do("working at restaurant");
+            }
+            // delivery person stuff
+            if (mainRole instanceof MarketDeliveryPersonRole)
+            {
+                MarketDeliveryPersonRole dPRole = (MarketDeliveryPersonRole) mainRole;
+                b = God.Get().getBuilding(dPRole.destinationBuildingID);
+                Do("Delivering to restaurant");
+            }
+        }
 		else
 		if (action.getGoAction() == GoAction.goBrianRestaurant && intent == Intent.customer){
 			b = God.Get().getBuilding(6);
@@ -578,7 +604,7 @@ public class Person extends Agent {
 	}
 	
 	Timer hungerTimer;
-	int hungerOffset = 6000;
+	int hungerOffset = 50000;
 	boolean hasActiveRole = false;
 	void setUpHungerTimer(){
 		 hungerTimer = new Timer(hungerOffset, new ActionListener() {
@@ -601,6 +627,11 @@ public class Person extends Agent {
     public void testMarket()
     {
         addActionToFront(new Action(GoAction.goMarket, Intent.customer));
+    }
+    
+    public void testTim()
+    {
+        addActionToFront(new Action(GoAction.goTimRestaurant, Intent.customer));
     }
 }
 

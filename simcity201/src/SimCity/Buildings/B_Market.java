@@ -12,6 +12,7 @@ import SimCity.Base.Person;
 import SimCity.Base.Role;
 /**
  * @author Brian
+ *         Timothy So
  *
  */
 public class B_Market extends Building{
@@ -81,34 +82,37 @@ public class B_Market extends Building{
                 panel.manager = person;
                 panel.addGui(marketRole.getGui());
             }
-            if (newRole instanceof MarketClerkRole)
+            else if (managerRole != null)
             {
-                MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
-                marketRole.setManager(managerRole);
-                managerRole.addClerk(marketRole);
-                panel.addGui(marketRole.getGui());
-            }
-            if (newRole instanceof MarketPackerRole)
-            {
-                MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
-                marketRole.setManager(managerRole);
-                managerRole.addPacker(marketRole);
-                panel.addGui(marketRole.getGui());
-            }
-            if (newRole instanceof MarketCustomerRole)
-            {
-                MarketCustomerRole marketRole = null;
-                for (Role r : person.roles)
+                if (newRole instanceof MarketClerkRole)
                 {
-                    if (r instanceof MarketCustomerRole)
+                    MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
+                    marketRole.setManager(managerRole);
+                    managerRole.addClerk(marketRole);
+                    panel.addGui(marketRole.getGui());
+                }
+                if (newRole instanceof MarketPackerRole)
+                {
+                    MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
+                    marketRole.setManager(managerRole);
+                    managerRole.addPacker(marketRole);
+                    panel.addGui(marketRole.getGui());
+                }
+                if (getOpen() && newRole instanceof MarketCustomerRole)
+                {
+                    MarketCustomerRole marketRole = null;
+                    for (Role r : person.roles)
                     {
-                        marketRole = (MarketCustomerRole) r;
-                        marketRole.setManager(managerRole);
-                        panel.addGui(marketRole.getGui());
+                        if (r instanceof MarketCustomerRole)
+                        {
+                            marketRole = (MarketCustomerRole) r;
+                            marketRole.setManager(managerRole);
+                            panel.addGui(marketRole.getGui());
+                        }
                     }
                 }
+                person.msgEnterBuilding(this);
             }
-            person.msgEnterBuilding(this);
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
             e.printStackTrace();

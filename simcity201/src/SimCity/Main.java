@@ -16,7 +16,6 @@ import SimCity.Base.Person;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
-import restaurant.gui.RestaurantGui;
 /**
  * @author Brian
  *

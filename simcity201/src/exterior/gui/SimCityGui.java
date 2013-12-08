@@ -4,6 +4,7 @@ import housing.gui.HousingAnimation;
 
 import javax.swing.*;
 
+import timRest.gui.TimAnimationPanel;
 import market.gui.MarketAnimationPanel;
 import Bank.gui.bankGui;
 import SimCity.Base.Building;
@@ -15,6 +16,7 @@ import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_EricRestaurant;
+import SimCity.Buildings.B_TimRest;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,22 +38,27 @@ public class SimCityGui extends JFrame {
     public SimCityGui() {
     	setupPanel = new SetupPanel(animationPanel);
     	
-        int WINDOWX = 1920;
-        int WINDOWY = 1920; //1472;
+        int WINDOWX = 960;
+        int WINDOWY = 960; //1472;
+        int ANIMATIONX = 1920;
+        int ANIMATIONY = 1920;
         int BFRAMEX = 640;
         int BFRAMEY = 640;
-    	setBounds(0, 0, WINDOWX, WINDOWY);
+    	setBounds(1920-WINDOWX, 0, WINDOWX, WINDOWY);
     	setLayout(new BorderLayout());
     	
     	God.Get().setSimGui(this);
     	
-    	Dimension animDim = new Dimension(WINDOWX, WINDOWY);
+    	Dimension animDim = new Dimension(ANIMATIONX, ANIMATIONY);
     	animationPanel.setPreferredSize(animDim);
     	animationPanel.setMinimumSize(animDim);
     	animationPanel.setMaximumSize(animDim);
     	animationPanel.setGui(this);
 
     	JScrollPane scrollPane = new JScrollPane(animationPanel);
+    	// allows scrolling to go faster
+    	scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
     	add(scrollPane, BorderLayout.CENTER);
     	animationPanel.setScrollPane(scrollPane);
     	
@@ -90,10 +97,15 @@ public class SimCityGui extends JFrame {
         		buildingPanel = new jesseRest.gui.AnimationPanel();
         		b = new B_JesseRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
-    		if (i == 9 || i == 10) {
+    		if (i == 9) {
         		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
         		b = new B_DannyRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
+            if(i == 10) {
+                buildingPanel = new timRest.gui.TimAnimationPanel();
+                b = new B_TimRest(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+                ((TimAnimationPanel) buildingPanel).setBTimRest((B_TimRest)b);
+            }
     		if(i == 11) {
     			buildingPanel = new EricRestaurant.gui.AnimationPanel();
         		b = new B_EricRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
@@ -117,6 +129,7 @@ public class SimCityGui extends JFrame {
     	}
     	
     	buildingFrame = new JFrame();
+        buildingFrame.setLocation(960-640, 0);
     	buildingFrame.add(buildingPanels);
     	buildingFrame.setTitle("Building");
     	buildingFrame.setVisible(false);

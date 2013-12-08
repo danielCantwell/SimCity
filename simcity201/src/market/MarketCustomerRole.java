@@ -4,9 +4,7 @@ import java.awt.Point;
 import java.util.concurrent.Semaphore;
 
 import SimCity.Base.God;
-import SimCity.Base.Person;
 import SimCity.Base.Role;
-import SimCity.Buildings.B_Market;
 import SimCity.Globals.Money;
 import market.gui.MarketCustomerGui;
 import market.interfaces.MarketCustomer;

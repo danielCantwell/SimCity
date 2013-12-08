@@ -19,6 +19,8 @@ public class B_House extends Building {
 
 	public OwnerRole owner;
 	public String type;
+	
+	public int numTenants = 0;
 
 	public void setOwner(OwnerRole o) {
 		owner = o;
@@ -26,6 +28,10 @@ public class B_House extends Building {
 
 	public OwnerRole getOwner() {
 		return owner;
+	}
+	
+	public void incrementNumTenants() {
+		numTenants++;
 	}
 
 	public B_House(int id, JPanel jp) {

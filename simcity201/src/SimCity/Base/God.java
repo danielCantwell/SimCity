@@ -16,6 +16,10 @@ import restaurant.DannyCook;
 import restaurant.DannyCustomer;
 import restaurant.DannyHost;
 import restaurant.DannyWaiter;
+import timRest.TimCashierRole;
+import timRest.TimCookRole;
+import timRest.TimHostRole;
+import timRest.TimWaiterRole;
 import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import SimCity.Base.Person.TimeState;
@@ -130,7 +134,7 @@ public class God {
 	        //System.out.println("God Created");
 	        //set God variables.
 	        hour = 3;
-	        hourOffset = 4000;
+	        hourOffset = 10000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){
@@ -230,7 +234,7 @@ public class God {
 	    	announcedTime = true;
 	    	System.out.println("managers going to work");
 	    	for (Person p: persons){
-	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole){
+	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
 	    			p.msgGoToWork();
 	    		}else
 	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
@@ -281,7 +285,9 @@ public class God {
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
 	    			p.msgGoToWork();
 	    		}
-
+	    		else if (p.mainRole instanceof TimHostRole || p.mainRole instanceof TimWaiterRole || p.mainRole instanceof TimCookRole || p.mainRole instanceof TimCashierRole){
+                    p.msgGoToWork();
+                }
 	    		else if (p.getMainRoleString().equals("brianRest.BrianWaiterRole") || p.getMainRoleString().equals("brianRest.BrianCookRole") || p.getMainRoleString().equals("brianRest.BrianCashierRole")){
 	    			p.msgGoToWork();
 	    		}
