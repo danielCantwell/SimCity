@@ -299,4 +299,10 @@ public class tellerRole extends Role implements Teller {
 		return gui;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "tellerRole";
+	}
+
 }

@@ -121,4 +121,10 @@ public class RobberRole extends Role implements Robber{
 		leaveBank();
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "RobberRole";
+	}
+
 }

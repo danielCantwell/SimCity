@@ -169,5 +169,11 @@ public class JesseCashier extends Role implements Cashier {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "JesseCashier";
+	}
 }
 
