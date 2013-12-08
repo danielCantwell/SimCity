@@ -556,11 +556,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
         	public void actionPerformed(ActionEvent e)
         	{
-        		createPerson("JHost", "jesseRest.JesseHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7));
-        		createPerson("JCustomer", "jesseRest.JesseCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7));
-           	 	createPerson("JWaiter", "jesseRest.JesseWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7));
-           	 	createPerson("JCashier", "jesseRest.JesseCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7));
-           	 	createPerson("JCook", "jesseRest.JesseCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7)); 
+        		createPerson("JHost", "jesseRest.JesseHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+        		createPerson("JCustomer", "jesseRest.JesseCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+           	 	createPerson("JWaiter", "jesseRest.JesseWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+           	 	createPerson("JCashier", "jesseRest.JesseCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+           	 	createPerson("JCook", "jesseRest.JesseCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1); 
         	}
         };
        
@@ -569,11 +569,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-<<<<<<< HEAD
-                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3), 1);
-=======
-                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
->>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
+
+                createPerson("Manny", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),1);
              }
         };
         
@@ -581,11 +578,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-<<<<<<< HEAD
-                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3), 1);
-=======
-                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
->>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
+                 createPerson("Clark", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3), 1);
+
              }
         };
         
@@ -593,11 +587,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-<<<<<<< HEAD
-                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(3), 1);
-=======
-                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
->>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
+                 createPerson("Parker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),1);
              }
         };
         
@@ -605,9 +595,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-<<<<<<< HEAD
-                 marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
-=======
                  marketScenarioPerson("Customer", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2));
              }
         };
@@ -616,10 +603,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Will", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
-                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
-                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
-                 createPerson("Alex", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10));
+                 createPerson("Will", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
+                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
+                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
+                 createPerson("Alex", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
              }
         };
         
@@ -627,9 +614,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Tim", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(10));
+                 createPerson("Tim", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(10),1);
                  timScenarioPerson("Graham", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
->>>>>>> a71d2b8f41bda4a65bd66ebca7a60cb1cccfa346
              }
         };
         
@@ -672,7 +658,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
             	 createPerson("Waiter", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
             	 createPerson("Cashier", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
-            	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6));            	 
+            	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);            	 
              }
         };
         String stringCtrl0 = "CTRL 0";
@@ -774,7 +760,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         System.out.println("Spawning a new pedestrian.");
          AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
          PersonGui g = new PersonGui(gui, aStarTraversal);
-         Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b);
+         Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b, 1);
          g.setPerson(p);
          addGui(g);
          God.Get().addPerson(p);
