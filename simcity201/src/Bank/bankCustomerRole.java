@@ -28,7 +28,7 @@ public class bankCustomerRole extends Role implements Customer{
 	public int accNum;
 	private bankCustomerGui gui = new bankCustomerGui(this);
 	private Semaphore moving = new Semaphore(0,true);
-	Money money = new Money(20,0);
+	Money money = new Money(200,0);
 	List<String> inventory = Collections.synchronizedList(new ArrayList<String>());
 	private Guard guard;
 	private Teller teller;
@@ -205,17 +205,17 @@ public class bankCustomerRole extends Role implements Customer{
 			teller.requestWithdraw(accNum, money); 			//arbitrary amount to withdraw, can be changed later
 		}
 		else {	
-			wMoney.subtract(30,0);
-			teller.requestDeposit(accNum,wMoney);				//deposits everything over $30
-			wMoney = new Money(30,0);
-			//System.out.println(wMoney.getDollar());
+			Money temp = new Money(wMoney.getDollar(),0);
+			temp.subtract(30,0);
+			teller.requestDeposit(accNum,temp);				//deposits everything over $30
+			//wMoney = new Money(30,0);
 		}
 	}
 
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
-		System.out.println("customer leaving bank");
+		System.out.println("customer leaving bank with : $"+wMoney.getDollar());
 		try {
 			moving.acquire();
 		}

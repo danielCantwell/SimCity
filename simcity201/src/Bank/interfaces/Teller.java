@@ -1,5 +1,7 @@
 package Bank.interfaces;
 
+import java.util.Map;
+
 import Bank.tellerRole;
 import Bank.gui.tellerGui;
 import Bank.tellerRole.Client;
@@ -49,5 +51,7 @@ public interface Teller {
 	public abstract void doneMotion();
 
 	public abstract void tellerAssigned(Customer c);
+
+	void managerMap(Map<Integer, Money> managerAccs);
 
 }
