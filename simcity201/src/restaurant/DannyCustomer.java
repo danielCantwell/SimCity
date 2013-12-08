@@ -435,18 +435,17 @@ public class DannyCustomer extends Role implements Customer {
 			leaveRestaurant();
 			return;
 		}
-		gotHungry();
 		customerGui.setHungry();
 	}
 
 	@Override
 	public void workOver() {
+		leaveRestaurant();
 		exitBuilding(myPerson);
-		leaveRestaurant(); // Leaves restaurant
 	}
 
 	@Override
 	public void msgIsHungry() {
-		gotHungry();
+		customerGui.setHungry();
 	}
 }
