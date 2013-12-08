@@ -125,6 +125,7 @@ public class DannyHost extends Role {
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
+		System.out.println("Danny Host -- Pick and Execute an Action");
 		/*
 		 * Think of this next rule as: Does there exist a table, customer and
 		 * waiter, so that table is unoccupied, the customer is waiting, and
