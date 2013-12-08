@@ -19,6 +19,7 @@ public class CustomerGui implements Gui{
 	private int xDestination, yDestination;
 	private int yBottom = 420; // Bottom of the restaurant
 	private int position;
+	int speed = 5;
 	private enum Command {noCommand, GoToSeat, GoToCashier, LeaveRestaurant};
 	private Command command=Command.noCommand;
 	
@@ -52,15 +53,14 @@ public class CustomerGui implements Gui{
     }
 
 	public void updatePosition() {
-		if (xPos < xDestination)
-			xPos++;
-		else if (xPos > xDestination)
-			xPos--;
-
-		if (yPos < yDestination)
-			yPos++;
-		else if (yPos > yDestination)
-			yPos--;
+		 if (xPos < xDestination) 
+	            xPos+=speed;
+	        else if (xPos > xDestination)
+	            xPos-=speed;
+	        if (yPos < yDestination)
+	            yPos+=speed;
+	        else if (yPos > yDestination)
+	            yPos-=speed;
 
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToSeat) {
@@ -70,7 +70,7 @@ public class CustomerGui implements Gui{
 				agent.msgAnimationFinishedLeaveRestaurant();
 				// Goes into a state able to be hungry again
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
+
 			} else if (command==Command.GoToCashier) {
 				agent.msgAnimationFinishedGoToCashier();
 			}
