@@ -77,10 +77,13 @@ public class B_DannyRestaurant extends Building {
 		Role newRole = null;
 		try {
 			if (job.equals("restaurant.DannyCustomer")) {
-				newRole = new DannyCustomer();
+				//newRole = new DannyCustomer();
+				newRole = (DannyCustomer) person.getMainRole();
 				((DannyCustomer) newRole).setHost(hostRole);
 			} else if (job.equals("restaurant.DannyHost")) {
-				newRole = hostRole;
+				//newRole = hostRole;
+				newRole = (DannyHost) person.getMainRole();
+				hostRole = (DannyHost) newRole;
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
 				System.out
@@ -88,25 +91,30 @@ public class B_DannyRestaurant extends Building {
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyWaiter")) {
 				numWaiters++;
-				newRole = new DannyWaiter();
+				//newRole = new DannyWaiter();
+				newRole = (DannyWaiter) person.getMainRole();
+				hostRole.addWaiter((DannyWaiter) newRole);
 				((DannyWaiter) newRole).setNum(numWaiters);
 				((DannyWaiter) newRole).setHost(hostRole);
 				((DannyWaiter) newRole).setCook(cookRole);
 				((DannyWaiter) newRole).setCashier(cashierRole);
-				((DannyHost) hostRole).addWaiter((DannyWaiter) newRole);
 				setOpen(areAllNeededRolesFilled());
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyCook")) {
-				newRole = cookRole;
+				//newRole = cookRole;
+				newRole = (DannyCook) person.getMainRole();
+				cookRole = (DannyCook) newRole;
 				cookFilled = true;
 				setOpen(areAllNeededRolesFilled());
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyCashier")) {
-				newRole = cashierRole;
+				//newRole = cashierRole;
+				newRole = (DannyCashier) person.getMainRole();
+				cashierRole = (DannyCashier) person.getMainRole();
 				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());
 				System.out

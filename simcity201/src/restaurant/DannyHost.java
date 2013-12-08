@@ -68,8 +68,11 @@ public class DannyHost extends Role {
 	// Messages
 
 	public void msgIWantFood(DannyCustomer cust) {
+		print("waiting customers size before adding : " + waitingCustomers.size());
 		print("MESSAGE 1 : Customer -> Host : IWantFood");
 		waitingCustomers.add(cust);
+		print("waiting customers size after adding : " + waitingCustomers.size());
+		System.out.println(hashCode());
 		stateChanged();
 	}
 
@@ -134,11 +137,18 @@ public class DannyHost extends Role {
 		 */
 		synchronized (tables) {
 			for (Table table : tables) {
+				System.out.println("tables");
 				if (!table.isOccupied()) {
+					System.out.println("occupied");
+					System.out.println("Waiting Customers = " + waitingCustomers.size());
+					System.out.println(hashCode());
 					if (!waitingCustomers.isEmpty()) {
+						System.out.println("not empty");
 						synchronized (waiters) {
 							for (MyWaiter myWaiter : waiters) {
+								System.out.println("waiter");
 								if (myWaiter.state == WaiterState.Available) {
+									System.out.println("available");
 									seatCustomer(waitingCustomers.get(0),
 											table, myWaiter.waiter);
 									switchOrderOfWaiters();

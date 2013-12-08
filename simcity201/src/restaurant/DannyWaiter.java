@@ -10,6 +10,7 @@ import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
 
@@ -598,7 +599,7 @@ public class DannyWaiter extends Role implements Waiter {
 		System.out.println("Waiter workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.numWaiters--;
-		
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
 	}
 
