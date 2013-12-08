@@ -16,7 +16,7 @@ import EricRestaurant.interfaces.*;
  *
  */
 public class B_EricRestaurant extends Building {
-	
+	public int B_EricAccNum = 1000;
 	public EricHost host = new EricHost("Host");
 	public EricCook cook = new EricCook("Cook");
 	public EricCashier cashier = new EricCashier();

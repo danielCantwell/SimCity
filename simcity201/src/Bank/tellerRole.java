@@ -32,7 +32,7 @@ public class tellerRole extends Role implements Teller {
 		Customer cust;
 		Robber r;
 	}
-	Money empty = new Money(0,0);
+	Money initial = new Money(500,0);
 	public enum state{ none, ready, atCounter, added, noAcc, yesAcc, setUp, robbed, askedService, called, inTrans, withdraw, deposit, leaving };
 	private state s = state.none;
 
@@ -226,7 +226,7 @@ public class tellerRole extends Role implements Teller {
 
 	public void accSetUp(Client c) {
 		System.out.println("Teller: no existing account, creating..."+" Client money: "+c.money.getDollar());
-		bankAccs.put(c.accountNum, empty);
+		bankAccs.put(c.accountNum, initial);
 		c.s = state.yesAcc;
 	}
 
