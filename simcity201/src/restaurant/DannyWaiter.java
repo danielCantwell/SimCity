@@ -36,6 +36,7 @@ public class DannyWaiter extends Role implements Waiter {
 	private Semaphore customerSeated = new Semaphore(0, true);
 	private Semaphore readyToTakeOrder = new Semaphore(0, true);
 	private Semaphore seatingCustomer = new Semaphore(0, true);
+	private Semaphore leftRestaurant = new Semaphore(0, true);
 
 	enum CustomerState {
 		Waiting, Seated, ReadyToOder, AskedToOrder, WaitingForOrder, Paying
@@ -82,12 +83,12 @@ public class DannyWaiter extends Role implements Waiter {
 	 */
 	
 	public void msgLeaveRestaurant() {
-		workOver = true;
-		stateChanged();
+		leftRestaurant.release();
 	}
 
 	public void msgPleaseSeatCustomer(Customer customer, int table) {
 		print("MESSAGE 2 : Host -> Waiter : PleaseSeatCustomer");
+		System.out.println("Waiter: " + hashCode() + " msgPleaseSeatCustomer");
 		myCustomers.add(new MyCustomer(customer, table));
 		stateChanged();
 	}
@@ -256,6 +257,8 @@ public class DannyWaiter extends Role implements Waiter {
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
+		
+		System.out.println("Waiter: " + hashCode() + " Pick and Execute an Action");
 
 		try {
 
@@ -282,6 +285,7 @@ public class DannyWaiter extends Role implements Waiter {
 			}
 
 			for (MyCustomer myCustomer : myCustomers) {
+				System.out.println("Waiter: " + hashCode() + " myCustomer");
 				if (myCustomer.state == CustomerState.Waiting) {
 					print("seatCustomer");
 					seatCustomer(myCustomer);
@@ -585,13 +589,14 @@ public class DannyWaiter extends Role implements Waiter {
 
 	@Override
 	protected void enterBuilding() {
-		System.out.println("Waiter enterBuilding");
 		WaiterGui wg = new WaiterGui(this, numWaiter);
 		waiterGui = wg;
 		// add gui
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		ap.addGui(waiterGui);
+		System.out.println("Waiter: " + hashCode() + " enterBuilding");
+		System.out.println("WaiterGUI " + waiterGui.hashCode() + " added to Danny Rest Panel " + ap.hashCode());
 	}
 
 	@Override
@@ -599,13 +604,25 @@ public class DannyWaiter extends Role implements Waiter {
 		System.out.println("Waiter workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.numWaiters--;
+		
+		waiterGui.DoLeaveRestaurant();
+		
+		try {
+			leftRestaurant.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.removeGui(waiterGui);
+		
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Danny Waiter";
 	}
 }

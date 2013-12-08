@@ -51,7 +51,7 @@ public class God {
 	    public SimCityGui getSimGui(){return simGui;}
 	    
 	    //List of God thingies
-	    public int day;
+	    public int day = 1;
 	    public int hour;
 	    public boolean isWeekend = false;
 	    Timer hourTimer;
@@ -137,7 +137,7 @@ public class God {
 	        }
 	        
 	        //set God variables.
-	        hour = 3;
+	        hour = 1;
 	        hourOffset = 10000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
@@ -145,7 +145,6 @@ public class God {
 					   if (hour < 24){hour ++; announcedTime = false;} // hour increments everytime this timer fires.
 					   
 					   if (hour == 4 && !announcedTime){
-						   
 						   wakeUp();
 					   }
 					   
@@ -263,9 +262,9 @@ public class God {
 	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Managers are going to work.");
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
-	    			if (!isWeekend)
-	    			if (p.getShift() == shift)
-	    			p.msgGoToWork();
+	    			if (!isWeekend) 
+	    			if (p.getShift() == shift) 
+	    			p.msgGoToWork();	    			
 	    		}else
 	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
 	    			if (p.getShift() == shift)
@@ -321,6 +320,7 @@ public class God {
 	    	announcedTime = false;
 	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Restaurant employees must go to work.");
 	    	for(Person p: persons){
+	    		
 	    		if (p.mainRole instanceof DannyHost || p.mainRole instanceof DannyWaiter || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier){
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();

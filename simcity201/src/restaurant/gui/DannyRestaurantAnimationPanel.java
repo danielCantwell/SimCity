@@ -15,28 +15,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
-public class DannyRestaurantAnimationPanel extends JPanel implements ActionListener {
+public class DannyRestaurantAnimationPanel extends JPanel implements
+		ActionListener {
 
 	private final int WINDOWX = 640;
 	private final int WINDOWY = 640;
 
 	static final int TABLE_X_SIZE = 50;
 	static final int TABLE_Y_SIZE = 50;
-	
-	private final int xCookStation	= 180;
-	private final int yCookStation	= 360;
-	private final int xCookSize		= 60;
-	private final int yCookSize		= 20;
-	
-	private final int xCashier		= 360;
-	private final int yCashier		= 10;
-	private final int xCashierSize	= 20;
-	private final int yCashierSize	= 50;
-	
-	private final int xHost		= 10;
-	private final int yHost		= 25;
-	private final int xHostSize	= 50;
-	private final int yHostSize	= 20;
+
+	private final int xCookStation = 180;
+	private final int yCookStation = 360;
+	private final int xCookSize = 60;
+	private final int yCookSize = 20;
+
+	private final int xCashier = 360;
+	private final int yCashier = 10;
+	private final int xCashierSize = 20;
+	private final int yCashierSize = 50;
+
+	private final int xHost = 10;
+	private final int yHost = 25;
+	private final int xHostSize = 50;
+	private final int yHostSize = 20;
 
 	static final int HOST_SPEED = 20;
 
@@ -46,7 +47,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 	private DannyHost hostAgent;
 	B_DannyRestaurant building;
 
-	private int NTABLES = 0;
+	private int NTABLES = 4;
 
 	public Collection<Table> tables;
 
@@ -64,7 +65,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 				tables.add(new Table(ix));// how you add to a collections
 			}
 		}
-		
+
 		Timer timer = new Timer(HOST_SPEED, this);
 		timer.start();
 	}
@@ -75,7 +76,13 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		
+		synchronized (guis) {
+			for (Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
 		repaint(); // Will have paintComponent called
 	}
 
@@ -85,7 +92,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		// Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.DARK_GRAY);
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
-		
+
 		int i = 0;
 		for (Table table : tables) {
 			i++;
@@ -94,18 +101,19 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 			g2.setColor(Color.WHITE);
 			g2.drawRect(table.xCoord, table.yCoord, TABLE_X_SIZE, TABLE_Y_SIZE);
 			g2.setColor(Color.BLACK);
-			g2.drawString(Integer.toString(i), table.xCoord + 22, table.yCoord + 30);
+			g2.drawString(Integer.toString(i), table.xCoord + 22,
+					table.yCoord + 30);
 		}
-		
+
 		drawCookStation(g2);
 		drawCashier(g2);
 		drawHost(g2);
 
-		
-
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(g2);
+		synchronized (guis) {
+			for (Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.draw(g2);
+				}
 			}
 		}
 	}
@@ -114,36 +122,58 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		guis.add(gui);
 	}
 
+	public void removeGui(CustomerGui gui) {
+		guis.remove(gui);
+	}
+
 	public void addGui(WaiterGui gui) {
 		guis.add(gui);
 	}
-	
+
+	public void removeGui(WaiterGui gui) {
+		guis.remove(gui);
+	}
+
 	public void addGui(CookGui gui) {
 		guis.add(gui);
 	}
-	
+
+	public void removeGui(CookGui gui) {
+		guis.remove(gui);
+	}
+
 	private void drawCookStation(Graphics2D g) {
 		g.setColor(Color.RED);
 		g.fillRect(xCookStation, yCookStation, xCookSize, yCookSize);
-		g.fillRect(xCookStation - 60, yCookStation + 30, xCookSize + 10, yCookSize);
-		g.fillRect(xCookStation + 50, yCookStation + 30, xCookSize + 10, yCookSize);
+		g.fillRect(xCookStation - 60, yCookStation + 30, xCookSize + 10,
+				yCookSize);
+		g.fillRect(xCookStation + 50, yCookStation + 30, xCookSize + 10,
+				yCookSize);
 		g.setColor(Color.WHITE);
 		g.drawRect(xCookStation, yCookStation, xCookSize, yCookSize);
 		g.setColor(Color.BLACK);
-		g.drawRect(xCookStation - 60, yCookStation + 30, xCookSize + 10, yCookSize);
-		g.drawRect(xCookStation + 50, yCookStation + 30, xCookSize + 10, yCookSize);
-		g.drawLine(xCookStation - 25, yCookStation + 30, xCookStation - 25, yCookStation + 50);
-		g.drawLine(xCookStation - 42, yCookStation + 30, xCookStation - 42, yCookStation + 50);
-		g.drawLine(xCookStation - 8, yCookStation + 30, xCookStation - 8, yCookStation + 50);
-		g.drawLine(xCookStation + 67, yCookStation + 30, xCookStation + 67, yCookStation + 50);
-		g.drawLine(xCookStation + 85, yCookStation + 30, xCookStation + 85, yCookStation + 50);
-		g.drawLine(xCookStation + 102, yCookStation + 30, xCookStation + 102, yCookStation + 50);
+		g.drawRect(xCookStation - 60, yCookStation + 30, xCookSize + 10,
+				yCookSize);
+		g.drawRect(xCookStation + 50, yCookStation + 30, xCookSize + 10,
+				yCookSize);
+		g.drawLine(xCookStation - 25, yCookStation + 30, xCookStation - 25,
+				yCookStation + 50);
+		g.drawLine(xCookStation - 42, yCookStation + 30, xCookStation - 42,
+				yCookStation + 50);
+		g.drawLine(xCookStation - 8, yCookStation + 30, xCookStation - 8,
+				yCookStation + 50);
+		g.drawLine(xCookStation + 67, yCookStation + 30, xCookStation + 67,
+				yCookStation + 50);
+		g.drawLine(xCookStation + 85, yCookStation + 30, xCookStation + 85,
+				yCookStation + 50);
+		g.drawLine(xCookStation + 102, yCookStation + 30, xCookStation + 102,
+				yCookStation + 50);
 		g.drawString("Cook", xCookStation + 15, yCookStation + 15);
 		g.setColor(Color.PINK);
 		g.drawString("Cooking", xCookStation - 60, yCookStation + 26);
-		g.drawString("Plated",  xCookStation + 87, yCookStation + 26);
+		g.drawString("Plated", xCookStation + 87, yCookStation + 26);
 	}
-	
+
 	private void drawCashier(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(xCashier, yCashier, xCashierSize, yCashierSize);
@@ -153,7 +183,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		g.drawString("$", xCashier + 6, yCashier + 20);
 		g.drawString("$", xCashier + 6, yCashier + 40);
 	}
-	
+
 	private void drawHost(Graphics2D g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(xHost, yHost, xHostSize, yHostSize);
@@ -161,11 +191,11 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 		g.drawRect(xHost, yHost, xHostSize, yHostSize);
 		g.drawString("Host", xHost + 12, yHost + 15);
 	}
-	
-    public void setRestaurant(B_DannyRestaurant building){
-    	this.building = building;
-    }
-	
+
+	public void setRestaurant(B_DannyRestaurant building) {
+		this.building = building;
+	}
+
 	public class Table {
 		DannyCustomer occupiedBy;
 		int tableNumber;

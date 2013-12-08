@@ -290,6 +290,9 @@ public class DannyCook extends Role {
 		System.out.println("Cook workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
 		rest.cookFilled = false;
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.removeGui(cookGui);
 		exitBuilding(myPerson);
 	}
 

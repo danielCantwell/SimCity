@@ -34,7 +34,9 @@ public class WaiterGui implements Gui {
 	};
 
 	private enum Action {
-		none, gettingCustomer, seatingCustomer, customerReady, deliveringFood, gettingBill, deliveringBill, walkingToCook
+		none, gettingCustomer, seatingCustomer,
+		customerReady, deliveringFood, gettingBill,
+		deliveringBill, walkingToCook, leavingRestaurant
 	};
 
 	private State state = State.none;
@@ -47,6 +49,7 @@ public class WaiterGui implements Gui {
 	static final int yWaiterSize = 20;
 
 	public WaiterGui(DannyWaiter agent, int num) {
+		System.out.println("WaiterGUI created : " + hashCode());
 		numWaiter = num;
 		this.agent = agent;
 		yDestinationDefault = 60 + 20 * numWaiter;
@@ -130,6 +133,16 @@ public class WaiterGui implements Gui {
 				&& (xDestination == 60) && (yDestination == 25)) {
 			if (action == Action.gettingCustomer) {
 				agent.msgGotCustomer();
+				action = Action.none;
+			}
+		}
+		/*
+		 * If the waiter is leaving the restaurant
+		 */
+		if (xPos == xDestination && yPos == yDestination
+				&& (xDestination == -20) && (yDestination == -20)) {
+			if (action == Action.leavingRestaurant) {
+				agent.msgLeaveRestaurant();
 				action = Action.none;
 			}
 		}
@@ -250,6 +263,7 @@ public class WaiterGui implements Gui {
 	}
 
 	public void DoGetCustomer() {
+		System.out.println("WaiterGUI DoGetCustomer : " + hashCode());
 		xDestination = 60;
 		yDestination = 25;
 		action = Action.gettingCustomer;
@@ -259,6 +273,13 @@ public class WaiterGui implements Gui {
 		xDestination = xDestinationDefault;
 		yDestination = yDestinationDefault;
 		state = State.none;
+	}
+
+	public void DoLeaveRestaurant() {
+		xDestination = -20;
+		yDestination = -20;
+		state = State.none;
+		action = Action.leavingRestaurant;
 	}
 
 	public int getXPos() {

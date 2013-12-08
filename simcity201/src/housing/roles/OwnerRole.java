@@ -61,11 +61,14 @@ public class OwnerRole extends Role implements Owner {
 			}
 		}
 
-		if (newTenant) {
-			System.out.println("Owner added a tenant");
-			myTenants.add(new MyTenant(tenant));
-			tenant.msgHouseInfo(appliances, myTenants.size());
-			System.out.println("Owner has " + myTenants.size() + " tenants.");
+		synchronized (myTenants) {
+			if (newTenant) {
+				System.out.println("Owner added a tenant");
+				myTenants.add(new MyTenant(tenant));
+				tenant.msgHouseInfo(appliances, myTenants.size());
+				System.out.println("Owner has " + myTenants.size()
+						+ " tenants.");
+			}
 		}
 	}
 
@@ -140,15 +143,9 @@ public class OwnerRole extends Role implements Owner {
 	public boolean pickAndExecuteAnAction() {
 
 		/*
-		synchronized (myTenants) {
-			for (MyTenant t : myTenants) {
-				if (t.strikes > 3) {
-					evictTenant(t);
-					return true;
-				}
-			}
-		}
-*/
+		 * synchronized (myTenants) { for (MyTenant t : myTenants) { if
+		 * (t.strikes > 3) { evictTenant(t); return true; } } }
+		 */
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.state == TenantState.OwesRent) {
@@ -163,6 +160,16 @@ public class OwnerRole extends Role implements Owner {
 				if (t.state == TenantState.InDebt) {
 					t.strikes++;
 					t.state = TenantState.None;
+					return true;
+				}
+			}
+		}
+		
+		synchronized (appliances) {
+			for (Appliance a : appliances) {
+				if (a.state == ApplianceState.NeedsFixing) {
+					a.fixAppliance();
+					System.out.println("Owner fixed appliance " + a.type);
 					return true;
 				}
 			}
