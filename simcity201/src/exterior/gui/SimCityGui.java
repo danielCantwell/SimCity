@@ -38,8 +38,10 @@ public class SimCityGui extends JFrame {
     public SimCityGui() {
     	setupPanel = new SetupPanel(animationPanel);
     	
-        int WINDOWX = 1920;
-        int WINDOWY = 1920; //1472;
+        int WINDOWX = 1280;
+        int WINDOWY = 640; //1472;
+        int ANIMATIONX = 1920;
+        int ANIMATIONY = 1920;
         int BFRAMEX = 640;
         int BFRAMEY = 640;
     	setBounds(0, 0, WINDOWX, WINDOWY);
@@ -47,13 +49,16 @@ public class SimCityGui extends JFrame {
     	
     	God.Get().setSimGui(this);
     	
-    	Dimension animDim = new Dimension(WINDOWX, WINDOWY);
+    	Dimension animDim = new Dimension(ANIMATIONX, ANIMATIONY);
     	animationPanel.setPreferredSize(animDim);
     	animationPanel.setMinimumSize(animDim);
     	animationPanel.setMaximumSize(animDim);
     	animationPanel.setGui(this);
 
     	JScrollPane scrollPane = new JScrollPane(animationPanel);
+    	// allows scrolling to go faster
+    	scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
     	add(scrollPane, BorderLayout.CENTER);
     	animationPanel.setScrollPane(scrollPane);
     	
@@ -124,6 +129,7 @@ public class SimCityGui extends JFrame {
     	}
     	
     	buildingFrame = new JFrame();
+        buildingFrame.setLocation(WINDOWX, 0);
     	buildingFrame.add(buildingPanels);
     	buildingFrame.setTitle("Building");
     	buildingFrame.setVisible(false);

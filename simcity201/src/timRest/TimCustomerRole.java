@@ -522,8 +522,10 @@ public class TimCustomerRole extends Role implements TimCustomer{
 
 	@Override
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+        if (!myPerson.building.getOpen()){
+            myPerson.Do("Restaurant is closed...");
+            exitBuilding(myPerson);
+        }
 	}
 
 	@Override
