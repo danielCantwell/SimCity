@@ -336,4 +336,10 @@ public class DannyHost extends Role {
 		
 		workOver = true;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Danny Host";
+	}
 }

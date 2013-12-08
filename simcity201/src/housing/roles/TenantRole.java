@@ -403,4 +403,10 @@ public class TenantRole extends Role implements Tenant {
 		}
 		stateChanged();
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Tenant Role";
+	}
 }

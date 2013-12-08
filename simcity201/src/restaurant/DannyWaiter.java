@@ -599,4 +599,10 @@ public class DannyWaiter extends Role implements Waiter {
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.numWaiters--;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Danny Waiter";
+	}
 }

@@ -292,4 +292,10 @@ public class DannyCook extends Role {
 		rest.cookFilled = false;
 		exitBuilding(myPerson);
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Danny Cook";
+	}
 }
