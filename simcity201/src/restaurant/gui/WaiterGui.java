@@ -47,6 +47,7 @@ public class WaiterGui implements Gui {
 	static final int yWaiterSize = 20;
 
 	public WaiterGui(DannyWaiter agent, int num) {
+		System.out.println("WaiterGUI created : " + hashCode());
 		numWaiter = num;
 		this.agent = agent;
 		yDestinationDefault = 60 + 20 * numWaiter;
@@ -250,6 +251,7 @@ public class WaiterGui implements Gui {
 	}
 
 	public void DoGetCustomer() {
+		System.out.println("WaiterGUI DoGetCustomer : " + hashCode());
 		xDestination = 60;
 		yDestination = 25;
 		action = Action.gettingCustomer;

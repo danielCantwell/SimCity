@@ -46,7 +46,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 	private DannyHost hostAgent;
 	B_DannyRestaurant building;
 
-	private int NTABLES = 0;
+	private int NTABLES = 4;
 
 	public Collection<Table> tables;
 
@@ -75,7 +75,11 @@ public class DannyRestaurantAnimationPanel extends JPanel implements ActionListe
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		
+		for (Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.updatePosition();
+			}
+		}
 		repaint(); // Will have paintComponent called
 	}
 

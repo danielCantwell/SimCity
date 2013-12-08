@@ -70,7 +70,6 @@ public class DannyHost extends Role {
 	public void msgIWantFood(DannyCustomer cust) {
 		print("MESSAGE 1 : Customer -> Host : IWantFood");
 		waitingCustomers.add(cust);
-		System.out.println(hashCode());
 		stateChanged();
 	}
 
@@ -248,7 +247,7 @@ public class DannyHost extends Role {
 		waiters.add(new MyWaiter(w));
 		//w.startThread();
 		print("Added waiter " + w.getName());
-		stateChanged(); // TODO
+		stateChanged();
 	}
 
 	public DannyCashier getCashier() {

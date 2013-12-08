@@ -197,7 +197,7 @@ public class Person extends Agent {
 		this.house = houseType; 
 		this.name = name;
 		if (gui != null){
-			this.building = God.Get().getBuilding(1);
+			this.building = God.Get().getBuilding(2);
 		}
 		myHouse = house;
 		this.workPlace = workplace;

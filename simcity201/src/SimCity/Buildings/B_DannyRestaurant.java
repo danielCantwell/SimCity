@@ -38,6 +38,7 @@ public class B_DannyRestaurant extends Building {
 	public B_DannyRestaurant(int id, JPanel jp, int xCoord, int yCoord) {
 		this.id = id;
 		buildingPanel = jp;
+		System.out.println("Danny Rest Building Panel " + buildingPanel.hashCode());
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";

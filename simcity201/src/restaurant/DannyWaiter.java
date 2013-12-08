@@ -596,6 +596,7 @@ public class DannyWaiter extends Role implements Waiter {
 				.getPanel();
 		ap.addGui(waiterGui);
 		System.out.println("Waiter: " + hashCode() + " enterBuilding");
+		System.out.println("WaiterGUI " + waiterGui.hashCode() + " added to Danny Rest Panel " + ap.hashCode());
 	}
 
 	@Override
