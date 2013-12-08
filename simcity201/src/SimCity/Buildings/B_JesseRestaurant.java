@@ -45,11 +45,16 @@ public class B_JesseRestaurant extends Building{
 				newRole = new JesseWaiter("JWaiter");
 				numWaiter++;
 				host.addWaiter((JesseWaiter) newRole);
+				((JesseWaiter) newRole).setCook(cook);
+				((JesseWaiter) newRole).setCashier(cashier);
+				((JesseWaiter) newRole).setHost(host);
 				setOpen(areAllNeededRolesFilled());
 			}
 			else if(role.equals("jesseRest.JesseCook")) { 
 				newRole = cook;
 				cookFilled = true;
+				jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)person.building.getPanel();
+				((JesseCook) newRole).setAnimationPanel(ap);
 				setOpen(areAllNeededRolesFilled());
 			}
 			else if(role.equals("jesseRest.JesseCashier")) {
@@ -103,7 +108,8 @@ public class B_JesseRestaurant extends Building{
 	@Override
 	public void ExitBuilding(Person person) {
 		person.resetActiveRoles();
-    	person.msgExitBuilding();
+    	person.msgExitBuilding();		
+
 	}
 
 }

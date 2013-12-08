@@ -37,7 +37,7 @@ public class TenantRole extends Role implements Tenant {
 	TenantGui gui = new TenantGui(this);
 
 	public enum Time {
-		msgSleep, sleeping, awake, work
+		msgSleep, sleeping, getReady, awake, work
 	};
 
 	public enum State {
@@ -81,7 +81,7 @@ public class TenantRole extends Role implements Tenant {
 
 	public void msgMorning() {
 		System.out.println("Tenant should be waking up");
-		time = Time.awake;
+		time = Time.getReady;
 		stateChanged();
 	}
 
@@ -158,6 +158,11 @@ public class TenantRole extends Role implements Tenant {
 			return true;
 		}
 
+		if (time == Time.getReady) {
+			getReady();
+			return true;
+		}
+
 		if (time == Time.msgSleep) {
 			sleep();
 			return true;
@@ -214,12 +219,30 @@ public class TenantRole extends Role implements Tenant {
 		DoGoToMarket();
 	}
 
+	private void getReady() {
+		System.out.println("Tenant has woken up and is getting ready");
+		if (myPerson.getMainRoleString().contains("usto")) {
+			// if the person is a dedicated customer
+			DoCookFood();
+		} else {
+			gui.DoGoToTable(tenantNumber);
+			try {
+				atTable.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		time = Time.awake;
+	}
+
 	private void getFood() {
 		System.out.println("Tenant is getting food");
 		if (tenantShouldEatOut()) {
 			DoGoToRestaurant();
-		} else {
+		} else if (foodCount > 0) {
 			DoCookFood();
+		} else {
+			goToMarket();
 		}
 	}
 
@@ -239,11 +262,12 @@ public class TenantRole extends Role implements Tenant {
 		System.out.println("Tenant is going to work");
 		DoLeaveHouse();
 		myPerson.msgGoToBuilding(myPerson.getWorkPlace(), Intent.work);
-		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse.getPanel();
+		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
+				.getPanel();
 		myPanel.addGui(gui);
 		exitBuilding(myPerson);
 
-		//System.out.println(myPerson.actions.get(0).getGoAction().toString());
+		// System.out.println(myPerson.actions.get(0).getGoAction().toString());
 	}
 
 	public void useAppliance(String type) {
@@ -309,7 +333,7 @@ public class TenantRole extends Role implements Tenant {
 		}
 		useAppliance("Table");
 		// Reset hunger level
-		myPerson.setHungerLevel(10);
+		myPerson.hungerLevel += 30;
 	}
 
 	public void DoGoToBank() {
@@ -323,6 +347,7 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	public void DoGoToMarket() {
+		foodCount = 4;
 		DoLeaveHouse();
 		myPerson.msgGoToBuilding(
 				God.Get().findBuildingOfType(BuildingType.Market),
@@ -358,10 +383,10 @@ public class TenantRole extends Role implements Tenant {
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Tenant is entering building");
-		
-		owner = ((B_House)myPerson.building).getOwner();
+
+		owner = ((B_House) myPerson.building).getOwner();
 		owner.msgAddTenant(this);
-		
+
 		time = Time.awake;
 		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
 				.getPanel();

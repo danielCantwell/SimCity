@@ -1,6 +1,8 @@
 package jesseRest;
 
+import jesseRest.gui.*;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import agent.Agent;
 import jesseRest.Check;
 import jesseRest.Menu;
@@ -22,7 +24,7 @@ public class JesseWaiter extends Role implements Waiter {
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public enum CustomerState {DoingNothing, Waiting, Seated, Ready, AskedToOrder, AskedToReorder, Ordered, GettingFood, Eating, Done};
 	public WaiterGui waiterGui = null;
-	
+	jesseRest.gui.AnimationPanel AP;
 	private JesseHost myhost;
 	private JesseCook cook;
 	private JesseCashier cashier;
@@ -461,14 +463,22 @@ public class JesseWaiter extends Role implements Waiter {
 		jesseRest.gui.WaiterGui w = new jesseRest.gui.WaiterGui(this);
 		waiterGui = w;
 		System.out.println(w);
-		jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)myPerson.getBuilding().getPanel();
+		jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)myPerson.building.getPanel();
+		AP = ap;
+
 		ap.addGui(w);
 	}
 
+	public jesseRest.gui.AnimationPanel getAP() {
+		return AP;
+	}
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		waiterGui.DoLeaveCustomer();
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.removeGui(waiterGui);
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		exitBuilding(myPerson);		
 	}
 }
 

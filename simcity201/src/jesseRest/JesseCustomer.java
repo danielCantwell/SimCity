@@ -1,6 +1,8 @@
 package jesseRest;
 
+import jesseRest.gui.*;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_JesseRestaurant;
 import jesseRest.Check;
@@ -76,7 +78,7 @@ public class JesseCustomer extends Role implements Customer {
 	}
 	
 	public void gotHungry() {
-		print("Customer created.");
+		Do("Going to restaurant because my hungerLevel is : "+myPerson.hungerLevel);
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
@@ -195,6 +197,7 @@ public class JesseCustomer extends Role implements Customer {
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
+			leaveRestaurant();
 			return true;
 		}
 		return false;
@@ -204,9 +207,17 @@ public class JesseCustomer extends Role implements Customer {
 	 * ACTIONS  ====================================================
 	 */
 
+	public void leaveRestaurant(){
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.removeGui(customerGui);
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		exitBuilding(myPerson);
+	}
+
 	private void ExitRestaurantLine() {
+		myPerson.hungerLevel = myPerson.hungerLevel + 30;
 		customerGui.DoExitRestaurant();
-		print("Customer has left.");
+		print("Customer has left and hunger level is now : "+myPerson.hungerLevel);
 	}
 	private void goToRestaurant() {
 		// Handles hungry message and tells host
@@ -367,7 +378,7 @@ public class JesseCustomer extends Role implements Customer {
 		host = rest.host;
 		jesseRest.gui.CustomerGui c = new jesseRest.gui.CustomerGui(this);
 		customerGui = c;
-		//BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+
 		jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)myPerson.building.getPanel();
 		ap.addGui(c);
 		if (!myPerson.building.getOpen()){
@@ -375,7 +386,7 @@ public class JesseCustomer extends Role implements Customer {
 				customerGui.DoExitRestaurant();
 				return;
 		}
-		gotHungry();
+		customerGui.setHungry();
 	}
 
 	@Override

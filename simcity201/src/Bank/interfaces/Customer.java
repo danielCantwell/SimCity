@@ -8,9 +8,7 @@ public interface Customer {
 	public abstract void setGuard(Guard bg);
 
 	public abstract void setMoney(Money m);
-
-	public abstract void setAccNum(int a);
-
+	
 	//-----------------------------------------------Messages------------------------------------------------
 	public abstract void enterBuilding();
 
@@ -20,7 +18,7 @@ public interface Customer {
 
 	public abstract void noEnter();
 
-	public abstract void tellerCalled(Teller t);
+	public abstract void tellerCalled(Teller t, int accNUm);
 
 	public abstract void whatService();
 
@@ -47,5 +45,7 @@ public interface Customer {
 	public abstract bankCustomerGui getGui();
 
 	public abstract void doneMotion();
+
+	public abstract int getAccNum();
 
 }

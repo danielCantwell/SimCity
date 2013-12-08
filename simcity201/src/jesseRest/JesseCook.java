@@ -38,10 +38,10 @@ public class JesseCook extends Role {
 		this.name = name;
 		status = InventoryState.Done;
 		// Default values for food inventory. Change if you want.
-		foods.put("Steak", new Food("Steak", 7500, 2));
-		foods.put("Chicken", new Food("Chicken", 6000, 2));
-		foods.put("Salad", new Food("Salad", 3000, 2));
-		foods.put("Pizza", new Food("Pizza", 5000, 2));
+		foods.put("Steak", new Food("Steak", 700, 2));
+		foods.put("Chicken", new Food("Chicken", 600, 2));
+		foods.put("Salad", new Food("Salad", 300, 2));
+		foods.put("Pizza", new Food("Pizza", 500, 2));
 	}
 	
 	public String getMaitreDName() {

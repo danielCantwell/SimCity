@@ -521,6 +521,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
+
                  //System.out.println("Spawning a new pedestrian.");
             	 //AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
             	 //PersonGui g = new PersonGui(gui, aStarTraversal);
@@ -532,10 +533,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("Omar", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
 
-            	 //g.setPerson(p);
-            	 //addGui(g);
-            	 //God.Get().addPerson(p);
-            	 //p.startThread();
              }
         };
         

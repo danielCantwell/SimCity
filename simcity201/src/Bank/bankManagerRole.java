@@ -14,16 +14,16 @@ import SimCity.Buildings.B_Bank;
  *
  */
 public class bankManagerRole extends Role implements  Manager{
-	
+
 	Guard guard;
-	
+
 	public void msgHello(){
 		System.out.println("Manager received a messsage from customer");
 	}
-	
+
 	@Override
 	public Guard getGuard(){return guard;}
-	
+
 	@Override
 	public void setGuard(Guard bg){
 		guard = bg;
@@ -31,10 +31,11 @@ public class bankManagerRole extends Role implements  Manager{
 		//bank.setBankGuard();
 		myPerson.building.setOpen(myPerson.building.areAllNeededRolesFilled());
 	}
-	
+
 	//----------------------------------------------Data-------------------------------------------------
+	int accNum = 0;
 	List<Teller> tellers = Collections.synchronizedList(new ArrayList<Teller>());
-	
+
 	public class Teller {
 		int tellerNum;
 		Bank.interfaces.Teller teller;
@@ -42,7 +43,7 @@ public class bankManagerRole extends Role implements  Manager{
 	}
 	private enum state { yes, no };
 	List<Customer>clients = Collections.synchronizedList(new ArrayList<Customer>());
-		
+
 	//----------------------------------------------Messages-------------------------------------------------
 
 	@Override
@@ -52,7 +53,7 @@ public class bankManagerRole extends Role implements  Manager{
 		bank.setBankManager(this);
 		stateChanged();
 	}
-	
+
 	@Override
 	public void newTeller(Bank.interfaces.Teller teller) {
 		Teller t = new Teller();
@@ -70,9 +71,9 @@ public class bankManagerRole extends Role implements  Manager{
 	public void newClient(Customer c) {
 		clients.add(c);
 		stateChanged();
-		System.out.println("Manager: New customer has been added: "+c);
+		System.out.println("Manager: New customer has been added: "+c+"    with account: "+accNum);
 	}
-	
+
 	public void tellerReady(tellerRole teller) {
 		for (Teller t : tellers) {
 			if(t.teller == teller) {
@@ -80,7 +81,7 @@ public class bankManagerRole extends Role implements  Manager{
 			}
 		}
 	}
-	
+
 	//----------------------------------------------Scheduler-------------------------------------------------
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -94,13 +95,17 @@ public class bankManagerRole extends Role implements  Manager{
 		}
 		return false;
 	}
-	
-	
+
+
 	//----------------------------------------------Actions-------------------------------------------------
-	
+
 	@Override
 	public void callTeller(Customer c, Teller t) {
-		t.teller.tellerAssigned(c);
+		if (c.getAccNum() == -1) {
+			t.teller.tellerAssigned(c, accNum);
+			accNum++;
+		}
+		else t.teller.tellerAssigned(c);
 		t.busy = state.yes;
 		clients.remove(c);
 	}

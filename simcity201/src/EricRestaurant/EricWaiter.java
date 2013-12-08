@@ -8,6 +8,7 @@ import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
 import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import agent.Agent;
 import brianRest.gui.BrianAnimationPanel;
 
@@ -455,7 +456,10 @@ public class EricWaiter extends Role implements Waiter {
 	}
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
-		
+		hostGui.DoLeaveCustomer();
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.removeGui(hostGui);
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		exitBuilding(myPerson);
 	}
 }
