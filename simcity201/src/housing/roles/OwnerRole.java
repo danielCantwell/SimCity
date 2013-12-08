@@ -139,6 +139,7 @@ public class OwnerRole extends Role implements Owner {
 
 	public boolean pickAndExecuteAnAction() {
 
+		/*
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.strikes > 3) {
@@ -147,7 +148,7 @@ public class OwnerRole extends Role implements Owner {
 				}
 			}
 		}
-
+*/
 		synchronized (myTenants) {
 			for (MyTenant t : myTenants) {
 				if (t.state == TenantState.OwesRent) {

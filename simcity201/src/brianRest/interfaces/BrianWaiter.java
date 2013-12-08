@@ -1,5 +1,6 @@
 package brianRest.interfaces;
 
+import brianRest.BrianHostRole;
 import brianRest.BrianTable;
 public interface BrianWaiter {
 
@@ -29,5 +30,11 @@ public interface BrianWaiter {
 	public abstract void msgHereIsCheck(double totalCost, BrianCustomer c);
 
 	public abstract void msgCleanUpDeadCustomer(BrianCustomer customer);
+
+	public abstract void atLocation();
+
+	public abstract int getWaiterNumber();
+
+	public abstract BrianHostRole getHost();
 
 }

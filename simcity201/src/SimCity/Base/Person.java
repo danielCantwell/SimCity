@@ -53,7 +53,7 @@ public class Person extends Agent {
 	public enum Vehicle {car, delivery, walk, bus};
 	public Vehicle vehicle = Vehicle.walk;
 	public int shift = 1;
-	
+	public int getShift(){return shift;}
 	public Gui gui;
 	public Semaphore animation = new Semaphore(0, true);
 	
