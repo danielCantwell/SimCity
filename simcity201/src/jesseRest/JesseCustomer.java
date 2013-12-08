@@ -11,6 +11,7 @@ import jesseRest.Menu;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import brianRest.gui.BrianAnimationPanel;
 import jesseRest.gui.CustomerGui;
 import jesseRest.interfaces.Customer;
 

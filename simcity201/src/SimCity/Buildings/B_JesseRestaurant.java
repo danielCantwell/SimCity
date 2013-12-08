@@ -109,6 +109,7 @@ public class B_JesseRestaurant extends Building{
 	public void ExitBuilding(Person person) {
 		person.resetActiveRoles();
     	person.msgExitBuilding();		
+
 	}
 
 }

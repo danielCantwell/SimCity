@@ -110,7 +110,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
         
         PersonGui mPersonGui = new PersonGui(gui, aStarTraversal);
-        manager = new Person("Manny", mPersonGui, "market.MarketManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
+        manager = new Person("Manny", mPersonGui, "market.MarketManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market,1);
         manager.mainRole.setActive(true);
         mPersonGui.setPerson(manager);
         Gui mGui = ((MarketManagerRole) manager.mainRole).getGui();
@@ -119,7 +119,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         manager.startThread();
 
         PersonGui cPersonGui = new PersonGui(gui, aStarTraversal);
-        clerk = new Person("Clark", cPersonGui, "market.MarketClerkRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
+        clerk = new Person("Clark", cPersonGui, "market.MarketClerkRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market,1);
         clerk.mainRole.setActive(true);
         Gui cGui = ((MarketClerkRole) clerk.mainRole).getGui();
         cPersonGui.setPerson(clerk);
@@ -128,7 +128,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         clerk.startThread();
 
         PersonGui pPersonGui = new PersonGui(gui, aStarTraversal);
-        packer = new Person("Parker", pPersonGui, "market.MarketPackerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
+        packer = new Person("Parker", pPersonGui, "market.MarketPackerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market, 1);
         packer.mainRole.setActive(true);
         Gui pGui = ((MarketPackerRole) packer.mainRole).getGui();
         pPersonGui.setPerson(packer);
@@ -137,7 +137,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         packer.startThread();
 
         PersonGui dPersonGui = new PersonGui(gui, aStarTraversal);
-        deliveryPerson = new Person("Parson", dPersonGui, "market.MarketDeliveryPersonRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market);
+        deliveryPerson = new Person("Parson", dPersonGui, "market.MarketDeliveryPersonRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market, 1);
         deliveryPerson.mainRole.setActive(true);
         Gui dGui = ((MarketDeliveryPersonRole) deliveryPerson.mainRole).getGui();
         dPersonGui.setPerson(deliveryPerson);

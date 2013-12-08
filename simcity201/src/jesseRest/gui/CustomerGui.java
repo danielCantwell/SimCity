@@ -8,7 +8,7 @@ import jesseRest.JesseHost;
 public class CustomerGui implements Gui{
 
 	private JesseCustomer agent = null;
-	private boolean isPresent = false;
+	private boolean isPresent = true;
 	private boolean isHungry = false;
     private String icon = "";
     

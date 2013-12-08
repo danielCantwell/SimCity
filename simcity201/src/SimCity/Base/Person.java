@@ -52,6 +52,7 @@ public class Person extends Agent {
 	public Intent intent = Intent.customer; //when the person enters a building, is he a customer or going to work.
 	public enum Vehicle {car, delivery, walk, bus};
 	public Vehicle vehicle = Vehicle.walk;
+	public int shift = 1;
 	
 	public Gui gui;
 	public Semaphore animation = new Semaphore(0, true);
@@ -184,9 +185,9 @@ public class Person extends Agent {
 		public Intent getIntent(){return intent;}
 		
 	//USE THIS CONSTRUCTOR.
-	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace){
+	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace, int shift){
 		this.gui = gui;
-		
+		this.shift = shift;
 		setMainRole(mainRole);
 		mainRoleString = mainRole;
 		this.vehicle = vehicle;
@@ -375,7 +376,7 @@ public class Person extends Agent {
 			
 			//Check if he is hungry
 			if (hungerLevel < hungerThreshold){
-				//goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); handled in tenant role.
+				//goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); handled in tenant role now!!
 				return false;
 			}
 			goTo(new Action(GoAction.goHome, Intent.customer));

@@ -36,7 +36,7 @@ public class GodTest extends TestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		God.Get();
-		person = new Person("Briiiannn", null, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(60,3), new Money(10, 0), 10, 3, "house", new B_House(25, null), null);
+		person = new Person("Briiiannn", null, "Bank.bankCustomerRole", Vehicle.walk, Morality.good, new Money(60,3), new Money(10, 0), 10, 3, "house", new B_House(25, null), null, 1);
 	}
 	
 	public void set(){
