@@ -5,13 +5,16 @@ package exterior.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -21,6 +24,10 @@ import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
+import SimCity.trace.AlertLevel;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
+import SimCity.trace.TracePanel;
 
 /**
  * @author Daniel
@@ -29,7 +36,7 @@ import SimCity.Base.Person.Vehicle;
 public class SetupPanel extends JFrame {
 
 	private final int WINDOWX = 1000;
-	private final int WINDOWY = 330;
+	private final int WINDOWY = 500;
 
 	private AnimationPanel animationPanel;
 
@@ -39,6 +46,7 @@ public class SetupPanel extends JFrame {
 	private JPanel professionsPanel = new JPanel();
 	private JPanel optionsPanel = new JPanel();
 	private JPanel mainPanel = new JPanel();
+	private JPanel centerPanel = new JPanel();
 	private JPanel scenarioPanel = new JPanel();
 
 	private JPanel bankPanel = new JPanel();
@@ -138,7 +146,37 @@ public class SetupPanel extends JFrame {
 	private JButton s2 = new JButton("Normative Scenario Two");
 	private JButton s3 = new JButton("Scenario Three - Does Nothing");
 	private JButton s4 = new JButton("Scenario Four - Does Nothing");
-
+	
+	
+	// ---------------Trace Panel--------------------
+	TracePanel tracePanel;
+	private JPanel logsPanel = new JPanel ();
+	private JPanel leftLogsPanel = new JPanel();
+	private JPanel centerLogsPanel = new JPanel();
+	private JPanel rightLogsPanel = new JPanel();
+	private JLabel traceLeftLabel = new JLabel("Show/Hide");
+	private JLabel traceCenterLabel = new JLabel("Common");
+	private JLabel traceRightLabel = new JLabel("Restaurants");
+	
+	private JRadioButton showErrors = new JRadioButton("Errors");
+	private JRadioButton showWarning = new JRadioButton("Warnings");
+	private JRadioButton showMessages = new JRadioButton("Messages");
+	private JRadioButton showDebugs = new JRadioButton("Debugs");
+	private JRadioButton showInfo = new JRadioButton("Info");
+	
+	private JRadioButton showGod = new JRadioButton("God");
+	private JRadioButton showPerson = new JRadioButton("Person");
+	private JRadioButton showMarket = new JRadioButton("Market");
+	private JRadioButton showBank = new JRadioButton("Bank");
+	private JRadioButton showHouse = new JRadioButton("House");
+	
+	private JRadioButton showBrianRest = new JRadioButton("Brian");
+	private JRadioButton showJesseRest = new JRadioButton("Jesse");
+	private JRadioButton showEricRest = new JRadioButton("Eric");
+	private JRadioButton showDannyRest = new JRadioButton("Danny");
+	private JRadioButton showTimRest = new JRadioButton("Tim");
+	
+	
 	/**
 	 * Constructor
 	 * 
@@ -321,13 +359,159 @@ public class SetupPanel extends JFrame {
 		scenarioPanel.add(s2);
 		scenarioPanel.add(s3);
 		scenarioPanel.add(s4);
+		
+		// Trace Panel
+		this.tracePanel = new TracePanel();
+		AlertLog.getInstance().addAlertListener(tracePanel);
+		tracePanel.showAlertsForAllLevels();
+		tracePanel.showAlertsForAllTags();
+		
+		//----Initialize trace panel here --
+		
+		logsPanel.setLayout(new BoxLayout(logsPanel, BoxLayout.X_AXIS));
+		logsPanel.add(tracePanel);
+		logsPanel.add(leftLogsPanel);
+		logsPanel.add(centerLogsPanel);
+		logsPanel.add(rightLogsPanel);
+		
+		leftLogsPanel.setLayout(new BoxLayout(leftLogsPanel, BoxLayout.Y_AXIS));
+		centerLogsPanel.setLayout(new BoxLayout(centerLogsPanel, BoxLayout.Y_AXIS));
+		rightLogsPanel.setLayout(new BoxLayout(rightLogsPanel, BoxLayout.Y_AXIS));
+		
+		
+		leftLogsPanel.add(traceLeftLabel);
+		centerLogsPanel.add(traceCenterLabel);
+		rightLogsPanel.add(traceRightLabel);
+		//Left
+		showErrors.setSelected(true);
+		showMessages.setSelected(true);
+		showWarning.setSelected(true);
+		showDebugs.setSelected(true);
+		showInfo.setSelected(true);
+		//Center
+		showGod.setSelected(true);
+		showPerson.setSelected(true);
+		showHouse.setSelected(true);
+		showBank.setSelected(true);
+		showMarket.setSelected(true);
+		//Right
+		showBrianRest.setSelected(true);
+		showEricRest.setSelected(true);
+		showDannyRest.setSelected(true);
+		showJesseRest.setSelected(true);
+		showTimRest.setSelected(true);
 
+		leftLogsPanel.add(showErrors);
+		leftLogsPanel.add(showMessages);
+		leftLogsPanel.add(showWarning);
+		leftLogsPanel.add(showDebugs);
+		leftLogsPanel.add(showInfo);
+		
+		centerLogsPanel.add(showGod);
+		centerLogsPanel.add(showPerson);
+		centerLogsPanel.add(showHouse);
+		centerLogsPanel.add(showBank);
+		centerLogsPanel.add(showMarket);
+		
+		rightLogsPanel.add(showBrianRest);
+		rightLogsPanel.add(showEricRest);
+		rightLogsPanel.add(showDannyRest);
+		rightLogsPanel.add(showJesseRest);
+		rightLogsPanel.add(showTimRest);
+
+		//--center panel
+		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+		centerPanel.add(mainPanel);
+		centerPanel.add(logsPanel);
+		add(centerPanel, BorderLayout.CENTER);
+		
+		// trace functionality
+		showErrors.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					tracePanel.showAlertsWithLevel(AlertLevel.ERROR);
+				else
+					tracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
+				//================================================================================
+			}
+		});
+		showWarning.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showWarning.isSelected())
+					tracePanel.showAlertsWithLevel(AlertLevel.WARNING);
+				else
+					tracePanel.hideAlertsWithLevel(AlertLevel.WARNING);
+				//================================================================================
+			}
+		});
+		showDebugs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showDebugs.isSelected())
+					tracePanel.showAlertsWithLevel(AlertLevel.DEBUG);
+				else
+					tracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
+				//================================================================================
+			}
+		});
+		showInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showInfo.isSelected())
+					tracePanel.showAlertsWithLevel(AlertLevel.INFO);
+				else
+					tracePanel.hideAlertsWithLevel(AlertLevel.INFO);
+				//================================================================================
+			}
+		});
+		showMessages.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showMessages.isSelected())
+					tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+				else
+					tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
+				//================================================================================
+			}
+		});
+		
+		//--Tags
+		showGod.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//============================ TUTORIAL ==========================================
+				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				if (showGod.isSelected())
+					tracePanel.showAlertsWithTag(AlertTag.God);
+				else
+					tracePanel.hideAlertsWithTag(AlertTag.God);
+				//================================================================================
+			}
+		});
+		
+		
+		
+		
+		
+		
 		// --- Main Frame ---
 
 		mainPanel.setBorder(new EtchedBorder(Color.BLACK, Color.CYAN));
 
 		add(optionsPanel, BorderLayout.PAGE_START);
-		add(mainPanel, BorderLayout.CENTER);
+		//add(mainPanel, BorderLayout.CENTER);
 		add(scenarioPanel, BorderLayout.PAGE_END);
 
 		modeCompatibility.addActionListener(new ActionListener() {

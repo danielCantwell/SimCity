@@ -29,6 +29,8 @@ import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 import exterior.gui.AnimationPanel;
 import exterior.gui.SimCityGui;
 /**
@@ -68,6 +70,7 @@ public class God {
 				}
 			}
 			System.out.println("Could not find building: " + id);
+			AlertLog.getInstance().logError(AlertTag.God, "God", "Line 73: Could not find building" + id);
 			
 			return null;
 	    }
@@ -239,7 +242,7 @@ public class God {
 	    
 	    public void wakeUp(){
 	    	announcedTime = true;
-	    	System.out.println ("Morning");
+	    	AlertLog.getInstance().logMessage(AlertTag.God, "God", "Hour " + hour + " A.M. : It is now morning.");
 	    	for(Person p: persons){
 	    		p.msgMorning();
 	    	}
