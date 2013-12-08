@@ -55,88 +55,85 @@ public class WaiterGui implements Gui {
 	}
 
 	public void updatePosition() {
-		if (!pause) {
+		if (xPos < xDestination)
+			xPos++;
+		else if (xPos > xDestination)
+			xPos--;
 
-			if (xPos < xDestination)
-				xPos++;
-			else if (xPos > xDestination)
-				xPos--;
+		if (yPos < yDestination)
+			yPos++;
+		else if (yPos > yDestination)
+			yPos--;
 
-			if (yPos < yDestination)
-				yPos++;
-			else if (yPos > yDestination)
-				yPos--;
+		/*
+		 * If the waiter is at the table and his destination is the table Do
+		 * something based on why he is at the table
+		 */
+		if (xPos == xDestination && yPos == yDestination
+				&& (xDestination == xTable + 20)
+				&& (yDestination == yTable - 20)) {
+			// agent.getHost().msgAtTable();
 
-			/*
-			 * If the waiter is at the table and his destination is the table Do
-			 * something based on why he is at the table
-			 */
-			if (xPos == xDestination && yPos == yDestination
-					&& (xDestination == xTable + 20)
-					&& (yDestination == yTable - 20)) {
-				// agent.getHost().msgAtTable();
-
-				if (action == Action.deliveringBill) {
-					System.out.println("Waiter Gui : action deliveringBill");
-					agent.msgAtTable();
-					action = Action.none;
-					state = State.none;
-				} else if (action == Action.deliveringFood) {
-					System.out.println("Waiter Gui : action deliveringFood");
-					agent.msgAtTable();
-					action = Action.none;
-					state = State.none;
-				} else if (action == Action.seatingCustomer) {
-					System.out.println("Waiter Gui : action seatingCustomer");
-					agent.msgCustomerSeated();
-					action = Action.none;
-				} else if (action == Action.customerReady) {
-					System.out.println("Waiter Gui : action customerReady");
-					agent.msgReadyToTakeOrder();
-					action = Action.none;
-				} else {
-					System.out.println("Waiter Gui : Leaving Customer");
-					DoLeaveCustomer();
-				}
-			}
-			/*
-			 * If the waiter is at the cook and his destination is the cook
-			 */
-			if (xPos == xDestination && yPos == yDestination
-					&& (xDestination == xCookDestination)
-					&& (yDestination == yCookDestination)) {
-				if (action == Action.walkingToCook) {
-					agent.msgAtCook();
-					action = Action.none;
-					state = State.none;
-				} else {
-					DoLeaveCustomer();
-				}
-			}
-			/*
-			 * If the waiter is at the cashier and his destination is the
-			 * cashier
-			 */
-			if (xPos == xDestination && yPos == yDestination
-					&& xDestination == xCashierDestination
-					&& yDestination == yCashierDestination) {
-				if (action == Action.gettingBill) {
-					agent.msgAtCashier();
-					action = Action.none;
-					state = State.none;
-				}
-			}
-			/*
-			 * If the waiter is getting the customer
-			 */
-			if (xPos == xDestination && yPos == yDestination
-					&& (xDestination == 60) && (yDestination == 25)) {
-				if (action == Action.gettingCustomer) {
-					agent.msgGotCustomer();
-					action = Action.none;
-				}
+			if (action == Action.deliveringBill) {
+				System.out.println("Waiter Gui : action deliveringBill");
+				agent.msgAtTable();
+				action = Action.none;
+				state = State.none;
+			} else if (action == Action.deliveringFood) {
+				System.out.println("Waiter Gui : action deliveringFood");
+				agent.msgAtTable();
+				action = Action.none;
+				state = State.none;
+			} else if (action == Action.seatingCustomer) {
+				System.out.println("Waiter Gui : action seatingCustomer");
+				agent.msgCustomerSeated();
+				action = Action.none;
+			} else if (action == Action.customerReady) {
+				System.out.println("Waiter Gui : action customerReady");
+				agent.msgReadyToTakeOrder();
+				action = Action.none;
+			} else {
+				System.out.println("Waiter Gui : Leaving Customer");
+				DoLeaveCustomer();
 			}
 		}
+		/*
+		 * If the waiter is at the cook and his destination is the cook
+		 */
+		if (xPos == xDestination && yPos == yDestination
+				&& (xDestination == xCookDestination)
+				&& (yDestination == yCookDestination)) {
+			if (action == Action.walkingToCook) {
+				agent.msgAtCook();
+				action = Action.none;
+				state = State.none;
+			} else {
+				DoLeaveCustomer();
+			}
+		}
+		/*
+		 * If the waiter is at the cashier and his destination is the cashier
+		 */
+		if (xPos == xDestination && yPos == yDestination
+				&& xDestination == xCashierDestination
+				&& yDestination == yCashierDestination) {
+			if (action == Action.gettingBill) {
+				agent.msgAtCashier();
+				action = Action.none;
+				state = State.none;
+			}
+		}
+		/*
+		 * If the waiter is getting the customer
+		 */
+		if (xPos == xDestination && yPos == yDestination
+				&& (xDestination == 60) && (yDestination == 25)) {
+			if (action == Action.gettingCustomer) {
+				agent.msgGotCustomer();
+				action = Action.none;
+			}
+		}
+
 	}
 
 	public void draw(Graphics2D g) {

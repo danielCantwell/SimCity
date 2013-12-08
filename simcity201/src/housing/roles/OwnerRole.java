@@ -231,7 +231,7 @@ public class OwnerRole extends Role implements Owner {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Owner Role";
 	}
 
 }

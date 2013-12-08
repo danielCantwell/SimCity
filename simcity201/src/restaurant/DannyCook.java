@@ -296,6 +296,6 @@ public class DannyCook extends Role {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Danny Cook";
 	}
 }

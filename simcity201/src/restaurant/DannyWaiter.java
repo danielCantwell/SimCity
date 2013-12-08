@@ -603,6 +603,6 @@ public class DannyWaiter extends Role implements Waiter {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Danny Waiter";
 	}
 }
