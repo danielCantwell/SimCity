@@ -252,8 +252,8 @@ public class God {
 	    	announcedTime = true;
 	    	for (Person p: persons){
 	    		if (p.getTimeState() != TimeState.working){
-	    			if (p.getShift() == shift)
-	    			p.msgGoToWork();
+	    			if (p.getMainRoleString().contains("ustomer"))
+	    				p.msgGoToWork();
 	    		}
 	    	}
 	    }

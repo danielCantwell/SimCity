@@ -7,6 +7,7 @@ import brianRest.BrianCookRole;
 import brianRest.BrianCustomerRole;
 import brianRest.BrianHostRole;
 import brianRest.BrianWaiterRole;
+import brianRest.OrderStand;
 import brianRest.gui.BrianAnimationPanel;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianHost;
@@ -29,6 +30,9 @@ public class B_BrianRestaurant extends Building{
 	public BrianCookRole cookRole = new BrianCookRole("Cook");
 	public int numberOfWaiters = 0;
 	
+	public OrderStand orderstand;
+	public OrderStand getOrderStand(){return orderstand;}
+	
 	public boolean hostFilled = false, cashierFilled = false, cookFilled = false;
 
 	public B_BrianRestaurant(int id, JPanel jp) {
@@ -44,6 +48,7 @@ public class B_BrianRestaurant extends Building{
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
+		orderstand = new OrderStand();
 	}
 
 	@Override
