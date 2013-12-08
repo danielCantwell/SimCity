@@ -487,36 +487,38 @@ public class SetupPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				animationPanel.createPerson("D_Host", "restaurant.DannyHost",
+				animationPanel.createPerson("D_Host_One", "restaurant.DannyHost",
 						Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(1),
+						animationPanel.getGui().buildingList.get(0),
 						animationPanel.getGui().buildingList.get(9), 1);
-				animationPanel.createPerson("D_Cashier",
+				animationPanel.createPerson("D_Host_Two", "restaurant.DannyHost",
+						Vehicle.walk, Morality.good,
+						animationPanel.getGui().buildingList.get(0),
+						animationPanel.getGui().buildingList.get(9), 2);
+				animationPanel.createPerson("D_Cashier_One",
 						"restaurant.DannyCashier", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(1),
+						animationPanel.getGui().buildingList.get(0),
 						animationPanel.getGui().buildingList.get(9), 1);
-				animationPanel.createPerson("D_Cook", "restaurant.DannyCook",
+				animationPanel.createPerson("D_Cashier_Two",
+						"restaurant.DannyCashier", Vehicle.walk, Morality.good,
+						animationPanel.getGui().buildingList.get(0),
+						animationPanel.getGui().buildingList.get(9), 2);
+				animationPanel.createPerson("D_Cook_One", "restaurant.DannyCook",
 						Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(1),
+						animationPanel.getGui().buildingList.get(0),
 						animationPanel.getGui().buildingList.get(9), 1);
+				animationPanel.createPerson("D_Cook_Two", "restaurant.DannyCook",
+						Vehicle.walk, Morality.good,
+						animationPanel.getGui().buildingList.get(0),
+						animationPanel.getGui().buildingList.get(9), 2);
 				animationPanel.createPerson("D_Waiter_One",
 						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(1),
+						animationPanel.getGui().buildingList.get(0),
 						animationPanel.getGui().buildingList.get(9), 1);
 				animationPanel.createPerson("D_Waiter_Two",
 						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9), 1);
-				/*
-				 * animationPanel.createPerson("D_Waiter_Three",
-				 * "restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-				 * animationPanel.getGui().buildingList.get(12),
-				 * animationPanel.getGui().buildingList.get(9));
-				 * animationPanel.createPerson("D_Waiter_Four",
-				 * "restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-				 * animationPanel.getGui().buildingList.get(12),
-				 * animationPanel.getGui().buildingList.get(9));
-				 */
+						animationPanel.getGui().buildingList.get(0),
+						animationPanel.getGui().buildingList.get(9), 2);
 				animationPanel.createPerson("D_Customer_One",
 						"restaurant.DannyCustomer", Vehicle.walk,
 						Morality.good,
@@ -526,17 +528,7 @@ public class SetupPanel extends JFrame {
 						"restaurant.DannyCustomer", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9), 1);
-				/*
-				 * animationPanel.createPerson("D_Customer_Three",
-				 * "restaurant.DannyCustomer", Vehicle.walk, Morality.good,
-				 * animationPanel.getGui().buildingList.get(0),
-				 * animationPanel.getGui().buildingList.get(9));
-				 * animationPanel.createPerson("D_Customer_Four",
-				 * "restaurant.DannyCustomer", Vehicle.walk, Morality.good,
-				 * animationPanel.getGui().buildingList.get(0),
-				 * animationPanel.getGui().buildingList.get(9));
-				 */
+						animationPanel.getGui().buildingList.get(9), 2);
 			}
 		});
 
