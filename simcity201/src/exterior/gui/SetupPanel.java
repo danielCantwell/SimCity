@@ -5,7 +5,11 @@ package exterior.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,7 +34,7 @@ import SimCity.Base.Person.Vehicle;
 public class SetupPanel extends JFrame {
 
 	private final int WINDOWX = 1000;
-	private final int WINDOWY = 340;
+	private final int WINDOWY = 330;
 
 	private AnimationPanel animationPanel;
 
@@ -141,6 +145,10 @@ public class SetupPanel extends JFrame {
 
 	private JButton dannyRestScenario = new JButton("Test Danny Restaurant");
 	private JButton ericRestScenario = new JButton("Test Eric Restaurant");
+	private JButton s1 = new JButton("Scenario One - Does Nothing");
+	private JButton s2 = new JButton("Scenario Two - Does Nothing");
+	private JButton s3 = new JButton("Scenario Three - Does Nothing");
+	private JButton s4 = new JButton("Scenario Four - Does Nothing");
 
 	public SetupPanel(AnimationPanel ap) {
 		animationPanel = ap;
@@ -306,9 +314,15 @@ public class SetupPanel extends JFrame {
 		optionsPanel.add(modePanel, BorderLayout.SOUTH);
 
 		// Scenario Panel
+		
+		scenarioPanel.setLayout(new GridLayout(2, 3));
 
 		scenarioPanel.add(dannyRestScenario);
 		scenarioPanel.add(ericRestScenario);
+		scenarioPanel.add(s1);
+		scenarioPanel.add(s2);
+		scenarioPanel.add(s3);
+		scenarioPanel.add(s4);
 
 		// --- Main Frame ---
 
@@ -559,6 +573,38 @@ public class SetupPanel extends JFrame {
 						animationPanel.getGui().buildingList.get(11));
 			}
 		});
+		
+		s1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioOne();
+			}
+		});
+		
+		s2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioTwo();
+			}
+		});
+		
+		s3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioThree();
+			}
+		});
+		
+		s4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				runScenarioFour();
+			}
+		});
 	}
 
 	private Building selectApartment() {
@@ -626,6 +672,22 @@ public class SetupPanel extends JFrame {
 		}
 
 		return animationPanel.getGui().buildingList.get(building);
+	}
+	
+	public void runScenarioOne() {
+		
+	}
+	
+	public void runScenarioTwo() {
+		
+	}
+	
+	public void runScenarioThree() {
+		
+	}
+	
+	public void runScenarioFour() {
+		
 	}
 
 }
