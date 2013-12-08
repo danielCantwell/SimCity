@@ -93,6 +93,7 @@ public class B_DannyRestaurant extends Building {
 				((DannyWaiter) newRole).setHost(hostRole);
 				((DannyWaiter) newRole).setCook(cookRole);
 				((DannyWaiter) newRole).setCashier(cashierRole);
+				((DannyHost) hostRole).addWaiter((DannyWaiter) newRole);
 				setOpen(areAllNeededRolesFilled());
 				System.out
 						.println("All roles needed Danny Restaurant : "
