@@ -465,6 +465,7 @@ public class JesseWaiter extends Role implements Waiter {
 		System.out.println(w);
 		jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)myPerson.building.getPanel();
 		AP = ap;
+
 		ap.addGui(w);
 	}
 

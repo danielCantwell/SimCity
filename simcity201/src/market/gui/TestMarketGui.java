@@ -42,7 +42,7 @@ public class TestMarketGui extends JFrame
         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
         
         PersonGui pGui = new PersonGui(city, aStarTraversal);
-        Person p = new Person("Customer", pGui, "market.MarketCustomerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)city.buildingList.get(0), animationPanel.getBMarket());
+        Person p = new Person("Customer", pGui, "market.MarketCustomerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)city.buildingList.get(0), animationPanel.getBMarket(), 1);
         p.mainRole.setActive(true);
         ((MarketCustomerRole) p.mainRole).setManager((MarketManagerRole)animationPanel.manager.mainRole);
         Gui cGui = ((MarketCustomerRole) p.mainRole).getGui();

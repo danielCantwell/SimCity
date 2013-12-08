@@ -20,7 +20,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
-public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter {
+public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaiter {
 	WaiterGui gui;
 	List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	BrianCook cook;
@@ -48,12 +48,11 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	// This is to distribute the waiting customers evenly among waiters.
 	private int numberOfCustomers;
 	
-	
 	//Animation stuff - To implement in 2c
 	private Semaphore atTargetLocation = new Semaphore(0, true);
 	boolean idle; //Idle is not a state. It is simply an animation helper variable.
 	
-	public BrianWaiterRole(String name, BrianHost h, BrianCook c, BrianCashier cash, int numberOfWaiters) {
+	public BrianPCWaiterRole(String name, BrianHost h, BrianCook c, BrianCashier cash, int numberOfWaiters) {
 		this.name = name;
 		host = h;
 		cook = c;
@@ -340,7 +339,8 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	protected void GiveOrderToCook(MyCustomer mc, boolean displayText){
 		DoGiveOrderToCook();
 		mc.state = MyCustomerState.orderCooking;
-		cook.msgHeresAnOrder(mc.choice, this, mc.table.tableNumber);
+		//cook.msgHeresAnOrder(mc.choice, this, mc.table.tableNumber);
+		
 	}
 	
 	private void TakeReorder(MyCustomer mc){

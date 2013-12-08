@@ -5,18 +5,13 @@ package exterior.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -57,12 +52,6 @@ public class SetupPanel extends JFrame {
 	private JPanel transportationPanel = new JPanel();
 	private JPanel moralityPanel = new JPanel();
 	private JPanel modePanel = new JPanel();
-
-	private JLabel professionLabel = new JLabel("Profession");
-	private JLabel housingLabel = new JLabel("Housing");
-	private JLabel transportationLabel = new JLabel("Transportation");
-	private JLabel moralityLabel = new JLabel("Morality");
-	private JLabel modeLabel = new JLabel("Mode");
 
 	// --------------- Profession ------------------
 
@@ -145,16 +134,21 @@ public class SetupPanel extends JFrame {
 
 	private JButton dannyRestScenario = new JButton("Test Danny Restaurant");
 	private JButton ericRestScenario = new JButton("Test Eric Restaurant");
-	private JButton s1 = new JButton("Scenario One - Does Nothing");
-	private JButton s2 = new JButton("Scenario Two - Does Nothing");
+	private JButton s1 = new JButton("Normative Scenario One");
+	private JButton s2 = new JButton("Normative Scenario Two");
 	private JButton s3 = new JButton("Scenario Three - Does Nothing");
 	private JButton s4 = new JButton("Scenario Four - Does Nothing");
 
+	/**
+	 * Constructor
+	 * 
+	 * @param ap
+	 */
 	public SetupPanel(AnimationPanel ap) {
 		animationPanel = ap;
 
 		setSize(WINDOWX, WINDOWY);
-		setBounds(0, 640, WINDOWX, WINDOWY);
+		setBounds(0, 0, WINDOWX, WINDOWY);
 		setVisible(true);
 		setTitle("Setup");
 		setLayout(new BorderLayout());
@@ -181,47 +175,51 @@ public class SetupPanel extends JFrame {
 		profession.add(marketDelivery);
 		profession.add(marketManager);
 		profession.add(marketCustomer);
-		// danny rest
+		// danny restaurant
 		profession.add(dannyRestCashier);
 		profession.add(dannyRestCook);
 		profession.add(dannyRestHost);
 		profession.add(dannyRestWaiter);
 		profession.add(dannyRestCustomer);
-		// brian rest
+		// brian restaurant
 		profession.add(brianRestCashier);
 		profession.add(brianRestCook);
 		profession.add(brianRestHost);
 		profession.add(brianRestWaiter);
 		profession.add(brianRestCustomer);
-		// jesse rest
+		// jesse restaurant
 		profession.add(jesseRestCashier);
 		profession.add(jesseRestCook);
 		profession.add(jesseRestHost);
 		profession.add(jesseRestWaiter);
 		profession.add(jesseRestCustomer);
-		// eric rest
+		// eric restaurant
 		profession.add(ericRestCashier);
 		profession.add(ericRestCook);
 		profession.add(ericRestHost);
 		profession.add(ericRestWaiter);
 		profession.add(ericRestCustomer);
-		// tim rest
+		// tim restaurant
 		profession.add(timRestCashier);
 		profession.add(timRestCook);
 		profession.add(timRestHost);
 		profession.add(timRestWaiter);
 		profession.add(timRestCustomer);
 
+		// housing
 		housing.add(apartmentTenant);
 		housing.add(houseTenant);
 
+		// transportation
 		transportation.add(vehicleBus);
 		transportation.add(vehicleCar);
 		transportation.add(vehicleWalk);
 
+		// morality
 		morality.add(moralityGood);
 		morality.add(moralityBad);
 
+		// mode
 		mode.add(modeNormal);
 		mode.add(modeCompatibility);
 
@@ -314,7 +312,7 @@ public class SetupPanel extends JFrame {
 		optionsPanel.add(modePanel, BorderLayout.SOUTH);
 
 		// Scenario Panel
-		
+
 		scenarioPanel.setLayout(new GridLayout(2, 3));
 
 		scenarioPanel.add(dannyRestScenario);
@@ -353,105 +351,115 @@ public class SetupPanel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String name = enterName.getText();
-				String role = "Bank.bankCustomerRole"; // default i guess?
+				String role = "";
 				Vehicle v = Vehicle.walk;
 				Morality m = Morality.good;
 				Building house = animationPanel.getGui().buildingList.get(0);
 				Building b = animationPanel.getGui().buildingList.get(2);
 
-				if (bankManager.isSelected()) // ////////////
-					role = "Bank.bankManagerRole"; //
-				else if (bankGuard.isSelected()) //
-					role = "Bank.bankGuardRole"; // Bank
-				else if (bankTeller.isSelected()) // Roles
-					role = "Bank.tellerRole"; //
-				else if (bankRobber.isSelected()) //
-					role = "Bank.RobberRole"; //
-				else if (bankCustomer.isSelected()) //
-					role = "Bank.bankCustomerRole"; // ////////////
+				// bank roles
+				if (bankManager.isSelected())
+					role = "Bank.bankManagerRole";
+				else if (bankGuard.isSelected())
+					role = "Bank.bankGuardRole";
+				else if (bankTeller.isSelected())
+					role = "Bank.tellerRole";
+				else if (bankRobber.isSelected())
+					role = "Bank.RobberRole";
+				else if (bankCustomer.isSelected())
+					role = "Bank.bankCustomerRole";
 
-				else if (marketClerk.isSelected()) // ////////////
-					role = "market.MarketClerkRole"; //
-				else if (marketPacker.isSelected()) //
-					role = "market.MarketPackerRole"; // Market
-				else if (marketDelivery.isSelected()) // Roles
-					role = "market.MarketDeliveryRole"; //
-				else if (marketManager.isSelected()) //
-					role = "market.MarketManagerRole"; //
-				else if (marketCustomer.isSelected()) //
-					role = "market.MarketCustomerRole"; // ////////////
+				// market roles
+				else if (marketClerk.isSelected())
+					role = "market.MarketClerkRole";
+				else if (marketPacker.isSelected())
+					role = "market.MarketPackerRole";
+				else if (marketDelivery.isSelected())
+					role = "market.MarketDeliveryRole";
+				else if (marketManager.isSelected())
+					role = "market.MarketManagerRole";
+				else if (marketCustomer.isSelected())
+					role = "market.MarketCustomerRole";
 
-				else if (dannyRestHost.isSelected()) // ////////////
-					role = "restaurant.DannyHost"; //
-				else if (dannyRestCashier.isSelected()) //
-					role = "restaurant.DannyCashier"; // Danny Rest
-				else if (dannyRestCook.isSelected()) // Roles
-					role = "restaurant.DannyCook"; //
-				else if (dannyRestWaiter.isSelected()) //
-					role = "restaurant.DannyWaiter"; //
-				else if (dannyRestCustomer.isSelected()) //
-					role = "restaurant.DannyCustomer"; // ////////////
+				// danny restaurant roles
+				else if (dannyRestHost.isSelected())
+					role = "restaurant.DannyHost";
+				else if (dannyRestCashier.isSelected())
+					role = "restaurant.DannyCashier";
+				else if (dannyRestCook.isSelected())
+					role = "restaurant.DannyCook";
+				else if (dannyRestWaiter.isSelected())
+					role = "restaurant.DannyWaiter";
+				else if (dannyRestCustomer.isSelected())
+					role = "restaurant.DannyCustomer";
 
-				else if (jesseRestCashier.isSelected()) // ////////////
-					role = "jesseRest.JesseCashier"; //
-				else if (jesseRestCook.isSelected()) //
-					role = "jesseRest.JesseCook"; // Jesse Rest
-				else if (jesseRestHost.isSelected()) // Role
-					role = "jesseRest.JesseHost"; //
-				else if (jesseRestWaiter.isSelected()) //
-					role = "jesseRest.JesseWaiter"; //
-				else if (jesseRestCustomer.isSelected()) //
-					role = "jesseRest.JesseCustomer"; // ////////////
+				// jesse restaurant roles
+				else if (jesseRestCashier.isSelected())
+					role = "jesseRest.JesseCashier";
+				else if (jesseRestCook.isSelected())
+					role = "jesseRest.JesseCook";
+				else if (jesseRestHost.isSelected())
+					role = "jesseRest.JesseHost";
+				else if (jesseRestWaiter.isSelected())
+					role = "jesseRest.JesseWaiter";
+				else if (jesseRestCustomer.isSelected())
+					role = "jesseRest.JesseCustomer";
 
-				else if (brianRestHost.isSelected()) // ////////////
-					role = "brianRest.BrianHostRole"; //
-				else if (brianRestCashier.isSelected()) //
-					role = "brianRest.BrianCashierRole"; // Brian Rest
-				else if (brianRestCook.isSelected()) // Roles
-					role = "brianRest.BrianCookRole"; //
-				else if (brianRestWaiter.isSelected()) //
-					role = "brianRest.BrianWaiterRole"; //
-				else if (brianRestCustomer.isSelected()) //
-					role = "briantRest.BrianCustomerRole"; // ////////////
+				// brian restaurant roles
+				else if (brianRestHost.isSelected())
+					role = "brianRest.BrianHostRole";
+				else if (brianRestCashier.isSelected())
+					role = "brianRest.BrianCashierRole";
+				else if (brianRestCook.isSelected())
+					role = "brianRest.BrianCookRole";
+				else if (brianRestWaiter.isSelected())
+					role = "brianRest.BrianWaiterRole";
+				else if (brianRestCustomer.isSelected())
+					role = "briantRest.BrianCustomerRole";
 
-				else if (ericRestHost.isSelected()) // ////////////
-					role = "EricRestaurant.EricHost"; //
-				else if (ericRestCashier.isSelected()) //
-					role = "EricRestaurant.EricCashier"; // Eric Rest
-				else if (ericRestCook.isSelected()) // Roles
-					role = "EricRestaurant.EricCook"; //
-				else if (ericRestWaiter.isSelected()) //
-					role = "EricRestaurant.EricWaiter"; //
-				else if (ericRestCustomer.isSelected()) //
-					role = "EricRestaurant.EricCustomer"; // ////////////
+				// eric restaurant roles
+				else if (ericRestHost.isSelected())
+					role = "EricRestaurant.EricHost";
+				else if (ericRestCashier.isSelected())
+					role = "EricRestaurant.EricCashier";
+				else if (ericRestCook.isSelected())
+					role = "EricRestaurant.EricCook";
+				else if (ericRestWaiter.isSelected())
+					role = "EricRestaurant.EricWaiter";
+				else if (ericRestCustomer.isSelected())
+					role = "EricRestaurant.EricCustomer";
 
-				else if (timRestHost.isSelected()) // ////////////
-					role = "timRest.TimHostRole"; //
-				else if (timRestCashier.isSelected()) //
-					role = "timRest.timCashier"; // Tim Rest
-				else if (timRestCook.isSelected()) // Roles
-					role = "timRest.TimCookRole"; //
-				else if (timRestWaiter.isSelected()) //
-					role = "timRest.TimWaiterRole"; //
-				else if (timRestCustomer.isSelected()) //
-					role = "timRest.TimCustomerRole"; // ////////////
+				// tim restaurant roles
+				else if (timRestHost.isSelected())
+					role = "timRest.TimHostRole";
+				else if (timRestCashier.isSelected())
+					role = "timRest.timCashier";
+				else if (timRestCook.isSelected())
+					role = "timRest.TimCookRole";
+				else if (timRestWaiter.isSelected())
+					role = "timRest.TimWaiterRole";
+				else if (timRestCustomer.isSelected())
+					role = "timRest.TimCustomerRole";
 
-				if (vehicleBus.isSelected()) // ////////////
-					v = Vehicle.bus; //
-				else if (vehicleCar.isSelected()) // Transportation
-					v = Vehicle.car; // Selection
-				else if (vehicleWalk.isSelected()) //
-					v = Vehicle.walk; // ////////////
+				// transportation selection
+				if (vehicleBus.isSelected())
+					v = Vehicle.bus;
+				else if (vehicleCar.isSelected())
+					v = Vehicle.car;
+				else if (vehicleWalk.isSelected())
+					v = Vehicle.walk;
 
-				if (moralityGood.isSelected()) // ////////////
-					m = Morality.good; // Morality
-				else if (moralityBad.isSelected()) // Selection
-					m = Morality.crook; // ////////////
+				// morality selection
+				if (moralityGood.isSelected())
+					m = Morality.good;
+				else if (moralityBad.isSelected())
+					m = Morality.crook;
 
+				// apartment selection
 				if (apartmentTenant.isSelected())
-					house = selectApartment(); // Apartment
+					house = selectApartment();
 				else if (houseTenant.isSelected())
-					house = selectHouse(); // Selection
+					house = selectHouse();
 
 				// Set Workplace Building
 
@@ -470,7 +478,7 @@ public class SetupPanel extends JFrame {
 				else if (role.contains("tim") || role.contains("Tim"))
 					b = getWorkplace("Tim");
 
-				animationPanel.createPerson(name, role, v, m, house, b);
+				animationPanel.createPerson(name, role, v, m, house, b, 1);
 			}
 		});
 
@@ -482,55 +490,53 @@ public class SetupPanel extends JFrame {
 				animationPanel.createPerson("D_Host", "restaurant.DannyHost",
 						Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9));
+						animationPanel.getGui().buildingList.get(9), 1);
 				animationPanel.createPerson("D_Cashier",
 						"restaurant.DannyCashier", Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9));
+						animationPanel.getGui().buildingList.get(9), 1);
 				animationPanel.createPerson("D_Cook", "restaurant.DannyCook",
 						Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9));
+						animationPanel.getGui().buildingList.get(9), 1);
 				animationPanel.createPerson("D_Waiter_One",
 						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9));
+						animationPanel.getGui().buildingList.get(9), 1);
 				animationPanel.createPerson("D_Waiter_Two",
 						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9));
+						animationPanel.getGui().buildingList.get(9), 1);
 				/*
-				animationPanel.createPerson("D_Waiter_Three",
-						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(12),
-						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("D_Waiter_Four",
-						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(12),
-						animationPanel.getGui().buildingList.get(9));
-						*/
+				 * animationPanel.createPerson("D_Waiter_Three",
+				 * "restaurant.DannyWaiter", Vehicle.walk, Morality.good,
+				 * animationPanel.getGui().buildingList.get(12),
+				 * animationPanel.getGui().buildingList.get(9));
+				 * animationPanel.createPerson("D_Waiter_Four",
+				 * "restaurant.DannyWaiter", Vehicle.walk, Morality.good,
+				 * animationPanel.getGui().buildingList.get(12),
+				 * animationPanel.getGui().buildingList.get(9));
+				 */
 				animationPanel.createPerson("D_Customer_One",
 						"restaurant.DannyCustomer", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9));
+						animationPanel.getGui().buildingList.get(9), 1);
 				animationPanel.createPerson("D_Customer_Two",
 						"restaurant.DannyCustomer", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(9));
+						animationPanel.getGui().buildingList.get(9), 1);
 				/*
-				animationPanel.createPerson("D_Customer_Three",
-						"restaurant.DannyCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9));
-				animationPanel.createPerson("D_Customer_Four",
-						"restaurant.DannyCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9));
-						*/
+				 * animationPanel.createPerson("D_Customer_Three",
+				 * "restaurant.DannyCustomer", Vehicle.walk, Morality.good,
+				 * animationPanel.getGui().buildingList.get(0),
+				 * animationPanel.getGui().buildingList.get(9));
+				 * animationPanel.createPerson("D_Customer_Four",
+				 * "restaurant.DannyCustomer", Vehicle.walk, Morality.good,
+				 * animationPanel.getGui().buildingList.get(0),
+				 * animationPanel.getGui().buildingList.get(9));
+				 */
 			}
 		});
 
@@ -541,65 +547,65 @@ public class SetupPanel extends JFrame {
 				animationPanel.createPerson("EHost", "EricRestaurant.EricHost",
 						Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(11));
+						animationPanel.getGui().buildingList.get(11), 1);
 				animationPanel.createPerson("ECustomer",
 						"EricRestaurant.EricCustomer", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(11));
+						animationPanel.getGui().buildingList.get(11), 1);
 				animationPanel.createPerson("EWaiter",
 						"EricRestaurant.EricWaiter", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(11));
+						animationPanel.getGui().buildingList.get(11), 1);
 				animationPanel.createPerson("EWaiter",
 						"EricRestaurant.EricWaiter", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(11));
+						animationPanel.getGui().buildingList.get(11), 1);
 				animationPanel.createPerson("ECustomer2",
 						"EricRestaurant.EricCustomer", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(11));
+						animationPanel.getGui().buildingList.get(11), 1);
 				animationPanel.createPerson("ECashier",
 						"EricRestaurant.EricCashier", Vehicle.walk,
 						Morality.good,
 						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(11));
+						animationPanel.getGui().buildingList.get(11), 1);
 				animationPanel.createPerson("ECook", "EricRestaurant.EricCook",
 						Vehicle.walk, Morality.good,
 						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(11));
+						animationPanel.getGui().buildingList.get(11), 1);
 			}
 		});
-		
+
 		s1.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				runScenarioOne();
 			}
 		});
-		
+
 		s2.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				runScenarioTwo();
 			}
 		});
-		
+
 		s3.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				runScenarioThree();
 			}
 		});
-		
+
 		s4.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				runScenarioFour();
@@ -608,12 +614,10 @@ public class SetupPanel extends JFrame {
 	}
 
 	private Building selectApartment() {
-		if (God.Get().getBHouse(0).numTenants < 8) {// (God.Get().getBHouse(0).getOwner().myTenants.size()
-													// < 8) {
+		if (God.Get().getBHouse(0).numTenants < 8) {
 			God.Get().getBHouse(0).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(0);
-		} else if (God.Get().getBHouse(1).numTenants < 8) {// (God.Get().getBHouse(1).getOwner().myTenants.size()
-															// < 8) {
+		} else if (God.Get().getBHouse(1).numTenants < 8) {
 			God.Get().getBHouse(1).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(1);
 		} else {
@@ -623,17 +627,13 @@ public class SetupPanel extends JFrame {
 	}
 
 	private Building selectHouse() {
-		if (God.Get().getBHouse(12).numTenants < 8) {// if
-														// (God.Get().getBHouse(12).getOwner().myTenants.size()
-														// < 8) {
+		if (God.Get().getBHouse(12).numTenants < 8) {
 			God.Get().getBHouse(12).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(12);
-		} else if (God.Get().getBHouse(13).numTenants < 8) {// (God.Get().getBHouse(13).getOwner().myTenants.size()
-															// < 8) {
+		} else if (God.Get().getBHouse(13).numTenants < 8) {
 			God.Get().getBHouse(13).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(13);
-		} else if (God.Get().getBHouse(12).numTenants < 8) {// (God.Get().getBHouse(14).getOwner().myTenants.size()
-															// < 8) {
+		} else if (God.Get().getBHouse(12).numTenants < 8) {
 			God.Get().getBHouse(14).incrementNumTenants();
 			return animationPanel.getGui().buildingList.get(14);
 		} else {
@@ -673,21 +673,318 @@ public class SetupPanel extends JFrame {
 
 		return animationPanel.getGui().buildingList.get(building);
 	}
-	
+
 	public void runScenarioOne() {
-		
-	}
-	
-	public void runScenarioTwo() {
-		
-	}
-	
-	public void runScenarioThree() {
-		
-	}
-	
-	public void runScenarioFour() {
-		
+
+		createDannyRestaurantPeople(Vehicle.walk);
+
+		createEricRestaurantPeople(Vehicle.walk);
+
+		createBrianRestaurantPeople(Vehicle.walk);
+
+		createJesseRestaurantPeople(Vehicle.walk);
+
+		createTimRestaurantPeople(Vehicle.walk);
+
+		createBankPeople(Vehicle.walk);
+
+		createMarketPeople(Vehicle.walk);
 	}
 
+	private void runScenarioTwo() {
+		createDannyRestaurantPeople(Vehicle.walk);
+
+		createEricRestaurantPeople(Vehicle.car);
+
+		createBrianRestaurantPeople(Vehicle.bus);
+
+		createJesseRestaurantPeople(Vehicle.walk);
+
+		createTimRestaurantPeople(Vehicle.car);
+
+		createBankPeople(Vehicle.bus);
+
+		createMarketPeople(Vehicle.walk);
+	}
+
+	private void runScenarioThree() {
+
+	}
+
+	private void runScenarioFour() {
+
+	}
+
+	private void createDannyRestaurantPeople(Vehicle vehicle) {
+		// housing building 0
+		animationPanel.createPerson("D_Host_One", "restaurant.DannyHost",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 1);
+		animationPanel.createPerson("D_Host_Two", "restaurant.DannyHost",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 2);
+		animationPanel.createPerson("D_Cashier_One", "restaurant.DannyCashier",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 1);
+		animationPanel.createPerson("D_Cashier_Two", "restaurant.DannyCashier",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 2);
+		animationPanel.createPerson("D_Cook_One", "restaurant.DannyCook",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 1);
+		animationPanel.createPerson("D_Cook_Two", "restaurant.DannyCook",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 1);
+		animationPanel.createPerson("D_Waiter_One", "restaurant.DannyWaiter",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 1);
+		animationPanel.createPerson("D_Waiter_Two", "restaurant.DannyWaiter",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 2);
+		// housing building 1
+		animationPanel.createPerson("D_Customer", "restaurant.DannyCustomer",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(9), 1);
+	}
+
+	private void createEricRestaurantPeople(Vehicle vehicle) {
+		animationPanel.createPerson("E_Host_One", "EricRestaurant.EricHost",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(11), 1);
+		animationPanel.createPerson("E_Host_Two", "EricRestaurant.EricHost",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(11), 2);
+		animationPanel.createPerson("E_Customer",
+				"EricRestaurant.EricCustomer", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(11), 1);
+		animationPanel.createPerson("E_Waiter_One",
+				"EricRestaurant.EricWaiter", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(11), 1);
+		animationPanel.createPerson("E_Waiter_Two",
+				"EricRestaurant.EricWaiter", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(11), 2);
+		animationPanel.createPerson("E_Cashier_One",
+				"EricRestaurant.EricCashier", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(11), 1);
+		animationPanel.createPerson("E_Cashier_Two",
+				"EricRestaurant.EricCashier", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(11), 2);
+		// housing building 4
+		animationPanel.createPerson("E_Cook_One", "EricRestaurant.EricCook",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(11), 1);
+		animationPanel.createPerson("E_Cook_Two", "EricRestaurant.EricCook",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(11), 2);
+	}
+
+	private void createBrianRestaurantPeople(Vehicle vehicle) {
+		animationPanel.createPerson("B_Host_One", "brianRest.BrianHostRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(6), 1);
+		animationPanel.createPerson("B_Host_Two", "brianRest.BrianHostRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(6), 2);
+		animationPanel.createPerson("B_Customer",
+				"brianRest.BrianCustomerRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(6), 1);
+		animationPanel.createPerson("B_Waiter_One",
+				"brianRest.BrianWaiterRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(6), 1);
+		animationPanel.createPerson("B_Waiter_Two",
+				"brianRest.BrianWaiterRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(6), 2);
+		animationPanel.createPerson("B_Cashier_One",
+				"brianRest.BrianCashierRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(6), 1);
+		// housing building 12
+		animationPanel.createPerson("B_Cashier_Two",
+				"brianRest.BrianCashierRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(6), 2);
+		animationPanel.createPerson("B_Cook_One", "brianRest.BrianCookRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(6), 1);
+		animationPanel.createPerson("B_Cook_One", "brianRest.BrianCookRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(6), 2);
+	}
+
+	private void createJesseRestaurantPeople(Vehicle vehicle) {
+		animationPanel.createPerson("J_Host_One", "jesseRest.JesseHost",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(7), 1);
+		animationPanel.createPerson("J_Host_Two", "jesseRest.JesseHost",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(7), 2);
+		animationPanel.createPerson("J_Customer", "jesseRest.JesseCustomer",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(7), 1);
+		animationPanel.createPerson("J_Waiter_One", "jesseRest.JesseWaiter",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(7), 1);
+		animationPanel.createPerson("J_Waiter_Two", "jesseRest.JesseWaiter",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(7), 2);
+		// housing building 13
+		animationPanel.createPerson("J_Cashier_One", "jesseRest.JesseCashier",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(7), 1);
+		animationPanel.createPerson("J_Cashier_Two", "jesseRest.JesseCashier",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(7), 2);
+		animationPanel.createPerson("J_Cook_One", "jesseRest.JesseCook",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(7), 1);
+		animationPanel.createPerson("J_Cook_Two", "jesseRest.JesseCook",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(7), 2);
+	}
+
+	private void createTimRestaurantPeople(Vehicle vehicle) {
+		animationPanel.createPerson("T_Host_One", "timRest.TimHostRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(10), 1);
+		animationPanel.createPerson("T_Host_Two", "timRest.TimHostRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(10), 2);
+		animationPanel.createPerson("T_Host_One", "timRest.TimWaiterRole",
+				vehicle.walk, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(10), 1);
+		animationPanel.createPerson("T_Host_Two", "timRest.TimWaiterRole",
+				vehicle.walk, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(10), 2);
+		// housing building 14
+		animationPanel.createPerson("T_Cook_One", "timRest.TimCookRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(10), 1);
+		animationPanel.createPerson("T_Cook_Two", "timRest.TimCookRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(10), 2);
+		animationPanel.createPerson("T_Cashier_One", "timRest.TimCashierRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(10), 1);
+		animationPanel.createPerson("T_Cashier_Two", "timRest.TimCashierRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(10), 2);
+		animationPanel.createPerson("T_Customer", "timRest.TimCustomerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(10), 1);
+	}
+
+	private void createBankPeople(Vehicle vehicle) {
+		animationPanel.createPerson("BankManager_One", "Bank.bankManagerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(2), 1);
+		animationPanel.createPerson("BankManager_Two", "Bank.bankManagerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(2), 2);
+		animationPanel.createPerson("BankTeller_One", "Bank.tellerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(2), 1);
+		// housing building 15
+		animationPanel.createPerson("BankTeller_Two", "Bank.tellerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(2), 2);
+		animationPanel.createPerson("BankCustomer", "Bank.bankCustomerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(2), 1);
+		animationPanel.createPerson("BankGuard_One", "Bank.bankGuardRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(2), 1);
+		animationPanel.createPerson("BankGuard_Two", "Bank.bankGuardRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(2), 2);
+	}
+
+	private void createMarketPeople(Vehicle vehicle) {
+		animationPanel.createPerson("MarketManager_One", "market.MarketManagerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(3), 1);
+		animationPanel.createPerson("MarketManager_Two", "market.MarketManagerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(3), 2);
+		animationPanel.createPerson("MarketClerk_One", "market.MarketClerkRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(3), 1);
+		animationPanel.createPerson("MarketClerk_Two", "market.MarketClerkRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(3), 2);
+		// housing building -- extra people
+		animationPanel.createPerson("MarketPacker_One", "market.MarketPackerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(3), 1);
+		animationPanel.createPerson("MarketPacker_Two", "market.MarketPackerRole",
+				vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(14),
+				animationPanel.getGui().buildingList.get(3), 2);
+		animationPanel.createPerson("MarketDelivery_One",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(13),
+				animationPanel.getGui().buildingList.get(3), 1);
+		animationPanel.createPerson("MarketDelivery_Two",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(12),
+				animationPanel.getGui().buildingList.get(3), 2);
+		animationPanel.createPerson("MarketCustomer",
+				"market.MarketCustomerRole", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(15),
+				animationPanel.getGui().buildingList.get(3), 1);
+	}
 }

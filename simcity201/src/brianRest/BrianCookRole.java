@@ -5,6 +5,7 @@ package brianRest;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
+import brianRest.OrderStand.Orders;
 import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CookGui;
 import brianRest.interfaces.BrianCook;
@@ -35,7 +36,8 @@ public class BrianCookRole extends Role implements BrianCook {
 	//A list of ALL orders that the cook is attending to.
 	private List<Order> orders;
 	
-	//List of all the markets
+	//On the orderstand
+	OrderStand orderstand;
 
 	//A map containing all the foods and their cook times. Implement in Constructor pls!
 	private Map<String, Food> foodDictionary = new HashMap<String, Food>();
@@ -100,6 +102,11 @@ public class BrianCookRole extends Role implements BrianCook {
 		// if there exists an Order o in pendingOrder such that o.OrderState == pending
 		//then CookOrder(o);
 	try{
+		if (orderstand.getSize() > 0){
+			makeCookOrder(orderstand.popFirstOrder());
+			return true;
+		}
+
 		if (orders.size() > 0){
 				//Look for all pending orders.
 				for(Order o : orders){
@@ -132,6 +139,12 @@ public class BrianCookRole extends Role implements BrianCook {
 	}
 		
 //########## Actions ###############
+	private void makeCookOrder(Orders o){
+		Order order = new Order(o.getChoice(), o.getWaiter(), o.getTableNumber());
+		 orders.add(order);
+		 stateChanged();
+	}
+
 	private void CookOrder(Order o){
 		o.state = OrderState.checkingAmount;
 		Food temp = foodDictionary.get(o.choice);
@@ -292,6 +305,9 @@ public class BrianCookRole extends Role implements BrianCook {
 		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
 		gui = wg;
 		bap.addGui(wg);
+		
+		B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
+		orderstand  = br.getOrderStand();
 		
 	}
 

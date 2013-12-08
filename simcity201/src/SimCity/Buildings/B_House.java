@@ -53,7 +53,7 @@ public class B_House extends Building {
 
 		Person p = new Person("Owner", null, "housing.roles.OwnerRole",
 				Vehicle.walk, Morality.good, new Money(100, 0),
-				new Money(10, 0), 10, 10, type, this, this);
+				new Money(10, 0), 10, 10, type, this, this, 1);
 
 		owner = new OwnerRole();
 		owner.setPerson(p);

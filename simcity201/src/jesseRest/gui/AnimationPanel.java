@@ -43,6 +43,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
+		 for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
 		repaint();  //Will have paintComponent called
 	}
 
@@ -82,11 +87,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(Color.blue);
         g2.fillRect(WINDOWX - 90, WINDOWY - COUNTER_H/2 - 20, 20, 20);
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+       
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {

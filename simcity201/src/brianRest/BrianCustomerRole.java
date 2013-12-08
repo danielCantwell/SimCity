@@ -16,18 +16,6 @@ import brianRest.interfaces.BrianWaiter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-
-
-
-
-
-
-
-
-
-
-
 import javax.swing.Timer;
 
 import restaurant.Menu;
@@ -470,11 +458,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void setWaiter(BrianWaiterRole brianWaiterRole) {
-		// TODO Auto-generated method stub
-		waiter=brianWaiterRole;
-		
-	}
+
+
 }
 
