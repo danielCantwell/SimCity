@@ -38,13 +38,13 @@ public class SimCityGui extends JFrame {
     public SimCityGui() {
     	setupPanel = new SetupPanel(animationPanel);
     	
-        int WINDOWX = 1280;
-        int WINDOWY = 640; //1472;
+        int WINDOWX = 960;
+        int WINDOWY = 960; //1472;
         int ANIMATIONX = 1920;
         int ANIMATIONY = 1920;
         int BFRAMEX = 640;
         int BFRAMEY = 640;
-    	setBounds(0, 0, WINDOWX, WINDOWY);
+    	setBounds(1920-WINDOWX, 0, WINDOWX, WINDOWY);
     	setLayout(new BorderLayout());
     	
     	God.Get().setSimGui(this);
@@ -129,7 +129,7 @@ public class SimCityGui extends JFrame {
     	}
     	
     	buildingFrame = new JFrame();
-        buildingFrame.setLocation(WINDOWX, 0);
+        buildingFrame.setLocation(960-640, 0);
     	buildingFrame.add(buildingPanels);
     	buildingFrame.setTitle("Building");
     	buildingFrame.setVisible(false);
