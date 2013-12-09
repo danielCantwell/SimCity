@@ -17,15 +17,20 @@ import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_TimRest;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class SimCityGui extends JFrame {
+public class SimCityGui extends JFrame{
 	public AnimationPanel animationPanel = new AnimationPanel();
 	public ArrayList<Building> buildingList = new ArrayList<Building>();
 	CardLayout cardLayout = new CardLayout();
@@ -151,4 +156,27 @@ public class SimCityGui extends JFrame {
         gui.setResizable(true);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    int apCount = 0;
+	public void HardReset(){
+		/*God.Get().HardReset();
+		
+		animationPanel.getGui().removeAll();
+		animationPanel = new AnimationPanel();*/
+		switch (apCount){
+		case 0: AlertLog.getInstance().logInfo(AlertTag.God, "God", "Nice try bud."); break;
+		case 1: AlertLog.getInstance().logWarning(AlertTag.God, "God", "I can't believe you were stupid enough to press this again."); break;
+		case 2: AlertLog.getInstance().logWarning(AlertTag.God, "God", "You know this button doesn't do shit."); break;
+		case 3: AlertLog.getInstance().logError(AlertTag.God, "God", "You've got serious issues in your life."); break;
+		case 4: AlertLog.getInstance().logError(AlertTag.God, "God", "How many licks does it take to get to ---- STOP PRESSING THIS BUTTON"); break;
+		case 5: AlertLog.getInstance().logError(AlertTag.God, "God", "I dare you to press me again"); break;
+		case 6: System.exit(0);
+		default: break;
+		}
+		if (apCount <= 6)
+			apCount ++;
+		if (apCount >6)
+			apCount = 0;
+		
+	}
 }

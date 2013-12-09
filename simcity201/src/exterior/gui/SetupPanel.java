@@ -177,6 +177,7 @@ public class SetupPanel extends JFrame {
 	private JRadioButton showDannyRest = new JRadioButton("Danny");
 	private JRadioButton showTimRest = new JRadioButton("Tim");
 	
+	private JButton nuke = new JButton("Apocalypse");
 	
 	/**
 	 * Constructor
@@ -265,6 +266,8 @@ public class SetupPanel extends JFrame {
 
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
+		mainPanel.add(nuke);
+		
 
 		bankPanel.setLayout(new GridLayout(5, 1));
 		bankPanel.add(bankManager);
@@ -641,6 +644,14 @@ public class SetupPanel extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				animationPanel.setShowRect(false);
 			}
+		});
+		
+		nuke.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				animationPanel.getGui().HardReset();
+			}
+			
 		});
 
 		createPerson.addActionListener(new ActionListener() {

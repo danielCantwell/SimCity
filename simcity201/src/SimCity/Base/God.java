@@ -396,4 +396,11 @@ public class God {
 			return hour; 	
 	    }
 	    
+	    public void HardReset(){
+	    	for (Person p: persons){
+	    		p.stopThread();
+	    	}
+	    	persons.clear();
+	    }
+	    
 }
