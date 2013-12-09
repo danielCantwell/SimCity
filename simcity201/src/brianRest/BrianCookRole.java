@@ -128,10 +128,7 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 					
 				}
 				
-				if (orderstand.getSize() > 0){
-					makeCookOrder(orderstand.popFirstOrder());
-					return true;
-				}
+				
 				
 				for (int i=0; i<orders.size();i++){
 					
@@ -141,6 +138,11 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 						return true;
 					}
 				}
+		}
+		
+		if (orderstand.getSize() > 0){
+			makeCookOrder(orderstand.popFirstOrder());
+			return true;
 		}
 		
 		if (wantToGoHome){
@@ -179,7 +181,11 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
                  //order more for the restaurant;
                  Do(AlertTag.BrianRest, "Last "+ o.choice+". Ordering more.");
                  if (temp.orderFromIndex < markets.size())
-                 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+                 markets.get(temp.orderFromIndex).
+                 getManager().msgWantFood(
+                		 myPerson.building.getID(),
+                		 temp.choice, 
+                		 max_Capacity - temp.amount);
          }
          
          temp.amount --;
