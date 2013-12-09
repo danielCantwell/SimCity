@@ -182,7 +182,7 @@ public class DannyCook extends Role {
 			public void run() {
 				msgFoodDone(order);
 			}
-		}, food.cookingTimer);
+		}, 100);
 	}
 
 	private void plateFood(Order order) {

@@ -282,7 +282,7 @@ public class DannyCustomer extends Role implements Customer {
 				public void run() {
 					waiter.msgReadyToOrder(DannyCustomer.this);
 				}
-			}, decisionTime);
+			}, 50);
 		}
 	}
 
@@ -311,7 +311,7 @@ public class DannyCustomer extends Role implements Customer {
 				// isHungry = false;
 				stateChanged();
 			}
-		}, getHungerLevel() * 1000); // how long to wait before running task
+		}, 500); // how long to wait before running task
 	}
 
 	private void leaveRestaurant() {

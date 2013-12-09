@@ -6,7 +6,7 @@ import SimCity.Globals.Money;
 public interface MarketDeliveryCashier
 {
     // calls
-    //      manager.msgHereIsTheMoney(price);
+    //      manager.msgHereIsTheMoney(pricePerUnit * amount);
     // subtracts money from restaurant
-    void msgPayMarket(MarketManagerRole manager, Money price);
+    void msgPayMarket(int amount, Money pricePerUnit, MarketManagerRole manager);
 }
