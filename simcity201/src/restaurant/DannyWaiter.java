@@ -83,6 +83,11 @@ public class DannyWaiter extends Role implements Waiter {
 	 * MESSAGES
 	 */
 	
+	public void msgWorkOver() {
+		System.out.println("Waiter workOver");
+		workOver = true;
+	}
+	
 	public void msgLeaveRestaurant() {
 		leftRestaurant.release();
 	}
@@ -259,7 +264,10 @@ public class DannyWaiter extends Role implements Waiter {
 	 */
 	protected boolean pickAndExecuteAnAction() {
 		
-		System.out.println("Waiter: " + hashCode() + " Pick and Execute an Action");
+		if (workOver) {
+			leaveRestaurant();
+			return true;
+		}
 
 		try {
 
@@ -338,11 +346,6 @@ public class DannyWaiter extends Role implements Waiter {
 					giveCustomerBill(myCustomer);
 					return true;
 				}
-			}
-			
-			if (workOver) {
-				leaveRestaurant();
-				return true;
 			}
 
 		} catch (ConcurrentModificationException e) {
@@ -455,7 +458,24 @@ public class DannyWaiter extends Role implements Waiter {
 	}
 	
 	private void leaveRestaurant() {
-		exitBuilding(myPerson);	// TODO possibly check customer size
+		waiterGui.DoLeaveRestaurant();
+		
+		try {
+			leftRestaurant.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		waiterGui.setPresent(false);
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.removeGui(waiterGui);
+		
+		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
+		rest.numWaiters--;
+		
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		exitBuilding(myPerson);
 		workOver = false;
 	}
 
@@ -602,18 +622,20 @@ public class DannyWaiter extends Role implements Waiter {
 
 	@Override
 	public void workOver() {
-		System.out.println("Waiter workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
-		rest.numWaiters--;
+		//System.out.println("Waiter workOver");
+		//B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
+		//rest.numWaiters--;
 		
-		waiterGui.DoLeaveRestaurant();
-		
+		//waiterGui.DoLeaveRestaurant();
+		/*
 		try {
 			leftRestaurant.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		*/
+		//workOver = true;
+		/*
 		waiterGui.setPresent(false);
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
@@ -621,6 +643,7 @@ public class DannyWaiter extends Role implements Waiter {
 		
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
+		*/
 	}
 
 	@Override

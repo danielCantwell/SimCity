@@ -445,7 +445,7 @@ public class DannyCustomer extends Role implements Customer {
 
 	@Override
 	public void workOver() {
-		leaveRestaurant();
+		//leaveRestaurant();
 	}
 
 	@Override

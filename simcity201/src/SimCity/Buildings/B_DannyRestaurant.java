@@ -26,6 +26,7 @@ public class B_DannyRestaurant extends Building {
 	public DannyCook cookRole = new DannyCook();
 
 	public int numWaiters = 0;
+	public int numCustomers = 0;
 
 	public boolean hostFilled = false;
 	public boolean cookFilled = false;
@@ -72,6 +73,9 @@ public class B_DannyRestaurant extends Building {
 	public void ExitBuilding(Person person) {
 		person.resetActiveRoles();
 		person.msgExitBuilding();
+		if (person.getMainRole() instanceof DannyCustomer) {
+			numCustomers--;
+		}
 	}
 
 	public void EnterBuilding(Person person, String job) {
@@ -81,6 +85,7 @@ public class B_DannyRestaurant extends Building {
 				//newRole = new DannyCustomer();
 				newRole = (DannyCustomer) person.getMainRole();
 				((DannyCustomer) newRole).setHost(hostRole);
+				numCustomers++;
 			} else if (job.equals("restaurant.DannyHost")) {
 				//newRole = hostRole;
 				newRole = (DannyHost) person.getMainRole();
