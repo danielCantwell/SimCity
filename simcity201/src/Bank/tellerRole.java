@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import SimCity.Globals.*;
+import SimCity.trace.AlertTag;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 import Bank.gui.*;
@@ -41,7 +42,7 @@ public class tellerRole extends Role implements Teller {
 	@Override
 	public void enterBuilding() {
 		s = state.ready;
-		System.out.println("Teller: I am a teller: "+this);
+		Do(AlertTag.BANK,"Teller: I am a teller: "+this);
 		B_Bank bank = (B_Bank)myPerson.getBuilding();
 		manager = bank.getBankManager();
 		manager.newTeller(this);
@@ -54,7 +55,7 @@ public class tellerRole extends Role implements Teller {
 	@Override
 	public void managerMap(Map<Integer, Money> managerAccs){
 		bankAccs = managerAccs;
-		System.out.println("__________________________"+bankAccs.get(2000).getDollar());
+		Do(AlertTag.BANK,"__________________________"+bankAccs.get(2000).getDollar());
 	}
 	
 	@Override
@@ -64,7 +65,7 @@ public class tellerRole extends Role implements Teller {
 		cl.accountNum = accNum;
 		cl.s = state.added;
 		clients.add(cl);
-		System.out.println("Teller: New customer assigned to me :"+this+".."+clients.size());
+		Do(AlertTag.BANK,"Teller: New customer assigned to me :"+this+".."+clients.size());
 		stateChanged();
 	}
 	
@@ -75,7 +76,7 @@ public class tellerRole extends Role implements Teller {
 		cl.accountNum = c.getAccNum();
 		cl.s = state.added;
 		clients.add(cl);
-		System.out.println("Teller: New customer assigned to me :"+this+".."+clients.size());
+		Do(AlertTag.BANK,"Teller: New customer assigned to me :"+this+".."+clients.size());
 		stateChanged();
 	}
 	
@@ -86,7 +87,7 @@ public class tellerRole extends Role implements Teller {
 				if (c.cust == cust) {
 					//c.accountNum = accNum;
 					c.money = money;
-//					System.out.println("Inside PAE scheduler0: "+c+" Client size: "+clients.size());
+//					Do(AlertTag.BANK,"Inside PAE scheduler0: "+c+" Client size: "+clients.size());
 
 					if(bankAccs.get(c.accountNum) != null) {
 						c.s = state.yesAcc;
@@ -94,7 +95,7 @@ public class tellerRole extends Role implements Teller {
 					else {
 						c.s = state.noAcc;
 					}
-					System.out.println("Teller: Customer has come to me accNum: "+c.accountNum+" "+c.s+" cash: "+c.money.getDollar());
+					Do(AlertTag.BANK,"Teller: Customer has come to me accNum: "+c.accountNum+" "+c.s+" cash: "+c.money.getDollar());
 					stateChanged();
 				}
 			}
@@ -108,7 +109,7 @@ public class tellerRole extends Role implements Teller {
 		c.r = r;
 		c.s = state.robbed;
 		clients.add(c);
-		System.out.println("Teller: Robber came and is taking money");
+		Do(AlertTag.BANK,"Teller: Robber came and is taking money");
 		stateChanged();
 	}
 	@Override
@@ -118,7 +119,7 @@ public class tellerRole extends Role implements Teller {
 				if (c.accountNum == acc) {
 					c.s = state.withdraw;
 					c.editmoney = money;
-					System.out.println("Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
+					Do(AlertTag.BANK,"Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
 					stateChanged();
 				}
 			}
@@ -132,8 +133,8 @@ public class tellerRole extends Role implements Teller {
 				if (c.accountNum == acc) {
 					c.s = state.deposit;
 					c.editmoney = money;
-					System.out.println("Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
-//					System.out.println("Before PAE scheduler: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
+					Do(AlertTag.BANK,"Teller: Customer requested "+c.s+": $"+c.editmoney.getDollar());
+//					Do(AlertTag.BANK,"Before PAE scheduler: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
 					stateChanged();
 				}	
 			}
@@ -152,17 +153,17 @@ public class tellerRole extends Role implements Teller {
 	//-----------------------------------------------Scheduler-------------------------------------------------
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		//System.out.println(".");
+		//Do(AlertTag.BANK,".");
 		if(s == state.ready) {
 			goToCounter();
 			return true;
 		}
-		//System.out.println("..");
+		//Do(AlertTag.BANK,"..");
 		if(s == state.leaving) {
 			leaveBank();
 			return true;
 		}
-		//System.out.println("...");
+		//Do(AlertTag.BANK,"...");
 
 		synchronized(clients) {
 			for (Client c : clients) {
@@ -172,7 +173,7 @@ public class tellerRole extends Role implements Teller {
 				}
 			}
 		}
-		//System.out.println("....");
+		//Do(AlertTag.BANK,"....");
 
 		synchronized(clients) {
 			for (Client c : clients) {
@@ -182,7 +183,7 @@ public class tellerRole extends Role implements Teller {
 				}
 			}
 		}
-		//System.out.println(".....");
+		//Do(AlertTag.BANK,".....");
 
 		synchronized(clients) {
 			for (Client c : clients) {
@@ -200,7 +201,7 @@ public class tellerRole extends Role implements Teller {
 					}
 				}
 			}
-		//System.out.println("......");
+		//Do(AlertTag.BANK,"......");
 
 		synchronized(clients) {
 			for (Client c : clients) {
@@ -209,13 +210,13 @@ public class tellerRole extends Role implements Teller {
 					return true;
 				}
 				else if (c.s == state.deposit) {
-//					System.out.println("Inside PAE scheduler2: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
+//					Do(AlertTag.BANK,"Inside PAE scheduler2: "+c+" Client size: "+clients.size()+" Client money: "+c.money.getDollar());
 					depositDone(c);
 					return true;
 				}
 			}
 		}
-		//System.out.println(".......");
+		//Do(AlertTag.BANK,".......");
 		return false;
 	}
 
@@ -231,7 +232,7 @@ public class tellerRole extends Role implements Teller {
 	}
 
 	public void accSetUp(Client c) {
-		System.out.println("Teller: no existing account, creating..."+" Client money: "+c.money.getDollar());
+		Do(AlertTag.BANK,"Teller: no existing account, creating..."+" Client money: "+c.money.getDollar());
 		bankAccs.put(c.accountNum, initial);
 		c.s = state.yesAcc;
 	}
@@ -250,11 +251,11 @@ public class tellerRole extends Role implements Teller {
 			Money temp = bankAccs.get(c.accountNum);
 			bankAccs.put(c.accountNum, temp.subtract(c.editmoney));
 			c.cust.transactionComplete(c.money);
-			System.out.println("Customer current total: $"+c.money.dollars);
+			Do(AlertTag.BANK,"Customer current total: $"+c.money.dollars);
 			clients.remove(c);
 			manager.tellerReady(this);
 		}
-		else System.out.println("Teller: Insufficient funds");
+		else Do(AlertTag.BANK,"Teller: Insufficient funds");
 	}
 
 	public void depositDone(Client c) {

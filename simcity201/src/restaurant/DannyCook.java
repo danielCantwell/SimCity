@@ -2,13 +2,12 @@ package restaurant;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.trace.AlertTag;
 
 import java.util.*;
 
 import restaurant.gui.CookGui;
 import restaurant.gui.DannyRestaurantAnimationPanel;
-
-
 
 /**
  * Restaurant Cook Agent
@@ -28,17 +27,18 @@ public class DannyCook extends Role {
 			.synchronizedList(new ArrayList<FoodNeeded>());
 
 	private String name;
-	
+
 	Timer timer = new Timer();
+	
+	public boolean workOver = false;
 
 	// type. timer. inventory. low. cap
 	private Food steak = new Food("Steak", 8000, 6, 2, 8);
 	private Food chicken = new Food("Chicken", 7000, 8, 2, 8);
 	private Food pizza = new Food("Pizza", 5000, 5, 2, 6);
 	private Food salad = new Food("Salad", 3000, 4, 2, 6);
-	public Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
-
-
+	public Map<String, Food> foods = Collections
+			.synchronizedMap(new HashMap<String, Food>());
 
 	enum FoodNeededState {
 		NeedToOrder, Ordered, CantBeOrdered
@@ -54,12 +54,17 @@ public class DannyCook extends Role {
 		foods.put("Pizza", pizza);
 		foods.put("Salad", salad);
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	// Messages
+
+	public void msgLeaveRestaurant() {
+		workOver = true;
+		stateChanged();
+	}
 
 	// From Waiter
 	public void msgHereIsAnOrder(DannyWaiter waiter, String choice, int table) {
@@ -86,11 +91,16 @@ public class DannyCook extends Role {
 			}
 		}
 	}
-	
+
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
+		
+		if (workOver) {
+			leaveRestaurant();
+			return true;
+		}
 
 		// If there is an order that is done, plate it
 		synchronized (orders) {
@@ -128,8 +138,7 @@ public class DannyCook extends Role {
 				}
 			}
 		}
-		
-		
+
 		return false;
 		// we have tried all our rules and found
 		// nothing to do. So return false to main loop of abstract agent
@@ -137,6 +146,18 @@ public class DannyCook extends Role {
 	}
 
 	// Actions
+	
+	private void leaveRestaurant() {
+		System.out.println("Cook workOver");
+		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
+		rest.cookFilled = false;
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		cookGui.setPresent(false);
+		ap.removeGui(cookGui);
+		exitBuilding(myPerson);
+		workOver = false;
+	}
 
 	private void tryToCookIt(final Order order) {
 		print("Trying to Cook Order");
@@ -147,7 +168,7 @@ public class DannyCook extends Role {
 			order.state = State.OutOfStock;
 			return;
 		}
-		
+
 		DoCooking(order);
 
 		food.inventory--;
@@ -161,7 +182,7 @@ public class DannyCook extends Role {
 			public void run() {
 				msgFoodDone(order);
 			}
-		}, food.cookingTimer);
+		}, 100);
 	}
 
 	private void plateFood(Order order) {
@@ -176,7 +197,7 @@ public class DannyCook extends Role {
 	}
 
 	private void notifyWaiterOutOfStock(Order order) {
-		Do(order.choice + " is out of stock");
+		Do(AlertTag.DannyRest, order.choice + " is out of stock");
 		order.waiter.msgOutOf(order.choice, order.table);
 		orders.remove(order);
 	}
@@ -218,7 +239,6 @@ public class DannyCook extends Role {
 		}
 	}
 
-	
 	public CookGui getGui() {
 		return cookGui;
 	}
@@ -273,7 +293,7 @@ public class DannyCook extends Role {
 	private void print(String string) {
 		System.out.println(string);
 	}
-	
+
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Cook enterBuilding");
@@ -287,13 +307,16 @@ public class DannyCook extends Role {
 
 	@Override
 	public void workOver() {
+		/*
 		System.out.println("Cook workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
+		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.cookFilled = false;
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
+		cookGui.setPresent(false);
 		ap.removeGui(cookGui);
 		exitBuilding(myPerson);
+		*/
 	}
 
 	@Override

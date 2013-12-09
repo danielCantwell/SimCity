@@ -2,6 +2,7 @@ package brianRest;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
@@ -200,14 +201,14 @@ public class BrianHostRole extends Role implements BrianHost {
 	}
 	
 	private void notifyCustomerFullHouse(WaitingCustomer c){
-		Do("Notifying customer Restaurant full.");
+		Do(AlertTag.BrianRest, "Notifying customer Restaurant full.");
 		c.state = WaitingCustomerState.full;
 		c.customer.msgFullHouse();
 		
 	}
 	
 	private void leaveRestaurant(){
-		Do("Leaving Restaurant");
+		Do(AlertTag.BrianRest, "Leaving Restaurant");
 		if (waitingCustomers.size() == 0){
 			//msg all waiters that they are allowed to leave
 			for (MyWaiter w: waiters){

@@ -15,6 +15,7 @@ import timRest.interfaces.TimWaiter;
 import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 
 public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCashier{
 	
@@ -62,8 +63,14 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 		}
 	}
 	
-	public void msgPayMarket(MarketManagerRole manager, Money money)
+	public void msgPayMarket(int amount, Money pricePerUnit, MarketManagerRole manager)
 	{
+	    // multiply amount by pricePerUnit
+	    Money money = new Money(0, 0);
+	    for (int i = 0; i < amount; i++)
+	    {
+	        money.add(pricePerUnit);
+	    }
 	    billsToPay.add(new Bill(manager, money));
 	}
 
@@ -71,14 +78,14 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	{
 		// good
 		cashInRegister.add(cash);
-		Do("Thank you, come again.");
+		Do(AlertTag.BrianRest, "Thank you, come again.");
 		stateChanged();
 	}
 	
 	public void msgHereIsPartialMoney(Money cash, Money amountOwed)
 	{
 		cashInRegister.add(cash);
-		Do("You owe me money next time.");
+		Do(AlertTag.BrianRest, "You owe me money next time.");
 		stateChanged();
 	}
 	
@@ -105,7 +112,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 					}
 					else if (!bill.interest)
 					{
-						Do("Cannot pay bill right now. I will pay $5 extra when I do pay.");
+						Do(AlertTag.BrianRest, "Cannot pay bill right now. I will pay $5 extra when I do pay.");
 						bill.interest = true;
 						bill.price.add(5, 0);
 					}
@@ -122,7 +129,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 					}
 					else if (check.state ==  CheckState.pending)
 					{
-						Do("Calculating " + check.choice + ".");
+						Do(AlertTag.BrianRest, "Calculating " + check.choice + ".");
 						state = AgentState.calculating;
 						calculate(check);
 						return true;
@@ -143,7 +150,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 			public void run() {
 				state = AgentState.idle;
 				check.state = CheckState.ready;
-				Do("Check Ready");
+				Do(AlertTag.BrianRest, "Check Ready");
 				//isHungry = false;
 				stateChanged();
 			}
@@ -164,7 +171,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	
 	private void payMarket(Bill bill)
 	{;
-		Do("Paying $" + bill.price + " to " + bill.manager.myPerson.getName() + ".");
+		Do(AlertTag.BrianRest, "Paying $" + bill.price + " to " + bill.manager.myPerson.getName() + ".");
 		bill.manager.msgHereIsTheMoney(bill.price);
 		cashInRegister.subtract(bill.price);
 	}

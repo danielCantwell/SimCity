@@ -1,6 +1,7 @@
 package jesseRest;
 
 import SimCity.Base.Role;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 
 import java.util.*;
@@ -187,7 +188,7 @@ public class JesseHost extends Role {
 	 */
 	
 	void seatCustomer(JesseCustomer c, Table t, JesseWaiter w) {
-		Do("Message 2: Sending SitAtTable from Host to Waiter.");
+		Do(AlertTag.JesseRest, "Message 2: Sending SitAtTable from Host to Waiter.");
 		w.msgSitAtTable(c, t);
 		waitingCustomers.remove(0);
 		t.setOccupant(c);

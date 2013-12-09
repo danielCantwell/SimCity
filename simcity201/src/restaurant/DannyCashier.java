@@ -14,7 +14,6 @@ import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
-import agent.Agent;
 
 /**
  * @author Daniel
@@ -23,6 +22,7 @@ import agent.Agent;
 public class DannyCashier extends Role implements Cashier {
 
 	private String name;
+	public boolean workOver = false;
 
 	public List<PayingCustomer> payingCustomers = Collections
 			.synchronizedList(new ArrayList<PayingCustomer>());
@@ -57,6 +57,11 @@ public class DannyCashier extends Role implements Cashier {
 	}
 
 	// Messages
+	
+	public void msgLeaveRestaurant() {
+		workOver = true;
+		stateChanged();
+	}
 
 	public void msgGetBill(Waiter waiter, Customer customer, String choice) {
 		print("MESSAGE 10 : Waiter -> Cashier : GetBill");
@@ -100,6 +105,11 @@ public class DannyCashier extends Role implements Cashier {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		
+		if (workOver) {
+			leaveRestaurant();
+			return true;
+		}
+		
 		synchronized (payingCustomers) {
 			for (PayingCustomer myCustomer : payingCustomers) {
 				if (myCustomer.state == State.Bill) {
@@ -125,6 +135,14 @@ public class DannyCashier extends Role implements Cashier {
 	}
 
 	// Actions
+	
+	private void leaveRestaurant() {
+		System.out.println("Cashier workOver");
+		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
+		rest.cashierFilled = false;
+		exitBuilding(myPerson);
+		workOver = false;
+	}
 
 	private void getBill(PayingCustomer myCustomer) {
 		print("Getting bill for waiter");
@@ -210,10 +228,12 @@ public class DannyCashier extends Role implements Cashier {
 
 	@Override
 	public void workOver() {
+		/*
 		System.out.println("Cashier workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
 		rest.cashierFilled = false;
 		exitBuilding(myPerson);
+		*/
 	}
 
 	@Override

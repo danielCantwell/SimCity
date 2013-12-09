@@ -6,6 +6,7 @@ import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import jesseRest.Check;
 import jesseRest.Menu;
 
@@ -79,7 +80,7 @@ public class JesseCustomer extends Role implements Customer {
 	}
 	
 	public void gotHungry() {
-		Do("Going to restaurant because my hungerLevel is : "+myPerson.hungerLevel);
+		Do(AlertTag.JesseRest, "Going to restaurant because my hungerLevel is : "+myPerson.hungerLevel);
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
@@ -222,7 +223,7 @@ public class JesseCustomer extends Role implements Customer {
 	}
 	private void goToRestaurant() {
 		// Handles hungry message and tells host
-		Do("Message 1: Sending IWantToEat from Customer to Host.");
+		Do(AlertTag.JesseRest, "Message 1: Sending IWantToEat from Customer to Host.");
 		host.msgIWantToEat(this);
 	}
 

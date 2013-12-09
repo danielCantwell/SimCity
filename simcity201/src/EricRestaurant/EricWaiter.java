@@ -9,6 +9,7 @@ import EricRestaurant.interfaces.Customer;
 import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.gui.BrianAnimationPanel;
 
@@ -370,7 +371,7 @@ public class EricWaiter extends Role implements Waiter {
 	}
 
 	private void gotOrder(myCustomer c) {
-		Do(" Giving Customer order to cook");
+		Do(AlertTag.EricRest, " Giving Customer order to cook");
 		try {
 			host.cook.giveCook(c.choice, this);
 		}

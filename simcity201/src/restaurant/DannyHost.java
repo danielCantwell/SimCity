@@ -2,6 +2,7 @@ package restaurant;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.trace.AlertTag;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
 import restaurant.gui.WaiterGui;
@@ -30,7 +31,7 @@ public class DannyHost extends Role {
 	// Later we will see how it is implemented
 
 	private String name;
-	
+
 	private boolean workOver = false;
 
 	public WaiterGui waiterGui = null;
@@ -52,7 +53,7 @@ public class DannyHost extends Role {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -120,12 +121,21 @@ public class DannyHost extends Role {
 			}
 		}
 	}
+	
+	public void msgCustomerLeaving() {
+		stateChanged();
+	}
 
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
-		System.out.println("Danny Host -- Pick and Execute an Action");
+		
+		if (workOver) {
+			leaveRestaurant();
+			return true;
+		}
+		
 		/*
 		 * Think of this next rule as: Does there exist a table, customer and
 		 * waiter, so that table is unoccupied, the customer is waiting, and
@@ -171,7 +181,7 @@ public class DannyHost extends Role {
 				}
 			}
 		}
-		
+
 		if (workOver) {
 			leaveRestaurant();
 			return true;
@@ -205,7 +215,7 @@ public class DannyHost extends Role {
 				}
 			}
 		}
-		
+
 		if (waiters.size() > 1 && waiterAvailable) {
 			myWaiter.waiter.msgBreakOkay();
 			myWaiter.state = WaiterState.WaitingForBreak;
@@ -224,14 +234,19 @@ public class DannyHost extends Role {
 		myWaiter.waiter.msgBreakOver();
 		stateChanged();
 	}
-	
+
 	private void leaveRestaurant() {
-		Do("Leaving Restaurant");
-		if (waitingCustomers.size() == 0){
-			//msg all waiters that they are allowed to leave
-			for (MyWaiter w: waiters){
+
+		Do(AlertTag.DannyRest, "Trying to Leave Restaurant");
+		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
+		if (rest.numCustomers == 0) {
+			Do(AlertTag.DannyRest, "Leaving Restaurant");
+			// msg all waiters that they are allowed to leave
+			for (MyWaiter w : waiters) {
 				w.waiter.msgLeaveRestaurant();
 			}
+			rest.cashierRole.msgLeaveRestaurant();
+			rest.cookRole.msgLeaveRestaurant();
 			exitBuilding(myPerson);
 			workOver = false;
 		}
@@ -245,13 +260,13 @@ public class DannyHost extends Role {
 
 	public void addWaiter(DannyWaiter w) {
 		waiters.add(new MyWaiter(w));
-		//w.startThread();
+		// w.startThread();
 		print("Added waiter " + w.getName());
 		stateChanged();
 	}
 
 	public DannyCashier getCashier() {
-		B_DannyRestaurant dr = (B_DannyRestaurant)myPerson.getBuilding();
+		B_DannyRestaurant dr = (B_DannyRestaurant) myPerson.getBuilding();
 		return dr.getCashier();
 	}
 
@@ -320,25 +335,26 @@ public class DannyHost extends Role {
 			return "table " + tableNumber;
 		}
 	}
-	
+
 	public void print(String string) {
 		System.out.println(string);
 	}
-	
+
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Host enterBuilding");
 	}
 
 	@Override
-	public void workOver() {
-		System.out.println("Host workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.hostFilled = false;
-		rest.setOpen(false);
-		
-		exitBuilding(myPerson);
-		//workOver = true;
+	public void workOver() {/*
+							 * System.out.println("Host workOver");
+							 * B_DannyRestaurant rest =
+							 * (B_DannyRestaurant)myPerson.getBuilding();
+							 * rest.hostFilled = false; rest.setOpen(false);
+							 * 
+							 * exitBuilding(myPerson);
+							 */
+		workOver = true;
 	}
 
 	@Override

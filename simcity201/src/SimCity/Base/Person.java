@@ -33,6 +33,8 @@ import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_TimRest;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 /**
  * @author Brian
@@ -172,7 +174,9 @@ public class Person extends Agent {
 				mainRole.myPerson = this;
 			} catch(Exception e){
 				e.printStackTrace();
-				System.out.println ("Person: no class found");
+				AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no class found");
+
+				
 			}
 		}
 		public void resetActiveRoles(){
@@ -359,7 +363,6 @@ public class Person extends Agent {
 		//This means that the role has to leave a building and turn off before the person can go anywhere.
 		//ALSO the role must set the person's intent before leaving the workplace.
 		//pop the first thing off the action
-		//System.out.println("holy shit");
 		if (actions.size() > 0){	
 			goTo(actions.pop());
 			return false; //might be true
@@ -451,7 +454,6 @@ public class Person extends Agent {
 	private void goTo(Action action){
 		Building b = null;
 		createVehicle();
-		//System.out.println("goTo + " + action.toString());
 		
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
@@ -532,16 +534,14 @@ public class Person extends Agent {
 		
 		
 		if (b == null){
-			System.out.println ("Person: error no building found");
+			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no building found");
 			return;
 		}
 		
 		//Call person gui animation. acquire my semaphore.
 		destination = b;
-		System.out.println("Going from :" + 
-		building.getTag() + " to " +
-		b.getTag() 
-		+ ".");
+		
+		AlertLog.getInstance().logMessage(AlertTag.PERSON, name, "Going from :" + building.getTag() + " to " +b.getTag() + ".");
 		
 		if (gui instanceof PersonGui) {
 			if (vehicle != Vehicle.bus) {
@@ -608,7 +608,6 @@ public class Person extends Agent {
 			 if (hasActiveRole) return;
 			   if(hungerLevel > 0){
 				   hungerLevel --;
-				   //System.out.println("Hunger Level is now: " + hungerLevel);
 			   }
 			   if (hungerLevel <= 0){
 				   hungerLevel = 0;

@@ -9,6 +9,7 @@ import Bank.interfaces.Teller;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 /**
  * Manager Role
  * @author Eric
@@ -20,7 +21,7 @@ public class bankManagerRole extends Role implements  Manager{
 	public Map<Integer, Money> ManagerAccs = new HashMap<Integer, Money>();
 
 	public void msgHello(){
-		System.out.println("Manager received a messsage from customer");
+		Do(AlertTag.BANK,"Manager received a messsage from customer");
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class bankManagerRole extends Role implements  Manager{
 
 	@Override
 	protected void enterBuilding() {
-		System.out.println("I am a bank manager: "+this);
+		Do(AlertTag.BANK,"I am a bank manager: "+this);
 		B_Bank bank = (B_Bank)myPerson.building;
 		bank.setBankManager(this);
 		stateChanged();
@@ -73,7 +74,7 @@ public class bankManagerRole extends Role implements  Manager{
 		t.busy = state.no;
 		tellers.add(t);
 		stateChanged();
-		System.out.println("Manager: New teller has been added: "+t.teller);
+		Do(AlertTag.BANK,"Manager: New teller has been added: "+t.teller);
 		//Brian adding some code to make sure the bank is open
 		myPerson.building.setOpen(myPerson.building.areAllNeededRolesFilled());
 	}
@@ -82,7 +83,7 @@ public class bankManagerRole extends Role implements  Manager{
 	public void newClient(Customer c) {
 		clients.add(c);
 		stateChanged();
-		System.out.println("Manager: New customer has been added: "+c+"    with account: "+accNum);
+		Do(AlertTag.BANK,"Manager: New customer has been added: "+c+"    with account: "+accNum);
 	}
 
 	public void tellerReady(tellerRole teller) {

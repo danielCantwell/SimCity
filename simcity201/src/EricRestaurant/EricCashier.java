@@ -28,6 +28,7 @@ public class EricCashier extends Role {
 	public class Bills {
 		double price;
 		//Market m;
+		
 	}
 	boolean bum = false;
 	Cashier b;

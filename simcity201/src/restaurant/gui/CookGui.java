@@ -25,6 +25,10 @@ public class CookGui implements Gui {
 	enum FoodState {
 		Cooking, Plating
 	};
+	
+	public CookGui() {
+		isPresent = true;
+	}
 
 	@Override
 	public void updatePosition() {
@@ -64,6 +68,10 @@ public class CookGui implements Gui {
 	@Override
 	public boolean isPresent() {
 		return isPresent;
+	}
+	
+	public void setPresent(boolean p) {
+		isPresent = p;
 	}
 
 	@Override

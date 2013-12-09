@@ -9,6 +9,7 @@ import timRest.interfaces.TimWaiter;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 
 import java.awt.Point;
@@ -100,11 +101,11 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		}*/
 		if (amountOwed.isGreaterThan(0, 0))
 		{
-			Do("I have $" + cash + " and I owe this restaurant $" + amountOwed + ".");
+			Do(AlertTag.TimRest,"I have $" + cash + " and I owe this restaurant $" + amountOwed + ".");
 		}
 		else
 		{
-			Do("I have $" + cash + ".");
+			Do(AlertTag.TimRest,"I have $" + cash + ".");
 		}
 		stateChanged();
 	}
@@ -112,7 +113,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	public void msgPleaseSit(Point pos)
 	{
 		waitingPos = pos;
-		Do("Sitting in waiting area.");
+		Do(AlertTag.TimRest,"Sitting in waiting area.");
 		stateChanged();
 	}
 	
@@ -160,7 +161,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	
 	public void msgHereIsYourOrder(String choice) 
 	{
-		Do("Recieved order of " + choice);
+		Do(AlertTag.TimRest,"Recieved order of " + choice);
 		state = AgentState.ReceivedOrder;
 		stateChanged();
 	}
@@ -297,7 +298,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	// Actions
 
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		Do(AlertTag.TimRest,"Going to restaurant");
 		host.msgIWantFood(this);//send our instance, so he can respond to us
 		
 		//will leave if waiting for too long
@@ -333,7 +334,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	
 	private void Decide()
 	{
-		Do("Deciding what to eat.");
+		Do(AlertTag.TimRest,"Deciding what to eat.");
 		state = AgentState.DoingNothing;
 		// decide what to order
 		timer.schedule(new TimerTask() {
@@ -349,7 +350,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	
 	private void TellWaiterReady()
 	{
-		Do("Hailing waiter. (" + waiter.getName() + ")");
+		Do(AlertTag.TimRest,"Hailing waiter. (" + waiter.getName() + ")");
 		waiter.msgImReadyToOrder(this);
 		state = AgentState.DoingNothing;
 	}
@@ -406,7 +407,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 			else
 			{
 				// cannot choose anything
-				Do("I can't afford this...");
+				Do(AlertTag.TimRest,"I can't afford this...");
 				LeaveTable();
 				LeaveRestaurant();
 			}
@@ -414,7 +415,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	}
 
 	private void EatFood() {
-		Do("Eating Food");
+		Do(AlertTag.TimRest,"Eating Food");
 		state = AgentState.Eating;
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
@@ -438,7 +439,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 
 	private void AskForCheck()
 	{
-		Do("Can I get the check, please?");
+		Do(AlertTag.TimRest,"Can I get the check, please?");
 		state = AgentState.WaitingToPay;
 		waiter.msgCanIHaveCheck(this);
 	}
@@ -470,20 +471,20 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	}
 	
 	private void LeaveTable() {
-		Do("Leaving table.");
+		Do(AlertTag.TimRest,"Leaving table.");
 		waiter.msgLeavingTable(this);
 	}
 
 	private void WaitedTooLong()
 	{
-		Do("This wait is too long.");
+		Do(AlertTag.TimRest,"This wait is too long.");
 		host.msgImLeaving(this);
 		LeaveRestaurant();
 	}
 	
 	private void LeaveRestaurant()
 	{
-		Do("Bye!");
+		Do(AlertTag.TimRest,"Bye!");
 		customerGui.DoExitRestaurant();
 		state = AgentState.DoingNothing;
 		choices = null;

@@ -7,6 +7,7 @@ import restaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.trace.AlertTag;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -251,13 +252,13 @@ public class DannyCustomer extends Role implements Customer {
 	// Actions
 
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		Do(AlertTag.DannyRest, "Going to restaurant");
 
 		host.msgIWantFood(this);// send our instance, so he can respond to us
 	}
 
 	private void SitDown() {
-		Do("Being seated. Going to table");
+		Do(AlertTag.DannyRest, "Being seated. Going to table");
 		customerGui.DoPrintGoingToSeat();
 		customerGui.DoGoToSeat(1, tableNumber);// hack; only one table
 	}
@@ -281,7 +282,7 @@ public class DannyCustomer extends Role implements Customer {
 				public void run() {
 					waiter.msgReadyToOrder(DannyCustomer.this);
 				}
-			}, decisionTime);
+			}, 50);
 		}
 	}
 
@@ -293,7 +294,7 @@ public class DannyCustomer extends Role implements Customer {
 
 	private void EatFood() {
 		event = AgentEvent.none;
-		Do("Eating Food");
+		Do(AlertTag.DannyRest, "Eating Food");
 		customerGui.DoPrintEatingFood(myChoice);
 		// This next complicated line creates and starts a timer thread.
 		// We schedule a deadline of getHungerLevel()*1000 milliseconds.
@@ -310,11 +311,11 @@ public class DannyCustomer extends Role implements Customer {
 				// isHungry = false;
 				stateChanged();
 			}
-		}, getHungerLevel() * 1000); // how long to wait before running task
+		}, 500); // how long to wait before running task
 	}
 
 	private void leaveRestaurant() {
-		Do("Leaving.");
+		Do(AlertTag.DannyRest, "Leaving.");
 		state = AgentState.Leaving;
 		cashierEvent = CashierEvent.none;
 		if (customerGui != null) {
@@ -362,7 +363,7 @@ public class DannyCustomer extends Role implements Customer {
 	}
 
 	private void payCashier() {
-		Do("Going To Cashier");
+		Do(AlertTag.DannyRest, "Going To Cashier");
 		customerGui.DoGoToCashier();
 		customerGui.DoPrintGoingToCashier();
 		try {
@@ -444,7 +445,7 @@ public class DannyCustomer extends Role implements Customer {
 
 	@Override
 	public void workOver() {
-		leaveRestaurant();
+		//leaveRestaurant();
 	}
 
 	@Override
