@@ -94,7 +94,6 @@ public class DannyWaiter extends Role implements Waiter {
 
 	public void msgPleaseSeatCustomer(Customer customer, int table) {
 		print("MESSAGE 2 : Host -> Waiter : PleaseSeatCustomer");
-		System.out.println("Waiter: " + hashCode() + " msgPleaseSeatCustomer");
 		myCustomers.add(new MyCustomer(customer, table));
 		stateChanged();
 	}

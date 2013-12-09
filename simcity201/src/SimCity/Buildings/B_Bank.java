@@ -81,5 +81,10 @@ public class B_Bank extends Building{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public Role getManagerRole() {
+		// TODO Auto-generated method stub
+		return (bankManagerRole) bankManager;
+	}
 
 }

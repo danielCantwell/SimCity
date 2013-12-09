@@ -171,6 +171,11 @@ public class B_Market extends Building{
             }
         }
 	}
+	@Override
+	public Role getManagerRole() {
+		// TODO Auto-generated method stub
+		return managerRole;
+	}
 	
 
 }

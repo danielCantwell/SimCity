@@ -39,6 +39,10 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	private final int yHost = 25;
 	private final int xHostSize = 50;
 	private final int yHostSize = 20;
+	
+	public boolean hostPresent = false;
+	public boolean cashierPresent = false;
+	public boolean cookPresent = false;
 
 	static final int HOST_SPEED = 0;
 
@@ -110,9 +114,12 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 					table.yCoord + 30);
 		}
 
-		drawCookStation(g2);
-		drawCashier(g2);
-		drawHost(g2);
+		if (cookPresent)
+			drawCookStation(g2);
+		if (cashierPresent)
+			drawCashier(g2);
+		if (hostPresent)
+			drawHost(g2);
 
 		synchronized (guis) {
 			for (Gui gui : guis) {

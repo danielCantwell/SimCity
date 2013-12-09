@@ -5,8 +5,7 @@ import SimCity.Buildings.B_BrianRestaurant;
 import agent.Agent;
 
 
-import brianRest.gui.BrianAnimationPanel;
-import brianRest.gui.WaiterGui;
+ import brianRest.gui.WaiterGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCook;
 import brianRest.interfaces.BrianCustomer;

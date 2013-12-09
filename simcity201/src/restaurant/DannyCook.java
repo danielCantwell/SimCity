@@ -167,6 +167,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		cookGui.setPresent(false);
+		ap.cookPresent = false;
 		ap.removeGui(cookGui);
 		exitBuilding(myPerson);
 		workOver = false;
@@ -322,6 +323,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		ap.addGui(cookGui);
+		ap.cookPresent = true;
 	}
 
 	@Override
@@ -351,7 +353,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 				foodToOrder.remove(f);
 			}
 		}
-		
+		Do(AlertTag.DannyRest, "Received " + amount + food + "s from market");
 		foods.get(food).inventory += amount;
 		stateChanged();
 	}

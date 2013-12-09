@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JPanel;
@@ -58,6 +59,8 @@ public class Person extends Agent {
 	public Semaphore animation = new Semaphore(0, true);
 	public AnimationPanel animPanel;
 	public ArrayList<Role> roles = new ArrayList<Role>();
+	
+	public List<GroceryList> groceryList = new ArrayList<GroceryList>();
 	
 	public ArrayList<String> inventory = new ArrayList<String>();
 	
@@ -620,6 +623,16 @@ public class Person extends Agent {
 	
 	public void setAnimPanel(AnimationPanel animPanel) {
 		this.animPanel = animPanel;
+	}
+	
+	public class GroceryList {
+		public String item;
+		public int amount;
+		
+		public GroceryList(String i, int a) {
+			item = i;
+			amount = a;
+		}
 	}
 	
 	//DEBUG

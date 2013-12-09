@@ -215,8 +215,10 @@ public class BrianHostRole extends Role implements BrianHost {
 				w.waiter.msgLeaveRestaurant();
 			}
 			B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
-			br.getCashier().msgLeaveRestaurant();
-			br.cookRole.msgLeaveRestaurant();
+			if (br.getCashier().myPerson != null)
+				br.getCashier().msgLeaveRestaurant();
+			if (br.cookRole.myPerson != null)
+				br.cookRole.msgLeaveRestaurant();
 			br.hostFilled = false;
 			br.cookFilled = false;
 			br.numberOfWaiters = 0;
@@ -315,6 +317,8 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	@Override
 	public void workOver() {
+		
+		
 		//Do not accept any new people.
 		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
 		rest.setOpen(false);

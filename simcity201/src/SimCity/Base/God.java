@@ -369,6 +369,15 @@ public class God {
 	    	}
 	    }
 	    
+	    public void getOffWork(Building b){
+	    	announcedTime = true;
+	    	AlertLog.getInstance().logWarning(AlertTag.God, "USER", "Closing " + b.getTag());
+	    	for (Person p: persons){
+	    		if (p.getBuilding() == b)
+	    		p.msgWorkOver();
+	    	}
+	    }
+	    
 	    public boolean banksClosed = false;
 	    private void notifyBanksClosed(){
 	    	banksClosed = true;
@@ -396,6 +405,13 @@ public class God {
 	    }
 	    public int getTime() {
 			return hour; 	
+	    }
+	    
+	    public void HardReset(){
+	    	for (Person p: persons){
+	    		p.stopThread();
+	    	}
+	    	persons.clear();
 	    }
 	    
 }

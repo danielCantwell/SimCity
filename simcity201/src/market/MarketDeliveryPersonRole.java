@@ -37,7 +37,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     public MarketManagerRole manager;
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
-    public enum AgentLocation { Market, Destination, InTransit };
+    public enum AgentLocation { Market, Destination, InTransit, Closed };
     public AgentLocation location;
     public B_Market home;
 	
@@ -65,6 +65,12 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     public void msgGuiArrivedAtDestination()
     {
         location = AgentLocation.Destination;
+        stateChanged();
+    }
+
+    public void msgGuiRestaurantClosed()
+    {
+        location = AgentLocation.Closed;
         stateChanged();
     }
 
@@ -114,6 +120,11 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
                     }
                 }
             }
+        }
+	    if(location == AgentLocation.Destination)
+        {
+	        goToMarket();
+	        return false;
         }
 	    
 		return false;
@@ -298,6 +309,16 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		        this.amount = amount;
 		        state = OrderState.Pending;
 		    }
+		    
+		    public int getId()
+		    {
+		        return id;
+		    }
+
+            public void setPending()
+            {
+                state = OrderState.Pending;
+            }
 		}
 
 		@Override

@@ -5,6 +5,7 @@ import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.trace.AlertTag;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
+import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 
 import java.util.*;
@@ -149,7 +150,6 @@ public class DannyHost extends Role {
 						synchronized (waiters) {
 							for (MyWaiter myWaiter : waiters) {
 								if (myWaiter.state == WaiterState.Available) {
-									System.out.println("available");
 									seatCustomer(waitingCustomers.get(0),
 											table, myWaiter.waiter);
 									switchOrderOfWaiters();
@@ -236,8 +236,6 @@ public class DannyHost extends Role {
 	}
 
 	private void leaveRestaurant() {
-
-		Do(AlertTag.DannyRest, "Trying to Leave Restaurant");
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		if (rest.numCustomers == 0) {
 			Do(AlertTag.DannyRest, "Leaving Restaurant");
@@ -245,6 +243,10 @@ public class DannyHost extends Role {
 			for (MyWaiter w : waiters) {
 				w.waiter.msgLeaveRestaurant();
 			}
+			DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+					.getPanel();
+			ap.hostPresent = false;
+			
 			rest.cashierRole.msgLeaveRestaurant();
 			rest.cookRole.msgLeaveRestaurant();
 			exitBuilding(myPerson);
@@ -261,7 +263,6 @@ public class DannyHost extends Role {
 	public void addWaiter(DannyWaiter w) {
 		waiters.add(new MyWaiter(w));
 		// w.startThread();
-		print("Added waiter " + w.getName());
 		stateChanged();
 	}
 
@@ -342,6 +343,9 @@ public class DannyHost extends Role {
 
 	@Override
 	protected void enterBuilding() {
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.hostPresent = true;
 		System.out.println("Host enterBuilding");
 	}
 
