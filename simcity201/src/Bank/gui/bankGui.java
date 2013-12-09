@@ -100,4 +100,10 @@ public class bankGui extends JPanel implements ActionListener {
 	public void addGui(bankGuardGui gGui) {
 		guis.add(gGui);
 	}
+	public void removeGui(tellerGui gui) {
+		guis.remove(gui);
+	}
+	public void removeGui(bankGuardGui gui) {
+		guis.remove(gui);
+	}
 }

@@ -9,6 +9,7 @@ import EricRestaurant.EricWaiter;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 import EricRestaurant.interfaces.*;
 /***
  * 
@@ -17,6 +18,7 @@ import EricRestaurant.interfaces.*;
  */
 public class B_EricRestaurant extends Building {
 	public int B_EricAccNum = 1000;
+	public Money E_Money = new Money(700,0);
 	public EricHost host = new EricHost("Host");
 	public EricCook cook = new EricCook("Cook");
 	public EricCashier cashier = new EricCashier();
@@ -76,6 +78,8 @@ public class B_EricRestaurant extends Building {
 			if(role.equals("EricRestaurant.EricHost")) { 
 				newRole = host;
 				hostFilled = true;
+				host.setAccNum(B_EricAccNum);
+				host.setMoney(E_Money);
 				setOpen(areAllNeededRolesFilled());
 				}
 			else if(role.equals("EricRestaurant.EricWaiter")) {
@@ -93,11 +97,20 @@ public class B_EricRestaurant extends Building {
 			else if(role.equals("EricRestaurant.EricCashier")) {
 				newRole = cashier;
 				cashierFilled = true;
+				cashier.setHost(host);
+				cashier.setMoney(host.getMoney());
 				setOpen(areAllNeededRolesFilled());
 			}
 			else if(role.equals("EricRestaurant.EricCustomer")) {
+				if(areAllNeededRolesFilled()) {
 				newRole = new EricCustomer("Customer");
 				System.out.println("Customer Made");
+				}
+				else {
+					setOpen(false);
+					System.out.println("Eric Restaurant is closed, leaving...");
+					ExitBuilding(person);
+				}
 			}
 			newRole.setActive(true);
 			newRole.setPerson(person);
@@ -113,6 +126,14 @@ public class B_EricRestaurant extends Building {
 
 	@Override
 	public void ExitBuilding(Person person) {
+		System.out.println(person.getMainRoleString().toString());
+		if(person.getMainRoleString().equals("EricRestaurant.EricHost")){
+			E_Money = host.getMoney();
+			hostFilled = false;
+		}
+		if(person.getMainRoleString().equals("EricRestaurant.EricWaiter")) numWaiter--;
+		if(person.getMainRoleString().equals("EricRestaurant.EricCashier")) cashierFilled = false;
+		if(person.getMainRoleString().equals("EricRestaurant.EricCook")) cookFilled = false;
 		person.resetActiveRoles();
     	person.msgExitBuilding();
 	}

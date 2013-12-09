@@ -10,6 +10,7 @@ import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.trace.AlertTag;
+import SimCity.Globals.Money;
 import agent.Agent;
 import brianRest.gui.BrianAnimationPanel;
 
@@ -29,7 +30,7 @@ public class EricWaiter extends Role implements Waiter {
 		Waiter w;
 		int wNum;
 		Customer c;
-		double money;
+		Money money;
 		int table;
 		String choice;
 		state s;
@@ -48,17 +49,22 @@ public class EricWaiter extends Role implements Waiter {
 	public EricHost host;
 	public EricCashier ca;
 	public String lowFood = null;
-	Map<String, Double> mymap = new HashMap<String, Double>();
+	Money steakPrice = new Money(16,0);
+	Money saladPrice = new Money(6,0);
+	Money pizzaPrice = new Money(9,0);
+	Money chickenPrice = new Money(11,0);
+
+	Map<String, Money> mymap = new HashMap<String, Money>();
 
 	public EricWaiter(String name, EricHost h, EricCashier c) {
 		super();
 		this.name = name;
 		host = h;
 		ca = c;
-		mymap.put("Steak", 15.99);
-		mymap.put("Pizza", 8.99);
-		mymap.put("Chicken", 10.99);
-		mymap.put("Salad", 5.99);
+		mymap.put("Steak", steakPrice);
+		mymap.put("Pizza",pizzaPrice);
+		mymap.put("Chicken", chickenPrice);
+		mymap.put("Salad", saladPrice);
 	}
 
 	@Override
@@ -136,13 +142,13 @@ public class EricWaiter extends Role implements Waiter {
 			for(myCustomer cx : customer) {
 				if(cx.c==cust) {
 					if(!(lowFood == choice)) {
-						double temp = mymap.get(choice);
-						if(cx.money >= temp){
+						Money temp = mymap.get(choice);
+						if(cx.money.isGreaterThan(temp)){
 							cx.choice = choice;
 							cx.s = state.gotOrder;
 							menu = 4;
 						}
-						if (cx.money < temp) {
+						else {
 							print("You do not have enough money to order that, reorder please.");
 							reorder(cx);
 						}	
@@ -175,17 +181,17 @@ public class EricWaiter extends Role implements Waiter {
 
 	@Override
 	public void reorder(myCustomer cx) {
-		if (cx.money < 5.99) {
+		if ((!cx.money.isGreaterThan(chickenPrice))) {
 			print("You do not have enough money to order anything.");
 			cx.c.leaveTable();
 			hostGui.waiting(cx.wNum);
 		}
-		else if (cx.money < 10.99) {
+		else if (!(cx.money.isGreaterThan(chickenPrice))) {
 			print("You can only order Salad or Pizza");
 			menu = 2;
 			goTakeOrder(cx);
 		}
-		else if (cx.money < 15.99) {
+		else if (!(cx.money.isGreaterThan(steakPrice))) {
 			print("You can only order Salad, Pizza, or Chicken");
 			menu = 3;
 			goTakeOrder(cx);
@@ -242,7 +248,7 @@ public class EricWaiter extends Role implements Waiter {
 	}
 
 	@Override
-	public void waiterGotCheck(double p, Customer c, EricCashier cs) {
+	public void waiterGotCheck(Money p, Customer c, EricCashier cs) {
 		print("Recieved check from Cashier");
 		for (myCustomer mc : customer) {
 			if (mc.c == c) {

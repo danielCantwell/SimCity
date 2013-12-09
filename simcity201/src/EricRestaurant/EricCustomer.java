@@ -10,6 +10,7 @@ import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_EricRestaurant;
 import SimCity.trace.AlertTag;
+import SimCity.Globals.Money;
 
 import java.util.*;
 
@@ -25,7 +26,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	private int t;
 	Random generator = new Random(); 
 	int m = generator.nextInt(10)+1;
-	public double cash = 2000*0.1*m;
+	public Money cash;
 	String choice = null;
 	DecimalFormat df = new DecimalFormat("#0.00");
 	// agent correspondents
@@ -76,22 +77,8 @@ public class EricCustomer extends Role implements Customer, Cashier {
 
 	@Override
 	public void gotHungry() {
-		if(this.name.equals("salad")) {
-			cash = 5.99;
-		}
-		if(this.name.equals("bum"))   {
-			count++;
-			if(count == 1) {
-			cash = 8;
-			}
-			if(count == 2) {
-				cash = 20;
-				count = 0;
-				state = AgentState.bumowes;
-				stateChanged();
-			}
-		}
-		print("I'm hungry and have $"+df.format(cash));
+		cash = myPerson.getMoney();
+		print("I'm hungry and have $"+cash.getDollar());
 		event = AgentEvent.gotHungry;
 		
 		stateChanged();
@@ -141,18 +128,10 @@ public class EricCustomer extends Role implements Customer, Cashier {
 
 	@Override
 	
-	public void giveChange(double change) {
+	public void giveChange(Money change) {
 		cash = change;
-		print("Has "+df.format(cash)+" amount of money left");
+		print("Has "+cash.getDollar()+" amount of money left");
 		state = AgentState.Eating;
-	}
-
-	@Override
-	
-	public void bumChange(double change) {
-		cash = change;
-		print("Has "+df.format(cash)+" amount of money left");
-		leaveTable();
 	}
 
 	@Override
@@ -217,9 +196,9 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		if (state == AgentState.paying) {
 			payCashier();
 		}
-		if(state == AgentState.bumowes) {
-			oweCashier();
-		}
+//		if(state == AgentState.bumowes) {
+//			oweCashier();
+//		}
 		return false;
 	}
 
@@ -275,9 +254,9 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	private void payCashier() {
 		cashier.hereIsPay(cash, this);
 	}
-	private void oweCashier() {
-		cashier.bumPays(cash, this);
-	}
+//	private void oweCashier() {
+//		cashier.bumPays(cash, this);
+//	}
 	private void EatFood() {
 		event = AgentEvent.eating;
 		Do(AlertTag.EricRest, "Eating Food");
@@ -297,7 +276,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	@Override
 	
 	public void leaveTable() {
-		myPerson.hungerLevel = myPerson.hungerLevel + 30;
+		myPerson.hungerLevel = myPerson.hungerLevel + 10;
 		Do(AlertTag.EricRest, "Leaving, My currrent hunger level is : "+myPerson.hungerLevel+".");
 		waiter.LeavingTable(this);
 		customerGui.DoExitRestaurant();
@@ -403,5 +382,6 @@ public class EricCustomer extends Role implements Customer, Cashier {
 		// TODO Auto-generated method stub
 		
 	}
+
 }
 

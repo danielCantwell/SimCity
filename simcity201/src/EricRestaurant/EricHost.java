@@ -1,9 +1,14 @@
 package EricRestaurant;
 
+import Bank.bankManagerRole;
+import Bank.tellerRole;
 import EricRestaurant.gui.HostGui;
 import EricRestaurant.interfaces.*;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_EricRestaurant;
+import SimCity.Globals.Money;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -14,17 +19,16 @@ import java.util.concurrent.Semaphore;
 
 public class EricHost extends Role implements Host {
 	static final int NTABLES = 3;//a global for the number of tables.
-	//Notice that we implement waitingCustomers using ArrayList, but type it
-	//with List semantics.
+	public int ERestNum;
+	public tellerRole bm;
 	public List<EricCustomer> waitingCustomers
 	= new ArrayList<EricCustomer>();
 	public List<Waiter> waiters = new ArrayList<Waiter>();
 	public Collection<Table> tables;
-	//note that tables is typed with Collection semantics.
-	//Later we will see how it is implemented
 	public int check = 0;
 	static int fullcheck = 0;
 	int wCount = 1;
+	public Money ERestMoney;
 	private EricRestaurant.interfaces.Waiter waiter;
 	public EricCook cook;
 	public EricCashier cashier;
@@ -36,9 +40,12 @@ public class EricHost extends Role implements Host {
 		int num;
 		breakstate b;
 	}
+	B_Bank bank;
 	public enum state {none, free, busy};
 	private state s = state.none;//The start state
 	public enum breakstate {onbreak, offbreak};
+	public enum bankstate {none, gotManager, sent};
+	private bankstate bs = bankstate.none;
 	private breakstate b = breakstate.offbreak;//The start state
 	public HostGui hostGui = null;
 
@@ -52,6 +59,18 @@ public class EricHost extends Role implements Host {
 		}
 	}
 
+	public void setBM() {
+		bs = bankstate.gotManager;
+		stateChanged();
+	}
+	
+	public void setMoney(Money m) {
+		ERestMoney = m;
+	}
+	
+	public Money getMoney(){
+		return ERestMoney;
+	}
 	@Override
 	public void setWaiter(EricRestaurant.interfaces.Waiter w) {
 		waiter = w;
@@ -88,7 +107,7 @@ public class EricHost extends Role implements Host {
 	}
 
 	@Override
-	public void msgIWantFood(EricCustomer cust, double c) {
+	public void msgIWantFood(EricCustomer cust, Money c) {
 		Random generator = new Random(); 
 		if (fullcheck > 2) {
 			int i = generator.nextInt(3);
@@ -97,7 +116,7 @@ public class EricHost extends Role implements Host {
 				print("-------------------Customer decided to leave because restaurant was full-------------------");
 			}
 		}
-		if (c > 0) {
+		if (!(c.isZero())) {
 			waitingCustomers.add(cust);
 			stateChanged();
 		}
@@ -146,6 +165,10 @@ public class EricHost extends Role implements Host {
 		waiterBack(w);
 	}
 
+	public void transDone(Money m) {
+		ERestMoney = m;
+		System.out.println("Host finished bank interaction and ERest has : $"+ERestMoney.getDollar());
+	}
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
@@ -187,12 +210,23 @@ public class EricHost extends Role implements Host {
 				}
 			}
 		}
+		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+			msgBank();
+			return true;
+		}
 		return false;
 
 	}
 
 	// Actions
 
+	public void msgBank() {
+		bank = (B_Bank) God.Get().getBuilding(2);
+		bm = (tellerRole) bank.getOneTeller();
+		bm.restMoney(ERestNum, ERestMoney, this);
+		bs = bankstate.sent;
+	}
+	
 	private void callWaiter(EricCustomer cust, Table table, Waiter w) {
 		table.setOccupant(cust);
 		w.w.HostCalled(cust, table.tableNumber, wCount);
@@ -273,6 +307,10 @@ public class EricHost extends Role implements Host {
 		}
 	}
 
+	public void setAccNum(int num) {
+		ERestNum = num;
+		System.out.println("Host got Eric Resturant Acc Num: "+ERestNum);
+	}
 	@Override
 	protected void enterBuilding() {
 		
@@ -280,6 +318,7 @@ public class EricHost extends Role implements Host {
 
 	@Override
 	public void workOver() {
+		bs = bankstate.none;
 		exitBuilding(myPerson);
 	}
 

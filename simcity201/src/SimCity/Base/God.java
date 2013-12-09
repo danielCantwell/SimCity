@@ -25,8 +25,10 @@ import timRest.TimWaiterRole;
 import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import EricRestaurant.EricCustomer;
+import EricRestaurant.EricHost;
 import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
 import SimCity.trace.AlertLog;
@@ -187,7 +189,9 @@ public class God {
 					   if (hour == 17 && !announcedTime){
 						   fakeCustomersGoToWork(2);
 					   }
-					   
+					   if (hour == 11 && !announcedTime){
+						   bankInteraction();
+					   }
 					   
 					   if (hour == 20 && !announcedTime){
 						   getOffWork(2);
@@ -265,6 +269,7 @@ public class God {
 	    			if (!isWeekend) 
 	    			if (p.getShift() == shift) 
 	    			p.msgGoToWork();	    			
+
 	    		}else
 	    		if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
 	    			if (p.getShift() == shift)
@@ -343,7 +348,16 @@ public class God {
 	    		}
 	    	}
 	    }
-	    
+//	    
+	    public void bankInteraction() {
+	    	for(Person p : persons){
+	    	if (p.getMainRoleString().equals("EricRestaurant.EricHost")){
+	    		B_EricRestaurant rest = (B_EricRestaurant) God.Get().getBuilding(11);
+	    		rest.host.setBM();
+	    		}
+	    	}
+	    }
+//	    
 	    public void getOffWork(int shift){
 	    	announcedTime = true;
 	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Shift ["+ shift+"] is now over.");
@@ -377,6 +391,9 @@ public class God {
 	    	for (Person p: persons){
 	    		p.actions.clear();
 	    	}
+	    }
+	    public int getTime() {
+			return hour; 	
 	    }
 	    
 }

@@ -6,12 +6,14 @@ import java.util.concurrent.Semaphore;
 import SimCity.Globals.*;
 import SimCity.trace.AlertTag;
 import SimCity.Base.*;
+import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_Bank;
 import Bank.gui.*;
 import Bank.interfaces.Customer;
 import Bank.interfaces.Manager;
 import Bank.interfaces.Robber;
 import Bank.interfaces.Teller;
+import EricRestaurant.EricHost;
 
 /**
  * Bank Teller Role
@@ -33,6 +35,14 @@ public class tellerRole extends Role implements Teller {
 		Customer cust;
 		Robber r;
 	}
+
+	List<Rest> rest = Collections.synchronizedList(new ArrayList<Rest>());
+
+	public class Rest {
+		int acc;
+		Money m;
+		EricHost h;
+	}
 	Money initial = new Money(500,0);
 	public enum state{ none, ready, atCounter, added, noAcc, yesAcc, setUp, robbed, askedService, called, inTrans, withdraw, deposit, leaving };
 	private state s = state.none;
@@ -46,6 +56,7 @@ public class tellerRole extends Role implements Teller {
 		B_Bank bank = (B_Bank)myPerson.getBuilding();
 		manager = bank.getBankManager();
 		manager.newTeller(this);
+		bank.addTeller(this);
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
 		bankgui.repaint();
@@ -54,8 +65,7 @@ public class tellerRole extends Role implements Teller {
 	}
 	@Override
 	public void managerMap(Map<Integer, Money> managerAccs){
-		bankAccs = managerAccs;
-		Do(AlertTag.BANK,"__________________________"+bankAccs.get(2000).getDollar());
+		bankAccs.putAll(managerAccs);
 	}
 	
 	@Override
@@ -141,6 +151,15 @@ public class tellerRole extends Role implements Teller {
 		}
 	}
 
+	public void restMoney(int acc, Money m, EricHost host) {
+		Rest r = new Rest();
+		r.acc = acc;
+		r.m = m;
+		r.h = host;
+		rest.add(r);
+		stateChanged();
+	}
+	
 	@Override
 	public void workOver() {
 		s = state.leaving;
@@ -216,7 +235,14 @@ public class tellerRole extends Role implements Teller {
 				}
 			}
 		}
-		//Do(AlertTag.BANK,".......");
+
+		synchronized(rest) {
+			for(Rest r : rest) {
+				transaction(r);
+				return true;
+			}
+		}
+		//System.out.println(".......");
 		return false;
 	}
 
@@ -268,6 +294,22 @@ public class tellerRole extends Role implements Teller {
 
 	}
 
+	public void transaction(Rest r) {
+		if (r.m.isGreaterThan(300, 0)){
+			Money temp = r.m.subtract(300, 0);
+			bankAccs.put(r.acc,bankAccs.get(r.acc).add(temp));
+			r.m = new Money(300,0);
+			System.out.println("Eric Restaurant Bank Account Amount : $ "+bankAccs.get(r.acc).getDollar());
+			r.h.transDone(r.m);
+		}
+		else {
+			bankAccs.put(r.acc, bankAccs.get(r.acc).subtract(100, 0));
+			r.m.add(100, 0);
+			r.h.transDone(r.m);
+		}
+		rest.remove(r);
+	}
+
 	@Override
 	public void goToCounter() {
 		gui.doGoToCounter(1);
@@ -290,6 +332,9 @@ public class tellerRole extends Role implements Teller {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		bankGui bg = (bankGui)myPerson.building.getPanel();
+		bg.removeGui(gui);
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
 	}
 

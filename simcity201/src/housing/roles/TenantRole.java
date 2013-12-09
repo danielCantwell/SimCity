@@ -336,7 +336,7 @@ public class TenantRole extends Role implements Tenant {
 		}
 		useAppliance("Table");
 		// Reset hunger level
-		myPerson.hungerLevel += 30;
+		myPerson.hungerLevel += 10;
 	}
 
 	public void DoGoToBank() {
