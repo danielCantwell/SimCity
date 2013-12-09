@@ -13,6 +13,7 @@ import housing.roles.OwnerRole.Appliance;
 import housing.roles.OwnerRole.ApplianceState;
 import SimCity.Base.God;
 import SimCity.Base.God.BuildingType;
+import SimCity.Base.Person.GroceryList;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_House;
@@ -352,6 +353,7 @@ public class TenantRole extends Role implements Tenant {
 	public void DoGoToMarket() {
 		foodCount = 4;
 		DoLeaveHouse();
+		myPerson.groceryList.add(myPerson.new GroceryList("Groceries", 8));
 		myPerson.msgGoToBuilding(
 				God.Get().findBuildingOfType(BuildingType.Market),
 				Intent.customer);

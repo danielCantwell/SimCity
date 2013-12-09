@@ -11,6 +11,7 @@ import java.util.Map;
 
 import market.MarketManagerRole;
 import market.interfaces.MarketDeliveryCashier;
+import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
@@ -156,6 +157,9 @@ public class DannyCashier extends Role implements Cashier,
 		System.out.println("Cashier workOver");
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.cashierFilled = false;
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.cashierPresent = false;
 		exitBuilding(myPerson);
 		workOver = false;
 	}
@@ -256,6 +260,9 @@ public class DannyCashier extends Role implements Cashier,
 
 	@Override
 	protected void enterBuilding() {
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.cashierPresent = true;
 		System.out.println("Cashier enterBuilding");
 	}
 
