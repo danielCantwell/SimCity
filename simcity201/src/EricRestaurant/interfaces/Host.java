@@ -8,6 +8,7 @@ import EricRestaurant.EricCook;
 import EricRestaurant.EricCustomer;
 import EricRestaurant.EricWaiter;
 import EricRestaurant.gui.HostGui;
+import SimCity.Globals.Money;
 
 public interface Host {
 
@@ -25,7 +26,6 @@ public interface Host {
 
 	public abstract Collection getTables();
 
-	public abstract void msgIWantFood(EricCustomer cust, double c);
 
 	public abstract void msgLeavingTable(Customer cust,
 			EricRestaurant.interfaces.Waiter w);
@@ -41,5 +41,7 @@ public interface Host {
 	public abstract HostGui getGui();
 
 	public abstract void workOver();
+
+	public abstract void msgIWantFood(EricCustomer cust, Money c);
 
 }

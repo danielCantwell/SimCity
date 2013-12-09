@@ -6,6 +6,7 @@ import EricRestaurant.EricHost;
 import EricRestaurant.EricWaiter;
 import EricRestaurant.EricWaiter.myCustomer;
 import EricRestaurant.gui.HostGui;
+import SimCity.Globals.Money;
 
 public interface Waiter {
 
@@ -39,7 +40,7 @@ public interface Waiter {
 
 	public abstract void atCook(String choice);
 
-	public abstract void waiterGotCheck(double p, Customer c, EricCashier cs);
+	public abstract void waiterGotCheck(Money p, Customer c, EricCashier cs);
 
 	public abstract void LeavingTable(Customer c);
 

@@ -10,6 +10,7 @@ import Bank.interfaces.Guard;
 import Bank.interfaces.Manager;
 import Bank.interfaces.Robber;
 import SimCity.Base.*;
+import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_Bank;
 
 /**
@@ -204,6 +205,10 @@ public class bankGuardRole extends Role implements Guard {
 			e.printStackTrace();
 		}
 		s = state.offD;
+		bankGui bg = (bankGui)myPerson.building.getPanel();
+		bg.removeGui(gui);
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		exitBuilding(myPerson);
 	}
 
 	@Override

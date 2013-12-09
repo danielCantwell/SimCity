@@ -25,8 +25,10 @@ import timRest.TimWaiterRole;
 import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import EricRestaurant.EricCustomer;
+import EricRestaurant.EricHost;
 import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_Market;
 import exterior.gui.AnimationPanel;
@@ -186,7 +188,9 @@ public class God {
 					   if (hour == 17 && !announcedTime){
 						   fakeCustomersGoToWork(2);
 					   }
-					   
+					   if (hour == 11 && !announcedTime){
+						   bankInteraction();
+					   }
 					   
 					   if (hour == 20 && !announcedTime){
 						   getOffWork(2);
@@ -262,6 +266,8 @@ public class God {
 	    	for (Person p: persons){
 	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
 	    			if (!isWeekend)
+		    	    	System.out.println("managers going to work!!!!!!");
+
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}else
@@ -341,7 +347,16 @@ public class God {
 	    		}
 	    	}
 	    }
-	    
+//	    
+	    public void bankInteraction() {
+	    	for(Person p : persons){
+	    	if (p.getMainRoleString().equals("EricRestaurant.EricHost")){
+	    		B_EricRestaurant rest = (B_EricRestaurant) God.Get().getBuilding(11);
+	    		rest.host.setBM();
+	    		}
+	    	}
+	    }
+//	    
 	    public void getOffWork(int shift){
 	    	announcedTime = true;
 	    	System.out.println("its time to go off work");
@@ -375,6 +390,9 @@ public class God {
 	    	for (Person p: persons){
 	    		p.actions.clear();
 	    	}
+	    }
+	    public int getTime() {
+			return hour; 	
 	    }
 	    
 }
