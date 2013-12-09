@@ -2,6 +2,8 @@ package brianRest;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Buildings.B_Market;
+import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
 import agent.Agent;
 
@@ -13,7 +15,11 @@ import brianRest.interfaces.BrianWaiter;
 
 import java.util.*;
 
-public class BrianCashierRole extends Role implements BrianCashier {
+import market.MarketManagerRole;
+import market.interfaces.MarketDeliveryCashier;
+import market.interfaces.MarketDeliveryCook;
+
+public class BrianCashierRole extends Role implements BrianCashier, MarketDeliveryCashier {
 	
 	String name;
 	
@@ -60,7 +66,7 @@ public class BrianCashierRole extends Role implements BrianCashier {
 		}
 	}
 	
-	public void msgHereIsMarketCost(double cost, BrianMarket m){
+	public void msgHereIsMarketCost(double cost, MarketManagerRole m){
 		Check ch = new Check(cost, m);
 		checks.add(ch);	
 		stateChanged();
@@ -127,8 +133,8 @@ public boolean pickAndExecuteAnAction() {
 	}
 	
 	public void PayMarket(Check c){
-		Do(AlertTag.BrianRest, "Paying "+c.market.name+ " market a total of "+ "$" + c.totalCost);
-		c.market.msgPayMarket(c.totalCost);
+		Do(AlertTag.BrianRest, "Paying the market a total of "+ "$" + c.totalCost);
+		c.market.msgHereIsTheMoney(new Money((int)c.totalCost, (int)((c.totalCost - (int)c.totalCost)*100)));
 		money -= c.totalCost;
 		checks.remove(c);
 	}
@@ -160,7 +166,7 @@ public boolean pickAndExecuteAnAction() {
 		  
 		  //For market
 		  public CheckType type = CheckType.restaurant;
-		  BrianMarket market;
+		  MarketManagerRole market;
 		  
 		  //Restaurant Check
 		  public Check(String choice, BrianCustomer c, BrianWaiter w){
@@ -170,8 +176,8 @@ public boolean pickAndExecuteAnAction() {
 		  }
 		  
 		  //Market Check
-		  public Check (double cost, BrianMarket m){
-			  totalCost = cost;
+		  public Check (double totalCost2, MarketManagerRole m){
+			  totalCost = totalCost2;
 			  type = CheckType.market;
 			  market = m;
 		  }
@@ -182,6 +188,19 @@ public boolean pickAndExecuteAnAction() {
 
 	@Override
 	public void workOver() {
+	}
+
+	@Override
+	public void msgPayMarket(int amount, Money pricePerUnit,
+			MarketManagerRole manager) {
+		Money totalCost = new Money(0,0);
+		for (int i=0; i<amount; i++){
+			totalCost = totalCost.add(pricePerUnit);
+		}
+		
+		Check ch = new Check(totalCost.getDollar() + totalCost.cents / 100.0, manager);
+		checks.add(ch);	
+		stateChanged();
 	}
 
 }

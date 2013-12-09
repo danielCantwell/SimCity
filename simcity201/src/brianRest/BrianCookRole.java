@@ -2,8 +2,12 @@ package brianRest;
 
 //import javax.swing.*;
 
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Buildings.B_Market;
+import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.OrderStand.Orders;
@@ -15,6 +19,7 @@ import brianRest.interfaces.BrianWaiter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 //import restaurant.HostAgent.HostState;
@@ -28,14 +33,18 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.Timer;
 
+import market.interfaces.MarketDeliveryCook;
 
-public class BrianCookRole extends Role implements BrianCook {
+public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook {
 	
 	private String name;
 	CookGui gui;
 	
 	//A list of ALL orders that the cook is attending to.
 	private List<Order> orders;
+	
+	//List of all the markets
+    private List<B_Market> markets = new ArrayList<B_Market>();
 	
 	//On the orderstand
 	OrderStand orderstand;
@@ -63,6 +72,8 @@ public class BrianCookRole extends Role implements BrianCook {
 	  foodDictionary.put("Chicken", new Food("Chicken", 1000, 1));
 	  foodDictionary.put("Salad", new Food("Salad", 1000, 1));
 	  foodDictionary.put("Pizza", new Food("Pizza", 1000, 1));
+	  
+	  markets.add((B_Market) God.Get().findBuildingOfType(BuildingType.Market));
 	  
 	}
 		
@@ -151,27 +162,44 @@ public class BrianCookRole extends Role implements BrianCook {
 	}
 
 	private void CookOrder(Order o){
-		o.state = OrderState.checkingAmount;
-		Food temp = foodDictionary.get(o.choice);
-		if (temp.amount == 0){
-			o.waiter.msgOutOfFood(o.choice, o.tableNumber);
-			orders.remove(o);
-			Do(AlertTag.BrianRest, "Out of "+ o.choice);
-			return;
-		}
-		DoGoToGrill();
-		gui.DoGoToGrills(o.choice);
-		if (temp.amount == 1){
-			//order more for the restaurant;
-			Do(AlertTag.BrianRest, "Last "+ o.choice+". Ordering more.");
-		}
-		
-		temp.amount --;
-		
-		  Do(AlertTag.BrianRest, "is cooking " + o.choice + ".");
-		  o.setTimer(foodDictionary.get(o.choice).cookTime);
-	}
-	
+		 o.state = OrderState.checkingAmount;
+         Food temp = foodDictionary.get(o.choice);
+         if (temp.amount == 0){
+                 o.waiter.msgOutOfFood(o.choice, o.tableNumber);
+                 orders.remove(o);
+                 Do(AlertTag.BrianRest, "Out of "+ o.choice);
+                 AlertLog.getInstance().logWarning(AlertTag.BrianRest, name, "Ordering more food");
+                 if (temp.orderFromIndex < markets.size())
+                 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+                 return;
+         }
+         DoGoToGrill();
+         gui.DoGoToGrills(o.choice);
+         if (temp.amount == 1){
+                 //order more for the restaurant;
+                 Do(AlertTag.BrianRest, "Last "+ o.choice+". Ordering more.");
+                 if (temp.orderFromIndex < markets.size())
+                 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+         }
+         
+         temp.amount --;
+         
+           Do(AlertTag.BrianRest, "is cooking " + o.choice + ".");
+           o.setTimer(foodDictionary.get(o.choice).cookTime);
+ }
+ 
+ //Search markets is only called when the cook needs to iterate to more markets because another market ran out of the item he needed.
+ private void SearchMarkets(String choice){
+         Do(AlertTag.BrianRest, "Searching other markets for " + choice+ ".");
+         searchMarketsFor = "";
+         Food temp = foodDictionary.get(choice);
+         if (temp.orderFromIndex == markets.size()) {
+                 Do(AlertTag.BrianRest, "Stopped searching for "+ temp.choice+".");
+                 return; //If the cook searched all the markets, then forget about searching more.
+         }
+         markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+ }
+ 
 	
 	private void tellWaiterOrderIsReady(Order o, int index){
 		DoGoToGrill();
@@ -320,6 +348,14 @@ public class BrianCookRole extends Role implements BrianCook {
 	public void workOver() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void msgHereIsYourFood(String food, int amount) {
+		Do(AlertTag.BrianRest, "Refilling " + food + " by " + amount+".");
+		Food f = foodDictionary.get(food);
+		f.amount = foodDictionary.get(food).amount+amount;
+		foodDictionary.put(food, f);
 	}
 
 

@@ -33,7 +33,6 @@ public class B_TimRest extends Building{
 	
 	public B_TimRest(int id, JPanel jp) {
 		super(id, jp);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public B_TimRest(int id){
@@ -66,7 +65,6 @@ public class B_TimRest extends Building{
 
 	@Override
 	protected void fillNeededRoles(Person p, Role r) {
-		// TODO Auto-generated method stub
 		
 	}
 	

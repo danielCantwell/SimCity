@@ -2,6 +2,9 @@ package SimCity.Buildings;
 
 import javax.swing.JPanel;
 
+import com.sun.xml.internal.org.jvnet.fastinfoset.RestrictedAlphabet;
+
+import market.MarketDeliveryPersonRole;
 import brianRest.BrianCashierRole;
 import brianRest.BrianCookRole;
 import brianRest.BrianCustomerRole;
@@ -113,6 +116,15 @@ public class B_BrianRestaurant extends Building{
 				newRole.setPerson(person);
 				hostRole.addWaiter((BrianPCWaiterRole)newRole);
 				setOpen(areAllNeededRolesFilled());}
+			else if (person.mainRole instanceof MarketDeliveryPersonRole)
+            {
+                MarketDeliveryPersonRole restaurantRole = (MarketDeliveryPersonRole) person.mainRole;
+                restaurantRole.setActive(true);
+                restaurantRole.setPerson(person);
+                restaurantRole.msgGuiArrivedAtDestination();
+                person.msgEnterBuilding(this);
+                return;
+            }
 			newRole.setActive(true);
 			newRole.setPerson(person);
 			person.msgCreateRole(newRole, true);
