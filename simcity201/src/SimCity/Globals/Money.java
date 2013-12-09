@@ -99,8 +99,8 @@ public class Money {
 				cents = 100 - (m.cents - cents);
 			}
 		} else {
-			System.err
-					.println("Invalid money transaction. Cannot subtract that much money.");
+			dollars = 0;
+			cents = 0;
 		}
 		return this;
 	}
@@ -121,8 +121,8 @@ public class Money {
 				this.cents = 100 - (cents - this.cents);
 			}
 		} else {
-			System.err
-					.println("Invalid money transaction. Cannot subtract that much money.");
+			this.dollars = 0;
+			this.cents = 0;
 		}
 		return this;
 	}
