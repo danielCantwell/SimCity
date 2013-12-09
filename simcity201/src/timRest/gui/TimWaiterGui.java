@@ -3,6 +3,7 @@ package timRest.gui;
 import timRest.interfaces.TimWaiter;
 
 import java.awt.*;
+import java.util.concurrent.Semaphore;
 
 import SimCity.gui.Gui;
 
@@ -19,6 +20,8 @@ public class TimWaiterGui implements Gui {
     
     private String icon;
     
+    Semaphore positionSemaphore = new Semaphore(1, true);
+    
 	private enum Command {noCommand, GoToTable, GoToHost, GoToCashier, GoToCook};
 	private Command command=Command.noCommand;
 	
@@ -30,6 +33,12 @@ public class TimWaiterGui implements Gui {
     }
 
     public void updatePosition() {
+        try {
+            positionSemaphore.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 		if (xPos < xDestination)
 			xPos+= SPEED;
 		else if (xPos > xDestination)
@@ -42,24 +51,29 @@ public class TimWaiterGui implements Gui {
 
         if (xPos == xDestination && yPos == yDestination)
         {
+            System.out.print("Waiter reached destination.");
         	if (command==Command.GoToTable)
 			{
 				agent.msgAnimationFinishedGoToTable();
+	            command=Command.noCommand;
 			}
 			else if (command==Command.GoToHost)
 			{
 				agent.msgAnimationFinishedGoToHost();
+	            command=Command.noCommand;
 			}
 			else if (command==Command.GoToCashier)
 			{
 				agent.msgAnimationFinishedGoToCashier();
+	            command=Command.noCommand;
 			}
 			else if (command==Command.GoToCook)
 			{
 				agent.msgAnimationFinishedGoToCook();
+	            command=Command.noCommand;
 			}
-			command=Command.noCommand;
         }
+        positionSemaphore.release();
     }
 
     public void draw(Graphics2D g) {
@@ -74,41 +88,83 @@ public class TimWaiterGui implements Gui {
     }
 
     public void GoToTable(Point tablePosition) {
+        try {
+            positionSemaphore.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         xDestination = tablePosition.x + 20;
         yDestination = tablePosition.y - 20;
         command = Command.GoToTable;
+        positionSemaphore.release();
     }
     
     public void GoToIdle()
     {
+        try {
+            positionSemaphore.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         xDestination = xHome;
         yDestination = yHome;
         command = Command.noCommand;
+        positionSemaphore.release();
     }
 
     public void GoToHost() {
+        try {
+            positionSemaphore.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         xDestination = 50;
         yDestination = 50;
         command = Command.GoToHost;
+        positionSemaphore.release();
     }
 
     public void GoToCashier() {
+        try {
+            positionSemaphore.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         xDestination = -20;
         yDestination = 200;
         command = Command.GoToCashier;
+        positionSemaphore.release();
     }
 
     public void GoToCook() {
+        try {
+            positionSemaphore.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         xDestination = 300;
         yDestination = 400;
         command = Command.GoToCook;
+        positionSemaphore.release();
     }
 
 	public void GoToBreak()
 	{
+        try {
+            positionSemaphore.acquire();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         xDestination = -20;
         yDestination = 50;
         command = Command.noCommand;
+        positionSemaphore.release();
 	}
 
     public int getXPos() {

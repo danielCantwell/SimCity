@@ -101,11 +101,11 @@ public class TimCustomerRole extends Role implements TimCustomer{
 		}*/
 		if (amountOwed.isGreaterThan(0, 0))
 		{
-			Do(AlertTag.TimRest,"I have $" + cash + " and I owe this restaurant $" + amountOwed + ".");
+			Do(AlertTag.TimRest,"I have " + cash + " and I owe this restaurant " + amountOwed + ".");
 		}
 		else
 		{
-			Do(AlertTag.TimRest,"I have $" + cash + ".");
+			Do(AlertTag.TimRest,"I have " + cash + ".");
 		}
 		stateChanged();
 	}
