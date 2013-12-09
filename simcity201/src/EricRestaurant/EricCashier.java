@@ -5,6 +5,7 @@ import EricRestaurant.interfaces.Cashier;
 import EricRestaurant.interfaces.Customer;
 import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 import agent.Agent;
 
 import java.util.*;
@@ -13,16 +14,15 @@ import restaurant.test.mock.EventLog;
 
 
 public class EricCashier extends Role {
-	static double cashMoney = 50;
-	static double bank = 100;
+	Money ERestMoney;
 	public EventLog log = new EventLog();
 	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
 	public class Check {
-		double price;
+		Money price;
 		Customer c;
 		Waiter w;
 		state s;
-		double change;
+		Money change;
 	}
 	public List <Bills> bill = Collections.synchronizedList(new ArrayList<Bills>());
 	public class Bills {
@@ -32,45 +32,49 @@ public class EricCashier extends Role {
 	}
 	boolean bum = false;
 	Cashier b;
+	EricHost host;
 	//Market mk;
 	public enum state{nothing, prepared, delivered, gavemoney, givechange, bumpay};
 	private state s = state.nothing;
 	DecimalFormat df = new DecimalFormat("#0.00");
 
 	//Messages
+	public void setHost(EricHost h) {
+		host = h;
+	}
 	public void askCheck(Customer c, String choice, Waiter w) {
-		if(c.getName().equals("bum")){
-			Check mycheck = new Check();
-			mycheck.s = state.prepared;
-			mycheck.c = c;
-			mycheck.w = w;
-			mycheck.price = 0;
-			System.out.println("Cashier: Bum doesn't have enough, pay next time.");
-			checks.add(mycheck);
-		}
-		else {
+//		if(c.getName().equals("bum")){
+//			Check mycheck = new Check();
+//			mycheck.s = state.prepared;
+//			mycheck.c = c;
+//			mycheck.w = w;
+//			mycheck.price = 0;
+//			System.out.println("Cashier: Bum doesn't have enough, pay next time.");
+//			checks.add(mycheck);
+//		}
+		
 			Check mycheck = new Check();
 			mycheck.s = state.prepared;
 			System.out.println("Cashier: Received request for check from waiter");
-			if(choice == "Chicken") { mycheck.price = 10.99;}
-			if(choice == "Steak") { mycheck.price = 15.99;}
-			if(choice == "Pizza") { mycheck.price = 8.99;}
-			if(choice == "Salad") { mycheck.price = 5.99;}
+			if(choice == "Chicken") { mycheck.price = new Money(11,0);}
+			if(choice == "Steak") { mycheck.price = new Money(16,0);}
+			if(choice == "Pizza") { mycheck.price = new Money(9,0);}
+			if(choice == "Salad") { mycheck.price = new Money(6,0);}
 			mycheck.c = c;
 			mycheck.w = w;
 			checks.add(mycheck);
-		}
+		
 		stateChanged();
 	}
 
-	public void hereIsPay(double p, Customer c) {
-		System.out.println("Cashier: Recieved $"+df.format(p)+" from "+c.getName());
+	public void hereIsPay(Money p, Customer c) {
+		System.out.println("Cashier: Recieved $"+p.getDollar()+" from "+c.getName());
 		synchronized(checks) {
 			for(Check ck : checks) {
 				if(ck.c == c ) {
-					ck.change = p - ck.price;
-					cashMoney = cashMoney + ck.price;
-					System.out.println("Cashier: gave $"+df.format(ck.change)+" to customer "+c+" and Cashier now has $"+df.format(cashMoney));
+					ck.change = p.subtract(ck.price);
+					ERestMoney.add(ck.price);
+					System.out.println("Cashier: gave $"+ck.change.getDollar()+" to customer "+c+" and Cashier now has $"+ERestMoney.getDollar());
 					ck.c.giveChange(ck.change);	
 
 				}
@@ -112,10 +116,7 @@ public class EricCashier extends Role {
 				return true;
 			}
 		}
-		if(bum == true) {
-			bumChange();
-			bum = false;
-		}
+		
 		return false;
 	}
 
@@ -128,10 +129,7 @@ public class EricCashier extends Role {
 		ck.s = state.delivered;
 		stateChanged();
 	}
-	public void bumChange() {
-		System.out.print("Cashier: took 8.99 for the pizza");
-		b.bumChange(11.01);
-	}
+	
 //	public void payMarket(Bills b) {
 //		if (b.price > cashMoney) {
 //			bank = bank - b.price + cashMoney;
@@ -151,6 +149,9 @@ public class EricCashier extends Role {
 //		}
 //	}
 
+	public void setMoney(Money m) {
+		ERestMoney = m;
+	}
 	@Override
 	protected void enterBuilding() {
 		// TODO Auto-generated method stub
@@ -159,6 +160,7 @@ public class EricCashier extends Role {
 
 	@Override
 	public void workOver() {
+		host.setMoney(ERestMoney);
 		exitBuilding(myPerson);
 	}
 

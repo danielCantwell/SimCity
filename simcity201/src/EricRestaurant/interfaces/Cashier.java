@@ -30,9 +30,6 @@ public interface Cashier {
 
 	public abstract void foodReceived();
 
-	public abstract void giveChange(double change);
-
-	public abstract void bumChange(double change);
 
 	public abstract void msgAnimationFinishedLeaveRestaurant();
 

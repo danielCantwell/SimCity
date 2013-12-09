@@ -32,7 +32,7 @@ public class B_Bank extends Building{
 	public Guard getBankGuard(){return bankGuard;}
 	public Person getGuard() {return guard;}
 	public List<tellerRole> getTellers(){return tellers;}
-	
+	public tellerRole getOneTeller() { return tellers.get(0);}
 	public void setBankManager(Manager bmr){bankManager = bmr;}
 	public void setBankGuard(Guard bgr){bankGuard = bgr;}
 	public void addTeller(tellerRole t){ tellers.add(t);}
