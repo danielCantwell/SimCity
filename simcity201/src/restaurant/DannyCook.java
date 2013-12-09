@@ -353,7 +353,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 				foodToOrder.remove(f);
 			}
 		}
-		
+		Do(AlertTag.DannyRest, "Received " + amount + food + "s from market");
 		foods.get(food).inventory += amount;
 		stateChanged();
 	}
