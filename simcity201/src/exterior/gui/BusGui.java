@@ -31,6 +31,10 @@ public class BusGui implements Gui {
 	}
 
 	public void updatePosition() {
+	    if (gui == null || gui.animationPanel == null || gui.animationPanel.vehicleGrid == null)
+	    {
+	        return;
+	    }
 		if (xPos < xDestination) {
 			if ((int) Math.floor(xPos/64) + 1 >= 29 || (int) Math.floor(yPos/64) + 1 >= 29 ) {
 				xPos+=4;

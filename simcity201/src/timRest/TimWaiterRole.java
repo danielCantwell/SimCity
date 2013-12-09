@@ -298,6 +298,10 @@ public class TimWaiterRole extends Role implements TimWaiter{
     		travelState = TravelState.atTable;
     		Do("Reached Table.");
     	}
+    	else
+    	{
+    	    System.err.println("travelState error.");
+    	}
 		stateChanged();
 	}
 	
@@ -334,78 +338,78 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	@Override
 	protected boolean pickAndExecuteAnAction()
 	{
-		try
+		Do("Looking for things to do.");
+		if (!tablesToOpen.isEmpty())
 		{
-			Do("Looking for things to do.");
-			if (!tablesToOpen.isEmpty())
+			openTables();
+			return true;
+		}
+		if (state == AgentState.idle)
+		{
+			if (myCustomers != null)
 			{
-				openTables();
-				return true;
-			}
-			if (state == AgentState.idle)
-			{
-				if (myCustomers != null)
-				{
-				    synchronized(myCustomers)
-				    {
-        				for (MyCustomer c : myCustomers)
-        				{
-        					if (c.state == CustomerState.waiting)
-        					{
-        						travelState = TravelState.toHost;
-        						state = AgentState.seating;
-        						waiterGui.GoToHost();
-        						return true;
-        					}
-        				}
-				    }
-				    synchronized(myCustomers)
-                    {
-    					for (MyCustomer c : myCustomers)
+			    synchronized(myCustomers)
+			    {
+    				for (MyCustomer c : myCustomers)
+    				{
+    					if (c.state == CustomerState.waiting)
     					{
-    						if (c.state == CustomerState.readyToOrder)
-    						{
-    							travelState = TravelState.toTable;
-    							state = AgentState.takingOrder;
-    							waiterGui.GoToTable(c.tablePos);
-    							currentTable = c.tableNumber;
-    							return true;
-    						}
+    						travelState = TravelState.toHost;
+    						state = AgentState.seating;
+    						waiterGui.GoToHost();
+    						return true;
     					}
-                    }
-				    synchronized(myCustomers)
-                    {
-    					for (MyCustomer c : myCustomers)
-    					{
-    						if (c.state == CustomerState.waitingForCheck)
-    						{
-    							travelState = TravelState.toCashier;
-    							state = AgentState.gettingCheck;
-    							waiterGui.GoToCashier();
-    							return true;
-    						}
-    					}
-                    }
-					if (!readyOrders.isEmpty() || !pendingOrders.isEmpty())
+    				}
+			    }
+			    synchronized(myCustomers)
+                {
+					for (MyCustomer c : myCustomers)
 					{
-						travelState = TravelState.toCook;
-						state = AgentState.serving;
-						waiterGui.GoToCook();
-						return true;
+						if (c.state == CustomerState.readyToOrder)
+						{
+							travelState = TravelState.toTable;
+							state = AgentState.takingOrder;
+							waiterGui.GoToTable(c.tablePos);
+							currentTable = c.tableNumber;
+							return true;
+						}
 					}
-					if (wantsBreak)
+                }
+			    synchronized(myCustomers)
+                {
+					for (MyCustomer c : myCustomers)
 					{
-						// out of place msg
-						host.msgIWantToGoOnBreak(this);
+						if (c.state == CustomerState.waitingForCheck)
+						{
+							travelState = TravelState.toCashier;
+							state = AgentState.gettingCheck;
+							waiterGui.GoToCashier();
+							return true;
+						}
 					}
-					waiterGui.GoToIdle();
-				}
+                }
 			}
-			if (state == AgentState.seating)
+            if (!readyOrders.isEmpty() || !pendingOrders.isEmpty())
+            {
+                travelState = TravelState.toCook;
+                state = AgentState.serving;
+                waiterGui.GoToCook();
+                return true;
+            }
+            if (wantsBreak)
+            {
+                // out of place msg
+                host.msgIWantToGoOnBreak(this);
+            }
+            waiterGui.GoToIdle();
+		}
+		if (state == AgentState.seating)
+		{
+			if (travelState == TravelState.atHost)
 			{
-				if (travelState == TravelState.atHost)
-				{
-					MyCustomer c = null;
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
 					for (MyCustomer mC : myCustomers)
 					{
 						if (mC.state == CustomerState.waiting)
@@ -414,23 +418,26 @@ public class TimWaiterRole extends Role implements TimWaiter{
 							break;
 						}
 					}
-					if (c != null)
-					{
-						travelState = TravelState.toTable;
-						c.state = CustomerState.following;
-						waiterGui.GoToTable(c.tablePos);
-						currentTable = c.tableNumber;
-						seatCustomer(c);
-					}
-					else
-					{
-						state = AgentState.idle;
-						currentTable = -1;
-					}
-				}
-				else if (travelState == TravelState.atTable)
+                }
+				if (c != null)
 				{
-					MyCustomer c = null;
+					travelState = TravelState.toTable;
+					c.state = CustomerState.following;
+					waiterGui.GoToTable(c.tablePos);
+					currentTable = c.tableNumber;
+					seatCustomer(c);
+				}
+				else
+				{
+					state = AgentState.idle;
+					currentTable = -1;
+				}
+			}
+			else if (travelState == TravelState.atTable)
+			{
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
 					for (MyCustomer mC : myCustomers)
 					{
 						if (mC.state == CustomerState.following)
@@ -439,48 +446,51 @@ public class TimWaiterRole extends Role implements TimWaiter{
 							break;
 						}
 					}
-					if (c != null)
-					{
-						c.state = CustomerState.idle;
-						reachedTableWithCustomer(c);
-					}
-					state = AgentState.idle;
-					currentTable = -1;
-					return true;
+                }
+				if (c != null)
+				{
+					c.state = CustomerState.idle;
+					reachedTableWithCustomer(c);
 				}
+				state = AgentState.idle;
+				currentTable = -1;
+				return true;
 			}
-			if (state == AgentState.serving)
+		}
+		if (state == AgentState.serving)
+		{
+			if (travelState == TravelState.atCook)
 			{
-				if (travelState == TravelState.atCook)
+				if (!pendingOrders.isEmpty())
 				{
-					if (!pendingOrders.isEmpty())
-					{
-						dropOffOrder();
-						return true;
-					}
-					if (!readyOrders.isEmpty())
-					{
-						pickUpFood();
-						return true;
-					}
-					waiterGui.GoToIdle();
-					state = AgentState.idle;
-					currentTable = -1;
+					dropOffOrder();
 					return true;
 				}
-				if (travelState == TravelState.atTable)
+				if (!readyOrders.isEmpty())
 				{
-					// here is your order
-					if (!readyOrders.containsKey(currentTable))
-					{
-						// wrong table
-						// error
-						Do("ERROR!!!!!!!!");
-					}
-					else
-					{
-						String choice = readyOrders.get(currentTable);
-						MyCustomer c = null;
+					pickUpFood();
+					return true;
+				}
+				waiterGui.GoToIdle();
+				state = AgentState.idle;
+				currentTable = -1;
+				return true;
+			}
+			if (travelState == TravelState.atTable)
+			{
+				// here is your order
+				if (!readyOrders.containsKey(currentTable))
+				{
+					// wrong table
+					// error
+					Do("ERROR!!!!!!!!");
+				}
+				else
+				{
+					String choice = readyOrders.get(currentTable);
+					MyCustomer c = null;
+                    synchronized(myCustomers)
+                    {
 						for (MyCustomer mC : myCustomers)
 						{
 							if (mC.tableNumber == currentTable && mC.choice.equals(choice))
@@ -489,17 +499,20 @@ public class TimWaiterRole extends Role implements TimWaiter{
 								break;
 							}
 						}
-						if (c != null)
-						{
-							serveCustomer(c, choice);
-						}
+                    }
+					if (c != null)
+					{
+						serveCustomer(c, choice);
 					}
 				}
-				if (travelState == TravelState.atCashier)
-				{
-					int tableNumber = readyOrders.keys().nextElement();
-					String choice = readyOrders.get(tableNumber);
-					MyCustomer c = null;
+			}
+			if (travelState == TravelState.atCashier)
+			{
+				int tableNumber = readyOrders.keys().nextElement();
+				String choice = readyOrders.get(tableNumber);
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
 					for (MyCustomer mC : myCustomers)
 					{
 						if (mC.tableNumber == tableNumber && mC.choice.equals(choice))
@@ -508,17 +521,20 @@ public class TimWaiterRole extends Role implements TimWaiter{
 							break;
 						}
 					}
-					if (c != null)
-					{
-						giveOrderToCashier(c);
-					}
+                }
+				if (c != null)
+				{
+					giveOrderToCashier(c);
 				}
 			}
-			if (state == AgentState.takingOrder)
+		}
+		if (state == AgentState.takingOrder)
+		{
+			if (travelState == TravelState.atTable)
 			{
-				if (travelState == TravelState.atTable)
-				{
-					MyCustomer c = null;
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
 					for (MyCustomer mC : myCustomers)
 					{
 						if (mC.tableNumber == currentTable)
@@ -527,146 +543,150 @@ public class TimWaiterRole extends Role implements TimWaiter{
 							break;
 						}
 					}
-					if (c != null)
-					{
-						// take order
-						takeOrder(c);
-					}
-					return true;
-				}
-			}
-			if (state == AgentState.reorder)
-			{
-				if (travelState == TravelState.atTable)
+                }
+				if (c != null)
 				{
-					MyCustomer c = null;
-					for (MyCustomer mC : myCustomers)
-					{
-						if (mC.tableNumber == currentTable)
-						{
-							c = mC;
-							break;
-						}
-					}
-					if (c != null)
-					{
-						tellCustomerWeAreOut(c);
-					}
-					return true;
+					// take order
+					takeOrder(c);
 				}
-				else if (travelState == TravelState.atCook)
-				{
-					MyCustomer c = null;
-					for (MyCustomer mC : myCustomers)
-					{
-						if (mC.state == CustomerState.reorder)
-						{
-							c = mC;
-							break;
-						}
-					}
-					if (c != null)
-					{
-						travelState = TravelState.toTable;
-						waiterGui.GoToTable(c.tablePos);
-						currentTable = c.tableNumber;
-					}
-					return true;
-				}
-			}
-			if (state == AgentState.outOfFood)
-			{
-				if (travelState == TravelState.atTable)
-				{
-					MyCustomer c = null;
-					for (MyCustomer mC : myCustomers)
-					{
-						if (mC.tableNumber == currentTable)
-						{
-							c = mC;
-							break;
-						}
-					}
-					if (c != null)
-					{
-					    tellCustomerWeAreOut(c);
-					}
-					return true;
-				}
-				else if (travelState == TravelState.atCook)
-				{
-					MyCustomer c = null;
-					for (MyCustomer mC : myCustomers)
-					{
-						if (mC.state == CustomerState.reorder)
-						{
-							c = mC;
-							break;
-						}
-					}
-					if (c != null)
-					{
-						travelState = TravelState.toTable;
-						waiterGui.GoToTable(c.tablePos);
-						currentTable = c.tableNumber;
-					}
-					return true;
-				}
-			}
-			if (state == AgentState.gettingCheck)
-			{
-				if (travelState == TravelState.atCashier)
-				{
-					// pick up check
-					MyCustomer c = customersThatNeedChecks.get(0);
-					askForCheckFromCashier(c);
-					return true;
-				}
-				if (travelState == TravelState.atTable)
-				{
-					MyCustomer c = null;
-					for (MyCustomer mC : myCustomers)
-					{
-						if (mC.tableNumber == currentTable)
-						{
-							c = mC;
-							break;
-						}
-					}
-					if (c != null)
-					{
-						// give check
-						giveCheckToCustomer(c);
-					}
-					return true;
-				}
-			}
-			if (state == AgentState.onBreak)
-			{
-				if (!wantsBreak)
-				{
-					goOnJob();
-					return true;
-				}
-			}
-			if (state == AgentState.putOnBreak)
-			{
-				goOnBreak();
 				return true;
 			}
-			return false;
 		}
-		catch (ConcurrentModificationException e)
+		if (state == AgentState.reorder)
 		{
-		    System.out.println("Waiter CME!");
-            e.printStackTrace();
+			if (travelState == TravelState.atTable)
+			{
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
+					for (MyCustomer mC : myCustomers)
+					{
+						if (mC.tableNumber == currentTable)
+						{
+							c = mC;
+							break;
+						}
+					}
+                }
+				if (c != null)
+				{
+					tellCustomerWeAreOut(c);
+				}
+				return true;
+			}
+			else if (travelState == TravelState.atCook)
+			{
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
+					for (MyCustomer mC : myCustomers)
+					{
+						if (mC.state == CustomerState.reorder)
+						{
+							c = mC;
+							break;
+						}
+					}
+                }
+				if (c != null)
+				{
+					travelState = TravelState.toTable;
+					waiterGui.GoToTable(c.tablePos);
+					currentTable = c.tableNumber;
+				}
+				return true;
+			}
+		}
+		if (state == AgentState.outOfFood)
+		{
+			if (travelState == TravelState.atTable)
+			{
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
+					for (MyCustomer mC : myCustomers)
+					{
+						if (mC.tableNumber == currentTable)
+						{
+							c = mC;
+							break;
+						}
+					}
+                }
+				if (c != null)
+				{
+				    tellCustomerWeAreOut(c);
+				}
+				return true;
+			}
+			else if (travelState == TravelState.atCook)
+			{
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
+					for (MyCustomer mC : myCustomers)
+					{
+						if (mC.state == CustomerState.reorder)
+						{
+							c = mC;
+							break;
+						}
+					}
+                }
+				if (c != null)
+				{
+					travelState = TravelState.toTable;
+					waiterGui.GoToTable(c.tablePos);
+					currentTable = c.tableNumber;
+				}
+				return true;
+			}
+		}
+		if (state == AgentState.gettingCheck)
+		{
+			if (travelState == TravelState.atCashier)
+			{
+				// pick up check
+				MyCustomer c = customersThatNeedChecks.get(0);
+				askForCheckFromCashier(c);
+				return true;
+			}
+			if (travelState == TravelState.atTable)
+			{
+				MyCustomer c = null;
+                synchronized(myCustomers)
+                {
+					for (MyCustomer mC : myCustomers)
+					{
+						if (mC.tableNumber == currentTable)
+						{
+							c = mC;
+							break;
+						}
+					}
+                }
+				if (c != null)
+				{
+					// give check
+					giveCheckToCustomer(c);
+				}
+				return true;
+			}
+		}
+		if (state == AgentState.onBreak)
+		{
+			if (!wantsBreak)
+			{
+				goOnJob();
+				return true;
+			}
+		}
+		if (state == AgentState.putOnBreak)
+		{
+			goOnBreak();
 			return true;
 		}
-		catch (Exception e)
-		{
-            e.printStackTrace();
-			return true;
-		}
+		return false;
 	}
 
 	// actions
@@ -944,10 +964,13 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		public HashMap<String, Money> getChoices()
 		{
 			HashMap<String, Money> choices = new HashMap<String, Money>();
-			for (Item item : items)
-			{
-				choices.put(item.choice, item.price);
-			}
+            synchronized(items)
+            {
+    			for (Item item : items)
+    			{
+    				choices.put(item.choice, item.price);
+    			}
+            }
 			return choices;
 		}
 		

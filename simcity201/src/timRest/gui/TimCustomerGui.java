@@ -51,7 +51,6 @@ public class TimCustomerGui implements Gui{
 			yPos+= SPEED;
 		else if (yPos > yDestination)
 			yPos-= SPEED;
-        positionSemaphore.release();
         
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToWait)
@@ -75,6 +74,7 @@ public class TimCustomerGui implements Gui{
 			}
 			command=Command.noCommand;
 		}
+        positionSemaphore.release();
 	}
 
 	public void draw(Graphics2D g) {

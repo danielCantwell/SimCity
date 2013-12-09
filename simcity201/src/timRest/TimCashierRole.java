@@ -35,7 +35,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	public TimCashierRole()
 	{
 		super();
-		cashInRegister = new Money(0, 0);
+		cashInRegister = new Money(300, 0);
 	}
 	
 	public void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber)
@@ -64,6 +64,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	
 	public void msgPayMarket(int amount, Money pricePerUnit, MarketManagerRole manager)
 	{
+	    Do("Recieved bill.");
 	    // multiply amount by pricePerUnit
 	    Money money = new Money(0, 0);
 	    for (int i = 0; i < amount; i++)
@@ -71,6 +72,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	        money.add(pricePerUnit);
 	    }
 	    billsToPay.add(new Bill(manager, money));
+	    stateChanged();
 	}
 
 	public void msgHereIsTheMoney(Money cash)
@@ -170,7 +172,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	
 	private void payMarket(Bill bill)
 	{;
-		Do("Paying $" + bill.price + " to " + bill.manager.myPerson.getName() + ".");
+		Do("Paying " + bill.price + " to " + bill.manager.myPerson.getName() + ".");
 		bill.manager.msgHereIsTheMoney(bill.price);
 		cashInRegister.subtract(bill.price);
 	}

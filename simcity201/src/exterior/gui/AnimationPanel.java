@@ -446,7 +446,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
 			g2.drawString("" + God.Get().getHour() + ":00", 46 + scrollPane.getHorizontalScrollBar().getValue(), 33 + scrollPane.getVerticalScrollBar().getValue());
-            g2.drawString("Day #" + (God.Get().getDay()+1), 46 + scrollPane.getHorizontalScrollBar().getValue(), 63 + scrollPane.getVerticalScrollBar().getValue());
+            g2.drawString("Day #" + God.Get().getDay(), 46 + scrollPane.getHorizontalScrollBar().getValue(), 63 + scrollPane.getVerticalScrollBar().getValue());
 			iconClock.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 20 + scrollPane.getVerticalScrollBar().getValue());
 			if (God.Get().getHour() < 6 || God.Get().getHour() >= 18) {
 				iconMoon.paintIcon(this, g, 20 + scrollPane.getHorizontalScrollBar().getValue(), 50 + scrollPane.getVerticalScrollBar().getValue());

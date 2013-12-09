@@ -134,4 +134,9 @@ public class Money {
 	public boolean equals(Money other) {
 		return (dollars == other.dollars && cents == other.cents);
 	}
+	
+	public String toString()
+	{
+	    return "$" + dollars + "." + cents;
+	}
 }
