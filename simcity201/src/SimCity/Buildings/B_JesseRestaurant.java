@@ -112,4 +112,10 @@ public class B_JesseRestaurant extends Building{
 
 	}
 
+	@Override
+	public Role getManagerRole() {
+		// TODO Auto-generated method stub
+		return host;
+	}
+
 }

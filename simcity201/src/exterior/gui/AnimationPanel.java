@@ -837,5 +837,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
   		addGui(g);
         return g;
     }
+    public void SendMangersHome(){
+    	God.Get().getOffWork(God.Get().getBuilding(6));
+    }
 
 }

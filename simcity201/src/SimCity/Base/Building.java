@@ -65,6 +65,7 @@ public abstract class Building extends SimObject {
 	
 	public abstract String getManagerString();
 	public abstract String getCustomerString();
+	public abstract Role getManagerRole();
 	
 	
 	//BUILDING MEDIATOR STUFF

@@ -138,4 +138,9 @@ public class B_EricRestaurant extends Building {
     	person.msgExitBuilding();
 	}
 
+	@Override
+	public Role getManagerRole() {
+		return host;
+	}
+
 }

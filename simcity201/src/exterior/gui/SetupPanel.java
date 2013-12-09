@@ -177,7 +177,7 @@ public class SetupPanel extends JFrame {
 	private JRadioButton showDannyRest = new JRadioButton("Danny");
 	private JRadioButton showTimRest = new JRadioButton("Tim");
 	
-	private JButton nuke = new JButton("Apocalypse");
+	private JButton nuke = new JButton("Close All Buildings");
 	
 	/**
 	 * Constructor
@@ -650,6 +650,7 @@ public class SetupPanel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				animationPanel.getGui().HardReset();
+				animationPanel.SendMangersHome();
 			}
 			
 		});

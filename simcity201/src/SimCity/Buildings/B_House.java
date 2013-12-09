@@ -91,4 +91,10 @@ public class B_House extends Building {
 
 	}
 
+	@Override
+	public Role getManagerRole() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

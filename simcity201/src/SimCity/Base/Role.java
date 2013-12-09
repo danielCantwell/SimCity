@@ -25,7 +25,7 @@ public abstract class Role {
 	protected void exitBuilding(Person p){
 		p.building.ExitBuilding(p);
 	}
-	
+
 	public abstract String toString();
 	
 	public abstract void workOver(); //what do you do when the work is over.

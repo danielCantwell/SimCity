@@ -202,6 +202,10 @@ public class B_TimRest extends Building{
             }
         }
 	}
+	@Override
+	public Role getManagerRole() {
+		return hostRole;
+	}
 	
 
 }
