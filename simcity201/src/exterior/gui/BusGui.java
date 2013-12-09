@@ -4,6 +4,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import SimCity.Base.Person;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 
 public class BusGui implements Gui {
 	SimCityGui gui;
@@ -83,20 +85,19 @@ public class BusGui implements Gui {
 			if (command == Command.seekDest) {
 				// People going in bus
 				while (gui.animationPanel.standees.get(location).size() > 0) {
-					System.out.println("Someone entered the bus: " + gui.animationPanel.standees.get(location).get(0));
+        			AlertLog.getInstance().logInfo(AlertTag.God, "God (GUI)", "Person entered bus: " + gui.animationPanel.standees.get(location).get(0));
 					riders.add(gui.animationPanel.standees.get(location).get(0));
 					gui.animationPanel.standees.get(location).remove(0);
 				}
 				// People getting off bus
 				ArrayList<Person> ridersToRemove = new ArrayList<Person>();
 				for (int i = 0; i < riders.size(); i++) {
-					System.out.println(riders.get(i).destination.getID());
 					if (riders.get(i).destination.getID() == location) {
 						ridersToRemove.add(riders.get(i));
 					}
 				}
 				for (Person p : ridersToRemove) {
-					System.out.println("Someone got off the bus: " + p);
+        			AlertLog.getInstance().logInfo(AlertTag.God, "God (GUI)", "Person left bus: " + p);
 					riders.remove(riders.indexOf(p));
 					p.animation.release();
 				}
