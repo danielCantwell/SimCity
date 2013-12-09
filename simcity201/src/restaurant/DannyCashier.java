@@ -9,25 +9,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import market.MarketManagerRole;
+import market.interfaces.MarketDeliveryCashier;
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.Globals.Money;
 
 /**
  * @author Daniel
  * 
  */
-public class DannyCashier extends Role implements Cashier {
+public class DannyCashier extends Role implements Cashier,
+		MarketDeliveryCashier {
 
 	private String name;
+	private Money restaurantMoney;
 	public boolean workOver = false;
 
 	public List<PayingCustomer> payingCustomers = Collections
 			.synchronizedList(new ArrayList<PayingCustomer>());
 	public List<PayingCustomer> customersWhoDidntPay = Collections
 			.synchronizedList(new ArrayList<PayingCustomer>());
+	public List<MyMarket> marketsToPay = Collections
+			.synchronizedList(new ArrayList<MyMarket>());
 
 	private double steakCost = 16.00;
 	private double chickenCost = 11.00;
@@ -43,21 +50,24 @@ public class DannyCashier extends Role implements Cashier {
 		none, Bill, Payment
 	};
 
-	public Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
+	public Map<String, Food> foods = Collections
+			.synchronizedMap(new HashMap<String, Food>());
 
 	public DannyCashier() {
 		foods.put("Steak", steak);
 		foods.put("Chicken", chicken);
 		foods.put("Pizza", pizza);
 		foods.put("Salad", salad);
+		
+		restaurantMoney = new Money(1000, 0);
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	// Messages
-	
+
 	public void msgLeaveRestaurant() {
 		workOver = true;
 		stateChanged();
@@ -90,7 +100,7 @@ public class DannyCashier extends Role implements Cashier {
 				if (myCustomer.customer == customer) {
 					print("MESSAGE 13A : Customer -> Cashier : Payment");
 					myCustomer.state = State.Payment;
-					myCustomer.cash = cash;
+					myCustomer.cash = (int) cash;
 					break;
 				}
 			}
@@ -98,18 +108,24 @@ public class DannyCashier extends Role implements Cashier {
 
 		stateChanged();
 	}
-	
 
 	/**
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
+
 		if (workOver) {
 			leaveRestaurant();
 			return true;
 		}
 		
+		synchronized (marketsToPay) {
+			for (MyMarket m : marketsToPay) {
+				payMarket(m);
+				return true;
+			}
+		}
+
 		synchronized (payingCustomers) {
 			for (PayingCustomer myCustomer : payingCustomers) {
 				if (myCustomer.state == State.Bill) {
@@ -135,10 +151,10 @@ public class DannyCashier extends Role implements Cashier {
 	}
 
 	// Actions
-	
+
 	private void leaveRestaurant() {
 		System.out.println("Cashier workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
+		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.cashierFilled = false;
 		exitBuilding(myPerson);
 		workOver = false;
@@ -161,6 +177,8 @@ public class DannyCashier extends Role implements Cashier {
 				+ (myCustomer.inDebt ? " plus the debt" : ""));
 		print(myCustomer.customer.getCustomerName() + " pays "
 				+ myCustomer.cash);
+		
+		restaurantMoney.add(new Money(myCustomer.cash, 0));
 
 		myCustomer.state = State.none;
 		double change = myCustomer.cash
@@ -179,8 +197,14 @@ public class DannyCashier extends Role implements Cashier {
 			myCustomer.customer.msgNotInDebt();
 		}
 		myCustomer.customer.msgHereIsYourChange(change);
+		restaurantMoney.subtract(new Money((int) change, 0));
 	}
 	
+	private void payMarket(MyMarket m) {
+		m.manager.msgHereIsTheMoney(m.cost);
+		marketsToPay.remove(m);
+		restaurantMoney.subtract(m.cost);
+	}
 
 	private void print(String string) {
 		System.out.println(string);
@@ -200,7 +224,7 @@ public class DannyCashier extends Role implements Cashier {
 		public double debt = 0;
 		public State state = State.Bill;
 
-		public double cash;
+		public int cash;
 
 		PayingCustomer(Waiter waiter, Customer customer, String choice) {
 			this.waiter = waiter;
@@ -219,8 +243,17 @@ public class DannyCashier extends Role implements Cashier {
 		}
 
 	}
-	
-	
+
+	private class MyMarket {
+		public MarketManagerRole manager;
+		public Money cost;
+
+		public MyMarket(MarketManagerRole m, Money c) {
+			manager = m;
+			cost = c;
+		}
+	}
+
 	@Override
 	protected void enterBuilding() {
 		System.out.println("Cashier enterBuilding");
@@ -229,23 +262,32 @@ public class DannyCashier extends Role implements Cashier {
 	@Override
 	public void workOver() {
 		/*
-		System.out.println("Cashier workOver");
-		B_DannyRestaurant rest = (B_DannyRestaurant)myPerson.getBuilding();
-		rest.cashierFilled = false;
-		exitBuilding(myPerson);
-		*/
+		 * System.out.println("Cashier workOver"); B_DannyRestaurant rest =
+		 * (B_DannyRestaurant)myPerson.getBuilding(); rest.cashierFilled =
+		 * false; exitBuilding(myPerson);
+		 */
 	}
 
 	@Override
 	public void msgHeresIsMyMoney(Customer c, double totalMoney) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "Danny Cashier";
+	}
+
+	@Override
+	public void msgPayMarket(int amount, Money pricePerUnit,
+			MarketManagerRole manager) {
+		Money money = new Money(0, 0);
+		for (int i = 0; i < amount; i++) {
+			money.add(pricePerUnit);
+		}
+		marketsToPay.add(new MyMarket(manager, money));
 	}
 
 }

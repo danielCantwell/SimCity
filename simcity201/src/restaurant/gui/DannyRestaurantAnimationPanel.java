@@ -77,14 +77,18 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		synchronized (guis) {
-			for (Gui gui : guis) {
-				if (gui.isPresent()) {
-					gui.updatePosition();
+		try {
+			synchronized (guis) {
+				for (Gui gui : guis) {
+					if (gui.isPresent()) {
+						gui.updatePosition();
+					}
 				}
 			}
+			repaint(); // Will have paintComponent called
+		} catch (ConcurrentModificationException e1) {
+
 		}
-		repaint(); // Will have paintComponent called
 	}
 
 	public void paintComponent(Graphics g) {
