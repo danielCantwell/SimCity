@@ -202,13 +202,13 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public void chooseService() {
-		if (wMoney.getDollar() < 31) {							//Temporary method for choosing whether to withdraw/deposit
+		if (wMoney.getDollar() < 100) {							//Temporary method for choosing whether to withdraw/deposit
 			teller.requestWithdraw(accNum, money); 			//arbitrary amount to withdraw, can be changed later
 		}
 		else {	
 			Money temp = new Money(wMoney.getDollar(),0);
-			temp.subtract(30,0);
-			teller.requestDeposit(accNum,temp);				//deposits everything over $30
+			temp.subtract(300,0);
+			teller.requestDeposit(accNum,temp);				//deposits everything over $300
 			//wMoney = new Money(30,0);
 		}
 	}

@@ -66,7 +66,7 @@ public class B_Bank extends Building{
 	}
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		System.out.println("manager: " + manager + " guard: " + bankGuard);
+		//System.out.println("manager: " + manager + " guard: " + bankGuard);
 		return manager != null  && guard != null;
 	}
 	@Override

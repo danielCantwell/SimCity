@@ -22,6 +22,7 @@ import timRest.TimCookRole;
 import timRest.TimCustomerRole;
 import timRest.TimHostRole;
 import timRest.TimWaiterRole;
+import Bank.RobberRole;
 import Bank.bankCustomerRole;
 import Bank.bankManagerRole;
 import EricRestaurant.EricCustomer;
@@ -167,7 +168,9 @@ public class God {
 					   if (hour == 9 && !announcedTime){
 						   fakeCustomersGoToWork(1);
 					   }
-					   
+					   if (hour == 11 && !announcedTime){
+						   bankInteraction();
+					   }
 					   if (hour == 13 && !announcedTime){
 						   getOffWork(1);
 					   }
@@ -189,9 +192,7 @@ public class God {
 					   if (hour == 17 && !announcedTime){
 						   fakeCustomersGoToWork(2);
 					   }
-					   if (hour == 11 && !announcedTime){
-						   bankInteraction();
-					   }
+					 
 					   
 					   if (hour == 20 && !announcedTime){
 						   getOffWork(2);
@@ -255,7 +256,7 @@ public class God {
 	    	announcedTime = true;
 	    	for (Person p: persons){
 	    		if (p.getTimeState() != TimeState.working){
-	    			if (p.getMainRoleString().contains("ustomer"))
+	    			if (p.getMainRoleString().contains("ustomer") || p.getMainRoleString().contains("Robber"))
 	    				p.msgGoToWork();
 	    		}
 	    	}
@@ -316,6 +317,7 @@ public class God {
 					if (!(p.getMainRole() instanceof JesseCustomer))
 					if (!(p.getMainRole() instanceof MarketCustomerRole))
 					if (!(p.getMainRole() instanceof bankCustomerRole))
+					if (!(p.getMainRole() instanceof RobberRole))
 						if (p.getShift() == shift)
 						p.msgGoToWork();
 	    	}
