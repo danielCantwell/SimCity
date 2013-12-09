@@ -3,6 +3,8 @@ package exterior.gui;
 import java.awt.*;
 
 import SimCity.Base.Person;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 
 public class CarGui implements Gui {
 	SimCityGui gui;
@@ -15,6 +17,8 @@ public class CarGui implements Gui {
 	private boolean isPresent = false;
 	private Person person;
 	private int myID;
+	private boolean accidentProne = true;
+	private boolean switchGui = false;
 	
 	public CarGui(SimCityGui gui, int id) {
 		this.gui = gui;
@@ -22,6 +26,7 @@ public class CarGui implements Gui {
 		int random = (int)(Math.random() * 8);
 		int random2 = (int)(Math.random() * 8) + 8;
 		DoTravel(random, random2);
+		
 	}
 
 	public void updatePosition() {
@@ -30,10 +35,15 @@ public class CarGui implements Gui {
 				xPos+=4;
 				rotation = 0;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 0
-					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)+1] != 'C' && xPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 'C' && gui.animationPanel.horizontalRedLight)) {
-				xPos+=4;
-				rotation = 0;
+			else if (!(gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)+1] != 'C' && xPos % 64 == 0 && 
+					gui.animationPanel.MAP[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 'C' && gui.animationPanel.horizontalRedLight)) {
+				if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] == 0) {
+					xPos+=4;
+					rotation = 0;
+				}
+				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] > 1 && accidentProne) {
+					carAccident();
+				}
 			}
 		}
 		if (xPos > xDestination) {
@@ -41,10 +51,15 @@ public class CarGui implements Gui {
 				xPos-=4;
 				rotation = 2;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 0
-					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)-1] != 'C' && xPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 'C' && gui.animationPanel.horizontalRedLight)) {
-				xPos-=4;
-				rotation = 2;
+			else if (!(gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)-1] != 'C' && xPos % 64 == 0 && 
+					gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 'C' && gui.animationPanel.horizontalRedLight)) {
+				if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] == 0) {
+					xPos-=4;
+					rotation = 2;
+				}
+				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] > 1 && accidentProne) {
+					carAccident();
+				}
 			}
 		}
 		if (yPos < yDestination) {
@@ -52,10 +67,15 @@ public class CarGui implements Gui {
 				yPos+=4;
 				rotation = 1;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 0
-					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] != 'C' && yPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 'C' && !gui.animationPanel.horizontalRedLight)) {
-				yPos+=4;
-				rotation = 1;
+			else if (!(gui.animationPanel.MAP[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] != 'C' && yPos % 64 == 0 && 
+					gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 'C' && !gui.animationPanel.horizontalRedLight)) {
+				if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] == 0) {
+					yPos+=4;
+					rotation = 1;
+				}
+				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] > 1 && accidentProne) {
+					carAccident();
+				}
 			}
 		}
 		if (yPos > yDestination) {
@@ -63,10 +83,15 @@ public class CarGui implements Gui {
 				yPos-=4;
 				rotation = 3;
 			}
-			else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] == 0
-					&& !(gui.animationPanel.MAP[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] != 'C' && yPos % 64 == 0 && gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)] == 'C' && !gui.animationPanel.horizontalRedLight)) {
-				yPos-=4;
-				rotation = 3;
+			else if (!(gui.animationPanel.MAP[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] != 'C' && yPos % 64 == 0 && 
+					gui.animationPanel.MAP[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64)] == 'C' && !gui.animationPanel.horizontalRedLight)) {
+				if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] == 0) {
+					yPos-=4;
+					rotation = 3;
+				}
+				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] > 1 && accidentProne) {
+					carAccident();
+				}
 			}
 		}
 
@@ -79,6 +104,9 @@ public class CarGui implements Gui {
 				isPresent = false;
 				gui.animationPanel.clearVGrid(myID);
 				person.animation.release();
+				if (switchGui) {
+					person.loseCar();
+				}
 			} else if (command == Command.seekX) {
 				command = Command.seekY;
 				xDestination = xPos;
@@ -170,6 +198,12 @@ public class CarGui implements Gui {
         		return ((position % 4) * 7 + 4 - 4)*64;
     		}
     	}
+    }
+    
+    public void carAccident() {
+		AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A car (" + this + ") got into an accident and paid a $250 fee. The driver (" + person + ") will walk from now on.");
+		accidentProne = false;
+		switchGui = true;
     }
     
 	@Override

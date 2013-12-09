@@ -14,6 +14,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import exterior.gui.AnimationPanel;
 import exterior.gui.CarGui;
 import exterior.gui.Gui;
 import exterior.gui.PersonGui;
@@ -55,7 +56,7 @@ public class Person extends Agent {
 	public int getShift(){return shift;}
 	public Gui gui;
 	public Semaphore animation = new Semaphore(0, true);
-	
+	public AnimationPanel animPanel;
 	public ArrayList<Role> roles = new ArrayList<Role>();
 	
 	public ArrayList<String> inventory = new ArrayList<String>();
@@ -590,6 +591,14 @@ public class Person extends Agent {
 		
 	}
 	
+	public void loseCar() {
+		setMoney(getMoney().subtract(250, 0));
+		if (gui instanceof CarGui) {
+			vehicle = Vehicle.walk;
+			gui = animPanel.getNewGui(this);
+		}
+	}
+	
 	Timer hungerTimer;
 	int hungerOffset = 50000;
 	boolean hasActiveRole = false;
@@ -607,6 +616,10 @@ public class Person extends Agent {
 		 }
       });
       hungerTimer.start();
+	}
+	
+	public void setAnimPanel(AnimationPanel animPanel) {
+		this.animPanel = animPanel;
 	}
 	
 	//DEBUG

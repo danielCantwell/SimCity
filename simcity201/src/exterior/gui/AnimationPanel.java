@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -37,11 +39,13 @@ import SimCity.Base.Person.Morality;
 import SimCity.Base.Person.Vehicle;
 import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 import exterior.astar.AStarTraversal;
 import brianRest.*;
 
 public class AnimationPanel extends JPanel implements ActionListener {
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     private SimCityGui gui;
     private JScrollPane scrollPane;
     private boolean SHOW_RECT = false;
@@ -255,7 +259,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
-						System.out.println("MOUSE PRESS ON BUILDING: " + i);
 						gui.buildingFrame.setTitle("Building #" + i
 								+ " - " + gui.buildingList.get(i).getTag());
 					}
@@ -285,7 +288,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
-						System.out.println("MOUSE PRESS ON BUILDING: " + i);
 						gui.buildingFrame.setTitle("Building #" + i
 								+ " - " + gui.buildingList.get(i).getTag());
 						gui.cardLayout.show(gui.buildingPanels, "" + i);
@@ -314,12 +316,18 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	
 	@Override
     public void actionPerformed(ActionEvent arg0) {
-        for (Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-        repaint();
+		try {
+			synchronized(guis) {
+		        for (Gui gui : guis) {
+		            if (gui.isPresent()) {
+		                gui.updatePosition();
+		            }
+		        }
+		        repaint();
+			}
+		} catch (ConcurrentModificationException e) {
+			
+		}
 	}
 
 	public void paintComponent(Graphics g) {
@@ -462,37 +470,39 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		}
 
 
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(g2);
-				if (gui.getType() == "Person") {
-					if (gui.getRotation() == 0) {
-						iconPedR.paintIcon(this, g, gui.getX() + 16,
-								gui.getY() + 32);
-					} else if (gui.getRotation() == 1) {
-						iconPedD.paintIcon(this, g, gui.getX() + 32,
-								gui.getY() + 16);
-					} else if (gui.getRotation() == 2) {
-						iconPedL.paintIcon(this, g, gui.getX() + 16,
-								gui.getY() + 00);
-					} else if (gui.getRotation() == 3) {
-						iconPedU.paintIcon(this, g, gui.getX() + 00,
-								gui.getY() + 16);
+		synchronized(guis) {
+			for (Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.draw(g2);
+					if (gui.getType() == "Person") {
+						if (gui.getRotation() == 0) {
+							iconPedR.paintIcon(this, g, gui.getX() + 16,
+									gui.getY() + 32);
+						} else if (gui.getRotation() == 1) {
+							iconPedD.paintIcon(this, g, gui.getX() + 32,
+									gui.getY() + 16);
+						} else if (gui.getRotation() == 2) {
+							iconPedL.paintIcon(this, g, gui.getX() + 16,
+									gui.getY() + 00);
+						} else if (gui.getRotation() == 3) {
+							iconPedU.paintIcon(this, g, gui.getX() + 00,
+									gui.getY() + 16);
+						}
 					}
-				}
-				else if (gui.getType() == "Car") {
-					if (gui.getRotation() == 0) {
-						carsR.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
-								gui.getY());
-					} else if (gui.getRotation() == 1) {
-						carsD.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
-								gui.getY());
-					} else if (gui.getRotation() == 2) {
-						carsL.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
-								gui.getY());
-					} else if (gui.getRotation() == 3) {
-						carsU.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
-								gui.getY());
+					else if (gui.getType() == "Car") {
+						if (gui.getRotation() == 0) {
+							carsR.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+									gui.getY());
+						} else if (gui.getRotation() == 1) {
+							carsD.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+									gui.getY());
+						} else if (gui.getRotation() == 2) {
+							carsL.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+									gui.getY());
+						} else if (gui.getRotation() == 3) {
+							carsU.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+									gui.getY());
+						}
 					}
 				}
 			}
@@ -521,12 +531,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-
-                 //System.out.println("Spawning a new pedestrian.");
-            	 //AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
-            	 //PersonGui g = new PersonGui(gui, aStarTraversal);
-            	 //Person p = new Person("Jesse", g, "Bank.bankManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), gui.buildingList.get(2));
-            
             	 createPerson("Jesse", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("Brian", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
@@ -621,10 +625,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
              {
             	SHOW_RECT = !SHOW_RECT;
             	if (SHOW_RECT) {
-            		System.out.println("Entering compatibility mode.");
-            		System.out.println("To view people in compatibility mode, change SHOW_RECT in Gui.java to true.");
+        			AlertLog.getInstance().logDebug(AlertTag.God, "God (GUI)", "Entering compatibility mode.");
+        			AlertLog.getInstance().logDebug(AlertTag.God, "God (GUI)", "To view guis in compatibility mode, change SHOW_RECT in Gui.java to true.");
             	} else {
-            		System.out.println("Exiting compatibility mode.");
+        			AlertLog.getInstance().logDebug(AlertTag.God, "God (GUI)", "Exiting compatibility mode.");
             	}
              }
         };
@@ -700,12 +704,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
     
     public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b, int shift){
-    	 System.out.println("Spawning a new pedestrian.");
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 B_House bHouse = (B_House) house;
 	   	 if (v == Vehicle.walk) {
 	   		 PersonGui g = new PersonGui(gui, aStarTraversal);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
@@ -715,7 +719,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 } else if (v == Vehicle.car) {
 	   		 currentID++;
 	   		 CarGui g = new CarGui(gui, currentID);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
@@ -724,7 +729,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 	 return p;
 	   	 } else if (v == Vehicle.bus) {
 	   		 PersonGui g = new PersonGui(gui, aStarTraversal);
-	   		 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
@@ -741,10 +747,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
     
     protected Person marketScenarioPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
-    	System.out.println("Spawning a new pedestrian.");
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 PersonGui g = new PersonGui(gui, aStarTraversal);
 	   	 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b, 1);
+   		 p.setAnimPanel(this);
 	   	 g.setPerson(p);
 	   	 addGui(g);
 	   	 God.Get().addPerson(p);
@@ -757,10 +763,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
     
     protected Person timScenarioPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
-        System.out.println("Spawning a new pedestrian.");
          AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
          PersonGui g = new PersonGui(gui, aStarTraversal);
          Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b, 1);
+   		 p.setAnimPanel(this);
          g.setPerson(p);
          addGui(g);
          God.Get().addPerson(p);
@@ -811,6 +817,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	 	currentID++;
 	 	BusGui g2 = new BusGui(gui, currentID);
 	 	addGui(g2);
+    }
+    
+    public PersonGui getNewGui(Person p) {
+    	guis.remove(p.gui);
+        AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+        PersonGui g = new PersonGui(gui, aStarTraversal);
+  		g.setPerson(p);
+  		addGui(g);
+        return g;
     }
 
 }
