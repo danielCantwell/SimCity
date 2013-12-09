@@ -5,6 +5,7 @@ import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.trace.AlertTag;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
+import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 
 import java.util.*;
@@ -245,6 +246,10 @@ public class DannyHost extends Role {
 			for (MyWaiter w : waiters) {
 				w.waiter.msgLeaveRestaurant();
 			}
+			DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+					.getPanel();
+			ap.hostPresent = false;
+			
 			rest.cashierRole.msgLeaveRestaurant();
 			rest.cookRole.msgLeaveRestaurant();
 			exitBuilding(myPerson);
@@ -342,6 +347,9 @@ public class DannyHost extends Role {
 
 	@Override
 	protected void enterBuilding() {
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.hostPresent = true;
 		System.out.println("Host enterBuilding");
 	}
 
