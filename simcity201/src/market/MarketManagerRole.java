@@ -9,6 +9,7 @@ import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import SimCity.gui.Gui;
+import SimCity.trace.AlertTag;
 import market.gui.MarketManagerGui;
 import market.interfaces.MarketClerk;
 import market.interfaces.MarketCustomer;
@@ -38,7 +39,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     
-    public Money money;
+    public Money money = new Money(0, 0);
     public int accountNumber;
     
     /**
@@ -120,6 +121,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     public void msgHereIsTheMoney(Money amount)
     {
         money.add(amount);
+        Do(AlertTag.TimRest, "Market now has " + money + ".");
         stateChanged();
     }
     
@@ -393,19 +395,25 @@ public class MarketManagerRole extends Role implements MarketManager {
     {
         this.gui = gui;
         // initialize inventory
-        addItemToInventory("Steak", new Money(7, 00), 10, 0);
-        addItemToInventory("Chicken", new Money(5, 00), 10, 29);
-        addItemToInventory("Pizza", new Money(4, 00), 10, 2);
-        addItemToInventory("Salad", new Money(3, 00), 10, 6);
+        addItemToInventory("Steak", new Money(7, 00), 100, 0);
+        addItemToInventory("Chicken", new Money(5, 00), 100, 29);
+        addItemToInventory("Pizza", new Money(4, 00), 100, 2);
+        addItemToInventory("Salad", new Money(3, 00), 100, 6);
+        
+        addItemToInventory("Groceries", new Money(5, 00), 300, 37);
         
         addItemToInventory("Salmon", new Money(7, 00), 10, 37);
         addItemToInventory("Tomatoes", new Money(5, 00), 10, 14);
         addItemToInventory("Bread", new Money(4, 00), 10, 38);
         addItemToInventory("Salt", new Money(3, 00), 10, 24);
-        addItemToInventory("Pepper", new Money(7, 00), 10, 43);
+        addItemToInventory("Pepper", new Money(3, 00), 10, 43);
         addItemToInventory("Onions", new Money(5, 00), 10, 30);
         addItemToInventory("Sausage", new Money(4, 00), 10, 12);
-        addItemToInventory("Ice Cream", new Money(3, 00), 10, 8);
+        addItemToInventory("Ice Cream", new Money(5, 00), 10, 8);
+        
+        addItemToInventory("Car", new Money(250, 00), 30, 40);
+        
+        addItemToInventory("Wilczynski's Brain on Ice", new Money(201, 00), 1, 33);
     }
     
 	public void addItemToInventory(String name, Money price, int amount, int location)

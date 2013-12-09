@@ -31,6 +31,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
     public Point destination = null;
     public Money amountOwed = new Money(0, 0);
 	
+    private int numOrders = 0;
+    
 	public MarketCustomerRole() {
 		super();
 	}
@@ -61,7 +63,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
             myPerson.inventory.add(food);
         }
         amountOwed.add(price);
-        state = AgentState.Served;
+        numOrders--;
+        if (numOrders <= 0)
+        {
+            state = AgentState.Served;
+        }
         stateChanged();
     }
 
@@ -182,7 +188,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	private void order()
 	{
-	    clerk.msgWantFood(God.Get().persons.indexOf(myPerson), "Pizza", 1);
+	    //for ()
+	    {
+    	    clerk.msgWantFood(God.Get().persons.indexOf(myPerson), "Pizza", 1);
+    	    numOrders++;
+	    }
 	    state = AgentState.BeingServed;
 	}
 	
@@ -190,7 +200,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	{
 	    clerk.msgHereIsMoney(God.Get().persons.indexOf(myPerson), amountOwed);
 	    // subtract appropriate money
+	    System.out.println(myPerson.getMoney());//debug
 	    myPerson.setMoney(myPerson.getMoney().subtract(amountOwed));
+	    System.out.println(myPerson.getMoney());
 	    state = AgentState.Leaving;
 	}
 	

@@ -266,7 +266,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 				}
 			}
 		}
-		synchronized(itemsToCook)
+		synchronized(foods)
 		{
 			for (Food f : foods)
 			{
@@ -357,17 +357,6 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 		foods.add(food);
 		stateChanged();
 	}
-
-	public void addMarket(MarketManagerRole marketManager)
-	{
-		ArrayList<String> foodList = new ArrayList<String>();
-		for (Food food : foods)
-		{
-			foodList.add(food.name);
-		}
-		markets.add(new MyMarket(marketManager, foodList));
-		stateChanged();
-	}
 	
 	public String getName() {
 		return myPerson.name;
@@ -430,6 +419,17 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 			foodAvail = foods;
 		}
 	}
+	
+	public void addMarket(MarketManagerRole marketManager)
+    {
+        ArrayList<String> foodList = new ArrayList<String>();
+        for (Food food : foods)
+        {
+            foodList.add(food.name);
+        }
+        markets.add(new MyMarket(marketManager, foodList));
+        stateChanged();
+    }
 
 	public void setGui(TimCookGui cookGui) {
 		gui = cookGui;

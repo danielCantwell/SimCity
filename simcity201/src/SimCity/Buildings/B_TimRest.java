@@ -125,10 +125,24 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
                     panel.addGui(restaurantRole.getGui());
                 }
-                if (getOpen() && newRole instanceof MarketDeliveryPersonRole)
+                if (newRole instanceof MarketDeliveryPersonRole)
                 {
                     MarketDeliveryPersonRole restaurantRole = (MarketDeliveryPersonRole) person.mainRole;
-                    restaurantRole.msgGuiArrivedAtDestination();
+                    if (getOpen())
+                    {
+                        restaurantRole.msgGuiArrivedAtDestination();
+                    }
+                    else
+                    {
+                        for (int i = 0; i < restaurantRole.orders.size(); i++)
+                        {
+                            if (restaurantRole.orders.get(i).getId() == getID())
+                            {
+                                restaurantRole.orders.get(i).setPending();
+                                restaurantRole.msgGuiRestaurantClosed();
+                            }
+                        }
+                    }
                 }
                 if (getOpen() && newRole instanceof TimCustomerRole)
                 {
@@ -190,7 +204,7 @@ public class B_TimRest extends Building{
             {
                 MarketDeliveryPersonRole cRole = (MarketDeliveryPersonRole)person.roles.get(i);
                 cRole.setActive(false);
-                ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
+                //((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
             }
             if (person.roles.get(i) instanceof TimCustomerRole)
