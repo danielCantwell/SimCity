@@ -2,6 +2,7 @@ package restaurant;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.trace.AlertTag;
 
 import java.util.*;
 
@@ -176,7 +177,7 @@ public class DannyCook extends Role {
 	}
 
 	private void notifyWaiterOutOfStock(Order order) {
-		Do(order.choice + " is out of stock");
+		Do(AlertTag.DannyRest, order.choice + " is out of stock");
 		order.waiter.msgOutOf(order.choice, order.table);
 		orders.remove(order);
 	}

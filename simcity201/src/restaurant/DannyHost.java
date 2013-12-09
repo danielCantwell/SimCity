@@ -2,6 +2,7 @@ package restaurant;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.trace.AlertTag;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
 import restaurant.gui.WaiterGui;
@@ -226,7 +227,7 @@ public class DannyHost extends Role {
 	}
 	
 	private void leaveRestaurant() {
-		Do("Leaving Restaurant");
+		Do(AlertTag.DannyRest, "Leaving Restaurant");
 		if (waitingCustomers.size() == 0){
 			//msg all waiters that they are allowed to leave
 			for (MyWaiter w: waiters){

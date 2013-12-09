@@ -13,6 +13,7 @@ import java.util.List;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 
 /**
  * @author Daniel
@@ -63,10 +64,10 @@ public class OwnerRole extends Role implements Owner {
 
 		synchronized (myTenants) {
 			if (newTenant) {
-				System.out.println("Owner added a tenant");
+				Do(AlertTag.House,"Owner added a tenant");
 				myTenants.add(new MyTenant(tenant));
 				tenant.msgHouseInfo(appliances, myTenants.size());
-				System.out.println("Owner has " + myTenants.size()
+				Do(AlertTag.House,"Owner has " + myTenants.size()
 						+ " tenants.");
 			}
 		}
@@ -75,7 +76,7 @@ public class OwnerRole extends Role implements Owner {
 	// MSG from the God class at a certain time
 	public void msgTimeToCollectRent() {
 		if (myPerson.getHomeType() == "Apartment") {
-			System.out.println("Owner is collecting rent from tenants");
+			Do(AlertTag.House,"Owner is collecting rent from tenants");
 			synchronized (myTenants) {
 				for (MyTenant tenant : myTenants) {
 					tenant.state = TenantState.OwesRent;
@@ -95,11 +96,10 @@ public class OwnerRole extends Role implements Owner {
 					tenant.rentOwed.subtract(m);
 					if (tenant.rentOwed.isZero()) {
 						tenant.state = TenantState.None;
-						System.out.println("Owner received rent from tenant");
+						Do(AlertTag.House,"Owner received rent from tenant");
 					} else {
 						tenant.state = TenantState.InDebt;
-						System.out
-								.println("Owner did not receive full rent from tenant");
+						Do(AlertTag.House,"Owner did not receive full rent from tenant");
 					}
 					stateChanged();
 					break;
@@ -113,8 +113,7 @@ public class OwnerRole extends Role implements Owner {
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
 				if (tenant.tenant == t) {
-					System.out
-							.println("Owner has a tenant who cannot pay rent");
+					Do(AlertTag.House,"Owner has a tenant who cannot pay rent");
 					tenant.state = TenantState.InDebt;
 					stateChanged();
 					break;
@@ -128,8 +127,7 @@ public class OwnerRole extends Role implements Owner {
 		synchronized (myTenants) {
 			for (MyTenant tenant : myTenants) {
 				if (tenant.tenant == t) {
-					System.out.println("Owner has a tenant who broke a "
-							+ a.type);
+					Do(AlertTag.House,"Owner has a tenant who broke a "+ a.type);
 					tenant.rentOwed.add(20, 0);
 					stateChanged();
 					break;
@@ -169,7 +167,7 @@ public class OwnerRole extends Role implements Owner {
 			for (Appliance a : appliances) {
 				if (a.state == ApplianceState.NeedsFixing) {
 					a.fixAppliance();
-					System.out.println("Owner fixed appliance " + a.type);
+					Do(AlertTag.House,"Owner fixed appliance " + a.type);
 					return true;
 				}
 			}

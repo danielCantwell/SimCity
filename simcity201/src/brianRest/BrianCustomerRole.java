@@ -5,6 +5,7 @@ import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.gui.BrianAnimationPanel;
 import brianRest.gui.CustomerGui;
@@ -118,7 +119,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	
 	@Override
 	public void msgIsHungry(){ 
-		Do("is hungry.");
+		Do(AlertTag.BrianRest, "is hungry.");
 		event = CustomerEvent.gotHungry; 
 		stateChanged();
     }
@@ -133,7 +134,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	public void msgFullHouse(){
 		int tiredOfWaiting = (int)(Math.random() * 2);
 		if (tiredOfWaiting == 1){
-			Do("Tired of Waiting in Restaurant");
+			Do(AlertTag.BrianRest, "Tired of Waiting in Restaurant");
 			state = CustomerState.tiredOfWaiting;
 			event = CustomerEvent.ReceivedCheck;
 			stateChanged();
@@ -150,7 +151,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	@Override
 	public void msgHeresYourOrder(String order){
 		if (order!= choice){
-			Do("Wrong Order!!!");
+			Do(AlertTag.BrianRest, "Wrong Order!!!");
 		}
 		event = CustomerEvent.foodArrived;
 		stateChanged();
@@ -174,7 +175,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	
 	@Override
 	public void msgHeresYourChange(double d){
-		Do("Received: $"+ d);
+		Do(AlertTag.BrianRest, "Received: $"+ d);
 		totalMoney = d;
 		myPerson.money = new Money((int)d, (int) ((d-(int)d) * 100));
 		myPerson.hungerLevel += 20;
@@ -210,7 +211,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 		
 		if (state == CustomerState.WaitingInRestaurant && event == CustomerEvent.followWaiter ){
 			state = CustomerState.Seated;
-			Do(state.toString());
+			Do(AlertTag.BrianRest, state.toString());
 			followWaiter();
 			return true;
 		}
@@ -268,7 +269,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	}
 
 	private void goToRestaurant() {
-		Do("is going to restaurant with " + totalMoney);
+		Do(AlertTag.BrianRest, "is going to restaurant with " + totalMoney);
 		DoGoToWaitingArea();
 		customerGui.setText("Hungry");
 		host.msgIWantToEat(this);//send our instance, so he can respond to us
@@ -281,18 +282,18 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	}
 	
 	private void CallWaiter(){
-		Do("is calling Waiter.");
+		Do(AlertTag.BrianRest, "is calling Waiter.");
 		customerGui.setText("Call Waiter");
 		waiter.msgReadyToOrder(this);
 	}
 	
 	private void ChooseFood(){
-		Do("is choosing food.");
+		Do(AlertTag.BrianRest, "is choosing food.");
 		customerGui.setText("Choosing");
 			if (!menu.HaveEnoughMoneyForAny(totalMoney) || numberOfTimesOrdering > 2){
 				if (!menu.HaveEnoughMoneyForAny(totalMoney))
-				Do("I don't have enough money!");
-				else Do("This restaurant is always out of stock!");
+				Do(AlertTag.BrianRest, "I don't have enough money!");
+				else Do(AlertTag.BrianRest, "This restaurant is always out of stock!");
 				state = CustomerState.NotEnoughmoney;
 				event = CustomerEvent.ReceivedCheck;
 				stateChanged();
@@ -304,7 +305,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	}
 	
 	private void leaveRestaurantEarly(){
-		Do("is leaving.");
+		Do(AlertTag.BrianRest, "is leaving.");
 		DoLeavingTable();
 		if (waiter!=null)
 			waiter.msgImDone(this);
@@ -314,14 +315,14 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	}
 
 	private void TellWaiterMyChoice(){
-		Do("tells the waiter he wants " + choice + ".");
+		Do(AlertTag.BrianRest, "tells the waiter he wants " + choice + ".");
 		waiter.msgHeresMyChoice(this,choice);
 		event = CustomerEvent.ordered;
 		customerGui.setText("?");
 	}
 
 	private void EatFood() {
-		Do("is eating food.");
+		Do(AlertTag.BrianRest, "is eating food.");
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
 		//When that time elapses, it will call back to the run routine
@@ -336,18 +337,18 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	}
 	
 	private void RequestCheck(){
-		Do("Requesting a check");
+		Do(AlertTag.BrianRest, "Requesting a check");
 		customerGui.setText("Check Please");
 		waiter.msgRequestCheck(this);
 	}
 	
 	private void Paying(){
-		Do("I'm paying");
+		Do(AlertTag.BrianRest, "I'm paying");
 		cashier.msgHeresIsMyMoney(this, totalMoney);
 	}
 
 	private void leaveTable() {
-		Do("is leaving.");
+		Do(AlertTag.BrianRest, "is leaving.");
 		customerGui.setText("Leaving");
 		DoLeavingTable();
 		if (waiter!=null)
@@ -357,7 +358,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	}
 	
 	private void Dead(){
-		Do("has been terminated for lack of payment.");
+		Do(AlertTag.BrianRest, "has been terminated for lack of payment.");
 		God.Get().removePerson(myPerson);
 		giveAllMoneyToCashier();
 		
@@ -381,7 +382,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	// ###### GUI Messaging ########
 	public void msgAnimationFinishedGoToSeat() {
 		//from animation
-		Do("is seated.");
+		Do(AlertTag.BrianRest, "is seated.");
 		event = CustomerEvent.gotMenu;
 		stateChanged();
 	}
@@ -404,7 +405,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	
 	//######### GUI Action###########
 	private void DoFollowWaiter() {
-		Do("is following the waiter.");
+		Do(AlertTag.BrianRest, "is following the waiter.");
 	}
 	private void DoLeavingTable(){
 		customerGui.DoLeavingTable();

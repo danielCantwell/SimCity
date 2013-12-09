@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import SimCity.Globals.*;
+import SimCity.trace.AlertTag;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
 
@@ -43,7 +44,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void setMoney(Money m) {
 		wMoney = myPerson.getMoney();
-		System.out.println("This Customer has :$"+wMoney.dollars+"."+wMoney.cents);
+		Do(AlertTag.BANK,"This Customer has :$"+wMoney.dollars+"."+wMoney.cents);
 	}
 
 	//-----------------------------------------------Messages------------------------------------------------
@@ -53,10 +54,10 @@ public class bankCustomerRole extends Role implements Customer{
 		s = state.enter;
 		wMoney = myPerson.getMoney();
 		accNum = myPerson.getAccNum();
-		System.out.println("This Customer has entered the building with: $"+wMoney.dollars+"."+wMoney.cents);
+		Do(AlertTag.BANK,"This Customer has entered the building with: $"+wMoney.dollars+"."+wMoney.cents);
 		B_Bank bank = (B_Bank)myPerson.building;
 		guard = bank.getBankGuard();
-		System.out.println("messaging this guard: " + " "+ guard.toString());
+		Do(AlertTag.BANK,"messaging this guard: " + " "+ guard.toString());
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
 		gui.setText("Customer");
@@ -66,7 +67,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void requestSearch() {
 		s = state.reqSearch;
-		System.out.println("Customer: Guard requested a search "+s);
+		Do(AlertTag.BANK,"Customer: Guard requested a search "+s);
 		stateChanged();
 	}
 
@@ -74,7 +75,7 @@ public class bankCustomerRole extends Role implements Customer{
 	public void yesEnter() {
 		s = state.entered;
 		stateChanged();
-		System.out.println("Customer: Guard gave permission to enter");
+		Do(AlertTag.BANK,"Customer: Guard gave permission to enter");
 	}
 
 	@Override
@@ -94,7 +95,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void whatService() {
 		s = state.reqService;
-		System.out.println("Customer: "+this+" Teller asked which service");
+		Do(AlertTag.BANK,"Customer: "+this+" Teller asked which service");
 		stateChanged();
 	}
 
@@ -117,7 +118,7 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		//System.out.println("------------------------------------");
+		//Do(AlertTag.BANK,"------------------------------------");
 		if (s == state.enter){
 
 			openDoor();
@@ -129,7 +130,7 @@ public class bankCustomerRole extends Role implements Customer{
 			return true;
 		}
 		if(s == state.reqSearch) {
-			System.out.println("Customer PAE reqSearch");
+			Do(AlertTag.BANK,"Customer PAE reqSearch");
 			giveInv();
 			return true;
 		}
@@ -150,10 +151,10 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void openDoor() {
 		//if (!myPerson.building.getOpen()) {leaveBank(); return;}
-		System.out.println("opened door");
+		Do(AlertTag.BANK,"opened door");
 
 		//bankGuardRole newGuard = (bankGuardRole)guard;
-		//System.out.println("messaging this guard: " + guard + "active? " + newGuard.getActive() );
+		//Do(AlertTag.BANK,"messaging this guard: " + guard + "active? " + newGuard.getActive() );
 		//newGuard.test(this);
 		guard.wantEnter(this);
 		//B_Bank bank= (B_Bank)myPerson.building;
@@ -170,7 +171,7 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public void giveInv() {
-		System.out.println("Customer: is asking guard to search");
+		Do(AlertTag.BANK,"Customer: is asking guard to search");
 		guard.allowSearch(this, inventory);
 		s = state.gaveInv;
 	}
@@ -215,7 +216,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void leaveBank() {
 		gui.doLeaveBank();
-		System.out.println("customer leaving bank with : $"+wMoney.getDollar());
+		Do(AlertTag.BANK,"customer leaving bank with : $"+wMoney.getDollar());
 		try {
 			moving.acquire();
 		}

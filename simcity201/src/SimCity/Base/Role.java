@@ -4,6 +4,8 @@
 package SimCity.Base;
 
 import SimCity.gui.Gui;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 
 /**
  * @author Brian
@@ -36,8 +38,9 @@ public abstract class Role {
 		myPerson.stateChanged();
 	}
 	
-	protected void Do(String s){
-		System.out.println(this.getClass().toString()+ ": " + s);
+	protected void Do(AlertTag a, String s){
+    	AlertLog.getInstance().logMessage(AlertTag.God, myPerson.getName(), toString() + " "+s);
+
 	}
 }
 

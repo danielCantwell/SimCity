@@ -2,6 +2,7 @@ package brianRest;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 
 
@@ -71,7 +72,7 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	//Wants a break
 	@Override
 	public void msgWantABreak(){
-		Do("Want a break after my customers leave.");
+		Do(AlertTag.BrianRest, "Want a break after my customers leave.");
 		state = WaiterState.wantABreak;
 		stateChanged();
 	}
@@ -104,7 +105,7 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	public void msgReadyToOrder(BrianCustomer c){  		
 		for (MyCustomer mc : myCustomers){
 			if (mc.customer == c){
-				Do("Received customer call");
+				Do(AlertTag.BrianRest, "Received customer call");
 				mc.state = MyCustomerState.readyToOrder;
 				stateChanged();
 			}
@@ -301,14 +302,14 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	}
 	//Want a break;
 	private void IWantABreak(){
-		Do("I'm telling the host I want a break.");
+		Do(AlertTag.BrianRest, "I'm telling the host I want a break.");
 		state = WaiterState.askedBreak;
 		host.msgWaiterWantsABreak(this);
 	}
 	
 	//Take a break;
 	private void TakeABreak(){
-		Do("I'm taking a break!");
+		Do(AlertTag.BrianRest, "I'm taking a break!");
 		DoTakeABreak();
 		state = WaiterState.onBreak;
 		breakTimer.restart();
@@ -316,7 +317,7 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	}
 	//OffBreak
 	private void OffBreak(){
-		Do("I'm coming back to work!");
+		Do(AlertTag.BrianRest, "I'm coming back to work!");
 		state = WaiterState.none;
 		host.msgWaiterOffBreak(this);
 		gui.DoOffBreak();
@@ -324,14 +325,14 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	
 	private void SeatCustomer(BrianTable t, MyCustomer mc) {
 		DoGetCustomer();
-		Do("is seating " + ((BrianCustomerRole) mc.customer).getName());
+		Do(AlertTag.BrianRest, "is seating " + ((BrianCustomerRole) mc.customer).getName());
 		mc.customer.msgFollowMe(new BrianMenu());
 		mc.state = MyCustomerState.seated;
 		DoSeatCustomer(t.getTableNumber(), mc);
 	}
 	
 	private void TakeOrder(MyCustomer mc){
-		Do("is taking an order.");
+		Do(AlertTag.BrianRest, "is taking an order.");
 		DoWalkToCustomer(mc, "");
 		mc.customer.msgWhatWouldYouLike();
 		mc.state = MyCustomerState.ordering;
@@ -344,7 +345,7 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	}
 	
 	private void TakeReorder(MyCustomer mc){
-		Do("Going to customer " + ((BrianCustomerRole) mc.customer).getCustomerName() + " for a reorder.");
+		Do(AlertTag.BrianRest, "Going to customer " + ((BrianCustomerRole) mc.customer).getCustomerName() + " for a reorder.");
 		DoWalkToCustomer(mc, "Reordering");
 		BrianMenu m = new BrianMenu();
 		m.remove(mc.choice);
@@ -357,14 +358,14 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 		if (cook instanceof BrianCook)
 		 cook.DoRemovePlate(mc.choice);
 		DoWalkToCustomer(mc, mc.choice);
-		Do("is giving food to " + ((BrianCustomerRole) mc.customer).getName());	
+		Do(AlertTag.BrianRest, "is giving food to " + ((BrianCustomerRole) mc.customer).getName());	
 		mc.state = MyCustomerState.eating;
 		mc.customer.msgHeresYourOrder(mc.choice);
 	}
 	
 	private void AskCashierForTotal(MyCustomer mc){
 		DoGetCheck();
-		Do("Asking "+ ((BrianCashierRole)cashier).name + " for check.");
+		Do(AlertTag.BrianRest, "Asking "+ ((BrianCashierRole)cashier).name + " for check.");
 		mc.state = MyCustomerState.waitingCheck;
 		cashier.msgHereIsCheck(mc.choice, mc.customer, this);
 	}
@@ -376,14 +377,14 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	}
 	
 	private void CustomerLeaving(MyCustomer c){
-		Do(((BrianCustomerRole) c.customer).getName() + " is leaving the restaurant.");
+		Do(AlertTag.BrianRest, ((BrianCustomerRole) c.customer).getName() + " is leaving the restaurant.");
 		host.msgTableIsClear(c.table);
 		myCustomers.remove(c);
 		numberOfCustomers--;
 	}
 	
 	private void CleanDeadCustomer(MyCustomer mc){
-		Do("Killing Customer "+ ((BrianCustomerRole) mc.customer).getName());
+		Do(AlertTag.BrianRest, "Killing Customer "+ ((BrianCustomerRole) mc.customer).getName());
 		DoGetDeadCustomer();
 		mc.customer.DoGoToDeadLocation();
 		DoGoToDeadLocation();
@@ -413,14 +414,14 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	}
 	
 	public void DoGetCustomer(){
-		Do("is getting customer.");
+		Do(AlertTag.BrianRest, "is getting customer.");
 		gui.setText("Getting Customer");
 		gui.DoGetCustomer();
 		atLocAcquire();
 	}
 	
 	public void DoGetDeadCustomer(){
-		Do("is removing a dead customer.");
+		Do(AlertTag.BrianRest, "is removing a dead customer.");
 		gui.setText("Killing Customer");
 		gui.DoGetCustomer();
 		atLocAcquire();
@@ -438,7 +439,7 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 	}
 	
 	public void DoGiveOrderToCook(){
-		Do("gives an order to the cook.");
+		Do(AlertTag.BrianRest, "gives an order to the cook.");
 		gui.setText("Going to Cook");
 		gui.DoGiveOrderToCook();
 		atLocAcquire();

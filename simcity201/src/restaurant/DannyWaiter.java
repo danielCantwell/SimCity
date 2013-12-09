@@ -13,6 +13,7 @@ import restaurant.interfaces.Waiter;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.trace.AlertTag;
 
 /**
  * Restaurant Waiter Agent
@@ -476,14 +477,14 @@ public class DannyWaiter extends Role implements Waiter {
 	}
 
 	private void goOnBreak() {
-		Do("Going On Break");
+		Do(AlertTag.DannyRest, "Going On Break");
 		state = WaiterState.OnBreak;
 		host.msgGoingOnBreak(this);
 		// TODO getGui().gui.restPanel.enableOnBreak(this);
 	}
 
 	private void goOffBreak() {
-		Do("Going Off Break");
+		Do(AlertTag.DannyRest, "Going Off Break");
 		host.msgGoingOffBreak(this);
 		event = WaiterEvent.None;
 	}

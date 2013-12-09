@@ -12,6 +12,7 @@ import market.interfaces.MarketDeliveryCook;
 import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import timRest.gui.TimCookGui;
 import timRest.gui.TimHostGui;
 import timRest.interfaces.TimWaiter;
@@ -121,7 +122,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
                     f.state = FoodState.inStock;
                     f.inventory += amount;
                     outOfFood = false;
-                    Do("Recieved delivery! Now I have " + f.inventory + " " + f.name + " in stock.");
+                    Do(AlertTag.BrianRest, "Recieved delivery! Now I have " + f.inventory + " " + f.name + " in stock.");
                     stateChanged();
                     return;
                 }
@@ -257,7 +258,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 					}
 					else if (order.state ==  OrderState.pending)
 					{
-						Do("Cooking " + order.choice + ".");
+						Do(AlertTag.TimRest,"Cooking " + order.choice + ".");
 						state = CookState.cooking;
 						cook(order);
 						return true;
@@ -342,7 +343,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 			if (market.foodAvail.contains(food.name))
 			{
 				food.state = FoodState.onOrder;
-				Do("Ordering " + amount + "x " + food.name + ".");
+				Do(AlertTag.TimRest,"Ordering " + amount + "x " + food.name + ".");
 				market.manager.msgWantFood(myPerson.getBuilding().getID(), food.name, amount);
 				break;
 			}

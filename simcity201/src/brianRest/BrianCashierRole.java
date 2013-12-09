@@ -2,6 +2,7 @@ package brianRest;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 
 
@@ -106,7 +107,7 @@ public boolean pickAndExecuteAnAction() {
 		
 //########## Actions ###############
 	public void CalculateCheck(Check c){
-		Do("Calculating Check");
+		Do(AlertTag.BrianRest, "Calculating Check");
 		c.state = CheckStatus.calculated;
 		c.totalCost = menu.getPrice(c.choice);
 		c.waiter.msgHereIsCheck(c.totalCost, c.customer);
@@ -120,20 +121,20 @@ public boolean pickAndExecuteAnAction() {
 			return;
 		}
 		
-		Do("Here is your change: $" + (c.customerPayment-c.totalCost));
+		Do(AlertTag.BrianRest, "Here is your change: $" + (c.customerPayment-c.totalCost));
 		c.customer.msgHeresYourChange(c.customerPayment - c.totalCost);
 		checks.remove(c);
 	}
 	
 	public void PayMarket(Check c){
-		Do("Paying "+c.market.name+ " market a total of "+ "$" + c.totalCost);
+		Do(AlertTag.BrianRest, "Paying "+c.market.name+ " market a total of "+ "$" + c.totalCost);
 		c.market.msgPayMarket(c.totalCost);
 		money -= c.totalCost;
 		checks.remove(c);
 	}
 	
 	public void leaveRestaurant(){
-		System.out.println("Brian Cashier is leaving restaurant.");
+		Do(AlertTag.BrianRest, "Brian Cashier is leaving restaurant.");
 		B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
 		br.cashierFilled = false;
 		myPerson.msgGoHome();

@@ -9,6 +9,7 @@ import EricRestaurant.interfaces.Host;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_EricRestaurant;
+import SimCity.trace.AlertTag;
 
 import java.util.*;
 
@@ -225,19 +226,19 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	// Actions
 
 	private void goToRestaurant() {
-		Do("Going to restaurant because my hungerLevel is : "+myPerson.hungerLevel);
+		Do(AlertTag.EricRest, "Going to restaurant because my hungerLevel is : "+myPerson.hungerLevel);
 		customerGui.custWait();
 		host.msgIWantFood(this, cash);//send our instance, so he can respond to us
 	}
 	private void SitDown() {
-		Do("Being seated. Going to table "+t);
+		Do(AlertTag.EricRest, "Being seated. Going to table "+t);
 		customerGui.DoGoToSeat(t);//hack; only one table
 		event = AgentEvent.ready;
 		stateChanged();
 	}
 
 	private void readyToOrder() {
-		Do("Ready to order");
+		Do(AlertTag.EricRest, "Ready to order");
 		waiter.takeMyOrder(this);
 	}
 
@@ -267,7 +268,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 				choice = "Salad";
 			}
 		}
-		Do("Here is my order of "+choice);
+		Do(AlertTag.EricRest, "Here is my order of "+choice);
 		waiter.hereIsOrder(this, choice);
 	}
 
@@ -279,7 +280,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	}
 	private void EatFood() {
 		event = AgentEvent.eating;
-		Do("Eating Food");
+		Do(AlertTag.EricRest, "Eating Food");
 
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
@@ -297,7 +298,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	
 	public void leaveTable() {
 		myPerson.hungerLevel = myPerson.hungerLevel + 30;
-		Do("Leaving, My currrent hunger level is : "+myPerson.hungerLevel+".");
+		Do(AlertTag.EricRest, "Leaving, My currrent hunger level is : "+myPerson.hungerLevel+".");
 		waiter.LeavingTable(this);
 		customerGui.DoExitRestaurant();
 		

@@ -11,6 +11,7 @@ import Bank.interfaces.Manager;
 import Bank.interfaces.Robber;
 import SimCity.Base.*;
 import SimCity.Buildings.B_Bank;
+import SimCity.trace.AlertTag;
 
 /**
  * Bank Guard Role
@@ -51,9 +52,9 @@ public class bankGuardRole extends Role implements Guard {
 	//----------------------------------------------Messages-------------------------------------------------
 
 	public void enterBuilding() {
-		//System.out.println("---------------------"+this);
+		//Do(AlertTag.BANK,"---------------------"+this);
 		s = state.ready;
-		System.out.println("I am a guard");
+		Do(AlertTag.BANK,"I am a guard");
 		B_Bank bank = (B_Bank)myPerson.building;
 		bank.setBankGuard(this);
 		manager = bank.getBankManager();
@@ -66,17 +67,17 @@ public class bankGuardRole extends Role implements Guard {
 	}
 
 	public void wantEnter(Customer newC) {
-		System.out.println("Guard: Customer wants to enter");
+		Do(AlertTag.BANK,"Guard: Customer wants to enter");
 		Entry c = new Entry();
 		c.s = state.entered;
 		c.bc = newC;
 		custEnter.add(c);
-		System.out.println("Myperson.mainrole: "+myPerson.mainRole+" Guard address: "+this+" Size: "+custEnter.size());
+		Do(AlertTag.BANK,"Myperson.mainrole: "+myPerson.mainRole+" Guard address: "+this+" Size: "+custEnter.size());
 		stateChanged();
 	}
 	
 	public void RobberEnter(Robber newR) {
-		System.out.println("Guard: Robber is forcing entry");
+		Do(AlertTag.BANK,"Guard: Robber is forcing entry");
 		Entry c = new Entry();
 		c.s = state.robber;
 		c.r = newR;

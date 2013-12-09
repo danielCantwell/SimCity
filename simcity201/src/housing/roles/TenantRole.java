@@ -17,6 +17,7 @@ import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_House;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 
 /**
  * @author Daniel
@@ -65,14 +66,14 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	public void msgPayRent(Money m) {
-		System.out.println(myPerson.getName() + " Tenant owes rent");
+		Do(AlertTag.House, myPerson.getName() + " Tenant owes rent");
 		rentOwed = m;
 		state = State.owesRent;
 		stateChanged();
 	}
 
 	public void msgEvictionNotice() {
-		System.out.println("Tenant is evicted");
+		Do(AlertTag.House,"Tenant is evicted");
 		myPerson.setHomeType("None");
 		stateChanged();
 	}
@@ -80,20 +81,20 @@ public class TenantRole extends Role implements Tenant {
 	// MESSAGES from God
 
 	public void msgMorning() {
-		System.out.println(myPerson.getName() + " Tenant should be waking up");
+		Do(AlertTag.House,myPerson.getName() + " Tenant should be waking up");
 		time = Time.getReady;
 		stateChanged();
 	}
 
 	public void msgGoToWork() {
-		System.out.println(myPerson.getName()
+		Do(AlertTag.House,myPerson.getName()
 				+ " Tenant should be going to work");
 		time = Time.work;
 		stateChanged();
 	}
 
 	public void msgSleeping() {
-		System.out.println(myPerson.getName()
+		Do(AlertTag.House,myPerson.getName()
 				+ " Tenant should be going to sleep");
 		time = Time.msgSleep;
 		stateChanged();
@@ -102,32 +103,32 @@ public class TenantRole extends Role implements Tenant {
 	// MESSAGES from GUI
 
 	public void msgAtTable() {
-		System.out.println(myPerson.getName() + " Tenant is at table");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is at table");
 		atTable.release();
 	}
 
 	public void msgAtBed() {
-		System.out.println(myPerson.getName() + " Tenant is at bed");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is at bed");
 		atBed.release();
 	}
 
 	public void msgAtFridge() {
-		System.out.println(myPerson.getName() + " Tenant is at fridge");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is at fridge");
 		atFridge.release();
 	}
 
 	public void msgAtStove() {
-		System.out.println(myPerson.getName() + " Tenant is at stove");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is at stove");
 		atStove.release();
 	}
 
 	public void msgAtMail() {
-		System.out.println(myPerson.getName() + " Tenant is at mailbox");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is at mailbox");
 		atStove.release();
 	}
 
 	public void msgAtDoor() {
-		System.out.println(myPerson.getName() + " Tenant is at door");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is at door");
 		atDoor.release();
 	}
 
@@ -185,8 +186,7 @@ public class TenantRole extends Role implements Tenant {
 	// ------------------------------------ACTIONS------------------------------------
 
 	private void tryToPayRent() {
-		System.out
-				.println(myPerson.getName() + " Tenant is trying to pay rent");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is trying to pay rent");
 		// go to the mailbox
 		gui.DoGoToMailbox();
 		try {
@@ -208,18 +208,18 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	private void goToBank() {
-		System.out.println(myPerson.getName() + " Tenant is going to the bank");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is going to the bank");
 		DoGoToBank();
 	}
 
 	private void goToMarket() {
-		System.out.println(myPerson.getName()
+		Do(AlertTag.House,myPerson.getName()
 				+ " Tenant is going to the market");
 		DoGoToMarket();
 	}
 
 	private void getReady() {
-		System.out.println(myPerson.getName()
+		Do(AlertTag.House,myPerson.getName()
 				+ " Tenant has woken up and is getting ready");
 		if (myPerson.getMainRoleString().contains("usto")) {
 			// if the person is a dedicated customer
@@ -236,7 +236,7 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	private void getFood() {
-		System.out.println(myPerson.getName() + " Tenant is getting food");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is getting food");
 		if (tenantShouldEatOut()) {
 			DoGoToRestaurant();
 		} else if (foodCount > 0) {
@@ -247,7 +247,7 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	private void sleep() {
-		System.out.println(myPerson.getName() + " Tenant is going to bed");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is going to bed");
 		gui.DoGoToBed(tenantNumber);
 		try {
 			atBed.acquire();
@@ -259,7 +259,7 @@ public class TenantRole extends Role implements Tenant {
 	}
 
 	private void goToWork() {
-		System.out.println(myPerson.getName() + " Tenant is going to work");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is going to work");
 		DoLeaveHouse();
 		myPerson.msgGoToBuilding(myPerson.getWorkPlace(), Intent.work);
 		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse
@@ -267,13 +267,13 @@ public class TenantRole extends Role implements Tenant {
 		myPanel.addGui(gui);
 		exitBuilding(myPerson);
 
-		// System.out.println(myPerson.actions.get(0).getGoAction().toString());
+		// Do(AlertTag.House,myPerson.actions.get(0).getGoAction().toString());
 	}
 
 	public void useAppliance(String type) {
 		for (Appliance a : appliances) {
 			if (a.type == type) {
-				System.out.println(myPerson.getName()
+				Do(AlertTag.House,myPerson.getName()
 						+ " Tenant is using appliance: " + type);
 				a.useAppliance();
 				if (a.durability <= 0) {
@@ -294,7 +294,7 @@ public class TenantRole extends Role implements Tenant {
 
 	public void DoGoToRestaurant() {
 		// Leave house to go to Restaurant
-		System.out.println(myPerson.getName()
+		Do(AlertTag.House,myPerson.getName()
 				+ " Tenant is going to a restaurant to eat");
 		DoLeaveHouse();
 		// God selects a random restaurant for Tenant to go to
@@ -385,7 +385,7 @@ public class TenantRole extends Role implements Tenant {
 
 	@Override
 	protected void enterBuilding() {
-		System.out.println(myPerson.getName() + " Tenant is entering building");
+		Do(AlertTag.House,myPerson.getName() + " Tenant is entering building");
 
 		owner = ((B_House) myPerson.building).getOwner();
 		owner.msgAddTenant(this);

@@ -4,6 +4,7 @@ package brianRest;
 
 import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.OrderStand.Orders;
 import brianRest.gui.BrianAnimationPanel;
@@ -79,7 +80,7 @@ public class BrianCookRole extends Role implements BrianCook {
 	
 	@Override
 	public void msgFillOrder(String choice, int amount, boolean filled){
-		Do("Refilling " + choice + " by " + amount+".");
+		Do(AlertTag.BrianRest, "Refilling " + choice + " by " + amount+".");
 		Food f = foodDictionary.get(choice);
 		f.amount = foodDictionary.get(choice).amount+amount;
 		foodDictionary.put(choice, f);
@@ -155,19 +156,19 @@ public class BrianCookRole extends Role implements BrianCook {
 		if (temp.amount == 0){
 			o.waiter.msgOutOfFood(o.choice, o.tableNumber);
 			orders.remove(o);
-			Do("Out of "+ o.choice);
+			Do(AlertTag.BrianRest, "Out of "+ o.choice);
 			return;
 		}
 		DoGoToGrill();
 		gui.DoGoToGrills(o.choice);
 		if (temp.amount == 1){
 			//order more for the restaurant;
-			Do("Last "+ o.choice+". Ordering more.");
+			Do(AlertTag.BrianRest, "Last "+ o.choice+". Ordering more.");
 		}
 		
 		temp.amount --;
 		
-		  Do("is cooking " + o.choice + ".");
+		  Do(AlertTag.BrianRest, "is cooking " + o.choice + ".");
 		  o.setTimer(foodDictionary.get(o.choice).cookTime);
 	}
 	

@@ -11,6 +11,7 @@ import java.util.concurrent.Semaphore;
 
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 import timRest.gui.TimAnimationPanel;
 import timRest.gui.TimCookGui;
@@ -91,13 +92,13 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		}
 		if (myCustomer != null)
 		{
-			Do(customer.getName() + " is ready to order.");
+			Do(AlertTag.TimRest, customer.getName() + " is ready to order.");
 			myCustomer.state = CustomerState.readyToOrder;
 			stateChanged();
 		}
 		else
 		{
-			Do("I couldn't find " + customer.getName() + "!");
+			Do(AlertTag.TimRest, "I couldn't find " + customer.getName() + "!");
 		}
 	}
 
@@ -144,7 +145,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		}
 		if (myCustomer != null)
 		{
-			Do(myCustomer.customerRef.getName() + " needs to reorder.");
+			Do(AlertTag.TimRest,myCustomer.customerRef.getName() + " needs to reorder.");
 			myCustomer.state = CustomerState.reorder;
 			state = AgentState.reorder;
 			stateChanged();
@@ -219,7 +220,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		if (myCustomer != null)
 		{
 			myCustomer.amountOwed = amount;
-			Do("Got check.");
+			Do(AlertTag.TimRest,"Got check.");
 			stateChanged();
 		}
 	}
@@ -296,7 +297,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
     	{
     		inTransit.release();// = true;
     		travelState = TravelState.atTable;
-    		Do("Reached Table.");
+    		Do(AlertTag.TimRest,"Reached Table.");
     	}
 		stateChanged();
 	}
@@ -336,7 +337,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	{
 		try
 		{
-			Do("Looking for things to do.");
+			Do(AlertTag.TimRest,"Looking for things to do.");
 			if (!tablesToOpen.isEmpty())
 			{
 				openTables();
@@ -466,7 +467,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 					{
 						// wrong table
 						// error
-						Do("ERROR!!!!!!!!");
+						Do(AlertTag.TimRest,"ERROR!!!!!!!!");
 					}
 					else
 					{
@@ -581,7 +582,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 					if (c != null)
 					{
 						// out of place msg
-						Do("Sorry, we are out of food.");
+						Do(AlertTag.TimRest,"Sorry, we are out of food.");
 						HashMap<String, Money> newChoices = menu.getChoices();
 						newChoices.remove(c.choice);
 						c.customerRef.msgNoMoreFood();
@@ -725,7 +726,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	
 	private void giveCheckToCustomer(MyCustomer customer)
 	{
-		Do("Here is your check.");
+		Do(AlertTag.TimRest,"Here is your check.");
 		customer.customerRef.msgHereIsTheCheck(cashier, customer.amountOwed);
 		customersThatNeedChecks.remove(customer);
 		customer.state = CustomerState.idle;
@@ -795,7 +796,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	
 	private void goOnBreak()
 	{
-		Do("Going on break.");
+		Do(AlertTag.TimRest,"Going on break.");
 		waiterGui.GoToBreak();
 		state = AgentState.onBreak;
 	}
