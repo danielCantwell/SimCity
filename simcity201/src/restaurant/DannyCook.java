@@ -1,10 +1,14 @@
 package restaurant;
 
+import SimCity.Base.God;
+import SimCity.Base.God.BuildingType;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.Buildings.B_Market;
 
 import java.util.*;
 
+import market.interfaces.MarketDeliveryCook;
 import restaurant.gui.CookGui;
 import restaurant.gui.DannyRestaurantAnimationPanel;
 
@@ -17,7 +21,7 @@ import restaurant.gui.DannyRestaurantAnimationPanel;
 // him
 // the HostAgent. A Host is the manager of a restaurant who sees that all
 // is proceeded as he wishes.
-public class DannyCook extends Role {
+public class DannyCook extends Role implements MarketDeliveryCook {
 
 	private CookGui cookGui = new CookGui();
 
@@ -32,10 +36,10 @@ public class DannyCook extends Role {
 	public boolean workOver = false;
 
 	// type. timer. inventory. low. cap
-	private Food steak = new Food("Steak", 8000, 6, 2, 8);
-	private Food chicken = new Food("Chicken", 7000, 8, 2, 8);
-	private Food pizza = new Food("Pizza", 5000, 5, 2, 6);
-	private Food salad = new Food("Salad", 3000, 4, 2, 6);
+	private Food steak = new Food("Steak", 8000, 3, 2, 8);
+	private Food chicken = new Food("Chicken", 7000, 3, 2, 8);
+	private Food pizza = new Food("Pizza", 5000, 3, 2, 6);
+	private Food salad = new Food("Salad", 3000, 3, 2, 6);
 	public Map<String, Food> foods = Collections
 			.synchronizedMap(new HashMap<String, Food>());
 
@@ -99,6 +103,15 @@ public class DannyCook extends Role {
 		if (workOver) {
 			leaveRestaurant();
 			return true;
+		}
+		
+		synchronized (foodToOrder) {
+			for (FoodNeeded f : foodToOrder) {
+				if (f.state == FoodNeededState.NeedToOrder) {
+					orderFood(f);
+					return true;
+				}
+			}
 		}
 
 		// If there is an order that is done, plate it
@@ -199,6 +212,12 @@ public class DannyCook extends Role {
 		Do(order.choice + " is out of stock");
 		order.waiter.msgOutOf(order.choice, order.table);
 		orders.remove(order);
+	}
+	
+	private void orderFood(FoodNeeded f) {
+		B_Market market = (B_Market) God.Get().findBuildingOfType(BuildingType.Market);
+		market.getManager().msgWantFood(myPerson.getBuilding().getID(), f.type, f.amount);
+		f.state = FoodNeededState.Ordered;
 	}
 
 	// The animation DoXYZ() routines
@@ -322,5 +341,17 @@ public class DannyCook extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "Danny Cook";
+	}
+
+	@Override
+	public void msgHereIsYourFood(String food, int amount) {
+		for (FoodNeeded f : foodToOrder) {
+			if (f.type == food) {
+				foodToOrder.remove(f);
+			}
+		}
+		
+		foods.get(food).inventory += amount;
+		stateChanged();
 	}
 }

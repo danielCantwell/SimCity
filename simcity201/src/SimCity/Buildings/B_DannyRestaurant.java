@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import market.MarketDeliveryPersonRole;
 import restaurant.DannyCashier;
 import restaurant.DannyCook;
 import restaurant.DannyCustomer;
@@ -126,6 +127,9 @@ public class B_DannyRestaurant extends Building {
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
+			} else if (job.equals("market.MarketDeliveryPersonRole")) {
+				MarketDeliveryPersonRole restaurantRole = (MarketDeliveryPersonRole) person.mainRole;
+                restaurantRole.msgGuiArrivedAtDestination();
 			}
 
 			newRole.setActive(true);
