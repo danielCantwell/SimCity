@@ -28,7 +28,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 
 	private List<Order> itemsToCook = Collections.synchronizedList(new ArrayList<Order>());
 	private List<Food> foods = Collections.synchronizedList(new ArrayList<Food>());
-	private List<Delivery> deliveries = Collections.synchronizedList(new ArrayList<Delivery>());
+	//private List<Delivery> deliveries = Collections.synchronizedList(new ArrayList<Delivery>());
 	private List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
 	
 	private HashMap<String, Integer> cookingMap = new HashMap<String, Integer>();
@@ -110,7 +110,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 //	
 
     @Override
-    public void msgHereIsYourFood(String food, int amount, MarketManagerRole manager, Money price)
+    public void msgHereIsYourFood(String food, int amount)
     {
         synchronized(foods)
         {
@@ -127,10 +127,10 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
                 }
             }
         }
-        synchronized(deliveries)
+        /*synchronized(deliveries)
         {
             deliveries.add(new Delivery(manager, price));
-        }
+        }*/
     }
 	
 //	public void msgPartialOrderDelivered(Market market, String choice, int amount)
@@ -238,11 +238,11 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	@Override
 	protected boolean pickAndExecuteAnAction()
 	{
-        if (!deliveries.isEmpty())
+        /*if (!deliveries.isEmpty())
         {
             askCashierToPay(deliveries.get(0));
             return true;
-        }
+        }*/
 		if (state == CookState.idle)
 		{
 			synchronized(itemsToCook)
@@ -327,11 +327,11 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 		order.waiter.msgOrderIsReady(order.tableNumber, order.choice);
 	}
 	
-	private void askCashierToPay(Delivery delivery)
+	/*private void askCashierToPay(Delivery delivery)
 	{
         host.getCashier().msgPayMarket(delivery.manager, delivery.price);
         deliveries.remove(delivery);
-	}
+	}*/
 	
 	private void orderMoreFood(Food food, int amount)
 	{
@@ -406,7 +406,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 		}
 	}
 	
-	public class Delivery
+	/*public class Delivery
 	{
 	    MarketManagerRole manager;
 	    Money price;
@@ -416,7 +416,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	        this.manager = manager;
 	        this.price = price;
 	    }
-	}
+	}*/
 	
 	private class MyMarket
 	{

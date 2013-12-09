@@ -62,8 +62,14 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 		}
 	}
 	
-	public void msgPayMarket(MarketManagerRole manager, Money money)
+	public void msgPayMarket(int amount, Money pricePerUnit, MarketManagerRole manager)
 	{
+	    // multiply amount by pricePerUnit
+	    Money money = new Money(0, 0);
+	    for (int i = 0; i < amount; i++)
+	    {
+	        money.add(pricePerUnit);
+	    }
 	    billsToPay.add(new Bill(manager, money));
 	}
 

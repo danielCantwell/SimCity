@@ -346,37 +346,46 @@ public class TimWaiterRole extends Role implements TimWaiter{
 			{
 				if (myCustomers != null)
 				{
-					for (MyCustomer c : myCustomers)
-					{
-						if (c.state == CustomerState.waiting)
-						{
-							travelState = TravelState.toHost;
-							state = AgentState.seating;
-							waiterGui.GoToHost();
-							return true;
-						}
-					}
-					for (MyCustomer c : myCustomers)
-					{
-						if (c.state == CustomerState.readyToOrder)
-						{
-							travelState = TravelState.toTable;
-							state = AgentState.takingOrder;
-							waiterGui.GoToTable(c.tablePos);
-							currentTable = c.tableNumber;
-							return true;
-						}
-					}
-					for (MyCustomer c : myCustomers)
-					{
-						if (c.state == CustomerState.waitingForCheck)
-						{
-							travelState = TravelState.toCashier;
-							state = AgentState.gettingCheck;
-							waiterGui.GoToCashier();
-							return true;
-						}
-					}
+				    synchronized(myCustomers)
+				    {
+        				for (MyCustomer c : myCustomers)
+        				{
+        					if (c.state == CustomerState.waiting)
+        					{
+        						travelState = TravelState.toHost;
+        						state = AgentState.seating;
+        						waiterGui.GoToHost();
+        						return true;
+        					}
+        				}
+				    }
+				    synchronized(myCustomers)
+                    {
+    					for (MyCustomer c : myCustomers)
+    					{
+    						if (c.state == CustomerState.readyToOrder)
+    						{
+    							travelState = TravelState.toTable;
+    							state = AgentState.takingOrder;
+    							waiterGui.GoToTable(c.tablePos);
+    							currentTable = c.tableNumber;
+    							return true;
+    						}
+    					}
+                    }
+				    synchronized(myCustomers)
+                    {
+    					for (MyCustomer c : myCustomers)
+    					{
+    						if (c.state == CustomerState.waitingForCheck)
+    						{
+    							travelState = TravelState.toCashier;
+    							state = AgentState.gettingCheck;
+    							waiterGui.GoToCashier();
+    							return true;
+    						}
+    					}
+                    }
 					if (!readyOrders.isEmpty() || !pendingOrders.isEmpty())
 					{
 						travelState = TravelState.toCook;
@@ -580,15 +589,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 					}
 					if (c != null)
 					{
-						// out of place msg
-						Do("Sorry, we are out of food.");
-						HashMap<String, Money> newChoices = menu.getChoices();
-						newChoices.remove(c.choice);
-						c.customerRef.msgNoMoreFood();
-						DoSetTableIcon(c.tableNumber, "", false); //GUI stuff
-						waiterGui.GoToIdle();
-						state = AgentState.idle;
-						currentTable = -1;
+					    tellCustomerWeAreOut(c);
 					}
 					return true;
 				}
@@ -669,8 +670,8 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	}
 
 	// actions
-	
-	private void seatCustomer(MyCustomer customer) {
+
+    private void seatCustomer(MyCustomer customer) {
 		customer.customerRef.msgFollowMeToTable(this);
 		DoSeatCustomer(customer);
 		try {
@@ -736,6 +737,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	
 	private void tellCustomerWeAreOut(MyCustomer c)
 	{
+        Do("Sorry, we are out of food.");
 		HashMap<String, Money> newChoices = menu.getChoices();
 		newChoices.remove(c.choice);
 		c.customerRef.msgWeAreOut(newChoices);

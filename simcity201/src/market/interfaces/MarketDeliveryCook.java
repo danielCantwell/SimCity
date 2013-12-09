@@ -8,5 +8,5 @@ public interface MarketDeliveryCook
     // adds food to inventory
     // calls
     //      cashier.msgPayMarket(managerId, price);
-    void msgHereIsYourFood(String food, int amount, MarketManagerRole manager, Money price);
+    void msgHereIsYourFood(String food, int amount);
 }

@@ -2,6 +2,7 @@ package market;
 
 import java.util.*;
 
+import brianRest.BrianHostRole;
 import timRest.TimHostRole;
 import exterior.gui.SimCityGui;
 import SimCity.Base.Building;
@@ -9,10 +10,16 @@ import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
+import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.Buildings.B_EricRestaurant;
+import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_TimRest;
 import SimCity.Globals.Money;
 import market.gui.MarketDeliveryPersonGui;
+import market.interfaces.MarketDeliveryCashier;
+import market.interfaces.MarketDeliveryCook;
 import market.interfaces.MarketDeliveryPerson;
 
 /**
@@ -22,7 +29,6 @@ import market.interfaces.MarketDeliveryPerson;
  */
 public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPerson{
 	
-	private SimCityGui cityGui;
 	private MarketDeliveryPersonGui gui = new MarketDeliveryPersonGui(this);
 	
 	/**
@@ -138,8 +144,107 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 	        // cast to correct rest
 	        B_TimRest r = (B_TimRest)building;
 	        TimHostRole host = r.getManager();
-	        host.getCook().msgHereIsYourFood(order.choice, order.amount, manager, new Money(0, 0));
+            if (host.getCook() instanceof MarketDeliveryCook)
+            {
+                ((MarketDeliveryCook)host.getCook()).msgHereIsYourFood(order.choice, order.amount);
+            }
+            else
+            {
+                System.err.println("TimCookRole doesn't implement MarketDeliveryCook.");
+            }
+            if (host.getCashier() instanceof MarketDeliveryCashier)
+            {
+                ((MarketDeliveryCashier)host.getCashier()).msgPayMarket(order.amount, new Money(10, 0), manager);
+            }
+            else
+            {
+                System.err.println("TimCashierRole doesn't implement MarketDeliveryCashier.");
+            }
 	    }
+	    else if (building instanceof B_BrianRestaurant)
+        {
+            // cast to correct rest
+	        B_BrianRestaurant r = (B_BrianRestaurant)building;
+	        if (r.cookRole instanceof MarketDeliveryCook)
+	        {
+	            ((MarketDeliveryCook)r.cookRole).msgHereIsYourFood(order.choice, order.amount);
+	        }
+            else
+            {
+                System.err.println("BrianCookRole doesn't implement MarketDeliveryCook.");
+            }
+            if (r.cashierRole instanceof MarketDeliveryCashier)
+            {
+                ((MarketDeliveryCashier)r.cashierRole).msgPayMarket(order.amount, new Money(10, 0), manager);
+            }
+            else
+            {
+                System.err.println("BrianCashierRole doesn't implement MarketDeliveryCashier.");
+            }
+        }
+        else if (building instanceof B_DannyRestaurant)
+        {
+            // cast to correct rest
+            B_DannyRestaurant r = (B_DannyRestaurant)building;
+            if (r.cookRole instanceof MarketDeliveryCook)
+            {
+                ((MarketDeliveryCook)r.cookRole).msgHereIsYourFood(order.choice, order.amount);
+            }
+            else
+            {
+                System.err.println("DannyCook doesn't implement MarketDeliveryCook.");
+            }
+            if (r.cashierRole instanceof MarketDeliveryCashier)
+            {
+                ((MarketDeliveryCashier)r.cashierRole).msgPayMarket(order.amount, new Money(10, 0), manager);
+            }
+            else
+            {
+                System.err.println("DannyCashier doesn't implement MarketDeliveryCashier.");
+            }
+        }
+        else if (building instanceof B_EricRestaurant)
+        {
+            // cast to correct rest
+            B_EricRestaurant r = (B_EricRestaurant)building;
+            if (r.cook instanceof MarketDeliveryCook)
+            {
+                ((MarketDeliveryCook)r.cook).msgHereIsYourFood(order.choice, order.amount);
+            }
+            else
+            {
+                System.err.println("EricCook doesn't implement MarketDeliveryCook.");
+            }
+            if (r.cashier instanceof MarketDeliveryCashier)
+            {
+                ((MarketDeliveryCashier)r.cashier).msgPayMarket(order.amount, new Money(10, 0), manager);
+            }
+            else
+            {
+                System.err.println("EricCashier doesn't implement MarketDeliveryCashier.");
+            }
+        }
+        else if (building instanceof B_JesseRestaurant)
+        {
+            // cast to correct rest
+            B_JesseRestaurant r = (B_JesseRestaurant)building;
+            if (r.cook instanceof MarketDeliveryCook)
+            {
+                ((MarketDeliveryCook)r.cook).msgHereIsYourFood(order.choice, order.amount);
+            }
+            else
+            {
+                System.err.println("JesseCook doesn't implement MarketDeliveryCook.");
+            }
+            if (r.cashier instanceof MarketDeliveryCashier)
+            {
+                ((MarketDeliveryCashier)r.cashier).msgPayMarket(order.amount, new Money(10, 0), manager);
+            }
+            else
+            {
+                System.err.println("JesseCashier doesn't implement MarketDeliveryCashier.");
+            }
+        }
 	}
 
     private void goToMarket()
