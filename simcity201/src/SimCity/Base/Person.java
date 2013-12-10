@@ -51,7 +51,6 @@ public class Person extends Agent {
 	private String mainRoleString;
 	public Building workPlace = null;
 	public enum Intent {customer, work};
-	public Intent intent = Intent.customer; //when the person enters a building, is he a customer or going to work.
 	public enum Vehicle {car, delivery, walk, bus};
 	public Vehicle vehicle = Vehicle.walk;
 	public int shift = 1;
@@ -188,8 +187,6 @@ public class Person extends Agent {
 				r.setActive(false);
 			}
 		}
-		public void setIntent(Intent i){intent = i;}
-		public Intent getIntent(){return intent;}
 		
 	//USE THIS CONSTRUCTOR.
 	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace, int shift){
@@ -477,12 +474,12 @@ public class Person extends Agent {
 			b = God.Get().findBuildingOfType(BuildingType.Market);
 			Do("going to market");
 		}else
-		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.customer){
+		if (action.getGoAction() == GoAction.goDannyRestaurant && action.intent == Intent.customer){
 			//Go to restaurant
 			b = God.Get().getBuilding(9);
 			Do("Going to restaurant");
 		}else
-		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.work){
+		if (action.getGoAction() == GoAction.goDannyRestaurant && action.intent == Intent.work){
 			//Put all restaurant roles here.
 			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
 				b = God.Get().getBuilding(9);
@@ -490,7 +487,7 @@ public class Person extends Agent {
 			}
 		}
 		else
-        if (action.getGoAction() == GoAction.goTimRestaurant && intent == Intent.customer){
+        if (action.getGoAction() == GoAction.goTimRestaurant && action.intent == Intent.customer){
             //Go to restaurant
             b = God.Get().getBuilding(10);
             Do("Going to restaurant");
@@ -503,33 +500,33 @@ public class Person extends Agent {
             }
         }
 		else
-		if (action.getGoAction() == GoAction.goBrianRestaurant && intent == Intent.customer){
+		if (action.getGoAction() == GoAction.goBrianRestaurant && action.intent == Intent.customer){
 			b = God.Get().getBuilding(6);
 			Do("Going to Brian Restaurant");
 		}
 		else
-		if (action.getGoAction() == GoAction.goBrianRestaurant && intent == Intent.work){
+		if (action.getGoAction() == GoAction.goBrianRestaurant && action.intent == Intent.work){
 			//Put all restaurant roles here
 			b = God.Get().getBuilding(6);
 			Do("Working at Brian Restaurant");
 		}
 		else 
-		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.work) {
+		if (action.getGoAction() == GoAction.goEricRestaurant && action.intent == Intent.work) {
 			b = God.Get().getBuilding(11);
 			Do("Working at Eric Restaurant");
 		}
 		else 
-		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.customer) {
+		if (action.getGoAction() == GoAction.goEricRestaurant && action.intent == Intent.customer) {
 			b = God.Get().getBuilding(11);
 			Do("Going to Eric Restaurant");
 		}
 		else 
-		if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.customer) {
+		if (action.getGoAction() == GoAction.goJesseRestaurant && action.intent == Intent.customer) {
 			b = God.Get().getBuilding(7);
 			Do("Going to Jesse Restaurant");
 		}
 		else 
-			if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.work) {
+			if (action.getGoAction() == GoAction.goJesseRestaurant && action.intent == Intent.work) {
 				b = God.Get().getBuilding(7);
 				Do("Going to Jesse Restaurant");
 			}
