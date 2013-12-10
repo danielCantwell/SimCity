@@ -182,6 +182,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 		cookGui.setPresent(false);
 		ap.cookPresent = false;
 		ap.removeGui(cookGui);
+		myPerson.msgGoHome();
 		exitBuilding(myPerson);
 		workOver = false;
 	}

@@ -5,6 +5,7 @@ import housing.roles.OwnerRole;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -68,11 +69,11 @@ public class God {
 	    
 	    public void addPerson(Person p){ 
 	    	if (persons.size() > 0){
-		    	AlertLog.getInstance().logDebug(AlertTag.God, "DEBUG", persons.size() + "");
-		    	for (Person per: persons){
+		    	//AlertLog.getInstance().logDebug(AlertTag.God, "DEBUG", persons.size() + "");
+		    	/*for (Person per: persons){
 		    		if (per.getMainRoleString().equals("brianRest.BrianHostRole"))
-		    		AlertLog.getInstance().logWarning(AlertTag.God, "Warning", per.getMainRoleString());
-		    	}
+		    		//AlertLog.getInstance().logWarning(AlertTag.God, "Warning", per.getMainRoleString());
+		    	}*/
 	    	
 	    	//If we are dealing with a manager. make sure to check if there is already a manager that exists.
 	    	//this is a double fail safe and should not be needed but i place it here anyways as a fail safe.
@@ -90,7 +91,7 @@ public class God {
 		    			if (pe.getShift() == p.getShift()){
 		    				if (pe.getWorkPlace() == p.getWorkPlace())
 		    				AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
-		    				//return;
+		    				return;
 		    			}
 		    		}
 		    		
@@ -154,18 +155,39 @@ public class God {
 	    }
 	    
 	    public Building findBuildingOfType(BuildingType bt){
+	        Random random = new Random();
+	        ArrayList<Building> buildings = new ArrayList<Building>();
 	    	if (bt == BuildingType.Bank){
 	    		//Find a bank
-	    		for(Building b : buildings){
-	    			if (b instanceof B_Bank) return b;
+	    		for(Building b : simGui.buildingList){
+	    			if (b instanceof B_Bank) buildings.add(b);
 	    		}
+                if (!buildings.isEmpty())
+                {
+                    return buildings.get(random.nextInt(buildings.size()));
+                }
 	    	}else
-	    	if (bt == BuildingType.Market){
-	    		//Find a bank
-	    		for(Building b : buildings){
-	    			if (b instanceof B_Market) return b;
+	    	if (bt == BuildingType.House){
+	    		//Find a market
+	    		for(Building b : simGui.buildingList){
+	    			if (b instanceof B_House) buildings.add(b);
 	    		}
+	    		AlertLog.getInstance().logWarning(AlertTag.God, "God", "Be careful when using findHouse; Do not use it to find a house to live in.");
+                if (!buildings.isEmpty())
+                {
+                    return buildings.get(random.nextInt(buildings.size()));
+                }
 	    	}else
+            if (bt == BuildingType.Market){
+                //Find a market
+                for(Building b : simGui.buildingList){
+                    if (b instanceof B_Market) buildings.add(b);
+                }
+                if (!buildings.isEmpty())
+                {
+                    return buildings.get(random.nextInt(buildings.size()));
+                }
+            }else
 	    	if (bt == BuildingType.Restaurant){
 	    		//Find a bank
 	    		findRandomRestaurant();
@@ -181,13 +203,23 @@ public class God {
 	    
 	    //Fix this laters
 	    public Building findRandomRestaurant(){
-	    	int r = (int)(Math.round((Math.random() * 4)));
-	    	switch (r){
-	    	case 0: return simGui.buildingList.get(6);
-	    	case 1: return simGui.buildingList.get(7);
-	    	case 2: return simGui.buildingList.get(9);
-	    	case 3: return simGui.buildingList.get(10);
-	    	case 4: return simGui.buildingList.get(11);
+	    	int s = (int)(Math.round((Math.random() * 4)));
+	    	switch (s){
+	    	case 0: return simGui.buildingList.get(6); //Brian
+	    	case 1: return simGui.buildingList.get(7); // Jesse
+	    	case 2: return simGui.buildingList.get(9); //Danny
+	    	case 3: return simGui.buildingList.get(10); //Tim
+	    	case 4: return simGui.buildingList.get(11); //Eric
+	    	default : return simGui.buildingList.get(6);
+	    	}
+	    }
+	    public Building findRandomRestaurant(String s){
+	    	switch (s){
+	    	case "Brian": return simGui.buildingList.get(6); //Brian
+	    	case "Jesse": return simGui.buildingList.get(7); // Jesse
+	    	case "Danny": return simGui.buildingList.get(9); //Danny
+	    	case "Tim": return simGui.buildingList.get(10); //Tim
+	    	case "Eric": return simGui.buildingList.get(11); //Eric
 	    	default : return simGui.buildingList.get(6);
 	    	}
 	    }
@@ -201,7 +233,7 @@ public class God {
 	        
 	        //set God variables.
 	        hour = 1;
-	        hourOffset = 7500;
+	        hourOffset = 10000;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){
@@ -233,23 +265,24 @@ public class God {
 					   }
 					   if (hour == 12 && !announcedTime){
 						   getOffWork(1);
-						   flushAllPersonActions();
 					   }
 					   
 					   //SHIFT #2
-					   if (hour == 14 && !announcedTime){
+					   if (hour == 13 && !announcedTime){
+						   flushAllPersonActions();
+
 						   managersGoToWork(2);
 					   }
 					   
-					   if (hour == 15 && !announcedTime){
+					   if (hour == 14 && !announcedTime){
 						   restaurantPeopleGoWork(2);
 					   }
 					   
-					   if (hour == 16 && !announcedTime){
+					   if (hour == 15 && !announcedTime){
 						   goToWork(2);
 					   }
 					   
-					   if (hour == 17 && !announcedTime){
+					   if (hour == 16 && !announcedTime){
 						   fakeCustomersGoToWork(2);
 					   }
 					 
@@ -286,7 +319,7 @@ public class God {
 						   catch(Exception e1){};
 					   }
 					   
-					   if (day % 6 == 0 || day % 7 == 0 && !banksClosed){
+					   if (day % 7 == 6 || day % 7 == 0 && !banksClosed){
 						   //notifyBanksClosed(); //handled by hosts now.
 						   isWeekend = true;
 					   }
@@ -447,10 +480,13 @@ public class God {
 	    
 	    public void getOffWork(Building b){
 	    	announcedTime = true;
-	    	AlertLog.getInstance().logWarning(AlertTag.God, "USER", "Closing " + b.getTag());
+	    	//AlertLog.getInstance().logWarning(AlertTag.God, "USER", "Closing " + b.getTag());
 	    	for (Person p: persons){
-	    		if (p.getBuilding() == b)
-	    		p.msgWorkOver();
+	    		if (p.getBuilding() == b){
+	    		p.msgGoHome();
+	    		p.getBuilding().ExitBuilding(p);
+	    		}
+	    		
 	    	}
 	    }
 	    
@@ -470,6 +506,15 @@ public class God {
 	    		if (b.getTag().equals("B_Bank")){
 	    			B_Bank bank = (B_Bank)b;
 	    			bank.setOpen(true);
+	    		}
+	    	}
+	    }
+	    
+	    public void flushBuilding(Building b){
+	    	for (Person p: persons){
+	    		if (p.getBuilding() == b){
+	    			p.mainRole.workOver();
+	    			p.msgGoHome();
 	    		}
 	    	}
 	    }

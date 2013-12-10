@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import restaurant.gui.DannyRestaurantAnimationPanel;
-import restaurant.gui.DannyRestaurantPanel;
-import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Buildings.B_DannyRestaurant;
 
 /**

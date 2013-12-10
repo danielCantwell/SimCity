@@ -8,6 +8,7 @@ import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import market.gui.MarketClerkGui;
 import market.interfaces.MarketClerk;
 import market.interfaces.MarketCustomer;
@@ -137,6 +138,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
         }
         if (order != null)
         {
+            storeMoney(new Money(0, 0));
             notifyManager(order);
             return true;
         }
@@ -188,6 +190,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 
 	private void takeOrder()
 	{
+        Do(AlertTag.Market, "Hi! What would you like?");
 	    customer.msgWhatDoYouWant(this);
 	    orderTaken = true;
 	}
@@ -200,6 +203,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	
 	private void giveOrder(Order order)
 	{
+        Do(AlertTag.Market, "Here is your " + order.choice + ".");
 	    MarketCustomerRole customer = null;
 	    for (int i = 0; i < God.Get().getPerson(order.id).roles.size(); i++)
 	    {
@@ -217,6 +221,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 
     private void notifyManager(Order order)
     {
+        Do(AlertTag.Market, "I am open for another customer.");
         manager.msgIAmFree(this);
         orders.remove(order);
     }
@@ -232,6 +237,8 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	
 	private void leaveBuilding()
 	{
+	    myPerson.money.add(new Money(75, 00));
+        Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
 	    canLeave = false;
 	    exitBuilding(myPerson);
 	}

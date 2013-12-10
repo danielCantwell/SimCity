@@ -2,6 +2,7 @@ package restaurant;
 
 import Bank.tellerRole;
 import EricRestaurant.EricHost.bankstate;
+import EricRestaurant.interfaces.Host;
 import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_Bank;
@@ -12,6 +13,7 @@ import restaurant.DannyAbstractWaiter.WaiterEvent;
 import restaurant.DannyAbstractWaiter.WaiterState;
 import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
+import restaurant.interfaces.Waiter;
 
 import java.util.*;
 
@@ -86,8 +88,8 @@ public class DannyHost extends Role {
 		stateChanged();
 	}
 
-	public void msgWantToGoOnBreak(DannyWaiter waiter) {
-		print("Waiter " + waiter.getName() + " is requesting to go on break");
+	public void msgWantToGoOnBreak(DannyAbstractWaiter waiter) {
+		print("Waiter " + ((Host) waiter).getName() + " is requesting to go on break");
 		synchronized (waiters) {
 			for (MyWaiter myWaiter : waiters) {
 				if (myWaiter.waiter == waiter) {
@@ -98,8 +100,8 @@ public class DannyHost extends Role {
 		}
 	}
 
-	public void msgGoingOnBreak(DannyWaiter waiter) {
-		print("Waiter " + waiter.getName() + " is going on break");
+	public void msgGoingOnBreak(DannyAbstractWaiter waiter) {
+		print("Waiter " + ((Host) waiter).getName() + " is going on break");
 		synchronized (waiters) {
 			for (MyWaiter myWaiter : waiters) {
 				if (myWaiter.waiter == waiter) {
@@ -110,8 +112,8 @@ public class DannyHost extends Role {
 		}
 	}
 
-	public void msgGoingOffBreak(DannyWaiter waiter) {
-		print("Waiter " + waiter.getName() + " is going off break");
+	public void msgGoingOffBreak(DannyAbstractWaiter waiter) {
+		print("Waiter " + ((Host) waiter).getName() + " is going off break");
 		synchronized (waiters) {
 			for (MyWaiter myWaiter : waiters) {
 				if (myWaiter.waiter == waiter) {
@@ -221,7 +223,7 @@ public class DannyHost extends Role {
 	}
 	
 	private void seatCustomer(DannyCustomer customer, Table table,
-			DannyWaiter waiter) {
+			DannyAbstractWaiter waiter) {
 		System.out.println("Danny Host -- Seat Customer");
 		customer.setWaiter(waiter);
 		table.setOccupant(customer);
@@ -274,6 +276,7 @@ public class DannyHost extends Role {
 			
 			rest.cashierRole.msgLeaveRestaurant();
 			rest.cookRole.msgLeaveRestaurant();
+			myPerson.msgGoHome();
 			exitBuilding(myPerson);
 			workOver = false;
 		}
@@ -285,7 +288,7 @@ public class DannyHost extends Role {
 		waiterGui = gui;
 	}
 
-	public void addWaiter(DannyWaiter w) {
+	public void addWaiter(DannyAbstractWaiter w) {
 		waiters.add(new MyWaiter(w));
 		// w.startThread();
 		stateChanged();
@@ -307,11 +310,11 @@ public class DannyHost extends Role {
 	 * public HostGui getGui() { return hostGui; }
 	 */
 	public class MyWaiter {
-		DannyWaiter waiter;
+		DannyAbstractWaiter waiter;
 		WaiterState state = WaiterState.Available;
 		WaiterEvent event = WaiterEvent.None;
 
-		MyWaiter(DannyWaiter waiter) {
+		MyWaiter(DannyAbstractWaiter waiter) {
 			this.waiter = waiter;
 		}
 	}

@@ -57,7 +57,8 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	public Collection<Table> tables;
 
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-
+    private ImageIcon iconFloor = new ImageIcon("images/floor3.png");
+    
 	public DannyRestaurantAnimationPanel() {
 		setSize(WINDOWX, WINDOWY);
 		setVisible(true);
@@ -102,6 +103,12 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 		g2.setColor(Color.DARK_GRAY);
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
+		for (int x = 0; x < WINDOWX/128; x++) {
+		for (int y = 0; y < WINDOWY/128; y++) {
+			iconFloor.paintIcon(this, g, x * 128, y * 128);
+		}
+		}
+		
 		int i = 0;
 		for (Table table : tables) {
 			i++;

@@ -6,6 +6,7 @@ import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_Bank;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import timRest.gui.TimCookGui;
 import timRest.gui.TimHostGui;
 import timRest.interfaces.TimCustomer;
@@ -14,7 +15,6 @@ import timRest.interfaces.TimWaiter;
 import java.awt.Point;
 import java.util.*;
 
-import brianRest.BrianCustomerRole.CustomerState;
 
 /**
  * Restaurant Host Agent
@@ -47,13 +47,14 @@ public class TimHostRole extends Role {
 	private boolean wantsLeave = false;
 
 	public TimHostGui hostGui = new TimHostGui(this);
+    private int workCount = 0;
 
 	public TimHostRole() {
 		super();
 
 		// make some tables
 		for (int ix = 0; ix < NTABLES; ix++) {
-			addTableToHash(ix, new Table(ix, 200 + ix*100, 250));
+			addTableToHash(ix, new Table(ix, 200 + ix*100, 500));
 		}
 		
 		for (int i = 0; i < CAPACITY-NTABLES; i++)
@@ -143,6 +144,7 @@ public class TimHostRole extends Role {
 	    {
 	        waitingCustomers.add(new MyCustomer(cust));
 	    }
+	    workCount++;
 	    stateChanged();
 	}
 	
@@ -152,6 +154,7 @@ public class TimHostRole extends Role {
         {
             waitingCustomers.remove(cust);
         }
+        workCount--;
 		stateChanged();
 	}
 
@@ -159,17 +162,7 @@ public class TimHostRole extends Role {
 	{
 		//print(cust + " leaving " + table);
 		tables.get(new Integer(tableNumber)).setUnoccupied();
-        synchronized(waitingCustomers)
-        {
-            for (MyCustomer c : waitingCustomers)
-            {
-                if (c.seat == tableNumber)
-                {
-                    waitingCustomers.remove(c);
-                    break;
-                }
-            }
-        }
+		workCount--;
 		stateChanged();
 	}
 
@@ -213,7 +206,7 @@ public class TimHostRole extends Role {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
-	    if (wantsLeave && waitingCustomers.isEmpty())
+	    if (wantsLeave && workCount  <= 0)
 	    {
 	        leaveBuilding();
 	        return false;
@@ -293,13 +286,10 @@ public class TimHostRole extends Role {
 						{
 						    for (MyCustomer customer : waitingCustomers)
 						    {
-						        if (customer.state == CustomerState.Waiting)
-    							{
-						            openWaitSeats.add(customer.seat);
-        							assignCustomer(customer);
-        							return true;
-        							//return true to the abstract agent to reinvoke the scheduler.
-    							}
+					            openWaitSeats.add(customer.seat);
+    							assignCustomer(customer);
+    							return true;
+    							//return true to the abstract agent to reinvoke the scheduler.
 						    }
 						}
 					}
@@ -353,7 +343,7 @@ public class TimHostRole extends Role {
 			{
 				myWaiter.waiter.msgSeatAtTable(customer.customerRef, table.tableNumber, new Point(table.x, table.y));//the action
 				table.customer = customer.customerRef;
-				customer.state = CustomerState.Seated;
+                waitingCustomers.remove(customer);
 			}
 		}
 	}
@@ -386,7 +376,10 @@ public class TimHostRole extends Role {
         {
             cook.msgLeaveWork();
         }
+        myPerson.money.add(new Money(100, 00));
+        Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         wantsLeave = false;
+        workCount = 0;
         exitBuilding(myPerson);
     }
 
@@ -484,19 +477,15 @@ public class TimHostRole extends Role {
 		}
 	}
 	
-	private enum CustomerState {Waiting, Seated};
-	
 	public class MyCustomer
 	{
 		TimCustomer customerRef;
 		int seat;
-		CustomerState state;
 		
 		public MyCustomer(TimCustomer customer)
 		{
 			this.customerRef = customer;
 			this.seat = -1;
-			state = CustomerState.Waiting;
 		}
 	}
 	
@@ -535,7 +524,7 @@ public class TimHostRole extends Role {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "TimeHostRole";
+		return "TimHostRole";
 	}
 
 	public void setBM() {

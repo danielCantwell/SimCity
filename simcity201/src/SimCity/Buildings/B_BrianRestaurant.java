@@ -22,7 +22,10 @@ import restaurant.DannyHost;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.God.BuildingType;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 /**
@@ -32,7 +35,7 @@ import SimCity.Globals.Money;
 public class B_BrianRestaurant extends Building{
 	public int B_BrianAccNum = 3000;
 	Money BRestMoney = new Money(700,0);
-	public BrianHostRole hostRole = new BrianHostRole("Host");
+	public BrianHostRole hostRole = new BrianHostRole("Host", this);
 	public BrianCashierRole cashierRole = new BrianCashierRole("Cashier");
 	public BrianCookRole cookRole = new BrianCookRole("Cook");
 	public int numberOfWaiters = 0;
@@ -57,6 +60,9 @@ public class B_BrianRestaurant extends Building{
 		y = yCoord;
 		tag = "B_Restaurant";
 		orderstand = new OrderStand(this, cookRole);
+		
+		  //gui stuff
+		  brp.updateCookInfo(cookRole);
 	}
 
 	@Override
@@ -70,6 +76,21 @@ public class B_BrianRestaurant extends Building{
 	public String getCustomerString() {
 		// TODO Auto-generated method stub
 		return "brianRest.BrianCustomerRole";
+	}
+	@Override
+	public void setForceClose(boolean t){
+		forceClose = t; 
+		isOpen =false; 
+		God.Get().flushBuilding(this);
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)buildingPanel;
+		brp.setRestOpenInfo(isOpen && !forceClose);
+		}
+	
+	@Override
+	public void setOpen(boolean open){
+		isOpen = open;
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)buildingPanel;
+		brp.setRestOpenInfo(isOpen && !forceClose);
 	}
 
 	@Override
@@ -143,8 +164,12 @@ public class B_BrianRestaurant extends Building{
 			person.msgCreateRole(newRole, true);
 			person.msgEnterBuilding(this);
 		} catch(Exception e){
-			e.printStackTrace();
-			System.out.println ("Building: no class found");
+			//e.printStackTrace();
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.work);
+			ExitBuilding(person);
+
+			
+			//System.out.println ("Building: no class found");
 		}
 }
 

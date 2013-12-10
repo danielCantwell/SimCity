@@ -24,7 +24,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 	private Image bufferImage;
 	private Dimension bufferSize;
-
+    private ImageIcon iconFloor = new ImageIcon("images/floor3.png");
 	private List<Gui> guis = new ArrayList<Gui>();
 
 	public AnimationPanel() {
@@ -56,6 +56,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
+		for (int x = 0; x < WINDOWX/128; x++) {
+		for (int y = 0; y < WINDOWY/128; y++) {
+			iconFloor.paintIcon(this, g, x * 128, y * 128);
+		}
+		}
+		
 		//Here is the table
 		for (int i = 0; i < tables; i++){
 			g2.setColor(Color.ORANGE);

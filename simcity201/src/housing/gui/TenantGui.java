@@ -24,8 +24,8 @@ public class TenantGui implements Gui {
 	private int xPos, yPos;
 	private int xDest, yDest;
 
-	private final int xBedOne = 40;
-	private final int xBedTwo = 70;
+	private final int xBedOne = 20;
+	private final int xBedTwo = 60;
 	private final int yBed = 40;
 
 	private final int xDoor = 600;

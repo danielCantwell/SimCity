@@ -64,6 +64,8 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
     private B_DannyRestaurant chanos;
     private B_Market market;
     
+    private ImageIcon iconFloor = new ImageIcon("images/floor1.png");
+    
     // Debug
     private Semaphore[][] pedestrianGrid = new Semaphore[1920/(TILESIZE)][1920/(TILESIZE)];
     
@@ -175,6 +177,12 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
 
+		for (int x = 0; x < WINDOWX/128; x++) {
+		for (int y = 0; y < WINDOWY/128; y++) {
+			iconFloor.paintIcon(this, g, x * 128, y * 128);
+		}
+		}
+		
 		g2.setColor(Color.YELLOW);
 		// counter
 		g2.fillRect(0, 150, 190, 10);
@@ -184,7 +192,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         // shelves
         g2.fillRect(200, 40, 160, 20);
         g2.fillRect(400, 40, 160, 20);
-        g2.fillRect(400, 100, 160, 20);
+        g2.fillRect(400, 300, 160, 20);
 		
         synchronized(guis)
         {
@@ -244,12 +252,12 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         }
         for (int i = 400; i < 560; i+=20)
         {
-            locations.put(locCount, new Point(i, 100));
+            locations.put(locCount, new Point(i, 300));
             locCount++;
         }
         for (int i = 400; i < 560; i+=20)
         {
-            locations.put(locCount, new Point(i, 110));
+            locations.put(locCount, new Point(i, 310));
             locCount++;
         }
 

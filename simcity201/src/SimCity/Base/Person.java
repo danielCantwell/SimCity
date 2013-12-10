@@ -16,6 +16,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import market.MarketDeliveryPersonRole;
 import exterior.gui.AnimationPanel;
 import exterior.gui.CarGui;
 import exterior.gui.Gui;
@@ -23,6 +24,7 @@ import exterior.gui.PersonGui;
 import restaurant.*;
 import timRest.TimCashierRole;
 import timRest.TimCookRole;
+import timRest.TimCustomerRole;
 import timRest.TimHostRole;
 import timRest.TimWaiterRole;
 import SimCity.Base.God.BuildingType;
@@ -51,7 +53,6 @@ public class Person extends Agent {
 	private String mainRoleString;
 	public Building workPlace = null;
 	public enum Intent {customer, work};
-	public Intent intent = Intent.customer; //when the person enters a building, is he a customer or going to work.
 	public enum Vehicle {car, delivery, walk, bus};
 	public Vehicle vehicle = Vehicle.walk;
 	public int shift = 1;
@@ -84,10 +85,8 @@ public class Person extends Agent {
 	public enum GoAction {
 		goHome,
 		goDannyRestaurant,
-		goRestaurant,
 		goMarket,
 		goBank,
-		goSleep, 
 		goBrianRestaurant,
 		goEricRestaurant, 
 		goJesseRestaurant,
@@ -177,8 +176,8 @@ public class Person extends Agent {
 				mainRole = newRole;
 				mainRole.myPerson = this;
 			} catch(Exception e){
-				e.printStackTrace();
-				AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no class found");
+				//e.printStackTrace();
+				//AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no class found");
 
 				
 			}
@@ -188,8 +187,6 @@ public class Person extends Agent {
 				r.setActive(false);
 			}
 		}
-		public void setIntent(Intent i){intent = i;}
-		public Intent getIntent(){return intent;}
 		
 	//USE THIS CONSTRUCTOR.
 	public Person(String name, Gui gui, String mainRole, Vehicle vehicle, Morality morality, Money money, Money moneyThresh, int hunger, int hungerThresh, String houseType, B_House house, Building workplace, int shift){
@@ -270,7 +267,7 @@ public class Person extends Agent {
 	//If the person is in the interior world, the person will continue to do whatever he is currently doing.
 	public void msgGoToBuilding(Building b, Intent i){
 		if (b == null) return;
-		//Do("msgGoToBuilding "+ b.toString());
+		//AlertLog.getInstance().logError(AlertTag., name, message);
 		if (b instanceof B_Bank){ addAction(new Action(GoAction.goBank, i));}
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
 		else if (b instanceof B_DannyRestaurant){ addAction(new Action(GoAction.goDannyRestaurant, i));}
@@ -384,10 +381,10 @@ public class Person extends Agent {
 			
 			//Check if he is hungry
 			if (hungerLevel < hungerThreshold){
-				//goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); handled in tenant role now!!
+				goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); //handled in tenant role now!!
 				return false;
 			}
-			goTo(new Action(GoAction.goHome, Intent.customer));
+			goHome();
 			
 		}
 		
@@ -464,7 +461,7 @@ public class Person extends Agent {
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
 			//Choose a bank to go.
-			b = God.Get().getBuilding(2);
+            b = God.Get().findBuildingOfType(BuildingType.Bank);
 			Do("Going to bank");
 		}else
 		if (action.getGoAction() == GoAction.goHome){
@@ -472,25 +469,40 @@ public class Person extends Agent {
 			b = myHouse;
 			Do("Going home");
 		}else
-		if (action.getGoAction() == GoAction.goMarket){
+		if (action.getGoAction() == GoAction.goMarket && action.intent == Intent.customer){
 			//Go to your market.
 			b = God.Get().findBuildingOfType(BuildingType.Market);
 			Do("going to market");
 		}else
-		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.customer){
+        if (action.getGoAction() == GoAction.goMarket && action.intent == Intent.work){
+            //Go to your market.
+            b = this.workPlace;
+            Do("going to market");
+        }else
+		if (action.getGoAction() == GoAction.goDannyRestaurant && action.intent == Intent.customer){
 			//Go to restaurant
 			b = God.Get().getBuilding(9);
 			Do("Going to restaurant");
 		}else
-		if (action.getGoAction() == GoAction.goDannyRestaurant && intent == Intent.work){
+		if (action.getGoAction() == GoAction.goDannyRestaurant && action.intent == Intent.work){
 			//Put all restaurant roles here.
-			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
+			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyPCWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
 				b = God.Get().getBuilding(9);
 				Do("working at restaurant");
 			}
+			if (mainRole instanceof DannyCustomer)
+			{
+			    b = God.Get().getBuilding(9);
+                Do("Going to eat at Danny restaurant");
+			}
+            if (mainRole instanceof MarketDeliveryPersonRole)
+            {
+                b = God.Get().getBuilding(9);
+                Do("Going to deliver to restaurant.");
+            }
 		}
 		else
-        if (action.getGoAction() == GoAction.goTimRestaurant && intent == Intent.customer){
+        if (action.getGoAction() == GoAction.goTimRestaurant && action.intent == Intent.customer){
             //Go to restaurant
             b = God.Get().getBuilding(10);
             Do("Going to restaurant");
@@ -501,39 +513,49 @@ public class Person extends Agent {
                 b = God.Get().getBuilding(10);
                 Do("working at restaurant");
             }
+            if (mainRole instanceof TimCustomerRole)
+            {
+                b = God.Get().getBuilding(9);
+                Do("Going to eat at Tim restaurant");
+            }
+            if (mainRole instanceof MarketDeliveryPersonRole)
+            {
+                b = God.Get().getBuilding(10);
+                Do("Goint to deliver to restaurant.");
+            }
         }
 		else
-		if (action.getGoAction() == GoAction.goBrianRestaurant && intent == Intent.customer){
+		if (action.getGoAction() == GoAction.goBrianRestaurant && action.intent == Intent.customer){
 			b = God.Get().getBuilding(6);
 			Do("Going to Brian Restaurant");
 		}
 		else
-		if (action.getGoAction() == GoAction.goBrianRestaurant && intent == Intent.work){
+		if (action.getGoAction() == GoAction.goBrianRestaurant && action.intent == Intent.work){
 			//Put all restaurant roles here
 			b = God.Get().getBuilding(6);
 			Do("Working at Brian Restaurant");
 		}
 		else 
-		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.work) {
+		if (action.getGoAction() == GoAction.goEricRestaurant && action.intent == Intent.work) {
 			b = God.Get().getBuilding(11);
 			Do("Working at Eric Restaurant");
 		}
 		else 
-		if (action.getGoAction() == GoAction.goEricRestaurant && intent == Intent.customer) {
+		if (action.getGoAction() == GoAction.goEricRestaurant && action.intent == Intent.customer) {
 			b = God.Get().getBuilding(11);
 			Do("Going to Eric Restaurant");
 		}
 		else 
-		if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.customer) {
+		if (action.getGoAction() == GoAction.goJesseRestaurant && action.intent == Intent.customer) {
 			b = God.Get().getBuilding(7);
 			Do("Going to Jesse Restaurant");
 		}
 		else 
-			if (action.getGoAction() == GoAction.goJesseRestaurant && intent == Intent.work) {
+			if (action.getGoAction() == GoAction.goJesseRestaurant && action.intent == Intent.work) {
 				b = God.Get().getBuilding(7);
 				Do("Going to Jesse Restaurant");
 			}
-		else b = null;
+		else b = God.Get().getBuilding(11);
 		
 		//Animation for gui stuff here.
 		//############################# Animate to the  building here. ##########################################
@@ -541,7 +563,7 @@ public class Person extends Agent {
 		
 		if (b == null){
 			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no building found");
-			return;
+			b = God.Get().getBuilding(0);
 		}
 		
 		//Call person gui animation. acquire my semaphore.
@@ -598,9 +620,10 @@ public class Person extends Agent {
 		//changes person gui's image. based on vehicle.
 	}
 	
-	public void loseCar() {
+	public void loseCar(Person other) {
 		// Pay a 250 dollar fine.
 		setMoney(getMoney().subtract(250, 0));
+		other.setMoney(other.getMoney().add(250, 0));
 		
 		if (gui instanceof CarGui) {
 			Random rand = new Random();
@@ -608,17 +631,17 @@ public class Person extends Agent {
 			
 			if (newTransportation < 5) {
 				vehicle = Vehicle.walk;
-				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will walk henceforth. Paid $250 fee.");
+				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will walk henceforth. Paid $250 fee to victim (" + other + ").");
 			} else {
 				vehicle = Vehicle.bus;
-				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will take the bus henceforth. Paid $250 fee.");
+				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will take the bus henceforth. Paid $250 fee to victim (" + other + ").");
 			}
 			gui = animPanel.getNewGui(this);
 		}
 	}
 	
 	Timer hungerTimer;
-	int hungerOffset = 50000;
+	int hungerOffset = 6000;
 	boolean hasActiveRole = false;
 	void setUpHungerTimer(){
 		 hungerTimer = new Timer(hungerOffset, new ActionListener() {

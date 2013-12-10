@@ -17,6 +17,7 @@ import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.Buildings.B_TimRest;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import market.gui.MarketDeliveryPersonGui;
 import market.interfaces.MarketDeliveryCashier;
 import market.interfaces.MarketDeliveryCook;
@@ -72,6 +73,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     public void msgGuiRestaurantClosed()
     {
+        Do(AlertTag.Market, "Restaurant is closed.");
         location = AgentLocation.Closed;
         stateChanged();
     }
@@ -129,7 +131,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
                 }
             }
         }
-	    if(location == AgentLocation.Destination)
+	    if(location == AgentLocation.Closed)
         {
 	        goToMarket();
 	        return false;
@@ -269,10 +271,16 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
                 System.err.println("JesseCashier doesn't implement MarketDeliveryCashier.");
             }
         }
+        else
+        {
+            Error(AlertTag.Market, "Not making delivery to restaurant.");
+        }
 	}
     
     private void leaveBuilding()
     {
+        myPerson.money.add(new Money(75, 00));
+        Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave  = false;
         exitBuilding(myPerson);
     }

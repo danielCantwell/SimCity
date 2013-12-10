@@ -9,8 +9,13 @@ import market.MarketManagerRole;
 import market.MarketPackerRole;
 import market.gui.MarketAnimationPanel;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.God.BuildingType;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 /**
  * @author Brian
  *         Timothy So
@@ -82,51 +87,88 @@ public class B_Market extends Building{
                 managerRole = marketRole;
                 panel.manager = person;
                 panel.addGui(marketRole.getGui());
+                
+                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Manager entering Market.");
+                person.msgEnterBuilding(this);
+                panel.repaint();
+                setOpen(areAllNeededRolesFilled());
             }
             else if (managerRole != null)
             {
                 if (newRole instanceof MarketClerkRole)
                 {
                     MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
-                    marketRole.setManager(managerRole);
-                    managerRole.addClerk(marketRole);
+                    if (managerRole == null)
+                    {
+                        marketRole.setManager(managerRole);
+                        managerRole.addClerk(marketRole);
+                    }
                     panel.addGui(marketRole.getGui());
                 }
-                if (newRole instanceof MarketPackerRole)
+                else if (newRole instanceof MarketPackerRole)
                 {
                     MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
-                    marketRole.setManager(managerRole);
-                    managerRole.addPacker(marketRole);
+                    if (managerRole == null)
+                    {
+                        marketRole.setManager(managerRole);
+                        managerRole.addPacker(marketRole);
+                    }
                     panel.addGui(marketRole.getGui());
                 }
-                if (newRole instanceof MarketDeliveryPersonRole)
+                else if (newRole instanceof MarketDeliveryPersonRole)
                 {
                     MarketDeliveryPersonRole marketRole = (MarketDeliveryPersonRole) person.mainRole;
-                    marketRole.setManager(managerRole);
-                    marketRole.setHomeMarket(this);
-                    managerRole.addDeliveryPerson(marketRole);
-                    panel.addGui(marketRole.getGui());
-                }
-                if (getOpen() && newRole instanceof MarketCustomerRole)
-                {
-                    MarketCustomerRole marketRole = null;
-                    for (Role r : person.roles)
+                    if (managerRole == null)
                     {
-                        if (r instanceof MarketCustomerRole)
+                        marketRole.setManager(managerRole);
+                        managerRole.addDeliveryPerson(marketRole);
+                        marketRole.setHomeMarket(this);
+                    }
+                    panel.addGui(marketRole.getGui());
+                    marketRole.msgGuiArrivedAtMarket();
+                }
+                else if (newRole instanceof MarketCustomerRole)
+                {
+                    if (getOpen())
+                    {
+                        MarketCustomerRole marketRole = null;
+                        for (Role r : person.roles)
                         {
-                            marketRole = (MarketCustomerRole) r;
-                            marketRole.setManager(managerRole);
-                            panel.addGui(marketRole.getGui());
+                            if (r instanceof MarketCustomerRole)
+                            {
+                                marketRole = (MarketCustomerRole) r;
+                                marketRole.setManager(managerRole);
+                                panel.addGui(marketRole.getGui());
+                            }
                         }
                     }
+                    else
+                    {
+                        AlertLog.getInstance().logWarning(AlertTag.Market, person.getName(), "Market Closed.");
+                        return;
+                    }
                 }
+                else
+                {
+                    AlertLog.getInstance().logError(AlertTag.Market, person.getName(), "Wrong class entering market.");
+                    return;
+                }
+                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Entering Market.");
                 person.msgEnterBuilding(this);
+                panel.repaint();
+                setOpen(areAllNeededRolesFilled());
             }
-            panel.repaint();
-            setOpen(areAllNeededRolesFilled());
+            else
+            {
+                AlertLog.getInstance().logError(AlertTag.Market, person.getName(), "MarketManager = null");
+            }
         } catch(Exception e){
-            e.printStackTrace();
-            System.out.println ("God: no class found");
+           // e.printStackTrace();
+           
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Restaurant), Intent.work);
+			ExitBuilding(person);
+
+            //System.out.println ("God: no class found");
         }
     }
 

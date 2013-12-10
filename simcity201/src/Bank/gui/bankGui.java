@@ -16,6 +16,7 @@ import Bank.interfaces.Customer;
 import Bank.interfaces.Guard;
 import Bank.interfaces.Teller;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -46,7 +47,8 @@ public class bankGui extends JPanel implements ActionListener {
 	//private Guard guard = new bankGuardRole();
 	//private Customer cust = new bankCustomerRole();;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-
+    private ImageIcon iconFloor = new ImageIcon("images/floor3.png");
+    
 	public bankGui() {
 		setSize(WINDOW_X, WINDOW_Y);
 		setVisible(true);
@@ -75,9 +77,12 @@ public class bankGui extends JPanel implements ActionListener {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, WINDOW_X, WINDOW_Y);
-		Graphics2D g3 = (Graphics2D) g;
-		g3.setColor(Color.DARK_GRAY);
-		g3.fillRect(10, 10, 620, 610);
+
+		for (int x = 0; x < WINDOW_X/128; x++) {
+		for (int y = 0; y < WINDOW_Y/128; y++) {
+			iconFloor.paintIcon(this, g, x * 128, y * 128);
+		}
+		}
 
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(xCounterPos, yCounterPos, xCounterSize, yCounterSize);
@@ -86,7 +91,6 @@ public class bankGui extends JPanel implements ActionListener {
 		synchronized(guis) {
 			for (Gui gui : guis) {
 				if (gui.isPresent()) {
-					gui.draw(g3);
 					gui.draw(g2);
 				}
 			}
