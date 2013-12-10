@@ -5,6 +5,7 @@ import housing.roles.OwnerRole;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -154,18 +155,30 @@ public class God {
 	    }
 	    
 	    public Building findBuildingOfType(BuildingType bt){
+	        Random random = new Random();
+	        ArrayList<Building> buildings = new ArrayList<Building>();
 	    	if (bt == BuildingType.Bank){
 	    		//Find a bank
 	    		for(Building b : buildings){
-	    			if (b instanceof B_Bank) return b;
+	    			if (b instanceof B_Bank) buildings.add(b);
 	    		}
+                return buildings.get(random.nextInt(buildings.size()));
 	    	}else
-	    	if (bt == BuildingType.Market){
-	    		//Find a bank
+	    	if (bt == BuildingType.House){
+	    		//Find a market
 	    		for(Building b : buildings){
-	    			if (b instanceof B_Market) return b;
+	    			if (b instanceof B_House) buildings.add(b);
 	    		}
+	    		AlertLog.getInstance().logWarning(AlertTag.God, "God", "Be careful when using findHouse; Do not use it to find a house to live in.");
+	    		return buildings.get(random.nextInt(buildings.size()));
 	    	}else
+            if (bt == BuildingType.Market){
+                //Find a market
+                for(Building b : buildings){
+                    if (b instanceof B_Market) buildings.add(b);
+                }
+                return buildings.get(random.nextInt(buildings.size()));
+            }else
 	    	if (bt == BuildingType.Restaurant){
 	    		//Find a bank
 	    		findRandomRestaurant();
