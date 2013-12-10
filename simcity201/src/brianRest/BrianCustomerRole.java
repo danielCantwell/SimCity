@@ -181,7 +181,8 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 		myPerson.money = new Money((int)d, (int) ((d-(int)d) * 100));
 		myPerson.hungerLevel += 20;
 		customerGui.setPresent(false);
-		BrianAnimationPanel br = (BrianAnimationPanel)myPerson.getBuilding().getPanel();
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.getBuilding().getPanel();
+		BrianAnimationPanel br = brp.bap;
 		br.removeGui(customerGui);
 		myPerson.msgGoHome();
 		exitBuilding(myPerson);

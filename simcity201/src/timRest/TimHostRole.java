@@ -1,6 +1,11 @@
 package timRest;
 
+import Bank.tellerRole;
+import EricRestaurant.EricHost.bankstate;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Bank;
+import SimCity.Globals.Money;
 import timRest.gui.TimCookGui;
 import timRest.gui.TimHostGui;
 import timRest.interfaces.TimCustomer;
@@ -24,10 +29,14 @@ public class TimHostRole extends Role {
 	public List<MyCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public Map<Integer, Table> tables = Collections.synchronizedMap(new Hashtable<Integer, Table>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
-
+	public enum bankstate {none, gotManager, sent};
+	private bankstate bs = bankstate.none;
     private TimCookRole cook;
     private TimCashierRole cashier;
-	
+    public int TAccNum;
+	public Money TRestMoney;
+	B_Bank bank;
+	tellerRole bm;
 	public List<Integer> openWaitSeats = Collections.synchronizedList(new ArrayList<Integer>());
 	//public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
@@ -181,7 +190,10 @@ public class TimHostRole extends Role {
 			}
 		}
 	}
-
+	public void transDone(Money m) {
+		TRestMoney = m;
+		System.out.println("Host finished bank interaction and TRest has : $"+TRestMoney.getDollar());
+	}
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
@@ -268,6 +280,10 @@ public class TimHostRole extends Role {
 				}
 			}
 		}
+		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+			msgBank();
+			return true;
+		}
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -275,7 +291,13 @@ public class TimHostRole extends Role {
 	}
 
 	// Actions
-
+	public void msgBank() {
+		bank = (B_Bank) God.Get().getBuilding(2);
+		bm = (tellerRole) bank.getOneTeller();
+		bm.restMoney(TAccNum, TRestMoney, this);
+		bs = bankstate.sent;
+	}
+	
 	private void assignCustomer(MyCustomer customer)
 	{
 		Table table = null;
@@ -468,6 +490,21 @@ public class TimHostRole extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "TimeHostRole";
+	}
+
+	public void setBM() {
+		bs = bankstate.gotManager;
+		stateChanged();
+	}
+	
+	public void setMoney(Money m) {
+		TRestMoney = m;
+	}
+	public Money getMoney() {
+		return TRestMoney;
+	}
+	public void setAcc(int acc) {
+		TAccNum = acc;
 	}
 }
 
