@@ -1,7 +1,11 @@
 package exterior.gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
+
+import javax.swing.Timer;
 
 import SimCity.Base.Person;
 import SimCity.trace.AlertLog;
@@ -31,6 +35,17 @@ public class CarGui implements Gui {
 		if (chooseAccidentProne < 2) {
 			this.accidentProne = true;
 		}
+		
+		Timer accidentTimer = new Timer(7500, new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   Random rand = new Random();
+				   int chooseAccidentProne = rand.nextInt(10);
+					
+				   if (accidentProne == false && target == null && chooseAccidentProne <= 5) {
+					   accidentProne = true;
+				   }
+	    }});
+		accidentTimer.start();
 		
 		myID = id;
 		int random = (int)(Math.random() * 8);
