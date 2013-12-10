@@ -24,6 +24,7 @@ import exterior.gui.PersonGui;
 import restaurant.*;
 import timRest.TimCashierRole;
 import timRest.TimCookRole;
+import timRest.TimCustomerRole;
 import timRest.TimHostRole;
 import timRest.TimWaiterRole;
 import SimCity.Base.God.BuildingType;
@@ -485,14 +486,19 @@ public class Person extends Agent {
 		}else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && action.intent == Intent.work){
 			//Put all restaurant roles here.
-			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
+			if (mainRole instanceof DannyWaiter || mainRole instanceof DannyPCWaiter || mainRole instanceof DannyHost || mainRole instanceof DannyCook || mainRole instanceof DannyCashier){
 				b = God.Get().getBuilding(9);
 				Do("working at restaurant");
+			}
+			if (mainRole instanceof DannyCustomer)
+			{
+			    b = God.Get().getBuilding(9);
+                Do("Going to eat at Danny restaurant");
 			}
             if (mainRole instanceof MarketDeliveryPersonRole)
             {
                 b = God.Get().getBuilding(9);
-                Do("Goint to deliver to restaurant.");
+                Do("Going to deliver to restaurant.");
             }
 		}
 		else
@@ -506,6 +512,11 @@ public class Person extends Agent {
             if (mainRole instanceof TimHostRole || mainRole instanceof TimWaiterRole || mainRole instanceof TimCookRole || mainRole instanceof TimCashierRole){
                 b = God.Get().getBuilding(10);
                 Do("working at restaurant");
+            }
+            if (mainRole instanceof TimCustomerRole)
+            {
+                b = God.Get().getBuilding(9);
+                Do("Going to eat at Tim restaurant");
             }
             if (mainRole instanceof MarketDeliveryPersonRole)
             {
