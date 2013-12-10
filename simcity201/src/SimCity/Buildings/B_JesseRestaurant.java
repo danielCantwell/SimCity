@@ -95,10 +95,11 @@ public class B_JesseRestaurant extends Building{
 		}
 		catch(Exception e) {
 			//e.printStackTrace();
-			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.House), Intent.work);
-			person.msgExitBuilding();
-			System.out.println ("Building: no class found");
-			System.out.println("Checking is newRole actually exists : "+newRole);
+			person.msgGoToBuilding(God.Get().getBuilding(1), Intent.work);
+			ExitBuilding(person);
+
+			//System.out.println ("Building: no class found");
+			//System.out.println("Checking is newRole actually exists : "+newRole);
 		}
 	}
 	

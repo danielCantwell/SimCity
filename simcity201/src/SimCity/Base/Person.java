@@ -177,7 +177,7 @@ public class Person extends Agent {
 				mainRole.myPerson = this;
 			} catch(Exception e){
 				//e.printStackTrace();
-				AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no class found");
+				//AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no class found");
 
 				
 			}
@@ -530,7 +530,7 @@ public class Person extends Agent {
 				b = God.Get().getBuilding(7);
 				Do("Going to Jesse Restaurant");
 			}
-		else b = null;
+		else b = God.Get().getBuilding(11);
 		
 		//Animation for gui stuff here.
 		//############################# Animate to the  building here. ##########################################
@@ -538,7 +538,7 @@ public class Person extends Agent {
 		
 		if (b == null){
 			AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no building found");
-			return;
+			b = God.Get().getBuilding(0);
 		}
 		
 		//Call person gui animation. acquire my semaphore.

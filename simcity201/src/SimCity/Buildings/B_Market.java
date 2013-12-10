@@ -128,13 +128,14 @@ public class B_Market extends Building{
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
             e.printStackTrace();
-            int goTo = person.getBuilding().getID() + 1;
+            int goTo = person.getBuilding().getID() + -3;
 			if (goTo > God.Get().buildings.size() - 1){
 				goTo = 0;
 			}
 			person.msgGoToBuilding(God.Get().getBuilding(goTo), Intent.work);
-			person.msgExitBuilding();
-            System.out.println ("God: no class found");
+			ExitBuilding(person);
+
+            //System.out.println ("God: no class found");
         }
     }
 

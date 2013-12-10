@@ -133,8 +133,9 @@ public class B_EricRestaurant extends Building {
 				goTo = 0;
 			}
 			person.msgGoToBuilding(God.Get().findRandomRestaurant(), Intent.work);
-			person.msgExitBuilding();
-			System.out.println ("Building: no class found");
+			ExitBuilding(person);
+
+			//System.out.println ("Building: no class found");
 		}
 	}
 

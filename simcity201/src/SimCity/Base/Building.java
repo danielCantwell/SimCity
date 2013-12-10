@@ -82,9 +82,9 @@ public abstract class Building extends SimObject {
 				person.msgEnterBuilding(this);
 			} catch(Exception e){
 				//e.printStackTrace();
-				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Market), Intent.work);
-				person.msgExitBuilding();
-				System.out.println ("Building: no class found");
+				person.msgGoToBuilding(God.Get().getBuilding(6), Intent.work);
+				ExitBuilding(person);
+				//System.out.println ("Building: no class found");
 			}
     }
     
