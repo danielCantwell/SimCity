@@ -146,6 +146,7 @@ public class Person extends Agent {
 		public Building getWorkPlace(){return workPlace;}
 		public String getName(){return name;};
 		public void setWorkPlace(Building work){workPlace = work;}
+		public void setMainRoleString(String job){mainRoleString = job;}
 		public void setMainRole(String job) { 
 			
 			//Temporary fix to factory with classes that need parameters
@@ -217,11 +218,12 @@ public class Person extends Agent {
 	
 	//Test constructor. DO NOT FKING USE UNLESS FOR TESTING!!!
 	public Person(String mainRole){
-		this.name = "Brian";
+		this.name = "TestPerson";
 		setMainRole(mainRole);
+		mainRoleString = mainRole;
 		this.vehicle = Vehicle.walk;
 		this.mor = Morality.good;
-		this.money = new Money(70,10);
+		this.money = new Money(100,10);
 		this.accNum = 1;
 		this.moneyThreshold = new Money(1, 0);
 		this.hungerLevel = 10;
