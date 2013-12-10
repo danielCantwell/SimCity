@@ -159,14 +159,14 @@ public class God {
 	        ArrayList<Building> buildings = new ArrayList<Building>();
 	    	if (bt == BuildingType.Bank){
 	    		//Find a bank
-	    		for(Building b : buildings){
+	    		for(Building b : simGui.buildingList){
 	    			if (b instanceof B_Bank) buildings.add(b);
 	    		}
                 return buildings.get(random.nextInt(buildings.size()));
 	    	}else
 	    	if (bt == BuildingType.House){
 	    		//Find a market
-	    		for(Building b : buildings){
+	    		for(Building b : simGui.buildingList){
 	    			if (b instanceof B_House) buildings.add(b);
 	    		}
 	    		AlertLog.getInstance().logWarning(AlertTag.God, "God", "Be careful when using findHouse; Do not use it to find a house to live in.");
@@ -174,7 +174,7 @@ public class God {
 	    	}else
             if (bt == BuildingType.Market){
                 //Find a market
-                for(Building b : buildings){
+                for(Building b : simGui.buildingList){
                     if (b instanceof B_Market) buildings.add(b);
                 }
                 return buildings.get(random.nextInt(buildings.size()));

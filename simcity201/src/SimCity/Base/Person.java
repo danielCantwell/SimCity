@@ -83,10 +83,8 @@ public class Person extends Agent {
 	public enum GoAction {
 		goHome,
 		goDannyRestaurant,
-		goRestaurant,
 		goMarket,
 		goBank,
-		goSleep, 
 		goBrianRestaurant,
 		goEricRestaurant, 
 		goJesseRestaurant,
