@@ -289,7 +289,7 @@ public class DannyCashier extends Role implements Cashier,
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Danny Cashier";
+		return "DChr";
 	}
 
 	@Override

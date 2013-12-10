@@ -167,6 +167,6 @@ public class EricCashier extends Role {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "EricCashier";
+		return "ECsr";
 	}
 }

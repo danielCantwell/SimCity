@@ -363,7 +363,7 @@ public class JesseCustomer extends Role implements Customer {
 	}
 
 	public String toString() {
-		return "customer " + getName();
+		return "JCmr";
 	}
 
 	public void setGui(CustomerGui g) {

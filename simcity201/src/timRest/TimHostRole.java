@@ -529,7 +529,7 @@ public class TimHostRole extends Role {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "TimHostRole";
+		return "THst";
 	}
 
 	public void setBM() {

@@ -146,7 +146,7 @@ public class bankManagerRole extends Role implements  Manager{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "bankManagerRole";
+		return "BMgr";
 	}
 
 }

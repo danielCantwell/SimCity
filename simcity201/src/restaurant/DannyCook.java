@@ -368,7 +368,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Danny Cook";
+		return "DCok";
 	}
 
 	@Override

@@ -515,7 +515,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	}
 
 	public String toString() {
-		return "customer " + getName();
+		return "TCmr";
 	}
 
 	public void setGui(TimCustomerGui g) {

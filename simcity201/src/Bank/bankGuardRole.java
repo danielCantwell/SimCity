@@ -227,6 +227,6 @@ public class bankGuardRole extends Role implements Guard {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "bankGuardRole";
+		return "BGrd";
 	}
 }

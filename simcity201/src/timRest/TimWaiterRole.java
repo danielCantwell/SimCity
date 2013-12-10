@@ -1019,7 +1019,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "TimWaiterRole";
+		return "TWtr";
 	}
 
 }

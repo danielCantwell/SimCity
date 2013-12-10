@@ -397,7 +397,7 @@ public class DannyHost extends Role {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Danny Host";
+		return "DHst";
 	}
 
 	public void setBM() {

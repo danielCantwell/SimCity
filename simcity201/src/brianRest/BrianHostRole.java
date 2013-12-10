@@ -360,7 +360,7 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	@Override
 	public String toString() {
-		return "BrianHost";
+		return "RHst";
 	}
 
 	public void setBM() {

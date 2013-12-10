@@ -398,6 +398,6 @@ public class DannyPCWaiter extends DannyAbstractWaiter implements Waiter {
 
 	@Override
 	public String toString() {
-		return "Danny Waiter";
+		return "DPCW";
 	}
 }

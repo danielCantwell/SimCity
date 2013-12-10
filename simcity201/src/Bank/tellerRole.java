@@ -402,7 +402,7 @@ public class tellerRole extends Role implements Teller {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "tellerRole";
+		return "BTlr";
 	}
 
 }

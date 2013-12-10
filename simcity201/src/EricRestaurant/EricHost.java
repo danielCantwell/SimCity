@@ -332,7 +332,7 @@ public class EricHost extends Role implements Host {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "EricHost";
+		return "EHst";
 	}
 
 

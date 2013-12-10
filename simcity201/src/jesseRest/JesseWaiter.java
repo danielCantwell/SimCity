@@ -472,7 +472,7 @@ public class JesseWaiter extends JesseAbstractWaiter implements Waiter {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "JesseWaiter";
+		return "JWtr";
 	}
 
 

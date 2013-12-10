@@ -303,6 +303,6 @@ public class EricCook extends Role {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "EricCook";
+		return "ECok";
 	}
 }

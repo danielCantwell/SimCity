@@ -5,6 +5,7 @@ package exterior.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -245,51 +246,91 @@ public class SetupPanel extends JFrame {
 
 		// bank
 		profession.add(bankManager);
+		bankManager.setForeground(Color.red);
 		profession.add(bankGuard);
+		bankGuard.setForeground(Color.red);
 		profession.add(bankTeller);
+		bankTeller.setForeground(Color.red);
 		profession.add(bankRobber);
+		bankRobber.setForeground(Color.red);
 		profession.add(bankCustomer);
+		bankCustomer.setForeground(Color.red);
 		// market
 		profession.add(marketClerk);
+		marketClerk.setForeground(Color.orange);
 		profession.add(marketPacker);
+		marketPacker.setForeground(Color.orange);
 		profession.add(marketDelivery);
+		marketDelivery.setForeground(Color.orange);
 		profession.add(marketManager);
+		marketManager.setForeground(Color.orange);
 		profession.add(marketCustomer);
+		marketCustomer.setForeground(Color.orange);
 		// danny restaurant
 		profession.add(dannyRestCashier);
+		dannyRestCashier.setForeground(Color.yellow);
 		profession.add(dannyRestCook);
+		dannyRestCook.setForeground(Color.yellow);
 		profession.add(dannyRestHost);
+		dannyRestHost.setForeground(Color.yellow);
 		profession.add(dannyRestWaiter);
+		dannyRestWaiter.setForeground(Color.yellow);
 		profession.add(dannyRestPCWaiter);
+		dannyRestPCWaiter.setForeground(Color.yellow);
 		profession.add(dannyRestCustomer);
+		dannyRestCustomer.setForeground(Color.yellow);
 		// brian restaurant
 		profession.add(brianRestCashier);
+		brianRestCashier.setForeground(Color.green);
 		profession.add(brianRestCook);
+		brianRestCook.setForeground(Color.green);
 		profession.add(brianRestHost);
+		brianRestHost.setForeground(Color.green);
 		profession.add(brianRestWaiter);
+		brianRestWaiter.setForeground(Color.green);
 		profession.add(brianRestPCWaiter);
+		brianRestPCWaiter.setForeground(Color.green);
 		profession.add(brianRestCustomer);
+		brianRestCustomer.setForeground(Color.green);
 		// jesse restaurant
 		profession.add(jesseRestCashier);
+		jesseRestCashier.setForeground(Color.blue);
 		profession.add(jesseRestCook);
+		jesseRestCook.setForeground(Color.blue);
 		profession.add(jesseRestHost);
+		jesseRestHost.setForeground(Color.blue);
 		profession.add(jesseRestWaiter);
+		jesseRestWaiter.setForeground(Color.blue);
 		profession.add(jesseRestPCWaiter);
+		jesseRestPCWaiter.setForeground(Color.blue);
 		profession.add(jesseRestCustomer);
+		jesseRestCustomer.setForeground(Color.blue);
 		// eric restaurant
 		profession.add(ericRestCashier);
+		ericRestCashier.setForeground(Color.magenta);
 		profession.add(ericRestCook);
+		ericRestCook.setForeground(Color.magenta);
 		profession.add(ericRestHost);
+		ericRestHost.setForeground(Color.magenta);
 		profession.add(ericRestWaiter);
+		ericRestWaiter.setForeground(Color.magenta);
 		profession.add(ericRestPCWaiter);
+		ericRestPCWaiter.setForeground(Color.magenta);
 		profession.add(ericRestCustomer);
+		ericRestCustomer.setForeground(Color.magenta);
 		// tim restaurant
 		profession.add(timRestCashier);
+		timRestCashier.setForeground(Color.pink);
 		profession.add(timRestCook);
+		timRestCook.setForeground(Color.pink);
 		profession.add(timRestHost);
+		timRestHost.setForeground(Color.pink);
 		profession.add(timRestWaiter);
+		timRestWaiter.setForeground(Color.pink);
 		profession.add(timRestPCWaiter);
+		timRestPCWaiter.setForeground(Color.pink);
 		profession.add(timRestCustomer);
+		timRestCustomer.setForeground(Color.pink);
 
 		// SHIFTS
 		shifts.add(shiftOne);

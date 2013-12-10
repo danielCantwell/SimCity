@@ -295,6 +295,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "MarketCustomerRole";
+		return "MCmr";
 	}
 }
