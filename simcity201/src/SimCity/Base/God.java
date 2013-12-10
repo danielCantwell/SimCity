@@ -90,7 +90,7 @@ public class God {
 		    		if (pe.getMainRoleString().equals(p.getMainRoleString())){
 		    			if (pe.getShift() == p.getShift()){
 		    				if (pe.getWorkPlace() == p.getWorkPlace())
-		    				AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
+		    					AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
 		    				return;
 		    			}
 		    		}
