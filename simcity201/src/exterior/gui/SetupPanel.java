@@ -38,7 +38,7 @@ import SimCity.trace.TracePanel;
  */
 public class SetupPanel extends JFrame {
 
-	private final int WINDOWX = 1000;
+	private final int WINDOWX = 1100;
 	private final int WINDOWY = 500;
 
 	private AnimationPanel animationPanel;
