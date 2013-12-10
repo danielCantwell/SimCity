@@ -13,6 +13,7 @@ import brianRest.BrianPCWaiterRole;
 import brianRest.BrianWaiterRole;
 import brianRest.OrderStand;
 import brianRest.gui.BrianAnimationPanel;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianHost;
 import restaurant.DannyCashier;
@@ -47,7 +48,8 @@ public class B_BrianRestaurant extends Building{
 	public B_BrianRestaurant(int id, JPanel jp, int xCoord, int yCoord){
 		this.id = id;
 		buildingPanel = jp;
-		BrianAnimationPanel bap = (BrianAnimationPanel)jp;
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)jp;
+		BrianAnimationPanel bap = (BrianAnimationPanel)brp.bap;
 		bap.setRestaurant(this);
 		x = xCoord;
 		y = yCoord;

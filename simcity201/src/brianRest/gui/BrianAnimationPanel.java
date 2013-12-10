@@ -10,13 +10,14 @@ import SimCity.gui.Gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.ArrayList;
 
 public class BrianAnimationPanel extends JPanel implements ActionListener {
 
     private final int WINDOWX = 640;
-    private final int WINDOWY = 640;
+    private final int WINDOWY = 540;
     
     
     private final int TABLEWIDTH = 50;
@@ -62,12 +63,16 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
-		synchronized(guis){
-		for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+		try{
+			synchronized(guis){
+			for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
+			}
+		}catch(ConcurrentModificationException e1){
+			
 		}
 		repaint();  //Will have paintComponent called
 	}

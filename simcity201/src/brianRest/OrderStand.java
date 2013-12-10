@@ -6,6 +6,7 @@ import agent.Agent;
 
 
 import brianRest.gui.BrianAnimationPanel;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.gui.WaiterGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCook;
@@ -29,7 +30,8 @@ public class OrderStand{
 	
 	public OrderStand(B_BrianRestaurant br, BrianCookRole cr){
 		this.br = br;
-		bap = (BrianAnimationPanel)br.getPanel();
+		BrianRestaurantPanel brp  = (BrianRestaurantPanel)br.getPanel();
+		bap = (BrianAnimationPanel)brp.bap;
 		cook = cr;
 	}
 	

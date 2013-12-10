@@ -99,6 +99,12 @@ public class CookGui implements Gui {
     	receivedAction = true;
     }
     
+    public void DoGoToStand(){
+    	xDestination = 520;
+    	yDestination = 225;
+    	receivedAction = true;
+    }
+    
     public void DoLeaveRestaurant(){
     	xDestination = -20;
     	yDestination = -20;
