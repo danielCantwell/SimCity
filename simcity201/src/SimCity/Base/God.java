@@ -66,7 +66,63 @@ public class God {
 	    public ArrayList<Building> buildings = new ArrayList<Building>();
 	    public ArrayList<Person> persons = new ArrayList<Person>();
 	    
-	    public void addPerson(Person p){ persons.add(p);}
+	    public void addPerson(Person p){ 
+	    	if (persons.size() > 0){
+		    	AlertLog.getInstance().logDebug(AlertTag.God, "DEBUG", persons.size() + "");
+		    	for (Person per: persons){
+		    		if (per.getMainRoleString().equals("brianRest.BrianHostRole"))
+		    		AlertLog.getInstance().logWarning(AlertTag.God, "Warning", per.getMainRoleString());
+		    	}
+	    	
+	    	//If we are dealing with a manager. make sure to check if there is already a manager that exists.
+	    	//this is a double fail safe and should not be needed but i place it here anyways as a fail safe.
+	    	if (p.mainRole instanceof bankManagerRole 
+	    			|| p.mainRole instanceof DannyHost 
+	    			|| p.mainRole instanceof MarketManagerRole 
+	    			|| p.mainRole instanceof TimHostRole
+	    			|| p.getMainRoleString().equals("brianRest.BrianHostRole")
+	    			|| p.getMainRoleString().equals("EricRestaurant.EricHost")
+	    			|| p.getMainRoleString().equals("jesseRest.JesseHost")) 
+	    	{
+	
+		    	for (Person pe:persons){
+		    		if (pe.getMainRoleString().equals(p.getMainRoleString())){
+		    			if (pe.getShift() == p.getShift()){
+		    				if (pe.getWorkPlace() == p.getWorkPlace())
+		    				AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
+		    				//return;
+		    			}
+		    		}
+		    		
+		    	}
+	    	}
+	    	}
+	    	persons.add(p);
+	    }
+	    
+	    public boolean canAddPerson(Person p){
+	    	if (p.mainRole instanceof bankManagerRole 
+	    			|| p.mainRole instanceof DannyHost 
+	    			|| p.mainRole instanceof MarketManagerRole 
+	    			|| p.mainRole instanceof TimHostRole
+	    			|| p.getMainRoleString().equals("brianRest.BrianHostRole")
+	    			|| p.getMainRoleString().equals("EricRestaurant.EricHost")
+	    			|| p.getMainRoleString().equals("jesseRest.JesseHost")) 
+	    	{
+	    		for (Person pe : persons){
+	    			if (pe.getMainRoleString().equals(p.getMainRoleString())){
+		    			if (pe.getShift() == p.getShift()){
+		    				//if (pe.getWorkPlace() == p.getWorkPlace())
+			    			//AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Already instantiated a manager of type: " + p.getMainRoleString());
+		    				//return false;
+		    			}
+	    			}
+	    		}
+	    	}
+	    	return true;
+	    	
+	    }
+	    
 	    public void removePerson(Person p){ persons.remove(p);}
 	    public void addBuilding(Building j){ buildings.add(j);}
 	    public void removeBuilding(Building j){ buildings.remove(j);}
@@ -145,7 +201,7 @@ public class God {
 	        
 	        //set God variables.
 	        hour = 1;
-	        hourOffset = 5000;
+	        hourOffset = 7500;
 	        //Set the timer for day.
 	        hourTimer = new Timer(hourOffset, new ActionListener() {
 				   public void actionPerformed(ActionEvent e){
@@ -175,13 +231,13 @@ public class God {
 					   if (hour == 11 && !announcedTime){
 						   bankInteraction();
 					   }
-					   if (hour == 13 && !announcedTime){
+					   if (hour == 12 && !announcedTime){
 						   getOffWork(1);
+						   flushAllPersonActions();
 					   }
 					   
 					   //SHIFT #2
 					   if (hour == 14 && !announcedTime){
-						   flushAllPersonActions();
 						   managersGoToWork(2);
 					   }
 					   

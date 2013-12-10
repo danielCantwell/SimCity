@@ -292,9 +292,10 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 	
 	private void leaveRestaurant(){
 			DoExitBuilding();
-			BrianAnimationPanel br = (BrianAnimationPanel)myPerson.getBuilding().getPanel();
+			BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.getBuilding().getPanel();
+			BrianAnimationPanel br = brp.bap;
 			br.removeGui(gui);
-			System.out.println("Brian Waiter is leaving restaurant");
+			Do(AlertTag.BrianRest, "Brian Waiter is leaving restaurant");
 			myPerson.msgGoHome();
 			myPerson.roles.remove(this);
 			exitBuilding(myPerson);

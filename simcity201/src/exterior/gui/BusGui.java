@@ -88,20 +88,20 @@ public class BusGui implements Gui {
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command == Command.seekDest) {
 				// People going in bus
-				while (gui.animationPanel.standees.get(location).size() > 0) {
-        			AlertLog.getInstance().logInfo(AlertTag.God, "God (GUI)", "Person entered bus: " + gui.animationPanel.standees.get(location).get(0));
-					riders.add(gui.animationPanel.standees.get(location).get(0));
-					gui.animationPanel.standees.get(location).remove(0);
+				while (gui.animationPanel.standees.get(busRoute[location]).size() > 0) {
+        			AlertLog.getInstance().logInfo(AlertTag.God, "God (GUI)", "Person entered bus: " + gui.animationPanel.standees.get(busRoute[location]).get(0));
+					riders.add(gui.animationPanel.standees.get(busRoute[location]).get(0));
+					gui.animationPanel.standees.get(busRoute[location]).remove(0);
 				}
 				// People getting off bus
 				ArrayList<Person> ridersToRemove = new ArrayList<Person>();
 				for (int i = 0; i < riders.size(); i++) {
-					if (riders.get(i).destination.getID() == location) {
+					if (riders.get(i).destination.getID() == busRoute[location]) {
 						ridersToRemove.add(riders.get(i));
 					}
 				}
 				for (Person p : ridersToRemove) {
-        			AlertLog.getInstance().logInfo(AlertTag.God, "God (GUI)", "Person left bus: " + p);
+        			AlertLog.getInstance().logInfo(AlertTag.God, "God (GUI)", "Person left bus: " + p + " to enter building #" + busRoute[location]);
 					riders.remove(riders.indexOf(p));
 					p.animation.release();
 				}

@@ -267,7 +267,8 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 			e.printStackTrace();
 		}
 		wantToGoHome = false;
-		BrianAnimationPanel br = (BrianAnimationPanel)myPerson.getBuilding().getPanel();
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.getBuilding().getPanel();
+		BrianAnimationPanel br = brp.bap;
 		br.removeGui(gui);
 		System.out.println("Cook is leaving restaurant");
 		myPerson.msgGoHome();

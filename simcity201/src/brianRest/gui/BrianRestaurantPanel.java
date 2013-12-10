@@ -27,7 +27,8 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 	public JPanel rightInfo = new JPanel();
 	
 	JLabel leftInfoLabel = new JLabel("Left info");
-	JLabel rightInfoLabel = new JLabel("Right info");
+	JLabel rightInfoLabel = new JLabel("Waiter Break Panel");
+	JLabel rightInfoLabel2 = new JLabel("Can only break once.");
 	
 	public JScrollPane pane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -80,19 +81,23 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
    }
    
    private void setupRightInfo(){
-	   Dimension dim2 = new Dimension(200, 200);
+	   //Resize the right info box here.
+	   Dimension dim2 = new Dimension(400, 200);
 	   rightInfo.setPreferredSize(dim2);
 	   rightInfo.setMaximumSize(dim2);
 	   rightInfo.setMinimumSize(dim2);
 	   rightInfo.setLayout(new BoxLayout(rightInfo, BoxLayout.Y_AXIS));
+	   
+	   //Labels here.
 	   rightInfo.add(rightInfoLabel);
+	   rightInfo.add(rightInfoLabel2);
 	   
 	   
 	   view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
 	   pane.setViewportView(view);
 	   
 	   
-	   Dimension dim = new Dimension(100, 100);
+	   Dimension dim = new Dimension(200, 100);
 	   pane.setPreferredSize(dim);
 	   pane.setMaximumSize(dim);
 	   pane.setMinimumSize(dim);
@@ -105,6 +110,19 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 	   list.add(new People(button, newRole));
 	   view.add(button);   
 	   view.validate();
+   }
+   
+   public void removeWaiter(BrianWaiter role){
+	   for (People p: list){
+			
+			if (role == p.waiter){
+				view.remove(p.button);
+				list.remove(p.button);
+				view.validate();
+				return;
+			}
+			
+		}
    }
 
 @Override
