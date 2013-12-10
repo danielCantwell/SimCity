@@ -840,6 +840,59 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 return null;
     }
     
+    public Person createPerson(String name, String role, Vehicle v, Morality m, Money money, int hunger, Building house, Building b, int shift){
+	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
+	   	 B_House bHouse = (B_House) house;
+	   	 if (v == Vehicle.walk) {
+	   		 currentID++;
+	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
+	   		 idList.put(currentID, g);
+	   		 
+	   		 Person p = new Person(name, g, role, v, m, money, new Money(10, 0), hunger, 4, bHouse.type, bHouse, b, shift);
+	   		 p.setAnimPanel(this);
+	   		 g.setPerson(p);
+	   		 addGui(g);
+	   		 if (God.Get().canAddPerson(p)){
+	   	 	 God.Get().addPerson(p);
+	   	 	 p.startThread();
+	   		 }else return null;
+	   	 	 
+	   	 	 return p;
+	   	 } else if (v == Vehicle.car) {
+	   		 currentID++;
+	   		 CarGui g = new CarGui(gui, currentID, createAccidents);
+	   		 idList.put(currentID, g);
+	   		 
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
+	   		 p.setAnimPanel(this);
+	   		 g.setPerson(p);
+	   		 addGui(g);
+	   		if (God.Get().canAddPerson(p)){
+	   	 	 God.Get().addPerson(p);
+	   	 	 p.startThread();   	 	 
+	   		}else return null;
+	   	 	 
+	   	 	 return p;
+	   	 } else if (v == Vehicle.bus) {
+	   		 currentID++;
+	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
+	   		 idList.put(currentID, g);
+	   		 
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
+	   		 p.setAnimPanel(this);
+	   		 g.setPerson(p);
+	   		 addGui(g);
+	   		if (God.Get().canAddPerson(p)){
+	   	 	 God.Get().addPerson(p);
+	   	 	 p.startThread();
+	   		}else return null;
+	   	 	 
+	   	 	 return p;
+	   	 }
+	   	 
+	   	 return null;
+   }
+    
     protected Person marketScenarioPerson(String name, String role, Vehicle v, Morality m, Building house, Building b){
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
    		 currentID++;
