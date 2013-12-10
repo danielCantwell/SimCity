@@ -58,6 +58,14 @@ public class bankGui extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
+	    synchronized(guis)
+	    {
+            for (Gui gui : guis) {
+                if (gui.isPresent()) {
+                    gui.updatePosition();
+                }
+            }
+	    }
 		repaint();
 	}
 
@@ -75,12 +83,6 @@ public class bankGui extends JPanel implements ActionListener {
 		g.fillRect(xCounterPos, yCounterPos, xCounterSize, yCounterSize);
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(620, 320, 30, 60);
-
-		for (Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
 		synchronized(guis) {
 			for (Gui gui : guis) {
 				if (gui.isPresent()) {
