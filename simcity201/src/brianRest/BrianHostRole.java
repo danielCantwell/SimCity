@@ -7,6 +7,7 @@ import SimCity.Base.Role;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.gui.BrianRestaurantPanel;
@@ -51,12 +52,14 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	private String name;
 	boolean wantToGoHome = false;
+	B_BrianRestaurant brianRest;
 	
 	private enum MyWaiterState {none, wantBreak, allowedBreak, onBreak};
 	int workingWaiters = 0;
 
-	public BrianHostRole(String name) {
+	public BrianHostRole(String name, B_BrianRestaurant brest) {
 		super();
+		brianRest = brest;
 		this.name = name;
 		// make some tables
 		tables = new ArrayList<BrianTable>(NTABLES);
@@ -189,7 +192,11 @@ public class BrianHostRole extends Role implements BrianHost {
 			return true;
 		}
 		if (wantToGoHome){
-			leaveRestaurant();
+			if (customersInRestaurant == 0){
+				leaveRestaurant();
+				return false;
+			}
+			return true;
 		}
 		
 		return false;
@@ -235,10 +242,10 @@ public class BrianHostRole extends Role implements BrianHost {
 		if (waitingCustomers.size() == 0){
 			//msg all waiters that they are allowed to leave
 			for (MyWaiter w: waiters){
-				BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.getBuilding().getPanel();
-				brp.removeWaiter(w.waiter);
 				w.waiter.msgLeaveRestaurant();
 			}
+			BrianRestaurantPanel brp = (BrianRestaurantPanel) brianRest.getPanel();
+			brp.removeWaiter();
 			B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();
 			if (br.getCashier().myPerson != null)
 				br.getCashier().msgLeaveRestaurant();
@@ -296,8 +303,8 @@ public class BrianHostRole extends Role implements BrianHost {
 	
 	public void addWaiter(BrianWaiter newRole){
 		waiters.add(new MyWaiter(newRole));
-		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.building.getPanel();
-		brp.addWaiter(newRole.toString(), newRole);
+		
+		((BrianRestaurantPanel) brianRest.getPanel()).addWaiter(newRole.toString(), newRole);
 		workingWaiters++;
 		stateChanged();
 	}
@@ -344,13 +351,11 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	@Override
 	public void workOver() {
-		
-		
 		//Do not accept any new people.
 		B_BrianRestaurant rest = (B_BrianRestaurant)myPerson.getBuilding();
 		rest.setOpen(false);
 		wantToGoHome = true;
-		
+		stateChanged();
 	}
 
 	@Override

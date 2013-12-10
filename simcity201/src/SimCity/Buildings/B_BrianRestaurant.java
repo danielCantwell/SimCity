@@ -32,7 +32,7 @@ import SimCity.Globals.Money;
 public class B_BrianRestaurant extends Building{
 	public int B_BrianAccNum = 3000;
 	Money BRestMoney = new Money(700,0);
-	public BrianHostRole hostRole = new BrianHostRole("Host");
+	public BrianHostRole hostRole = new BrianHostRole("Host", this);
 	public BrianCashierRole cashierRole = new BrianCashierRole("Cashier");
 	public BrianCookRole cookRole = new BrianCookRole("Cook");
 	public int numberOfWaiters = 0;
