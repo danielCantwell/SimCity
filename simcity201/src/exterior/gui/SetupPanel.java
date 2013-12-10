@@ -335,7 +335,7 @@ public class SetupPanel extends JFrame {
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
 		mainPanel.add(createWanderer);
-		mainPanel.add(numPeople); // TODO
+		mainPanel.add(numPeople); // TODO - nothing, just a marker
 		// mainPanel.add(nuke);
 
 		// ---------------------------------------------
@@ -1016,8 +1016,8 @@ public class SetupPanel extends JFrame {
 					role = "jesseRest.JesseHost";
 				else if (jesseRestWaiter.isSelected())
 					role = "jesseRest.JesseWaiter";
-				// else if (jesseRestPCWaiter.isSelected())
-				// role = "jesseRest.JessePCWaiter"; TODO
+				else if (jesseRestPCWaiter.isSelected())
+					role = "jesseRest.JessePCWaiter";
 				else if (jesseRestCustomer.isSelected())
 					role = "jesseRest.JesseCustomer";
 
@@ -1044,8 +1044,8 @@ public class SetupPanel extends JFrame {
 					role = "EricRestaurant.EricCook";
 				else if (ericRestWaiter.isSelected())
 					role = "EricRestaurant.EricWaiter";
-				// else if (ericRestPCWaiter.isSelected())
-				// role = "EricRestaurant.EricPCWaiter"; TODO
+				else if (ericRestPCWaiter.isSelected())
+					role = "EricRestaurant.EricPCWaiter";
 				else if (ericRestCustomer.isSelected())
 					role = "EricRestaurant.EricCustomer";
 
@@ -1058,8 +1058,8 @@ public class SetupPanel extends JFrame {
 					role = "timRest.TimCookRole";
 				else if (timRestWaiter.isSelected())
 					role = "timRest.TimWaiterRole";
-				// else if (timRestWaiter.isSelected())
-				// role = "timRest.TimWaiterRole"; TODO
+				// else if (timRestPCWaiter.isSelected())
+				// role = "timRest.TimPCWaiterRole"; TODO - tim pc waiter
 				else if (timRestCustomer.isSelected())
 					role = "timRest.TimCustomerRole";
 
@@ -1117,7 +1117,7 @@ public class SetupPanel extends JFrame {
 
 				animationPanel.createPerson(name, role, v, m, mo, hunger,
 						house, b, shift);
-				
+
 				numPeople.setText("# People :  " + God.Get().persons.size());
 			}
 		});
@@ -1138,7 +1138,7 @@ public class SetupPanel extends JFrame {
 				animationPanel.createPerson("Customer", "usto", Vehicle.bus,
 						Morality.good, selectHouse(),
 						animationPanel.getGui().buildingList.get(6), 1);
-				
+
 				numPeople.setText("# People :  " + God.Get().persons.size());
 			}
 		});
