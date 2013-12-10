@@ -69,10 +69,10 @@ public class God {
 	    
 	    public void addPerson(Person p){ 
 	    	if (persons.size() > 0){
-		    	//AlertLog.getInstance().logDebug(AlertTag.God, "DEBUG", persons.size() + "");
-		    	/*for (Person per: persons){
-		    		if (per.getMainRoleString().equals("brianRest.BrianHostRole"))
-		    		//AlertLog.getInstance().logWarning(AlertTag.God, "Warning", per.getMainRoleString());
+		    	/*AlertLog.getInstance().logDebug(AlertTag.God, "DEBUG", persons.size() + "");
+		    	for (Person per: persons){
+		    		if (per.getMainRoleString().equals("Bank.bankManagerRole"))
+		    		AlertLog.getInstance().logWarning(AlertTag.God, "Warning", per.getMainRoleString() + ", work at: " + per.getWorkPlace().getID());
 		    	}*/
 	    	
 	    	//If we are dealing with a manager. make sure to check if there is already a manager that exists.
@@ -88,8 +88,8 @@ public class God {
 	
 		    	for (Person pe:persons){
 		    		if (pe.getMainRoleString().equals(p.getMainRoleString())){
-		    			if (pe.getShift() == p.getShift()){
-		    				if (pe.getWorkPlace() == p.getWorkPlace())
+		    			if (pe.getWorkPlace().getID() == p.getWorkPlace().getID())
+		    				if (pe.getShift() == p.getShift()){
 		    					AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
 		    				return;
 		    			}
