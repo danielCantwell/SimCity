@@ -15,13 +15,15 @@ import restaurant.gui.DannyRestaurantAnimationPanel;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 
 /**
  * @author Brian
  * 
  */
 public class B_DannyRestaurant extends Building {
-
+	public int B_DannyAccNum = 4000;
+	Money DRestMoney = new Money(700,0);
 	public DannyHost hostRole = new DannyHost();
 	public DannyCashier cashierRole = new DannyCashier();
 	public DannyCook cookRole = new DannyCook();
@@ -72,6 +74,9 @@ public class B_DannyRestaurant extends Building {
 
 	@Override
 	public void ExitBuilding(Person person) {
+		if (person.getMainRole() instanceof DannyHost) {
+			DRestMoney = hostRole.getMoney();
+		}
 		person.resetActiveRoles();
 		person.msgExitBuilding();
 		if (person.getMainRole() instanceof DannyCustomer) {
@@ -91,6 +96,8 @@ public class B_DannyRestaurant extends Building {
 				//newRole = hostRole;
 				newRole = (DannyHost) person.getMainRole();
 				hostRole = (DannyHost) newRole;
+				hostRole.setMoney(DRestMoney);
+				hostRole.setAcc(B_DannyAccNum);
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
 				System.out
@@ -123,6 +130,7 @@ public class B_DannyRestaurant extends Building {
 				newRole = (DannyCashier) person.getMainRole();
 				cashierRole = (DannyCashier) person.getMainRole();
 				cashierFilled = true;
+				cashierRole.setMoney(hostRole.getMoney());
 				setOpen(areAllNeededRolesFilled());
 				System.out
 						.println("All roles needed Danny Restaurant : "

@@ -39,7 +39,7 @@ public class JesseCustomer extends Role implements Customer {
 	public boolean ordersFoodWhenCantAfford = true;
 	
 	// Customers start with $15.
-	public Money money = new Money(15, 0);
+	public Money money;
 
 	public enum AgentState {DoingNothing, WaitingInRestaurant, BeingSeated, Seated, Deciding, Ordering, DoneOrdering, GivingOrder, Eating, DoneEating, Paying, Leaving};
 	private AgentState state = AgentState.DoingNothing;
@@ -380,6 +380,7 @@ public class JesseCustomer extends Role implements Customer {
 		B_JesseRestaurant rest = (B_JesseRestaurant)(myPerson.getBuilding()); 
 		cashier = rest.cashier;
 		host = rest.host;
+		money = myPerson.getMoney();
 		jesseRest.gui.CustomerGui c = new jesseRest.gui.CustomerGui(this);
 		customerGui = c;
 

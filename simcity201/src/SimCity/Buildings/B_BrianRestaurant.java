@@ -24,12 +24,14 @@ import restaurant.interfaces.Waiter;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 /**
  * @author Brian
  *
  */
 public class B_BrianRestaurant extends Building{
-	
+	public int B_BrianAccNum = 3000;
+	Money BRestMoney = new Money(700,0);
 	public BrianHostRole hostRole = new BrianHostRole("Host");
 	public BrianCashierRole cashierRole = new BrianCashierRole("Cashier");
 	public BrianCookRole cookRole = new BrianCookRole("Cook");
@@ -83,6 +85,9 @@ public class B_BrianRestaurant extends Building{
 
 	@Override
 	public void ExitBuilding(Person person) {
+		if(person.getMainRoleString().equals("brianRest.BrianHostRole")){
+			BRestMoney = hostRole.getMoney();
+		}
 		person.resetActiveRoles();
     	person.msgExitBuilding();
 	}
@@ -96,6 +101,8 @@ public class B_BrianRestaurant extends Building{
 				System.out.println("#cust created");}
 			else if (job.equals("brianRest.BrianHostRole")) {
 				newRole = hostRole; 
+				hostRole.setMoney(BRestMoney);
+				hostRole.setAccNum(B_BrianAccNum);
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianWaiterRole")){ 
@@ -110,6 +117,7 @@ public class B_BrianRestaurant extends Building{
 				setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianCashierRole")) { 
 				newRole = cashierRole; 
+				cashierRole.setMoney(hostRole.getMoney());
 				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());}
 			else  if (job.equals("brianRest.BrianPCWaiterRole")){ 
