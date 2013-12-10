@@ -37,7 +37,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	public TimCashierRole()
 	{
 		super();
-		//cashInRegister = new Money(300, 0);
+		cashInRegister = new Money(0, 0);
 	}
 	
 	public void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber)
