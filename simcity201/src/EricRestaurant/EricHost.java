@@ -13,6 +13,8 @@ import SimCity.Globals.Money;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import timRest.TimHostRole.bankstate;
+
 /**
  * Restaurant Host Agent
  */
@@ -44,7 +46,7 @@ public class EricHost extends Role implements Host {
 	public enum state {none, free, busy};
 	private state s = state.none;//The start state
 	public enum breakstate {onbreak, offbreak};
-	public enum bankstate {none, gotManager, sent};
+	public enum bankstate {none, gotManager, sent, noTeller};
 	private bankstate bs = bankstate.none;
 	private breakstate b = breakstate.offbreak;//The start state
 	public HostGui hostGui = null;
@@ -72,7 +74,7 @@ public class EricHost extends Role implements Host {
 		return ERestMoney;
 	}
 	@Override
-	public void setWaiter(EricRestaurant.interfaces.Waiter w) {
+	public void setWaiter(EricAbstractWaiter w) {
 		waiter = w;
 	}
 
@@ -127,7 +129,7 @@ public class EricHost extends Role implements Host {
 	}
 
 	@Override
-	public void msgLeavingTable(Customer cust, EricRestaurant.interfaces.Waiter w) {
+	public void msgLeavingTable(Customer cust, EricAbstractWaiter w) {
 		for (Waiter mw : waiters) {
 			if(mw.w == w) {
 				mw.s = state.free;
@@ -144,7 +146,7 @@ public class EricHost extends Role implements Host {
 		stateChanged();
 	}
 
-	public void newWaiter(EricWaiter wait) {
+	public void newWaiter(EricAbstractWaiter wait) {
 		Waiter mywaiter = new Waiter();
 		mywaiter.w = wait;
 		mywaiter.s = state.free;
@@ -156,12 +158,12 @@ public class EricHost extends Role implements Host {
 	}
 
 	@Override
-	public void canIBreak(EricRestaurant.interfaces.Waiter w) {
+	public void canIBreak(EricAbstractWaiter w) {
 		checkBreak(w);	
 	}
 
 	@Override
-	public void backFromBreak(EricRestaurant.interfaces.Waiter w) {
+	public void backFromBreak(EricAbstractWaiter w) {
 		waiterBack(w);
 	}
 
@@ -223,8 +225,13 @@ public class EricHost extends Role implements Host {
 	public void msgBank() {
 		bank = (B_Bank) God.Get().getBuilding(2);
 		bm = (tellerRole) bank.getOneTeller();
+		if(bm == null) {
+			bs = bankstate.noTeller;
+		}
+		else {
 		bm.restMoney(ERestNum, ERestMoney, this);
 		bs = bankstate.sent;
+		}
 	}
 	
 	private void callWaiter(EricCustomer cust, Table table, Waiter w) {
@@ -327,6 +334,7 @@ public class EricHost extends Role implements Host {
 		// TODO Auto-generated method stub
 		return "EricHost";
 	}
+
 
 }
 

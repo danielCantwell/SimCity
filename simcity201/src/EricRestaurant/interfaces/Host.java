@@ -3,6 +3,7 @@ package EricRestaurant.interfaces;
 import java.util.Collection;
 import java.util.List;
 
+import EricRestaurant.EricAbstractWaiter;
 import EricRestaurant.EricCashier;
 import EricRestaurant.EricCook;
 import EricRestaurant.EricCustomer;
@@ -12,7 +13,7 @@ import SimCity.Globals.Money;
 
 public interface Host {
 
-	public abstract void setWaiter(EricRestaurant.interfaces.Waiter w);
+	public abstract void setWaiter(EricAbstractWaiter w);
 
 	public abstract void setCook(EricCook ck);
 
@@ -28,13 +29,13 @@ public interface Host {
 
 
 	public abstract void msgLeavingTable(Customer cust,
-			EricRestaurant.interfaces.Waiter w);
+			EricAbstractWaiter w);
 
-	public abstract void newWaiter(EricWaiter wait);
+	public abstract void newWaiter(EricAbstractWaiter wait);
 
-	public abstract void canIBreak(EricRestaurant.interfaces.Waiter w);
+	public abstract void canIBreak(EricAbstractWaiter w);
 
-	public abstract void backFromBreak(EricRestaurant.interfaces.Waiter w);
+	public abstract void backFromBreak(EricAbstractWaiter w);
 
 	public abstract void setGui(HostGui gui);
 

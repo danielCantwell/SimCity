@@ -400,7 +400,7 @@ public class God {
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
-	    		else if (p.getMainRoleString().equals("EricRestaurant.EricWaiter") || p.getMainRoleString().equals("EricRestaurant.EricCook") || p.getMainRoleString().equals("EricRestaurant.EricCashier")) {
+	    		else if (p.getMainRoleString().equals("EricRestaurant.EricWaiter") ||p.getMainRoleString().equals("EricRestaurant.EricPCWaiter")|| p.getMainRoleString().equals("EricRestaurant.EricCook") || p.getMainRoleString().equals("EricRestaurant.EricCashier")) {
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}

@@ -31,7 +31,7 @@ public class TimHostRole extends Role {
 	public List<MyCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public Map<Integer, Table> tables = Collections.synchronizedMap(new Hashtable<Integer, Table>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
-	public enum bankstate {none, gotManager, sent};
+	public enum bankstate {none, gotManager, sent, noTeller};
 	private bankstate bs = bankstate.none;
     private TimCookRole cook;
     private TimCashierRole cashier;
@@ -306,7 +306,7 @@ public class TimHostRole extends Role {
 				}
 			}
 		}
-		System.out.println("-------------------Bankstate ; "+bs+"----------customerSize : "+waitingCustomers.size()+" ------"+God.Get().getHour());
+//		System.out.println("-------------------Bankstate ; "+bs+"----------customerSize : "+waitingCustomers.size()+" ------"+God.Get().getHour());
 		if(bs == bankstate.gotManager &&  God.Get().getHour()==11) {
 			msgBank();
 			return true;
@@ -321,8 +321,13 @@ public class TimHostRole extends Role {
 	public void msgBank() {
 		bank = (B_Bank) God.Get().getBuilding(2);
 		bm = (tellerRole) bank.getOneTeller();
+		if(bm == null) {
+			bs = bankstate.noTeller;
+		}
+		else {
 		bm.restMoney(TAccNum, TRestMoney, this);
 		bs = bankstate.sent;
+		}
 	}
 	
 	private void assignCustomer(MyCustomer customer)

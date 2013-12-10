@@ -31,7 +31,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	DecimalFormat df = new DecimalFormat("#0.00");
 	// agent correspondents
 	private EricHost host;
-	private EricWaiter waiter;
+	private EricAbstractWaiter waiter;
 	private EricCashier cashier;
 
 	//    private boolean isHungry = false; //hack for gui
@@ -65,7 +65,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 
 	@Override
 	
-	public void setWaiter(EricWaiter waiter) {
+	public void setWaiter(EricAbstractWaiter waiter) {
 		this.waiter = waiter;
 	}
 
@@ -89,7 +89,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	}
 
 	@Override
-	public void msgSitAtTable(EricWaiter w, int table) {
+	public void msgSitAtTable(EricAbstractWaiter w, int table) {
 		print("Received msgSitAtTable");
 		t = table;
 		this.waiter = w;

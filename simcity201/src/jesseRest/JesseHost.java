@@ -32,7 +32,7 @@ public class JesseHost extends Role {
 	private int MAXTABLES = 7;
 	private int nextWaiter = 0;
 	public enum WaiterState {Normal, WantsBreak};
-	public enum bankstate {none, gotManager, sent};
+	public enum bankstate {none, gotManager, sent, noTeller};
 	private bankstate bs = bankstate.none;
 
 	public JesseHost(String name) {
@@ -214,8 +214,13 @@ public class JesseHost extends Role {
 	public void msgBank() {
 		bank = (B_Bank) God.Get().getBuilding(2);
 		bm = (tellerRole) bank.getOneTeller();
+		if(bm == null) {
+			bs = bankstate.noTeller;
+		}
+		else {
 		bm.restMoney(JAccNum, JRestMoney, this);
 		bs = bankstate.sent;
+		}
 	}
 	
 	void seatCustomer(JesseCustomer c, Table t, JesseWaiter w) {

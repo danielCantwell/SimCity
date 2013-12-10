@@ -10,10 +10,10 @@ import EricRestaurant.interfaces.Waiter;
 import EricRestaurant.EricAbstractWaiter;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
+import SimCity.Buildings.B_EricRestaurant;
 import SimCity.trace.AlertTag;
 import SimCity.Globals.Money;
 import agent.Agent;
-import brianRest.gui.BrianAnimationPanel;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -22,7 +22,7 @@ import java.util.concurrent.Semaphore;
  * Restaurant Waiter Agent
  */
 
-public class EricWaiter extends EricAbstractWaiter implements Waiter {
+public class EricPCWaiter extends EricAbstractWaiter implements Waiter {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -31,6 +31,7 @@ public class EricWaiter extends EricAbstractWaiter implements Waiter {
 	
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
+	public int menu = 4;
 	private String name;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore toCook = new Semaphore(0,true);
@@ -46,7 +47,7 @@ public class EricWaiter extends EricAbstractWaiter implements Waiter {
 
 	Map<String, Money> mymap = new HashMap<String, Money>();
 
-	public EricWaiter(String name, EricHost h, EricCashier c) {
+	public EricPCWaiter(String name, EricHost h, EricCashier c) {
 		super();
 		this.name = name;
 		host = h;
@@ -371,16 +372,17 @@ public class EricWaiter extends EricAbstractWaiter implements Waiter {
 	
 	@Override
 	protected void gotOrder(myCustomer c) {
-		Do(AlertTag.EricRest, " Giving Customer order to cook");
+		Do(AlertTag.EricRest, " Putting Customer order on the Order Stand");
+		c.s = state.gavecook;
 		try {
-			host.cook.giveCook(c.choice, this);
+			B_EricRestaurant er =  (B_EricRestaurant)myPerson.getBuilding();
+			System.out.println("c.choice is : "+c.choice+"    and the table number : "+c.table);
+			er.getOrderStand().addOrder(c.choice, this, c.table);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("----------Host: "+host+"     Cook: "+host.cook);
 		}
-		c.s = state.gavecook;
-
 		//customer.remove(c);	//if i don't remove it, it continually alternates between this and the msg in Cook
 	}
 	

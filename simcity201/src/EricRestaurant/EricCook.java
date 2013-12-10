@@ -1,4 +1,5 @@
 package EricRestaurant;
+import EricRestaurant.EricOrderStand.Orders;
 import EricRestaurant.gui.AnimationPanel;
 import EricRestaurant.gui.CookGui;
 import EricRestaurant.gui.HostGui;
@@ -6,6 +7,8 @@ import EricRestaurant.gui.HostGui;
 import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
+import SimCity.Buildings.B_EricRestaurant;
+import SimCity.trace.AlertTag;
 import agent.Agent;
 
 import javax.swing.Timer;
@@ -18,10 +21,11 @@ public class EricCook extends Role {
 	public CookGui cookGui = null;
 	private String name;
 	Map<String, Food> mymap = new HashMap<String, Food>();
-
+	EricOrderStand orderstand;
+	
 	private List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
 	class Order {
-		Waiter w;
+		EricAbstractWaiter w;
 		String choice;
 		int table;
 		state s;
@@ -83,7 +87,7 @@ public class EricCook extends Role {
 	//messages
 
 
-	public void giveCook(String choice, Waiter w) {
+	public void giveCook(String choice, EricAbstractWaiter w) {
 		//		this.waiter = w;
 		Order myorder = new Order();
 		myorder.choice = choice;
@@ -181,12 +185,26 @@ public class EricCook extends Role {
 				}
 			}
 		}
+		if(orderstand.getSize()>0) {
+			addOrder(orderstand.popFirstOrder());
+		}
 		return false;
 	}
 
 
 	//actions
 
+	public void addOrder(Orders orders2) {
+		Do(AlertTag.EricRest,"Cook: getting order from orderstand");
+		Order o = new Order();
+		o.choice = orders2.choice;
+		o.table = orders2.tableNumber;
+		o.w = orders2.ew;
+		o.s = state.pending;
+		orders.add(o);
+		stateChanged();
+	}
+	
 	public void cookIt(final Order o) {
 		//		timer.schedule(new Timer task()){
 		//			o.s = state.cooking;
@@ -230,7 +248,7 @@ public class EricCook extends Role {
 	}
 
 	public void plateIt(Order o) {
-		System.out.println("Cook: Plating the order and giving it to the waiter");
+		System.out.println("Cook: Plating the order and giving it to the waiter: "+o.w);
 		o.w.orderDone(o.choice);
 		o.s = state.waiting;
 	}
@@ -267,6 +285,8 @@ public class EricCook extends Role {
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.addGui(cg);	
 		cookGui.setText("Cook");
+		B_EricRestaurant er = (B_EricRestaurant)myPerson.getBuilding();
+		orderstand = er.getOrderStand();
 	}
 
 	@Override
@@ -277,7 +297,9 @@ public class EricCook extends Role {
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);		
 	}
-
+	public void msgStateChanged(){
+		stateChanged();
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

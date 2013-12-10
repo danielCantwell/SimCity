@@ -1,5 +1,6 @@
 package EricRestaurant.interfaces;
 
+import EricRestaurant.EricAbstractWaiter;
 import EricRestaurant.EricCashier;
 import EricRestaurant.EricHost;
 import EricRestaurant.EricWaiter;
@@ -12,13 +13,13 @@ public interface Customer {
 
 	public abstract void setCash(EricCashier cash);
 
-	public abstract void setWaiter(EricWaiter waiter);
+	public abstract void setWaiter(EricAbstractWaiter waiter);
 
 	public abstract String getCustomerName();
 
 	public abstract void gotHungry();
 
-	public abstract void msgSitAtTable(EricWaiter w, int table);
+	public abstract void msgSitAtTable(EricAbstractWaiter w, int table);
 
 	public abstract void msgAnimationFinishedGoToSeat();
 
