@@ -19,6 +19,7 @@ public class MarketPackerGui implements Gui {
     
     private Map<Integer, Point> locations = Collections.synchronizedMap(new HashMap<Integer, Point>());
     private Point counterLoc = new Point(xPos, yPos);
+    private String itemName;
 
 	private enum State { none };
 
@@ -65,12 +66,18 @@ public class MarketPackerGui implements Gui {
 	public void draw(Graphics2D g) {
 		g.setColor(Color.RED);
 		g.fillRect(xPos, yPos, xPersonSize, yPersonSize);
+		if (action == Action.Returning)
+		{
+		    g.setColor(Color.BLACK);
+		    g.drawString(itemName, xPos-10, yPos+23);
+		}
 	}
 
-    public void DoGoToItem(int location)
+    public void DoGoToItem(int location, String name)
     {
         xDestination = locations.get(location).x;
         yDestination = locations.get(location).y;
+        itemName = name;
         action = Action.Fetching;
     }
 

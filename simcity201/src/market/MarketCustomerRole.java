@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.concurrent.Semaphore;
 
 import SimCity.Base.God;
+import SimCity.Base.Person.Vehicle;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
@@ -61,6 +62,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
     {
         for (int i = 0; i < amount; i++)
         {
+            if (food.equals("Car"))
+            {
+                myPerson.vehicle = Vehicle.car;
+                myPerson.getNewCarGui();
+            }
             myPerson.inventory.add(food);
         }
         amountOwed.add(price);
@@ -193,6 +199,12 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
     	    clerk.msgWantFood(God.Get().persons.indexOf(myPerson), myPerson.groceryList.get(i).item, myPerson.groceryList.get(i).amount);
     	    numOrders++;
     	    Do(AlertTag.Market, "I would like " + myPerson.groceryList.get(i).amount + " " + myPerson.groceryList.get(i).item + "(s).");
+	    }
+	    if (myPerson.money.isGreaterThan(700, 0) && myPerson.vehicle != Vehicle.car)
+	    {
+	        clerk.msgWantFood(God.Get().persons.indexOf(myPerson), "Car", 1);
+            numOrders++;
+            Do(AlertTag.Market, "I think it's time for me to buy a car.");
 	    }
 	    state = AgentState.BeingServed;
 	}
