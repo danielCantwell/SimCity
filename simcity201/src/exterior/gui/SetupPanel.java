@@ -521,6 +521,48 @@ public class SetupPanel extends JFrame {
 		closeBuildings.add(close10);
 		closeBuildings.add(close11);
 		
+		close02.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(2).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(2).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		close03.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(3).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(3).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		close05.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(5).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(5).setForceClose(false);
+				// ================================================================================
+			}
+		});
 		close06.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -532,6 +574,76 @@ public class SetupPanel extends JFrame {
 					animationPanel.getGui().buildingList.get(6).setForceClose(true);
 				else
 					animationPanel.getGui().buildingList.get(6).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		close07.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(7).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(7).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		close08.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(8).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(8).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		close09.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(9).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(9).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		close10.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(10).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(10).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		close11.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(11).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(11).setForceClose(false);
 				// ================================================================================
 			}
 		});
