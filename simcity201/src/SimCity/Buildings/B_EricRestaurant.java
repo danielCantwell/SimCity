@@ -83,23 +83,29 @@ public class B_EricRestaurant extends Building {
 				setOpen(areAllNeededRolesFilled());
 				}
 			else if(role.equals("EricRestaurant.EricWaiter")) {
+				if(hostFilled) {
 				newRole = new EricWaiter("Waiter", host, cashier);
 				host.newWaiter((EricWaiter) newRole);
 				numWaiter++;
 				setOpen(areAllNeededRolesFilled());
+				} else {ExitBuilding(person);person.msgGoHome(); return;}
 			}
 			else if(role.equals("EricRestaurant.EricCook")) { 
+				if(hostFilled) {
 				newRole = cook;
 				host.setCook(cook);
 				cookFilled = true;
 				setOpen(areAllNeededRolesFilled());
+				} else { ExitBuilding(person);person.msgGoHome(); return;}
 			}
 			else if(role.equals("EricRestaurant.EricCashier")) {
+				if(hostFilled) {
 				newRole = cashier;
 				cashierFilled = true;
 				cashier.setHost(host);
 				cashier.setMoney(host.getMoney());
 				setOpen(areAllNeededRolesFilled());
+				} else { ExitBuilding(person); person.msgGoHome(); return;} 
 			}
 			else if(role.equals("EricRestaurant.EricCustomer")) {
 				if(areAllNeededRolesFilled()) {
@@ -109,7 +115,7 @@ public class B_EricRestaurant extends Building {
 				else {
 					setOpen(false);
 					System.out.println("Eric Restaurant is closed, leaving...");
-					ExitBuilding(person);
+					ExitBuilding(person);person.msgGoHome(); return;
 				}
 			}
 			newRole.setActive(true);

@@ -192,6 +192,14 @@ public class tellerRole extends Role implements Teller {
 		rest.add(r);
 		stateChanged();
 	}
+	public void restMoney(int acc, Money m, TimHostRole host) {
+		Rest r = new Rest();
+		r.acc = acc;
+		r.m = m;
+		r.th = host;
+		rest.add(r);
+		stateChanged();
+	}
 	@Override
 	public void workOver() {
 		s = state.leaving;
@@ -270,10 +278,6 @@ public class tellerRole extends Role implements Teller {
 
 		synchronized(rest) {
 			for(Rest r : rest) {
-				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #1000 Amount : $ "+bankAccs.get(1000).getDollar());
-				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #2000 Amount : $ "+bankAccs.get(2000).getDollar());
-				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #3000 Amount : $ "+bankAccs.get(3000).getDollar());
-				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #4000 Amount : $ "+bankAccs.get(4000).getDollar());
 				transaction(r);
 				return true;
 			}
@@ -333,17 +337,16 @@ public class tellerRole extends Role implements Teller {
 	public void transaction(Rest r) {
 		if (r.m.isGreaterThan(300, 0)){
 			Money temp = r.m.subtract(300, 0);
-			bankAccs.put(r.acc,bankAccs.get(r.acc).add(temp));
+			Money temp2 = bankAccs.get(r.acc);
+			temp.add(temp2);
+			bankAccs.put(r.acc,temp);
+
 			r.m = new Money(300,0);
 			if (r.acc == 1000) { System.out.println("Eric Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.eh.transDone(r.m); }
 			if (r.acc == 2000) { System.out.println("Jesse Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.jh.transDone(r.m); }
 			if (r.acc == 3000) { System.out.println("Brian Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.bh.transDone(r.m); }
-			if (r.acc == 4000) { System.out.println("Danny Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.dh.transDone(r.m); }
-			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #1000 Amount : $ "+bankAccs.get(1000).getDollar());
-			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #2000 Amount : $ "+bankAccs.get(2000).getDollar());
-			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #3000 Amount : $ "+bankAccs.get(3000).getDollar());
-			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #4000 Amount : $ "+bankAccs.get(4000).getDollar());
-
+			if (r.acc == 4000) { System.out.println("Danny Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.dh.transDone(r.m); }	
+			if (r.acc == 5000) { System.out.println("Tim Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.th.transDone(r.m); }		
 		}
 		else {
 			bankAccs.put(r.acc, bankAccs.get(r.acc).subtract(100, 0));
@@ -352,6 +355,7 @@ public class tellerRole extends Role implements Teller {
 			if (r.acc == 2000) r.jh.transDone(r.m);
 			if (r.acc == 3000) r.bh.transDone(r.m);
 			if (r.acc == 4000) r.dh.transDone(r.m);
+			if (r.acc == 5000) r.th.transDone(r.m);
 
 		}
 		rest.remove(r);
