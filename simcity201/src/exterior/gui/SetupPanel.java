@@ -42,6 +42,7 @@ public class SetupPanel extends JFrame {
 
 	private JTextField enterName = new JTextField("Enter Name of Person");
 	private JButton createPerson = new JButton("Create Person");
+	private JButton createWanderer = new JButton("Create Wandering Person");
 
 	private JPanel professionsPanel = new JPanel();
 	private JPanel optionsPanel = new JPanel();
@@ -297,6 +298,7 @@ public class SetupPanel extends JFrame {
 		mainPanel.add(shiftTwo);
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
+		mainPanel.add(createWanderer);
 		mainPanel.add(nuke);
 
 		// ---------------------------------------------
@@ -816,7 +818,7 @@ public class SetupPanel extends JFrame {
 				else if (jesseRestWaiter.isSelected())
 					role = "jesseRest.JesseWaiter";
 				//else if (jesseRestPCWaiter.isSelected())
-				//	role = "jesseRest.JessePCWaiter";   TODO
+				// role = "jesseRest.JessePCWaiter"; TODO
 				else if (jesseRestCustomer.isSelected())
 					role = "jesseRest.JesseCustomer";
 
@@ -911,6 +913,17 @@ public class SetupPanel extends JFrame {
 				}
 
 				animationPanel.createPerson(name, role, v, m, house, b, shift);
+			}
+		});
+		
+		createWanderer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				animationPanel.createPerson("Customer", "none", Vehicle.walk, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.walk, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.car, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.bus, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
 			}
 		});
 
