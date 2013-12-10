@@ -93,6 +93,11 @@ public class B_DannyRestaurant extends Building {
 	public void EnterBuilding(Person person, String job) {
 		Role newRole = null;
 		try {
+			if (forceClose){
+				person.msgGoHome();
+				return;
+			}
+			
 			if (job.equals("restaurant.DannyCustomer")) {
 				// newRole = new DannyCustomer();
 				newRole = (DannyCustomer) person.getMainRole();

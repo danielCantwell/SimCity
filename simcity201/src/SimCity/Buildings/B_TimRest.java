@@ -77,6 +77,11 @@ public class B_TimRest extends Building{
     public void EnterBuilding(Person person, String job){
         Role newRole = null;
         try {
+        	if (forceClose){
+				person.msgGoHome();
+				return;
+			}
+        	
             newRole = (Role)Class.forName(job).newInstance();
             newRole.setActive(true);
             newRole.setPerson(person);

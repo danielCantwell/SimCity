@@ -120,6 +120,11 @@ public class B_BrianRestaurant extends Building{
 	public void EnterBuilding(Person person, String job){
 		Role newRole = null;
 		try {
+			if (forceClose){
+				person.msgGoHome();
+				return;
+			}
+			
 			if (job.equals("brianRest.BrianCustomerRole")) {
 				newRole = new BrianCustomerRole("Customer");  
 				System.out.println("#cust created");}
