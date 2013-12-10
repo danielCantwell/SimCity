@@ -78,10 +78,6 @@ public abstract class Building extends SimObject {
     public void EnterBuilding(Person person, String job){
     		Role newRole = null;
 			try {
-				if (job.equals("usto")){
-					person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Restaurant), Intent.work);
-						return;
-				}
 				if (forceClose){
 					person.msgGoHome();
 					return;

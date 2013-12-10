@@ -86,6 +86,10 @@ public class B_EricRestaurant extends Building {
 				person.msgGoHome();
 				return;
 			}
+			if (role.equals("usto")){
+				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.work);
+					return;
+			}
 			
 			if(role.equals("EricRestaurant.EricHost")) { 
 				newRole = host;

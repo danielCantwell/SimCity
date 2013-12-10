@@ -98,7 +98,7 @@ public class B_DannyRestaurant extends Building {
 				return;
 			}
 			if (job.equals("usto")){
-				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.work);
+				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Market), Intent.work);
 					return;
 			}
 			

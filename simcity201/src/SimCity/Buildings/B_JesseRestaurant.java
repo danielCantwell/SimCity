@@ -51,6 +51,11 @@ public class B_JesseRestaurant extends Building{
 				return;
 			}
 			
+			if (role.equals("usto")){
+				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.House), Intent.work);
+					return;
+			}
+			
 			if(role.equals("jesseRest.JesseHost")) { 
 				newRole = host;
 				host.setMoney(JRestMoney);
