@@ -65,7 +65,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
             if (food.equals("Car"))
             {
                 myPerson.vehicle = Vehicle.car;
-                myPerson.getNewCarGui();
+                myPerson.animPanel.getNewCarGui(myPerson);
             }
             myPerson.inventory.add(food);
         }

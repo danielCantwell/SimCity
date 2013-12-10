@@ -22,7 +22,10 @@ import restaurant.DannyHost;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.God.BuildingType;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 /**
@@ -32,7 +35,7 @@ import SimCity.Globals.Money;
 public class B_BrianRestaurant extends Building{
 	public int B_BrianAccNum = 3000;
 	Money BRestMoney = new Money(700,0);
-	public BrianHostRole hostRole = new BrianHostRole("Host");
+	public BrianHostRole hostRole = new BrianHostRole("Host", this);
 	public BrianCashierRole cashierRole = new BrianCashierRole("Cashier");
 	public BrianCookRole cookRole = new BrianCookRole("Cook");
 	public int numberOfWaiters = 0;
@@ -143,7 +146,13 @@ public class B_BrianRestaurant extends Building{
 			person.msgCreateRole(newRole, true);
 			person.msgEnterBuilding(this);
 		} catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			int goTo = person.getBuilding().getID();
+			if (goTo > God.Get().buildings.size() - 1){
+				goTo = 0;
+			}
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.work);
+			person.msgExitBuilding();
 			System.out.println ("Building: no class found");
 		}
 }

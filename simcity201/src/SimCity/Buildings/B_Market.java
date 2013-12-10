@@ -9,7 +9,9 @@ import market.MarketManagerRole;
 import market.MarketPackerRole;
 import market.gui.MarketAnimationPanel;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 /**
  * @author Brian
@@ -126,6 +128,12 @@ public class B_Market extends Building{
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
             e.printStackTrace();
+            int goTo = person.getBuilding().getID() + 1;
+			if (goTo > God.Get().buildings.size() - 1){
+				goTo = 0;
+			}
+			person.msgGoToBuilding(God.Get().getBuilding(goTo), Intent.work);
+			person.msgExitBuilding();
             System.out.println ("God: no class found");
         }
     }

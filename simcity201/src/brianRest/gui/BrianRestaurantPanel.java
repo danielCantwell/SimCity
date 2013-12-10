@@ -8,6 +8,8 @@ import brianRest.interfaces.BrianHost;
 import brianRest.interfaces.BrianWaiter;
 import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.gui.Gui;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -112,17 +114,15 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 	   view.validate();
    }
    
-   public void removeWaiter(BrianWaiter role){
+   public void removeWaiter(){
+	   AlertLog.getInstance().logError(AlertTag.BrianRest, "Problem", "removing");
 	   for (People p: list){
-			
-			if (role == p.waiter){
 				view.remove(p.button);
 				list.remove(p.button);
-				view.validate();
-				return;
 			}
-			
-		}
+		view.validate();
+		view.revalidate();
+
    }
 
 @Override

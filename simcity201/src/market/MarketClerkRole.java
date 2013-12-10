@@ -232,6 +232,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	
 	private void leaveBuilding()
 	{
+	    myPerson.money.add(new Money(75, 00));
 	    canLeave = false;
 	    exitBuilding(myPerson);
 	}
