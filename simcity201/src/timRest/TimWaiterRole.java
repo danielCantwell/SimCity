@@ -298,7 +298,6 @@ public class TimWaiterRole extends Role implements TimWaiter{
     	{
     		inTransit.release();// = true;
     		travelState = TravelState.atTable;
-    		Do(AlertTag.TimRest,"Reached Table.");
     	}
     	else
     	{

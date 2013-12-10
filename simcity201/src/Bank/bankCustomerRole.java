@@ -223,6 +223,7 @@ public class bankCustomerRole extends Role implements Customer{
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		myPerson.msgGoHome();
 		exitBuilding(myPerson);
 	}
 	

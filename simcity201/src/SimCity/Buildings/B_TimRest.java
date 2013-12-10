@@ -20,8 +20,10 @@ import SimCity.Globals.Money;
  *
  */
 public class B_TimRest extends Building{
+	Money TRestMoney = new Money(700,0);
+	public int TAccNum = 5000;
 	
-	private TimHostRole hostRole;
+	public TimHostRole hostRole;
     public TimAnimationPanel panel;
 
     public void setManager(TimHostRole h){
@@ -81,6 +83,8 @@ public class B_TimRest extends Building{
             {
                 TimHostRole restaurantRole = (TimHostRole) person.mainRole;
                 hostRole = restaurantRole;
+                hostRole.setAcc(TAccNum);
+                hostRole.setMoney(TRestMoney);
                 panel.setHost(restaurantRole);
                 panel.addGui(restaurantRole.getGui());
                 person.msgEnterBuilding(this);
@@ -109,6 +113,7 @@ public class B_TimRest extends Building{
                     //restaurantRole.setHost(hostRole);
                     //hostRole.addClerk(restaurantRole);
                     //panel.addGui(restaurantRole.getGui());
+                    restaurantRole.setMoney(hostRole.getMoney());
                     restaurantRole.addItemToMenu("Steak", new Money(15, 99));
                     restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
                     restaurantRole.addItemToMenu("Salad", new Money(5, 99));
@@ -175,6 +180,7 @@ public class B_TimRest extends Building{
             if (person.roles.get(i) instanceof TimHostRole)
             {
                 TimHostRole cRole = (TimHostRole)person.roles.get(i);
+            	TRestMoney = cRole.getMoney();
                 cRole.setActive(false);
                 ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 person.msgExitBuilding();
