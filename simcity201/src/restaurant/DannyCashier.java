@@ -18,6 +18,7 @@ import restaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 
 /**
  * @author Daniel
@@ -263,7 +264,7 @@ public class DannyCashier extends Role implements Cashier,
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		ap.cashierPresent = true;
-		System.out.println("Cashier enterBuilding");
+		Do(AlertTag.DannyRest, "Cashier enterBuilding");
 	}
 
 	@Override
@@ -295,6 +296,7 @@ public class DannyCashier extends Role implements Cashier,
 			money.add(pricePerUnit);
 		}
 		marketsToPay.add(new MyMarket(manager, money));
+		stateChanged();
 	}
 
 }

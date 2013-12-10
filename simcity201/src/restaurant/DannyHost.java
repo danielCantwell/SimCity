@@ -150,7 +150,6 @@ public class DannyHost extends Role {
 						synchronized (waiters) {
 							for (MyWaiter myWaiter : waiters) {
 								if (myWaiter.state == WaiterState.Available) {
-									System.out.println("available");
 									seatCustomer(waitingCustomers.get(0),
 											table, myWaiter.waiter);
 									switchOrderOfWaiters();
@@ -237,8 +236,6 @@ public class DannyHost extends Role {
 	}
 
 	private void leaveRestaurant() {
-
-		Do(AlertTag.DannyRest, "Trying to Leave Restaurant");
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		if (rest.numCustomers == 0) {
 			Do(AlertTag.DannyRest, "Leaving Restaurant");
@@ -266,7 +263,6 @@ public class DannyHost extends Role {
 	public void addWaiter(DannyWaiter w) {
 		waiters.add(new MyWaiter(w));
 		// w.startThread();
-		print("Added waiter " + w.getName());
 		stateChanged();
 	}
 

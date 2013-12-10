@@ -147,38 +147,37 @@ public class SetupPanel extends JFrame {
 	private JButton s2 = new JButton("Normative Scenario Two");
 	private JButton s3 = new JButton("Scenario Three - Does Nothing");
 	private JButton s4 = new JButton("Scenario Four - Does Nothing");
-	
-	
+
 	// ---------------Trace Panel--------------------
 	TracePanel tracePanel;
-	private JPanel logsPanel = new JPanel ();
+	private JPanel logsPanel = new JPanel();
 	private JPanel leftLogsPanel = new JPanel();
 	private JPanel centerLogsPanel = new JPanel();
 	private JPanel rightLogsPanel = new JPanel();
 	private JLabel traceLeftLabel = new JLabel("Show/Hide");
 	private JLabel traceCenterLabel = new JLabel("Common");
 	private JLabel traceRightLabel = new JLabel("Restaurants");
-	
+
 	private JRadioButton showErrors = new JRadioButton("Errors");
 	private JRadioButton showWarning = new JRadioButton("Warnings");
 	private JRadioButton showMessages = new JRadioButton("Messages");
 	private JRadioButton showDebugs = new JRadioButton("Debugs");
 	private JRadioButton showInfo = new JRadioButton("Info");
-	
+
 	private JRadioButton showGod = new JRadioButton("God");
 	private JRadioButton showPerson = new JRadioButton("Person");
 	private JRadioButton showMarket = new JRadioButton("Market");
 	private JRadioButton showBank = new JRadioButton("Bank");
 	private JRadioButton showHouse = new JRadioButton("House");
-	
+
 	private JRadioButton showBrianRest = new JRadioButton("Brian");
 	private JRadioButton showJesseRest = new JRadioButton("Jesse");
 	private JRadioButton showEricRest = new JRadioButton("Eric");
 	private JRadioButton showDannyRest = new JRadioButton("Danny");
 	private JRadioButton showTimRest = new JRadioButton("Tim");
-	
+
 	private JButton nuke = new JButton("Close All Buildings");
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -200,7 +199,11 @@ public class SetupPanel extends JFrame {
 		moralityGood.setSelected(true);
 		modeNormal.setSelected(true);
 
-		// --- Button Groups ---
+		// ------------- Button Groups ------------
+
+		// -------------------------------------------------
+		// ------------- Profession Buttons Group ----------
+		// -------------------------------------------------
 
 		// bank
 		profession.add(bankManager);
@@ -245,6 +248,10 @@ public class SetupPanel extends JFrame {
 		profession.add(timRestWaiter);
 		profession.add(timRestCustomer);
 
+		// ----------------------------------------------------------------
+		// --- Housing | Transportation | Morality | Mode buttons group ---
+		// ----------------------------------------------------------------
+
 		// housing
 		housing.add(apartmentTenant);
 		housing.add(houseTenant);
@@ -262,12 +269,15 @@ public class SetupPanel extends JFrame {
 		mode.add(modeNormal);
 		mode.add(modeCompatibility);
 
-		// --- Panels ---
+		// ------------- Panels -------------
 
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
 		mainPanel.add(nuke);
-		
+
+		// ---------------------------------------------
+		// ------------ Bank | Market panels -----------
+		// ---------------------------------------------
 
 		bankPanel.setLayout(new GridLayout(5, 1));
 		bankPanel.add(bankManager);
@@ -282,6 +292,10 @@ public class SetupPanel extends JFrame {
 		marketPanel.add(marketDelivery);
 		marketPanel.add(marketManager);
 		marketPanel.add(marketCustomer);
+
+		// ------------------------------------------------
+		// --------------- Restaurant Panels --------------
+		// ------------------------------------------------
 
 		dannyRestPanel.setLayout(new GridLayout(5, 1));
 		dannyRestPanel.add(dannyRestCashier);
@@ -318,6 +332,10 @@ public class SetupPanel extends JFrame {
 		timRestPanel.add(timRestWaiter);
 		timRestPanel.add(timRestCustomer);
 
+		// ---------------------------------------------------------
+		// --- Housing | Transportation | Morality | Mode panels ---
+		// ---------------------------------------------------------
+
 		housingPanel.setBorder(new EtchedBorder(Color.BLACK, Color.CYAN));
 		housingPanel.add(apartmentTenant);
 		housingPanel.add(houseTenant);
@@ -336,6 +354,10 @@ public class SetupPanel extends JFrame {
 		modePanel.add(modeNormal);
 		modePanel.add(modeCompatibility);
 
+		// ------------------------------------------------
+		// --------------- Profession Panel ---------------
+		// ------------------------------------------------
+
 		professionsPanel.setBorder(new EtchedBorder(Color.BLACK, Color.CYAN));
 		professionsPanel.setLayout(new GridLayout(1, 7));
 		professionsPanel.add(bankPanel);
@@ -346,13 +368,19 @@ public class SetupPanel extends JFrame {
 		professionsPanel.add(ericRestPanel);
 		professionsPanel.add(timRestPanel);
 
+		// ------------------------------------------------
+		// ----------------- Options Panel ----------------
+		// ------------------------------------------------
+
 		optionsPanel.add(professionsPanel, BorderLayout.NORTH);
 		optionsPanel.add(housingPanel, BorderLayout.WEST);
 		optionsPanel.add(transportationPanel, BorderLayout.CENTER);
 		optionsPanel.add(moralityPanel, BorderLayout.EAST);
 		optionsPanel.add(modePanel, BorderLayout.SOUTH);
 
-		// Scenario Panel
+		// ------------------------------------------------
+		// ----------------- Scenario Panel ---------------
+		// ------------------------------------------------
 
 		scenarioPanel.setLayout(new GridLayout(2, 3));
 
@@ -362,45 +390,53 @@ public class SetupPanel extends JFrame {
 		scenarioPanel.add(s2);
 		scenarioPanel.add(s3);
 		scenarioPanel.add(s4);
-		
-		// Trace Panel
+
+		// ------------------------------------------------
+		// ------------------ Trace Panel -----------------
+		// ------------------------------------------------
+
 		this.tracePanel = new TracePanel();
 		AlertLog.getInstance().addAlertListener(tracePanel);
 		tracePanel.showAlertsForAllLevels();
 		tracePanel.showAlertsForAllTags();
-		
-		AlertLog.getInstance().logInfo(AlertTag.God, "God", "Welcome to SimCity201.");
-        AlertLog.getInstance().logInfo(AlertTag.God, "God", "This is the Trace Panel.");
-		
-		//----Initialize trace panel here --
-		
+
+		AlertLog.getInstance().logInfo(AlertTag.God, "God",
+				"Welcome to SimCity201.");
+		AlertLog.getInstance().logInfo(AlertTag.God, "God",
+				"This is the Trace Panel.");
+
+		// ------------------------------------------------
+		// ---------- Initialize Trace Panel Here ---------
+		// ------------------------------------------------
+
 		logsPanel.setLayout(new BoxLayout(logsPanel, BoxLayout.X_AXIS));
 		logsPanel.add(tracePanel);
 		logsPanel.add(leftLogsPanel);
 		logsPanel.add(centerLogsPanel);
 		logsPanel.add(rightLogsPanel);
-		
+
 		leftLogsPanel.setLayout(new BoxLayout(leftLogsPanel, BoxLayout.Y_AXIS));
-		centerLogsPanel.setLayout(new BoxLayout(centerLogsPanel, BoxLayout.Y_AXIS));
-		rightLogsPanel.setLayout(new BoxLayout(rightLogsPanel, BoxLayout.Y_AXIS));
-		
-		
+		centerLogsPanel.setLayout(new BoxLayout(centerLogsPanel,
+				BoxLayout.Y_AXIS));
+		rightLogsPanel
+				.setLayout(new BoxLayout(rightLogsPanel, BoxLayout.Y_AXIS));
+
 		leftLogsPanel.add(traceLeftLabel);
 		centerLogsPanel.add(traceCenterLabel);
 		rightLogsPanel.add(traceRightLabel);
-		//Left
+		// Left
 		showErrors.setSelected(true);
 		showMessages.setSelected(true);
 		showWarning.setSelected(true);
 		showDebugs.setSelected(true);
 		showInfo.setSelected(true);
-		//Center
+		// Center
 		showGod.setSelected(true);
 		showPerson.setSelected(true);
 		showHouse.setSelected(true);
 		showBank.setSelected(true);
 		showMarket.setSelected(true);
-		//Right
+		// Right
 		showBrianRest.setSelected(true);
 		showEricRest.setSelected(true);
 		showDannyRest.setSelected(true);
@@ -412,222 +448,252 @@ public class SetupPanel extends JFrame {
 		leftLogsPanel.add(showWarning);
 		leftLogsPanel.add(showDebugs);
 		leftLogsPanel.add(showInfo);
-		
+
 		centerLogsPanel.add(showGod);
 		centerLogsPanel.add(showPerson);
 		centerLogsPanel.add(showHouse);
 		centerLogsPanel.add(showBank);
 		centerLogsPanel.add(showMarket);
-		
+
 		rightLogsPanel.add(showBrianRest);
 		rightLogsPanel.add(showEricRest);
 		rightLogsPanel.add(showDannyRest);
 		rightLogsPanel.add(showJesseRest);
 		rightLogsPanel.add(showTimRest);
 
-		//--center panel
+		// --center panel
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		centerPanel.add(mainPanel);
 		centerPanel.add(logsPanel);
 		add(centerPanel, BorderLayout.CENTER);
-		
-		// trace functionality
+
+		// ------------------------------------------------
+		// --------- Trace Panel Action Listeners ---------
+		// ------------------------------------------------
+
 		showErrors.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showErrors.isSelected())
 					tracePanel.showAlertsWithLevel(AlertLevel.ERROR);
 				else
 					tracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showWarning.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showWarning.isSelected())
 					tracePanel.showAlertsWithLevel(AlertLevel.WARNING);
 				else
 					tracePanel.hideAlertsWithLevel(AlertLevel.WARNING);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showDebugs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showDebugs.isSelected())
 					tracePanel.showAlertsWithLevel(AlertLevel.DEBUG);
 				else
 					tracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showInfo.isSelected())
 					tracePanel.showAlertsWithLevel(AlertLevel.INFO);
 				else
 					tracePanel.hideAlertsWithLevel(AlertLevel.INFO);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showMessages.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showMessages.isSelected())
 					tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
 				else
 					tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
-				//================================================================================
+				// ================================================================================
 			}
 		});
-		
-		//--Tags
+
+		// --Tags
 		showGod.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showGod.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.God);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.God);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showPerson.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showPerson.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.PERSON);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.PERSON);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showBank.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showBank.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.BANK);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.BANK);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showHouse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showHouse.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.House);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.House);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showMarket.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showMarket.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.Market);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.Market);
-				//================================================================================
+				// ================================================================================
 			}
 		});
-		
+
 		showBrianRest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showBrianRest.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.BrianRest);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.BrianRest);
-				//================================================================================
+				// ================================================================================
 			}
 		});
 		showTimRest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showTimRest.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.TimRest);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.TimRest);
-				//================================================================================
+				// ================================================================================
 			}
 		});
-		
+
 		showEricRest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showEricRest.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.EricRest);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.EricRest);
-				//================================================================================
+				// ================================================================================
 			}
 		});
-		
+
 		showJesseRest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showJesseRest.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.JesseRest);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.JesseRest);
-				//================================================================================
+				// ================================================================================
 			}
 		});
-		
+
 		showDannyRest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//============================ TUTORIAL ==========================================
-				//This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
 				if (showDannyRest.isSelected())
 					tracePanel.showAlertsWithTag(AlertTag.DannyRest);
 				else
 					tracePanel.hideAlertsWithTag(AlertTag.DannyRest);
-				//================================================================================
+				// ================================================================================
 			}
 		});
-		
-		
-		
-		
+
 		// --- Main Frame ---
 
 		mainPanel.setBorder(new EtchedBorder(Color.BLACK, Color.CYAN));
 
 		add(optionsPanel, BorderLayout.PAGE_START);
-		//add(mainPanel, BorderLayout.CENTER);
+		// add(mainPanel, BorderLayout.CENTER);
 		add(scenarioPanel, BorderLayout.PAGE_END);
 
 		modeCompatibility.addActionListener(new ActionListener() {
@@ -645,16 +711,23 @@ public class SetupPanel extends JFrame {
 				animationPanel.setShowRect(false);
 			}
 		});
-		
-		nuke.addActionListener(new ActionListener(){
+
+		nuke.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0){
+			public void actionPerformed(ActionEvent arg0) {
 				animationPanel.getGui().HardReset();
 				animationPanel.SendMangersHome();
 			}
-			
+
 		});
 
+		// ------------------------------------------------
+		// ------------- Create Person Button -------------
+		// ------------------------------------------------
+
+		/**
+		 * Gets the selected choices and creates a person with those options
+		 */
 		createPerson.addActionListener(new ActionListener() {
 
 			@Override
@@ -791,53 +864,16 @@ public class SetupPanel extends JFrame {
 			}
 		});
 
+		// ------------------------------------------------
 		// --------------- SCENARIO BUTTONS ---------------
+		// ------------------------------------------------
+
 		dannyRestScenario.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				animationPanel.createPerson("D_Host_One",
-						"restaurant.DannyHost", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 1);
-				animationPanel.createPerson("D_Host_Two",
-						"restaurant.DannyHost", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 2);
-				animationPanel.createPerson("D_Cashier_One",
-						"restaurant.DannyCashier", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 1);
-				animationPanel.createPerson("D_Cashier_Two",
-						"restaurant.DannyCashier", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 2);
-				animationPanel.createPerson("D_Cook_One",
-						"restaurant.DannyCook", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 1);
-				animationPanel.createPerson("D_Cook_Two",
-						"restaurant.DannyCook", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 2);
-				animationPanel.createPerson("D_Waiter_One",
-						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 1);
-				animationPanel.createPerson("D_Waiter_Two",
-						"restaurant.DannyWaiter", Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 2);
-				animationPanel.createPerson("D_Customer_One",
-						"restaurant.DannyCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 1);
-				animationPanel.createPerson("D_Customer_Two",
-						"restaurant.DannyCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(0),
-						animationPanel.getGui().buildingList.get(9), 2);
+				createDannyRestaurantPeople(Vehicle.walk);
+				createMarketPeople(Vehicle.walk);
 			}
 		});
 
@@ -845,39 +881,8 @@ public class SetupPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				animationPanel.createPerson("EHost", "EricRestaurant.EricHost",
-						Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(11), 1);
-				animationPanel.createPerson("ECustomer",
-						"EricRestaurant.EricCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(11), 1);
-				animationPanel.createPerson("EWaiter",
-						"EricRestaurant.EricWaiter", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(11), 1);
-				animationPanel.createPerson("EWaiter",
-						"EricRestaurant.EricWaiter", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(11), 1);
-				animationPanel.createPerson("ECustomer2",
-						"EricRestaurant.EricCustomer", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(11), 1);
-				animationPanel.createPerson("ECashier",
-						"EricRestaurant.EricCashier", Vehicle.walk,
-						Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(11), 1);
-				animationPanel.createPerson("ECook", "EricRestaurant.EricCook",
-						Vehicle.walk, Morality.good,
-						animationPanel.getGui().buildingList.get(1),
-						animationPanel.getGui().buildingList.get(11), 1);
+				createEricRestaurantPeople(Vehicle.walk);
+				createMarketPeople(Vehicle.walk);
 			}
 		});
 
@@ -914,6 +919,11 @@ public class SetupPanel extends JFrame {
 		});
 	}
 
+	/**
+	 * Selects an apartment, making sure apartments have no more than 16 people
+	 * 
+	 * @return
+	 */
 	private Building selectApartment() {
 		if (God.Get().getBHouse(0).numTenants < 16) {
 			God.Get().getBHouse(0).incrementNumTenants();
@@ -927,6 +937,11 @@ public class SetupPanel extends JFrame {
 		}
 	}
 
+	/**
+	 * Selects a house, making sure houses have no more than 16 people
+	 * 
+	 * @return Building house
+	 */
 	private Building selectHouse() {
 		if (God.Get().getBHouse(12).numTenants < 16) {
 			God.Get().getBHouse(12).incrementNumTenants();
@@ -943,6 +958,13 @@ public class SetupPanel extends JFrame {
 		}
 	}
 
+	/**
+	 * Selects the appropriate workplace for a given role
+	 * 
+	 * @param role
+	 *            - main role that a person holds
+	 * @return Building workplace
+	 */
 	private Building getWorkplace(String role) {
 		int building;
 
@@ -1016,6 +1038,13 @@ public class SetupPanel extends JFrame {
 
 	}
 
+	// --------------------------------------------------------
+	//
+	// The following contains the various functions for
+	// creating people for each of the different workplaces
+	//
+	// --------------------------------------------------------
+
 	private void createDannyRestaurantPeople(Vehicle vehicle) {
 		// housing building 0
 		animationPanel.createPerson("D_Host_One", "restaurant.DannyHost",
@@ -1050,8 +1079,12 @@ public class SetupPanel extends JFrame {
 				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(0),
 				animationPanel.getGui().buildingList.get(9), 2);
-		animationPanel.createPerson("D_Customer", "restaurant.DannyCustomer",
-				vehicle, Morality.good,
+		animationPanel.createPerson("D_Customer_One",
+				"restaurant.DannyCustomer", vehicle, Morality.good,
+				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(9), 1);
+		animationPanel.createPerson("D_Customer_Two",
+				"restaurant.DannyCustomer", vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(0),
 				animationPanel.getGui().buildingList.get(9), 1);
 	}
@@ -1081,11 +1114,11 @@ public class SetupPanel extends JFrame {
 				"EricRestaurant.EricCashier", vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(0),
 				animationPanel.getGui().buildingList.get(11), 1);
+		// housing building 1
 		animationPanel.createPerson("E_Cashier_Two",
 				"EricRestaurant.EricCashier", vehicle, Morality.good,
-				animationPanel.getGui().buildingList.get(0),
+				animationPanel.getGui().buildingList.get(1),
 				animationPanel.getGui().buildingList.get(11), 2);
-		// housing building 1
 		animationPanel.createPerson("E_Cook_One", "EricRestaurant.EricCook",
 				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(1),
@@ -1152,11 +1185,11 @@ public class SetupPanel extends JFrame {
 				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(1),
 				animationPanel.getGui().buildingList.get(7), 1);
+		// housing building 4
 		animationPanel.createPerson("J_Waiter_Two", "jesseRest.JesseWaiter",
 				vehicle, Morality.good,
-				animationPanel.getGui().buildingList.get(1),
+				animationPanel.getGui().buildingList.get(4),
 				animationPanel.getGui().buildingList.get(7), 2);
-		// housing building 4
 		animationPanel.createPerson("J_Cashier_One", "jesseRest.JesseCashier",
 				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(4),
@@ -1223,11 +1256,11 @@ public class SetupPanel extends JFrame {
 				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(4),
 				animationPanel.getGui().buildingList.get(2), 2);
+		// housing building 12
 		animationPanel.createPerson("BankTeller_One", "Bank.tellerRole",
 				vehicle, Morality.good,
-				animationPanel.getGui().buildingList.get(4),
+				animationPanel.getGui().buildingList.get(12),
 				animationPanel.getGui().buildingList.get(2), 1);
-		// housing building 12
 		animationPanel.createPerson("BankTeller_Two", "Bank.tellerRole",
 				vehicle, Morality.good,
 				animationPanel.getGui().buildingList.get(12),
