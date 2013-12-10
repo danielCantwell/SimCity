@@ -4,6 +4,7 @@ import java.util.*;
 
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 import market.gui.MarketPackerGui;
 import market.interfaces.MarketManager;
 import market.interfaces.MarketPacker;
@@ -189,6 +190,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
     
     private void leaveBuilding()
     {
+        myPerson.money.add(new Money(75, 00));
         canLeave = false;
         exitBuilding(myPerson);
     }

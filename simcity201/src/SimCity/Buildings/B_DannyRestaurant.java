@@ -3,10 +3,12 @@ package SimCity.Buildings;
 import javax.swing.JPanel;
 
 import market.MarketDeliveryPersonRole;
+import restaurant.DannyAbstractWaiter;
 import restaurant.DannyCashier;
 import restaurant.DannyCook;
 import restaurant.DannyCustomer;
 import restaurant.DannyHost;
+import restaurant.DannyPCWaiter;
 import restaurant.DannyWaiter;
 import restaurant.OrderStand;
 import SimCity.Base.Building;
@@ -22,7 +24,7 @@ import SimCity.Globals.Money;
  */
 public class B_DannyRestaurant extends Building {
 	public int B_DannyAccNum = 4000;
-	Money DRestMoney = new Money(700,0);
+	Money DRestMoney = new Money(700, 0);
 	public DannyHost hostRole = new DannyHost();
 	public DannyCashier cashierRole = new DannyCashier();
 	public DannyCook cookRole = new DannyCook();
@@ -33,7 +35,7 @@ public class B_DannyRestaurant extends Building {
 	public boolean hostFilled = false;
 	public boolean cookFilled = false;
 	public boolean cashierFilled = false;
-	
+
 	public OrderStand orderStand;
 
 	public B_DannyRestaurant(int id, JPanel jp) {
@@ -43,7 +45,8 @@ public class B_DannyRestaurant extends Building {
 	public B_DannyRestaurant(int id, JPanel jp, int xCoord, int yCoord) {
 		this.id = id;
 		buildingPanel = jp;
-		System.out.println("Danny Rest Building Panel " + buildingPanel.hashCode());
+		System.out.println("Danny Rest Building Panel "
+				+ buildingPanel.hashCode());
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
@@ -90,12 +93,12 @@ public class B_DannyRestaurant extends Building {
 		Role newRole = null;
 		try {
 			if (job.equals("restaurant.DannyCustomer")) {
-				//newRole = new DannyCustomer();
+				// newRole = new DannyCustomer();
 				newRole = (DannyCustomer) person.getMainRole();
 				((DannyCustomer) newRole).setHost(hostRole);
 				numCustomers++;
 			} else if (job.equals("restaurant.DannyHost")) {
-				//newRole = hostRole;
+				// newRole = hostRole;
 				newRole = (DannyHost) person.getMainRole();
 				hostRole = (DannyHost) newRole;
 				hostRole.setMoney(DRestMoney);
@@ -107,7 +110,7 @@ public class B_DannyRestaurant extends Building {
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyWaiter")) {
 				numWaiters++;
-				//newRole = new DannyWaiter();
+				// newRole = new DannyWaiter();
 				newRole = (DannyWaiter) person.getMainRole();
 				hostRole.addWaiter((DannyWaiter) newRole);
 				((DannyWaiter) newRole).setNum(numWaiters);
@@ -118,8 +121,21 @@ public class B_DannyRestaurant extends Building {
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
+			} else if (job.equals("restaurant.DannyPCWaiter")) {
+				numWaiters++;
+				// newRole = new DannyWaiter();
+				newRole = (DannyPCWaiter) person.getMainRole();
+				hostRole.addWaiter((DannyPCWaiter) newRole);
+				((DannyPCWaiter) newRole).setNum(numWaiters);
+				((DannyPCWaiter) newRole).setHost(hostRole);
+				((DannyPCWaiter) newRole).setCook(cookRole);
+				((DannyPCWaiter) newRole).setCashier(cashierRole);
+				setOpen(areAllNeededRolesFilled());
+				System.out
+						.println("All roles needed Danny Restaurant : "
+								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyCook")) {
-				//newRole = cookRole;
+				// newRole = cookRole;
 				newRole = (DannyCook) person.getMainRole();
 				cookRole = (DannyCook) newRole;
 				cookFilled = true;
@@ -128,7 +144,7 @@ public class B_DannyRestaurant extends Building {
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("restaurant.DannyCashier")) {
-				//newRole = cashierRole;
+				// newRole = cashierRole;
 				newRole = (DannyCashier) person.getMainRole();
 				cashierRole = (DannyCashier) person.getMainRole();
 				cashierFilled = true;
@@ -139,7 +155,7 @@ public class B_DannyRestaurant extends Building {
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
 			} else if (job.equals("market.MarketDeliveryPersonRole")) {
 				MarketDeliveryPersonRole restaurantRole = (MarketDeliveryPersonRole) person.mainRole;
-                restaurantRole.msgGuiArrivedAtDestination();
+				restaurantRole.msgGuiArrivedAtDestination();
 			}
 
 			newRole.setActive(true);
@@ -149,16 +165,20 @@ public class B_DannyRestaurant extends Building {
 			fillNeededRoles(person, newRole);
 			person.msgEnterBuilding(this);
 
+			
 			if (newRole instanceof DannyHost)
 				((DannyHost) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyWaiter)
 				((DannyWaiter) newRole).setName(newRole.myPerson.name);
+			if (newRole instanceof DannyPCWaiter)
+				((DannyPCWaiter) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyCashier)
 				((DannyCashier) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyCook)
 				((DannyCook) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyCustomer)
 				((DannyCustomer) newRole).setName(newRole.myPerson.name);
+				
 		} catch (Exception e) {
 			//e.printStackTrace();
 			int goTo = person.getBuilding().getID() + 1;

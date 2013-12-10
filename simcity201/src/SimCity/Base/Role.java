@@ -39,8 +39,23 @@ public abstract class Role {
 	}
 	
 	protected void Do(AlertTag a, String s){
-    	AlertLog.getInstance().logMessage(AlertTag.God, myPerson.getName(), toString() + " "+s);
-
+    	AlertLog.getInstance().logMessage(a, myPerson.getName(), toString() + " "+s);
 	}
+
+    protected void Info(AlertTag a, String s){
+        AlertLog.getInstance().logInfo(a, myPerson.getName(), toString() + " "+s);
+    }
+
+    protected void Debug(AlertTag a, String s){
+        AlertLog.getInstance().logDebug(a, myPerson.getName(), toString() + " "+s);
+    }
+
+    protected void Warning(AlertTag a, String s){
+        AlertLog.getInstance().logWarning(a, myPerson.getName(), toString() + " "+s);
+    }
+
+    protected void Error(AlertTag a, String s){
+        AlertLog.getInstance().logError(a, myPerson.getName(), toString() + " "+s);
+    }
 }
 

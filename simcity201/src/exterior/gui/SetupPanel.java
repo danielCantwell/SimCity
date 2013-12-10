@@ -80,33 +80,44 @@ public class SetupPanel extends JFrame {
 	// Danny Restaruant
 	private JRadioButton dannyRestHost = new JRadioButton("Danny Host");
 	private JRadioButton dannyRestWaiter = new JRadioButton("Danny Waiter");
+	private JRadioButton dannyRestPCWaiter = new JRadioButton("Danny PC Waiter");
 	private JRadioButton dannyRestCook = new JRadioButton("Danny Cook");
 	private JRadioButton dannyRestCashier = new JRadioButton("Danny Cashier");
 	private JRadioButton dannyRestCustomer = new JRadioButton("Danny Customer");
 	// Brian Restaurant
 	private JRadioButton brianRestHost = new JRadioButton("Brian Host");
 	private JRadioButton brianRestWaiter = new JRadioButton("Brian Waiter");
+	private JRadioButton brianRestPCWaiter = new JRadioButton("Brian PC Waiter");
 	private JRadioButton brianRestCook = new JRadioButton("Brian Cook");
 	private JRadioButton brianRestCashier = new JRadioButton("Brian Cashier");
 	private JRadioButton brianRestCustomer = new JRadioButton("Brian Customer");
 	// Jesse Restaurant
 	private JRadioButton jesseRestHost = new JRadioButton("Jesse Host");
 	private JRadioButton jesseRestWaiter = new JRadioButton("Jesse Waiter");
+	private JRadioButton jesseRestPCWaiter = new JRadioButton("Jesse PC Waiter");
 	private JRadioButton jesseRestCook = new JRadioButton("Jesse Cook");
 	private JRadioButton jesseRestCashier = new JRadioButton("Jesse Cashier");
 	private JRadioButton jesseRestCustomer = new JRadioButton("Jesse Customer");
 	// Eric Restaurant
 	private JRadioButton ericRestHost = new JRadioButton("Eric Host");
 	private JRadioButton ericRestWaiter = new JRadioButton("Eric Waiter");
+	private JRadioButton ericRestPCWaiter = new JRadioButton("Eric PC Waiter");
 	private JRadioButton ericRestCook = new JRadioButton("Eric Cook");
 	private JRadioButton ericRestCashier = new JRadioButton("Eric Cashier");
 	private JRadioButton ericRestCustomer = new JRadioButton("Eric Customer");
 	// Tim Restaurant
 	private JRadioButton timRestHost = new JRadioButton("Tim Host");
 	private JRadioButton timRestWaiter = new JRadioButton("Tim Waiter");
+	private JRadioButton timRestPCWaiter = new JRadioButton("Tim PC Waiter");
 	private JRadioButton timRestCook = new JRadioButton("Tim Cook");
 	private JRadioButton timRestCashier = new JRadioButton("Tim Cashier");
 	private JRadioButton timRestCustomer = new JRadioButton("Tim Customer");
+	
+	// --------------- Shift Number ----------------
+	private ButtonGroup shifts = new ButtonGroup();
+	
+	private JRadioButton shiftOne = new JRadioButton("Shift 1");
+	private JRadioButton shiftTwo = new JRadioButton("Shift 2");
 
 	// --------------- Living Arrangement ----------
 
@@ -221,31 +232,43 @@ public class SetupPanel extends JFrame {
 		profession.add(dannyRestCook);
 		profession.add(dannyRestHost);
 		profession.add(dannyRestWaiter);
+		profession.add(dannyRestPCWaiter);
 		profession.add(dannyRestCustomer);
 		// brian restaurant
 		profession.add(brianRestCashier);
 		profession.add(brianRestCook);
 		profession.add(brianRestHost);
 		profession.add(brianRestWaiter);
+		profession.add(brianRestPCWaiter);
 		profession.add(brianRestCustomer);
 		// jesse restaurant
 		profession.add(jesseRestCashier);
 		profession.add(jesseRestCook);
 		profession.add(jesseRestHost);
 		profession.add(jesseRestWaiter);
+		profession.add(jesseRestPCWaiter);
 		profession.add(jesseRestCustomer);
 		// eric restaurant
 		profession.add(ericRestCashier);
 		profession.add(ericRestCook);
 		profession.add(ericRestHost);
 		profession.add(ericRestWaiter);
+		profession.add(ericRestPCWaiter);
 		profession.add(ericRestCustomer);
 		// tim restaurant
 		profession.add(timRestCashier);
 		profession.add(timRestCook);
 		profession.add(timRestHost);
 		profession.add(timRestWaiter);
+		profession.add(timRestPCWaiter);
 		profession.add(timRestCustomer);
+		
+		
+		//   SHIFTS
+		shifts.add(shiftOne);
+		shifts.add(shiftTwo);
+		
+		shiftOne.setSelected(true);
 
 		// ----------------------------------------------------------------
 		// --- Housing | Transportation | Morality | Mode buttons group ---
@@ -270,6 +293,8 @@ public class SetupPanel extends JFrame {
 
 		// ------------- Panels -------------
 
+		mainPanel.add(shiftOne);
+		mainPanel.add(shiftTwo);
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
 		mainPanel.add(nuke);
@@ -296,39 +321,44 @@ public class SetupPanel extends JFrame {
 		// --------------- Restaurant Panels --------------
 		// ------------------------------------------------
 
-		dannyRestPanel.setLayout(new GridLayout(5, 1));
+		dannyRestPanel.setLayout(new GridLayout(6, 1));
 		dannyRestPanel.add(dannyRestCashier);
 		dannyRestPanel.add(dannyRestCook);
 		dannyRestPanel.add(dannyRestHost);
 		dannyRestPanel.add(dannyRestWaiter);
+		dannyRestPanel.add(dannyRestPCWaiter);
 		dannyRestPanel.add(dannyRestCustomer);
 
-		brianRestPanel.setLayout(new GridLayout(5, 1));
+		brianRestPanel.setLayout(new GridLayout(6, 1));
 		brianRestPanel.add(brianRestCashier);
 		brianRestPanel.add(brianRestCook);
 		brianRestPanel.add(brianRestHost);
 		brianRestPanel.add(brianRestWaiter);
+		brianRestPanel.add(brianRestPCWaiter);
 		brianRestPanel.add(brianRestCustomer);
 
-		jesseRestPanel.setLayout(new GridLayout(5, 1));
+		jesseRestPanel.setLayout(new GridLayout(6, 1));
 		jesseRestPanel.add(jesseRestCashier);
 		jesseRestPanel.add(jesseRestCook);
 		jesseRestPanel.add(jesseRestHost);
 		jesseRestPanel.add(jesseRestWaiter);
+		jesseRestPanel.add(jesseRestPCWaiter);
 		jesseRestPanel.add(jesseRestCustomer);
 
-		ericRestPanel.setLayout(new GridLayout(5, 1));
+		ericRestPanel.setLayout(new GridLayout(6, 1));
 		ericRestPanel.add(ericRestCashier);
 		ericRestPanel.add(ericRestCook);
 		ericRestPanel.add(ericRestHost);
 		ericRestPanel.add(ericRestWaiter);
+		ericRestPanel.add(ericRestPCWaiter);
 		ericRestPanel.add(ericRestCustomer);
 
-		timRestPanel.setLayout(new GridLayout(5, 1));
+		timRestPanel.setLayout(new GridLayout(6, 1));
 		timRestPanel.add(timRestCashier);
 		timRestPanel.add(timRestCook);
 		timRestPanel.add(timRestHost);
 		timRestPanel.add(timRestWaiter);
+		timRestPanel.add(timRestPCWaiter);
 		timRestPanel.add(timRestCustomer);
 
 		// ---------------------------------------------------------
@@ -771,6 +801,8 @@ public class SetupPanel extends JFrame {
 					role = "restaurant.DannyCook";
 				else if (dannyRestWaiter.isSelected())
 					role = "restaurant.DannyWaiter";
+				else if (dannyRestPCWaiter.isSelected())
+					role = "restaurant.DannyPCWaiter";
 				else if (dannyRestCustomer.isSelected())
 					role = "restaurant.DannyCustomer";
 
@@ -783,6 +815,8 @@ public class SetupPanel extends JFrame {
 					role = "jesseRest.JesseHost";
 				else if (jesseRestWaiter.isSelected())
 					role = "jesseRest.JesseWaiter";
+				//else if (jesseRestPCWaiter.isSelected())
+				//	role = "jesseRest.JessePCWaiter";   TODO
 				else if (jesseRestCustomer.isSelected())
 					role = "jesseRest.JesseCustomer";
 
@@ -795,6 +829,8 @@ public class SetupPanel extends JFrame {
 					role = "brianRest.BrianCookRole";
 				else if (brianRestWaiter.isSelected())
 					role = "brianRest.BrianWaiterRole";
+				else if (brianRestPCWaiter.isSelected())
+					role = "brianRest.BrianPCWaiterRole";
 				else if (brianRestCustomer.isSelected())
 					role = "briantRest.BrianCustomerRole";
 
@@ -807,6 +843,8 @@ public class SetupPanel extends JFrame {
 					role = "EricRestaurant.EricCook";
 				else if (ericRestWaiter.isSelected())
 					role = "EricRestaurant.EricWaiter";
+				//else if (ericRestPCWaiter.isSelected())
+				//	role = "EricRestaurant.EricPCWaiter";   TODO
 				else if (ericRestCustomer.isSelected())
 					role = "EricRestaurant.EricCustomer";
 
@@ -819,6 +857,8 @@ public class SetupPanel extends JFrame {
 					role = "timRest.TimCookRole";
 				else if (timRestWaiter.isSelected())
 					role = "timRest.TimWaiterRole";
+				//else if (timRestWaiter.isSelected())
+				//	role = "timRest.TimWaiterRole";    TODO
 				else if (timRestCustomer.isSelected())
 					role = "timRest.TimCustomerRole";
 
@@ -858,8 +898,19 @@ public class SetupPanel extends JFrame {
 					b = getWorkplace("Eric");
 				else if (role.contains("tim") || role.contains("Tim"))
 					b = getWorkplace("Tim");
+				
+				// shifts
+				
+				int shift = 1;
+				
+				if (shiftOne.isSelected()) {
+					shift = 1;
+				}
+				else if (shiftTwo.isSelected()) {
+					shift = 2;
+				}
 
-				animationPanel.createPerson(name, role, v, m, house, b, 1);
+				animationPanel.createPerson(name, role, v, m, house, b, shift);
 			}
 		});
 
@@ -1152,7 +1203,15 @@ public class SetupPanel extends JFrame {
 				vehicle, Morality.good,
 				selectHouse(),
 				animationPanel.getGui().buildingList.get(9), 1);
+		animationPanel.createPerson("D_PC_Waiter_One", "restaurant.DannyPCWaiter",
+				vehicle, Morality.good,
+				selectHouse(),
+				animationPanel.getGui().buildingList.get(9), 1);
 		animationPanel.createPerson("D_Waiter_Two", "restaurant.DannyWaiter",
+				vehicle, Morality.good,
+				selectHouse(),
+				animationPanel.getGui().buildingList.get(9), 2);
+		animationPanel.createPerson("D_PC_Waiter_Two", "restaurant.DannyPCWaiter",
 				vehicle, Morality.good,
 				selectHouse(),
 				animationPanel.getGui().buildingList.get(9), 2);
