@@ -158,7 +158,7 @@ public class B_EricRestaurant extends Building {
 			E_Money = host.getMoney();
 			hostFilled = false;
 		}
-		if(person.getMainRoleString().equals("EricRestaurant.EricWaiter")) numWaiter--;
+		if(person.getMainRoleString().equals("EricRestaurant.EricWaiter")||person.getMainRoleString().equals("EricRestaurant.EricPCWaiter")) numWaiter--;
 		if(person.getMainRoleString().equals("EricRestaurant.EricCashier")) cashierFilled = false;
 		if(person.getMainRoleString().equals("EricRestaurant.EricCook")) cookFilled = false;
 		person.resetActiveRoles();

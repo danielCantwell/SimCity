@@ -437,7 +437,7 @@ public class God {
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}
-	    		else if (p.getMainRoleString().equals("jesseRest.JesseWaiter") || p.getMainRoleString().equals("jesseRest.JesseCook") || p.getMainRoleString().equals("jesseRest.JesseCashier")) {
+	    		else if (p.getMainRoleString().equals("jesseRest.JesseWaiter") || p.getMainRoleString().equals("jesseRest.JessePCWaiter")|| p.getMainRoleString().equals("jesseRest.JesseCook") || p.getMainRoleString().equals("jesseRest.JesseCashier")) {
 	    			if (p.getShift() == shift)
 	    			p.msgGoToWork();
 	    		}

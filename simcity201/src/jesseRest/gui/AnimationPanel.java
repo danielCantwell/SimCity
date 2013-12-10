@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -101,11 +102,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
        
         synchronized(guis)
         {
+        	try {
             for(Gui gui : guis) {
                 if (gui.isPresent()) {
                     gui.draw(g2);
                 }
             }
+        }
+        	catch(Exception e) {
+        		e.printStackTrace();
+        	}
         }
     }
 

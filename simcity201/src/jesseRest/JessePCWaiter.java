@@ -3,6 +3,7 @@ package jesseRest;
 import jesseRest.gui.*;
 import SimCity.Base.Role;
 import SimCity.Base.Person.Intent;
+import SimCity.Buildings.B_JesseRestaurant;
 import agent.Agent;
 import jesseRest.Check;
 import jesseRest.Menu;
@@ -20,7 +21,7 @@ import jesseRest.interfaces.Waiter;
  * Restaurant Waiter Agent
  */
 
-public class JesseWaiter extends JesseAbstractWaiter implements Waiter {
+public class JessePCWaiter extends JesseAbstractWaiter implements Waiter {
 	public List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	public WaiterGui waiterGui = null;
 	jesseRest.gui.AnimationPanel AP;
@@ -38,7 +39,7 @@ public class JesseWaiter extends JesseAbstractWaiter implements Waiter {
 	public boolean isOnBreak = false;
 	public boolean waitingForBreak = false;
 	
-	public JesseWaiter(String name) {
+	public JessePCWaiter(String name) {
 		super();
 		this.name = name;
 	}
@@ -300,9 +301,11 @@ public class JesseWaiter extends JesseAbstractWaiter implements Waiter {
 		}
 		
 		// Sends correct Customer order to Cook
-		print("Message 7: Sending HereIsAnOrder from Waiter to Cook");
+		print("Message 7: Sending addOrder from Waiter to JesseOrderStand");
+		B_JesseRestaurant jr = (B_JesseRestaurant)myPerson.getBuilding();
 		c.state = CustomerState.Ordered;
-		cook.msgHereIsAnOrder(this, c.choice, c.table.tableNumber);
+		jr.getOrderStand().addOrder(c.choice, this, c.table.tableNumber);
+//		cook.msgHereIsAnOrder(this, c.choice, c.table.tableNumber);
 		waiterGui.DoGoToFront();
 		waiterGui.setIcon("");
 	}
@@ -453,7 +456,6 @@ public class JesseWaiter extends JesseAbstractWaiter implements Waiter {
 		System.out.println(w);
 		jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)myPerson.building.getPanel();
 		AP = ap;
-
 		ap.addGui(w);
 	}
 

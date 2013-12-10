@@ -163,6 +163,7 @@ public class Person extends Agent {
 			else if (job.equals("EricRestaurant.EricPCWaiter"))return;
 			else if (job.equals("jesseRest.JesseHost"))return;
 			else if (job.equals("jesseRest.JesseWaiter"))return;
+			else if (job.equals("jesseRest.JessePCWaiter"))return;
 			else if (job.equals("jesseRest.JesseCustomer"))return;
 			else if (job.equals("jesseRest.JesseCashier"))return;
 			else if (job.equals("jesseRest.JesseCook"))return;
@@ -554,7 +555,7 @@ public class Person extends Agent {
 		else 
 			if (action.getGoAction() == GoAction.goJesseRestaurant && action.intent == Intent.work) {
 				b = God.Get().getBuilding(7);
-				Do("Going to Jesse Restaurant");
+				Do("Working at Jesse Restaurant");
 			}
 		else b = God.Get().getBuilding(11);
 		

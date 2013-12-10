@@ -44,7 +44,7 @@ public class JesseHost extends Role {
 		}
 	}
 	
-	public void addWaiter(JesseWaiter w) {
+	public void addWaiter(JesseAbstractWaiter w) {
 		MyWaiter mw = new MyWaiter(w);
 		waiters.add(mw);
 		//mw.waiter.startThread();
@@ -118,10 +118,10 @@ public class JesseHost extends Role {
 	
 	public class MyWaiter {
 		public List<JesseCustomer> customers = new ArrayList<JesseCustomer>();
-		public JesseWaiter waiter;
+		public JesseAbstractWaiter waiter;
 		public WaiterState s;
 		
-		MyWaiter(JesseWaiter w) {
+		MyWaiter(JesseAbstractWaiter w) {
 			waiter = w;
 			s = WaiterState.Normal;
 		}
@@ -151,14 +151,14 @@ public class JesseHost extends Role {
 				// Waiter can go on break if it has no customers left.
 				if (mw.s == WaiterState.WantsBreak && mw.customers.size() == 0)  {
 					mw.s = WaiterState.Normal;
-					mw.waiter.msgGoOnBreak(true);
+					((JesseWaiter) mw.waiter).msgGoOnBreak(true);
 				}
 			}
 		}
 		stateChanged();
 	}
 	
-	public void msgCanIGoOnBreak(JesseWaiter w) {
+	public void msgCanIGoOnBreak(JesseAbstractWaiter w) {
 		synchronized(waiters){
 			for (MyWaiter mw : waiters) {
 				if (mw.waiter == w) {
@@ -168,12 +168,12 @@ public class JesseHost extends Role {
 						mw.s = WaiterState.WantsBreak;
 						if (mw.customers.size() == 0) {
 							mw.s = WaiterState.Normal;
-							mw.waiter.msgGoOnBreak(true);
+							((JesseWaiter) mw.waiter).msgGoOnBreak(true);
 						}
 					// Deny the break request!
 					} else {
 						print("Waiter wants to go on break. Permission denied - only one waiter.");
-						mw.waiter.msgGoOnBreak(false);
+						((JesseWaiter) mw.waiter).msgGoOnBreak(false);
 					}
 				}
 			}
@@ -223,9 +223,9 @@ public class JesseHost extends Role {
 		}
 	}
 	
-	void seatCustomer(JesseCustomer c, Table t, JesseWaiter w) {
+	void seatCustomer(JesseCustomer c, Table t, JesseAbstractWaiter w) {
 		Do(AlertTag.JesseRest, "Message 2: Sending SitAtTable from Host to Waiter.");
-		w.msgSitAtTable(c, t);
+		((JesseWaiter) w).msgSitAtTable(c, t);
 		waitingCustomers.remove(0);
 		t.setOccupant(c);
 	}

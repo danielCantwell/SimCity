@@ -1,11 +1,14 @@
 package jesseRest;
 
 import SimCity.Base.Role;
+import SimCity.Buildings.B_JesseRestaurant;
 import agent.Agent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import jesseRest.*;
+import jesseRest.JesseOrderStand.Orders;
 import jesseRest.gui.AnimationPanel;
 
 /**
@@ -25,7 +28,7 @@ public class JesseCook extends Role {
 	private String name;
 	private Timer timer = new Timer();
 	private AnimationPanel animationPanel;
-	
+	JesseOrderStand orderstand;
 	// When is the inventory quantity considered low?
 	private final int LOW = 3;
 	
@@ -64,7 +67,7 @@ public class JesseCook extends Role {
 	 * MESSAGES =====================================================
 	 */
 
-	public void msgHereIsAnOrder(JesseWaiter w, String choice, int table) {
+	public void msgHereIsAnOrder(JesseAbstractWaiter w, String choice, int table) {
 		// Cook receives order from a Waiter and stores it in a list
 		orders.add(new Order(w, choice, table));
 		stateChanged();
@@ -129,6 +132,10 @@ public class JesseCook extends Role {
 				}
 			}
 		}
+		if(orderstand.getSize()>0) {
+			putOnStand(orderstand.popFirstOrder());
+			return true;
+		}
 //		if (status == InventoryState.Reorder) {
 //			OrderFood(currentOrder);
 //		}
@@ -139,6 +146,12 @@ public class JesseCook extends Role {
 	 * ACTIONS  ====================================================
 	 */
 
+	public void putOnStand(Orders o) {
+		System.out.println("Cook: Gets order off of JesseOrderStand");
+		Order order = new Order(o.jw, o.choice, o.tableNumber);
+		orders.add(order);
+		stateChanged();
+	}
 //	private void OrderFood(String choice) {
 //		currentMarket++;
 //		if (currentMarket < markets.size()) {	
@@ -204,12 +217,12 @@ public class JesseCook extends Role {
 	
 	// Order Class - represents a single customer's order
 	public class Order {
-		JesseWaiter waiter;
+		JesseAbstractWaiter waiter;
 		String choice;
 		int table;
 		CookState state = CookState.Pending;
 		
-		public Order(JesseWaiter w, String c, int t) {
+		public Order(JesseAbstractWaiter w, String c, int t) {
 			waiter = w;
 			choice = c;
 			table = t;
@@ -232,9 +245,14 @@ public class JesseCook extends Role {
 	public void print(String string) {
 		System.out.println(string);
 	}
+	
+	public void setOrderStand(JesseOrderStand os) {
+		orderstand = os;
+	}
+	
 	protected void enterBuilding() {
-		// TODO Auto-generated method stub
-		
+//		B_JesseRestaurant jr = (B_JesseRestaurant)myPerson.getBuilding();
+//		orderstand = jr.getOrderStand();
 	}
 
 	@Override
@@ -247,6 +265,10 @@ public class JesseCook extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "JesseCook";
+	}
+
+	public void msgStateChanged() {
+		stateChanged();
 	}
 }
 
