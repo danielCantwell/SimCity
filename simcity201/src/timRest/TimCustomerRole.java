@@ -208,6 +208,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
 			//leave
 			LeaveTable();
 			LeaveRestaurant();
+			return false;
 		}
 		if (waitingPos.x != -1 && waitingPos.y != -1 && state == AgentState.GoToWait)
 		{

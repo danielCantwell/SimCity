@@ -349,6 +349,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
         if (wantsLeave && myCustomers.isEmpty())
         {
             leaveBuilding();
+            return false;
         }
 		if (state == AgentState.idle)
 		{

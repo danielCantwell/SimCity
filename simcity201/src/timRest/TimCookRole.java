@@ -249,6 +249,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	    if (canLeave)
 	    {
 	        leaveBuilding();
+	        return false;
 	    }
         /*if (!deliveries.isEmpty())
         {

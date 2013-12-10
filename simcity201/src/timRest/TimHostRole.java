@@ -204,6 +204,7 @@ public class TimHostRole extends Role {
 	    if (wantsLeave && waitingCustomers.isEmpty())
 	    {
 	        leaveBuilding();
+	        return false;
 	    }
 		/* Think of this next rule as:
             Does there exist a table and customer,

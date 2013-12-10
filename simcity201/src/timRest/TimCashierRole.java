@@ -109,6 +109,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	    if (canLeave)
 	    {
 	        leaveBuilding();
+	        return false;
 	    }
 		if (state == AgentState.idle)
 		{
