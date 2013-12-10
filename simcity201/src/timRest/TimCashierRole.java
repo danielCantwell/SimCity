@@ -192,6 +192,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
     
     private void leaveBuilding()
     {
+        myPerson.money.add(new Money(75, 00));
         canLeave = false;
         exitBuilding(myPerson);
     }

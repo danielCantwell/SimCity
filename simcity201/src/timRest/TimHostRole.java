@@ -385,6 +385,7 @@ public class TimHostRole extends Role {
         {
             cook.msgLeaveWork();
         }
+        myPerson.money.add(new Money(100, 00));
         wantsLeave = false;
         exitBuilding(myPerson);
     }
