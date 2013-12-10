@@ -109,7 +109,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         
         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
         
-        PersonGui mPersonGui = new PersonGui(gui, aStarTraversal);
+        PersonGui mPersonGui = new PersonGui(gui, 1, aStarTraversal);
         manager = new Person("Manny", mPersonGui, "market.MarketManagerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market,1);
         manager.mainRole.setActive(true);
         mPersonGui.setPerson(manager);
@@ -118,7 +118,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         //manager.msgCreateRole(managerRole);
         manager.startThread();
 
-        PersonGui cPersonGui = new PersonGui(gui, aStarTraversal);
+        PersonGui cPersonGui = new PersonGui(gui, 2, aStarTraversal);
         clerk = new Person("Clark", cPersonGui, "market.MarketClerkRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market,1);
         clerk.mainRole.setActive(true);
         Gui cGui = ((MarketClerkRole) clerk.mainRole).getGui();
@@ -127,7 +127,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         ((MarketClerkRole) clerk.mainRole).setManager((MarketManagerRole) manager.mainRole);
         clerk.startThread();
 
-        PersonGui pPersonGui = new PersonGui(gui, aStarTraversal);
+        PersonGui pPersonGui = new PersonGui(gui, 3, aStarTraversal);
         packer = new Person("Parker", pPersonGui, "market.MarketPackerRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market, 1);
         packer.mainRole.setActive(true);
         Gui pGui = ((MarketPackerRole) packer.mainRole).getGui();
@@ -136,7 +136,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         ((MarketPackerRole) packer.mainRole).setManager((MarketManagerRole) manager.mainRole);
         packer.startThread();
 
-        PersonGui dPersonGui = new PersonGui(gui, aStarTraversal);
+        PersonGui dPersonGui = new PersonGui(gui, 4, aStarTraversal);
         deliveryPerson = new Person("Parson", dPersonGui, "market.MarketDeliveryPersonRole", Vehicle.walk, Morality.good, new Money(100, 0), new Money(10, 0), 20, 3, "Apartment", (B_House)gui.buildingList.get(0), market, 1);
         deliveryPerson.mainRole.setActive(true);
         Gui dGui = ((MarketDeliveryPersonRole) deliveryPerson.mainRole).getGui();
