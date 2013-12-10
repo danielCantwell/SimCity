@@ -485,7 +485,10 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	private void LeaveRestaurant()
 	{
 	    // put here so host doesn't leave until customer is done.
-        waiter.msgLeavingTable(this);
+        if (waiter != null)
+        {
+            waiter.msgLeavingTable(this);
+        }
         
 		Do(AlertTag.TimRest,"Bye!");
 		customerGui.DoExitRestaurant();

@@ -26,4 +26,11 @@ public class MockMarketPacker implements MarketPacker
 
     }
 
+    @Override
+    public void msgLeaveMarket()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

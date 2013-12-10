@@ -495,6 +495,7 @@ public class TimHostRole extends Role {
 	public void workOver() {
         myPerson.Do("Closing time.");
         wantsLeave = true;
+        stateChanged();
 	}
 
     public boolean isRestaurantReady()

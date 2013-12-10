@@ -41,6 +41,8 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     public Money money = new Money(0, 0);
     public int accountNumber;
+
+    private boolean wantsLeave = false;
     
     /**
      * Constructors
@@ -169,7 +171,8 @@ public class MarketManagerRole extends Role implements MarketManager {
     public void workOver()
     {
         myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+        wantsLeave  = true;
+        stateChanged();
     }
 
 	/**
@@ -181,6 +184,33 @@ public class MarketManagerRole extends Role implements MarketManager {
 	    
 	    // if money < MIN_AMOUNT
 
+	    if (wantsLeave && customers.isEmpty())
+	    {
+	        synchronized(clerks)
+	        {
+	            for (MyClerk c : clerks)
+	            {
+	                c.clerk.msgLeaveMarket();
+	            }
+	        }
+            synchronized(packers)
+            {
+                for (MyPacker p : packers)
+                {
+                    p.packer.msgLeaveMarket();
+                }
+            }
+            synchronized(deliveryPeople)
+            {
+                for (MyDeliveryPerson d : deliveryPeople)
+                {
+                    d.deliveryPerson.msgLeaveMarket();
+                }
+            }
+	        leaveBuilding();
+	        return true;
+	    }
+	    
 	    synchronized(clerks)
 	    {
 	        for (MyClerk c : clerks)
@@ -385,6 +415,12 @@ public class MarketManagerRole extends Role implements MarketManager {
         c.clerk.msgTakeOrder(c.customer);
         c.state = CustomerState.Processing;
         customers.remove(c);
+    }
+    
+    private void leaveBuilding()
+    {
+        wantsLeave = false;
+        exitBuilding(myPerson);
     }
     
     /**

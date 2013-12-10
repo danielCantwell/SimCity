@@ -95,6 +95,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	public void msgLeaveWork()
 	{
 	    canLeave = true;
+	    stateChanged();
 	}
 	
 //	public void msgHereIsTheBill(Market market, double price)

@@ -241,6 +241,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	public void msgLeaveWork()
 	{
 	    canLeave = true;
+        stateChanged();
 	}
 	
 	@Override

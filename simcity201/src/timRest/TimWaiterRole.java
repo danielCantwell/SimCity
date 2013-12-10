@@ -870,7 +870,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		{
 			text = text.concat("?");
 		}
-		//panel.setTableIcon(tableNumber, text);
+		host.tables.get(tableNumber).icon = text;
 	}
 	
 	private void DoSetWaiterIcon(int tableNumber, String choice)
@@ -1012,6 +1012,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
     {
         myPerson.Do("Closing time.");
         wantsLeave = true;
+        stateChanged();
     }
 
 	@Override

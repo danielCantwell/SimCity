@@ -13,4 +13,5 @@ public interface MarketClerk
     void msgWantFood(int id, String choice, int amount);
     void msgGiveToCustomer(int id, String choice, int amount);
     void msgHereIsMoney(int id, Money prices);
+    void msgLeaveMarket();
 }
