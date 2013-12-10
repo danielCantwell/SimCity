@@ -22,9 +22,13 @@ public class PersonGui implements Gui {
 	private AStarTraversal aStar;
 	private Position currentPosition; 
 	private Person person;
+	private int myID;
+	private SimCityGui gui;
 	
-	public PersonGui(SimCityGui gui, AStarTraversal aStar) {
+	public PersonGui(SimCityGui gui, int myID, AStarTraversal aStar) {
 		this.aStar = aStar;
+		this.myID = myID;
+		this.gui = gui;
 	}
 
 	public void updatePosition() {
@@ -57,6 +61,9 @@ public class PersonGui implements Gui {
 			command = Command.none;
 			person.animation.release();
 		}
+		
+		gui.animationPanel.clearVGrid(myID);
+		gui.animationPanel.setVGrid((int) Math.floor(xPos/64), (int) Math.floor(yPos/64), myID);
 	}
 
 	public void draw(Graphics2D g) {
@@ -159,6 +166,6 @@ public class PersonGui implements Gui {
 
 	@Override
 	public int getID() {
-		return 0;
+		return myID;
 	}
 }
