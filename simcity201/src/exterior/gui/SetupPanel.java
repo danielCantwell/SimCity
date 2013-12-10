@@ -43,6 +43,7 @@ public class SetupPanel extends JFrame {
 	private AnimationPanel animationPanel;
 
 	private JLabel numPeople = new JLabel("# People : 0");
+	private JComboBox<Integer> bankMarketBuilding = new JComboBox<Integer>();
 	private JComboBox<Integer> hungerLevel = new JComboBox<Integer>();
 	private JComboBox<Integer> money = new JComboBox<Integer>();
 	private JTextField enterName = new JTextField("Enter Name of Person");
@@ -225,6 +226,9 @@ public class SetupPanel extends JFrame {
 		modeNormal.setSelected(true);
 
 		// ------------- Combo Boxes --------------
+		
+		bankMarketBuilding.addItem(1);
+		bankMarketBuilding.addItem(2);
 
 		for (int i = 0; i <= 10; i++) {
 			hungerLevel.addItem(i * 10);
@@ -234,6 +238,7 @@ public class SetupPanel extends JFrame {
 			money.addItem(i * 100);
 		}
 
+		bankMarketBuilding.setSelectedIndex(0);
 		hungerLevel.setSelectedIndex(3);
 		money.setSelectedIndex(5);
 
@@ -324,6 +329,8 @@ public class SetupPanel extends JFrame {
 		// ----------------- Main Panel ----------------
 		// ---------------------------------------------
 
+		mainPanel.add(new JLabel("Bank/Market #"));
+		mainPanel.add(bankMarketBuilding);
 		mainPanel.add(new JLabel("Hunger Level"));
 		mainPanel.add(hungerLevel);
 		mainPanel.add(new JLabel("Money"));
@@ -991,6 +998,7 @@ public class SetupPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
 				String name = enterName.getText();
 				String role = "usto";
 				Vehicle v = Vehicle.walk;
@@ -1114,10 +1122,26 @@ public class SetupPanel extends JFrame {
 
 				// Set Workplace Building
 
-				if (role.contains("bank"))
-					b = getWorkplace("bank");
-				else if (role.contains("market"))
-					b = getWorkplace("market");
+				if (role.contains("bank")) {
+					if (bankMarketBuilding.getSelectedIndex() == 0) {
+						b = animationPanel.getGui().buildingList.get(2);
+						System.out.println("Bank Building 2");
+					}
+					else {
+						b = animationPanel.getGui().buildingList.get(8);
+						System.out.println("Bank Building 8");
+					}
+				}
+				else if (role.contains("market")) {
+					if (bankMarketBuilding.getSelectedIndex() == 0) {
+						b = animationPanel.getGui().buildingList.get(3);
+						System.out.println("Market Building 3");
+					}
+					else {
+						b = animationPanel.getGui().buildingList.get(5);
+						System.out.println("Market Building 5");
+					}
+				}					
 				else if (role.contains("Danny"))
 					b = getWorkplace("Danny");
 				else if (role.contains("Jesse"))
