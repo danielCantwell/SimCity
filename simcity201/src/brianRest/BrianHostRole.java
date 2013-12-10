@@ -201,9 +201,12 @@ public class BrianHostRole extends Role implements BrianHost {
 // ######################   Actions  ##################
 	public void msgBank() {
 		bank = (B_Bank) God.Get().getBuilding(2);
+		if ((tellerRole) bank.getOneTeller() != null){
 		bm = (tellerRole) bank.getOneTeller();
 		bm.restMoney(BAccNum, BRestMoney, this);
+		}
 		bs = bankstate.sent;
+		
 	}
 	
 	private void notifyWaiter(BrianTable t, MyWaiter w){
@@ -232,6 +235,8 @@ public class BrianHostRole extends Role implements BrianHost {
 		if (waitingCustomers.size() == 0){
 			//msg all waiters that they are allowed to leave
 			for (MyWaiter w: waiters){
+				BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.getBuilding().getPanel();
+				brp.removeWaiter(w.waiter);
 				w.waiter.msgLeaveRestaurant();
 			}
 			B_BrianRestaurant br = (B_BrianRestaurant)myPerson.getBuilding();

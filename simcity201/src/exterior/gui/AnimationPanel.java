@@ -731,7 +731,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);   
             	 
             	 //shift 2
-            	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
+            	 //createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
             	 createPerson("Waiter", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
             	 createPerson("Waiter", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
 
@@ -795,8 +795,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
+	   		 if (God.Get().canAddPerson(p)){
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
+	   		 }else return null;
 	   	 	 
 	   	 	 return p;
 	   	 } else if (v == Vehicle.car) {
@@ -808,8 +810,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
+	   		if (God.Get().canAddPerson(p)){
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();   	 	 
+	   		}else return null;
 	   	 	 
 	   	 	 return p;
 	   	 } else if (v == Vehicle.bus) {
@@ -821,8 +825,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
+	   		if (God.Get().canAddPerson(p)){
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
+	   		}else return null;
 	   	 	 
 	   	 	 return p;
 	   	 }

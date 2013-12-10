@@ -87,6 +87,9 @@ public class B_BrianRestaurant extends Building{
 	public void ExitBuilding(Person person) {
 		if(person.getMainRoleString().equals("brianRest.BrianHostRole")){
 			BRestMoney = hostRole.getMoney();
+			person.roles.remove(hostRole);
+			hostRole.myPerson = null;
+			
 		}
 		person.resetActiveRoles();
     	person.msgExitBuilding();

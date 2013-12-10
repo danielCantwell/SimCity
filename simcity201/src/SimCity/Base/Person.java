@@ -212,7 +212,7 @@ public class Person extends Agent {
 		}
 		myHouse = house;
 		this.workPlace = workplace;
-		God.Get().addPerson(this);
+		//God.Get().addPerson(this);
 		setUpHungerTimer();
 	}
 	
