@@ -598,9 +598,10 @@ public class Person extends Agent {
 		//changes person gui's image. based on vehicle.
 	}
 	
-	public void loseCar() {
+	public void loseCar(Person other) {
 		// Pay a 250 dollar fine.
 		setMoney(getMoney().subtract(250, 0));
+		other.setMoney(other.getMoney().add(250, 0));
 		
 		if (gui instanceof CarGui) {
 			Random rand = new Random();
@@ -608,10 +609,10 @@ public class Person extends Agent {
 			
 			if (newTransportation < 5) {
 				vehicle = Vehicle.walk;
-				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will walk henceforth. Paid $250 fee.");
+				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will walk henceforth. Paid $250 fee to victim (" + other + ").");
 			} else {
 				vehicle = Vehicle.bus;
-				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will take the bus henceforth. Paid $250 fee.");
+				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will take the bus henceforth. Paid $250 fee to victim (" + other + ").");
 			}
 			gui = animPanel.getNewGui(this);
 		}

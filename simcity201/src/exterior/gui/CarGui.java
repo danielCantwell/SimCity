@@ -20,6 +20,7 @@ public class CarGui implements Gui {
 	private int myID;
 	private boolean accidentProne;
 	private boolean switchGui = false;
+	private Person target = null;
 	
 	public CarGui(SimCityGui gui, int id, boolean createAccidents) {
 		this.gui = gui;
@@ -50,7 +51,7 @@ public class CarGui implements Gui {
 					rotation = 0;
 				}
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] > 1 && accidentProne) {
-					carAccident();
+					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)]).getPerson());
 				}
 			}
 		}
@@ -66,7 +67,7 @@ public class CarGui implements Gui {
 					rotation = 2;
 				}
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] > 1 && accidentProne) {
-					carAccident();
+					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)]).getPerson());
 				}
 			}
 		}
@@ -82,7 +83,7 @@ public class CarGui implements Gui {
 					rotation = 1;
 				}
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] > 1 && accidentProne) {
-					carAccident();
+					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1]).getPerson());
 				}
 			}
 		}
@@ -98,7 +99,7 @@ public class CarGui implements Gui {
 					rotation = 3;
 				}
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] > 1 && accidentProne) {
-					carAccident();
+					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1]).getPerson());
 				}
 			}
 		}
@@ -112,8 +113,9 @@ public class CarGui implements Gui {
 				isPresent = false;
 				gui.animationPanel.clearVGrid(myID);
 				person.animation.release();
-				if (switchGui) {
-					person.loseCar();
+				if (switchGui && target != null) {
+					person.loseCar(target);
+					target = null;
 				}
 			} else if (command == Command.seekX) {
 				command = Command.seekY;
@@ -208,10 +210,11 @@ public class CarGui implements Gui {
     	}
     }
     
-    public void carAccident() {
+    public void carAccident(Person other) {
 		AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A car (" + this + ") got into an accident.");
 		accidentProne = false;
 		switchGui = true;
+		target = other;
     }
     
 	@Override
@@ -241,5 +244,10 @@ public class CarGui implements Gui {
 	@Override
 	public int getID() {
 		return myID;
+	}
+
+	@Override
+	public Person getPerson() {
+		return person;
 	}
 }
