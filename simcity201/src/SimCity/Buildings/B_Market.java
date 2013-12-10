@@ -98,24 +98,34 @@ public class B_Market extends Building{
                 if (newRole instanceof MarketClerkRole)
                 {
                     MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
-                    marketRole.setManager(managerRole);
-                    managerRole.addClerk(marketRole);
+                    if (managerRole == null)
+                    {
+                        marketRole.setManager(managerRole);
+                        managerRole.addClerk(marketRole);
+                    }
                     panel.addGui(marketRole.getGui());
                 }
                 else if (newRole instanceof MarketPackerRole)
                 {
                     MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
-                    marketRole.setManager(managerRole);
-                    managerRole.addPacker(marketRole);
+                    if (managerRole == null)
+                    {
+                        marketRole.setManager(managerRole);
+                        managerRole.addPacker(marketRole);
+                    }
                     panel.addGui(marketRole.getGui());
                 }
                 else if (newRole instanceof MarketDeliveryPersonRole)
                 {
                     MarketDeliveryPersonRole marketRole = (MarketDeliveryPersonRole) person.mainRole;
-                    marketRole.setManager(managerRole);
-                    marketRole.setHomeMarket(this);
-                    managerRole.addDeliveryPerson(marketRole);
+                    if (managerRole == null)
+                    {
+                        marketRole.setManager(managerRole);
+                        managerRole.addDeliveryPerson(marketRole);
+                        marketRole.setHomeMarket(this);
+                    }
                     panel.addGui(marketRole.getGui());
+                    marketRole.msgGuiArrivedAtMarket();
                 }
                 else if (newRole instanceof MarketCustomerRole)
                 {

@@ -1,6 +1,7 @@
 package timRest.gui;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 
 import SimCity.Base.Person;
 import SimCity.Buildings.B_Market;
@@ -10,6 +11,7 @@ import SimCity.gui.Gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
@@ -27,6 +29,10 @@ public class TimAnimationPanel extends JPanel implements ActionListener
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     private TimHostRole hostRole;
     private ImageIcon iconFloor = new ImageIcon("images/floor1.png");
+    private ImageIcon iconTable = new ImageIcon("images/table.png");
+    private ImageIcon resizedTable;
+    private Image img = iconTable.getImage();
+    private BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
     
     //public Person host;
     private B_TimRest restaurant;
@@ -36,6 +42,10 @@ public class TimAnimationPanel extends JPanel implements ActionListener
         setVisible(true);
         
         bufferSize = this.getSize();
+        
+        Graphics graphics = bi.createGraphics();
+        graphics.drawImage(img, 0, 0, 50, 50, null);
+        resizedTable = new ImageIcon(bi);
  
     	Timer timer = new Timer(10, this );
     	timer.start();
@@ -62,7 +72,6 @@ public class TimAnimationPanel extends JPanel implements ActionListener
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
-
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
@@ -83,13 +92,21 @@ public class TimAnimationPanel extends JPanel implements ActionListener
         	tablePositions.addAll(hostRole.getTablePositions().values());
 	        for (Point table : tablePositions)
 	        {
-	        	g2.fillRect(table.x, table.y, 50, 50);
+	            resizedTable.paintIcon(this, g2, table.x, table.y);
 	        }
 	        g2.setColor(Color.BLACK);
 	        for (int i = 0; i < tablePositions.size(); i++)
 	        {
 	        	g2.drawString(hostRole.getTableIcons().get(i), tablePositions.get(i).x+25, tablePositions.get(i).y+35);
 	        }
+        }
+        else
+        {
+            g2.setColor(Color.RED);
+            g2.fillRect(200, 280, 240, 80);
+            g2.setColor(Color.BLACK);
+            g2.setFont(new Font("Times", Font.BOLD, 24));
+            g2.drawString("Grand Opening Today!", 210, 330);
         }
 
         synchronized(guis)

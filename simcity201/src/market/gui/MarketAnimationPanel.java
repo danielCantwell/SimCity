@@ -192,7 +192,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         // shelves
         g2.fillRect(200, 40, 160, 20);
         g2.fillRect(400, 40, 160, 20);
-        g2.fillRect(400, 100, 160, 20);
+        g2.fillRect(400, 300, 160, 20);
 		
         synchronized(guis)
         {
@@ -252,12 +252,12 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         }
         for (int i = 400; i < 560; i+=20)
         {
-            locations.put(locCount, new Point(i, 100));
+            locations.put(locCount, new Point(i, 300));
             locCount++;
         }
         for (int i = 400; i < 560; i+=20)
         {
-            locations.put(locCount, new Point(i, 110));
+            locations.put(locCount, new Point(i, 310));
             locCount++;
         }
 

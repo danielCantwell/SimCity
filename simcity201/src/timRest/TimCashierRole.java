@@ -107,11 +107,6 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	@Override
 	public boolean pickAndExecuteAnAction()
 	{
-	    if (canLeave)
-	    {
-	        leaveBuilding();
-	        return false;
-	    }
 		if (state == AgentState.idle)
 		{
 			synchronized(billsToPay)
@@ -126,7 +121,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 					}
 					else if (!bill.interest)
 					{
-						Do(AlertTag.BrianRest, "Cannot pay bill right now. I will pay $5 extra when I do pay.");
+						Do(AlertTag.TimRest, "Cannot pay bill right now. I will pay $5 extra when I do pay.");
 						bill.interest = true;
 						bill.price.add(5, 0);
 					}
@@ -143,7 +138,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 					}
 					else if (check.state ==  CheckState.pending)
 					{
-						Do(AlertTag.BrianRest, "Calculating " + check.choice + ".");
+						Do(AlertTag.TimRest, "Calculating " + check.choice + ".");
 						state = AgentState.calculating;
 						calculate(check);
 						return true;
@@ -151,6 +146,12 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 				}
 			}
 		}
+
+        if (canLeave && billsToPay.isEmpty())
+        {
+            leaveBuilding();
+            return false;
+        }
 		
 		return false;
 	}
@@ -164,7 +165,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 			public void run() {
 				state = AgentState.idle;
 				check.state = CheckState.ready;
-				Do(AlertTag.BrianRest, "Check Ready");
+				Do(AlertTag.TimRest, "Check Ready");
 				//isHungry = false;
 				stateChanged();
 			}

@@ -21,7 +21,7 @@ public class TimCookGui implements Gui {
     
     private String[] servingIcons = {"", "", ""};
     
-    private int xPos = 300, yPos = 440;//default waiter position
+    private int xPos = 500, yPos = 250;//default cook position
 
     public TimCookGui(TimCookRole agent) {
         this.agent = agent;
@@ -37,21 +37,21 @@ public class TimCookGui implements Gui {
         
         // plating
         g.setColor(Color.ORANGE);
-        g.fillRect(xPos-20, yPos-20, 60, 20);
-        g.fillRect(xPos-40, yPos-20, 20, 60);
-        g.fillRect(xPos+40, yPos-20, 20, 60);
+        g.fillRect(xPos-20, yPos-20, 20, 60);
+        g.fillRect(xPos-20, yPos-40, 60, 20);
+        g.fillRect(xPos-20, yPos+40, 60, 20);
         
         // cooking
         g.setColor(Color.BLACK);
-        g.fillRect(xPos-20, yPos+20, 60, 20);
+        g.fillRect(xPos+20, yPos-20, 20, 60);
         
         g.setColor(Color.GRAY);
-        g.drawString(grillIcon, xPos, yPos+35);
+        g.drawString(grillIcon, xPos+35, yPos);
         
         g.setColor(Color.BLACK);
         for (int i = 0; i < servingIcons.length; i++)
         {
-        	g.drawString(servingIcons[i], xPos + 20*(i-1), yPos - 5);
+        	g.drawString(servingIcons[i], xPos - 5, yPos + 20*(i-1));
         }
     }
 
