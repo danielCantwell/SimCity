@@ -138,6 +138,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
         }
         if (order != null)
         {
+            storeMoney(new Money(0, 0));
             notifyManager(order);
             return true;
         }
@@ -189,6 +190,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 
 	private void takeOrder()
 	{
+        Do(AlertTag.Market, "Hi! What would you like?");
 	    customer.msgWhatDoYouWant(this);
 	    orderTaken = true;
 	}
@@ -201,6 +203,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	
 	private void giveOrder(Order order)
 	{
+        Do(AlertTag.Market, "Here is your " + order.choice + ".");
 	    MarketCustomerRole customer = null;
 	    for (int i = 0; i < God.Get().getPerson(order.id).roles.size(); i++)
 	    {
@@ -218,6 +221,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
 
     private void notifyManager(Order order)
     {
+        Do(AlertTag.Market, "I am open for another customer.");
         manager.msgIAmFree(this);
         orders.remove(order);
     }

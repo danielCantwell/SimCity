@@ -174,6 +174,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 
 	private void giveOrder(Order order)
 	{
+        Do(AlertTag.Market, "Here is the " + order.choice + ".");
 	    manager.msgOrderPacked(order.id, order.choice, order.amount);
 	    orders.remove(order);
 	    state = AgentState.Idle;
@@ -199,6 +200,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	
 	private void grabItem(Order order)
 	{
+	    Do(AlertTag.Market, "Grabbing " + order.choice + " from shelf.");
 	    manager.msgGrabbingItem(order.choice, order.amount);
 	    order.state = OrderState.Ready;
 	}

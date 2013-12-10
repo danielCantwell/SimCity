@@ -794,7 +794,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
 	   		 idList.put(currentID, g);
 	   		 
-	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
@@ -809,7 +809,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 CarGui g = new CarGui(gui, currentID, createAccidents);
 	   		 idList.put(currentID, g);
 	   		 
-	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
@@ -824,7 +824,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
 	   		 idList.put(currentID, g);
 	   		 
-	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);

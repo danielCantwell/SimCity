@@ -16,6 +16,7 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import market.MarketDeliveryPersonRole;
 import exterior.gui.AnimationPanel;
 import exterior.gui.CarGui;
 import exterior.gui.Gui;
@@ -459,7 +460,7 @@ public class Person extends Agent {
 		//Handling which action
 		if (action.getGoAction() == GoAction.goBank){
 			//Choose a bank to go.
-			b = God.Get().getBuilding(2);
+            b = God.Get().findBuildingOfType(BuildingType.Bank);
 			Do("Going to bank");
 		}else
 		if (action.getGoAction() == GoAction.goHome){
@@ -467,11 +468,16 @@ public class Person extends Agent {
 			b = myHouse;
 			Do("Going home");
 		}else
-		if (action.getGoAction() == GoAction.goMarket){
+		if (action.getGoAction() == GoAction.goMarket && action.intent == Intent.customer){
 			//Go to your market.
 			b = God.Get().findBuildingOfType(BuildingType.Market);
 			Do("going to market");
 		}else
+        if (action.getGoAction() == GoAction.goMarket && action.intent == Intent.work){
+            //Go to your market.
+            b = this.workPlace;
+            Do("going to market");
+        }else
 		if (action.getGoAction() == GoAction.goDannyRestaurant && action.intent == Intent.customer){
 			//Go to restaurant
 			b = God.Get().getBuilding(9);
@@ -483,6 +489,11 @@ public class Person extends Agent {
 				b = God.Get().getBuilding(9);
 				Do("working at restaurant");
 			}
+            if (mainRole instanceof MarketDeliveryPersonRole)
+            {
+                b = God.Get().getBuilding(9);
+                Do("Goint to deliver to restaurant.");
+            }
 		}
 		else
         if (action.getGoAction() == GoAction.goTimRestaurant && action.intent == Intent.customer){
@@ -495,6 +506,11 @@ public class Person extends Agent {
             if (mainRole instanceof TimHostRole || mainRole instanceof TimWaiterRole || mainRole instanceof TimCookRole || mainRole instanceof TimCashierRole){
                 b = God.Get().getBuilding(10);
                 Do("working at restaurant");
+            }
+            if (mainRole instanceof MarketDeliveryPersonRole)
+            {
+                b = God.Get().getBuilding(10);
+                Do("Goint to deliver to restaurant.");
             }
         }
 		else

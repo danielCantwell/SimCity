@@ -301,6 +301,7 @@ public class MarketManagerRole extends Role implements MarketManager {
             return true;
         }
 
+        Info(AlertTag.Market, "workCount = " + workCount + ".");
         if (wantsLeave && workCount <= 0)
         {
             synchronized(clerks)
@@ -351,6 +352,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void startOrder(Order order)
     {
+        Do(AlertTag.Market, "Start an order: " + order.choice + ", " + order.amount + ".");
         MyPacker myPacker = null;
         int minOrder = Integer.MAX_VALUE;
         for (MyPacker mP : packers)
@@ -370,6 +372,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void deliverOrder(Order order)
     {
+        Do(AlertTag.Market, "Make a delivery.");
         MyDeliveryPerson myDP = null;
         for (MyDeliveryPerson mD : deliveryPeople)
         {
@@ -389,6 +392,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void giveOrder(Order order)
     {
+        Do(AlertTag.Market, "Here is the customer's order.");
         MyClerk myClerk = null;
         for (MyClerk mC : clerks)
         {
@@ -410,6 +414,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void putInLine(MyCustomer c)
     {
+        Do(AlertTag.Market, "Please wait over there.");
         // TODO: Create waiting room
         c.customer.msgPleaseTakeANumber(new Point (100, 400));
         c.state = CustomerState.Waiting;
@@ -417,6 +422,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
     private void giveToClerk(MyCustomer c)
     {
+        Do(AlertTag.Market, "Next in line.");
         c.clerk.msgTakeOrder(c.customer);
         c.state = CustomerState.Processing;
         customers.remove(c);
