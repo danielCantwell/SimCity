@@ -125,6 +125,11 @@ public class B_BrianRestaurant extends Building{
 				return;
 			}
 			
+			if (job.equals("usto")){
+				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.work);
+					return;
+			}
+			
 			if (job.equals("brianRest.BrianCustomerRole")) {
 				newRole = new BrianCustomerRole("Customer");  
 				System.out.println("#cust created");}

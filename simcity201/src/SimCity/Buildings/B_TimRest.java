@@ -82,6 +82,11 @@ public class B_TimRest extends Building{
 				return;
 			}
         	
+        	if (job.equals("usto")){
+				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.House), Intent.work);
+					return;
+			}
+        	
             newRole = (Role)Class.forName(job).newInstance();
             newRole.setActive(true);
             newRole.setPerson(person);

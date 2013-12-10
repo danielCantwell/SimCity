@@ -97,6 +97,10 @@ public class B_DannyRestaurant extends Building {
 				person.msgGoHome();
 				return;
 			}
+			if (job.equals("usto")){
+				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Market), Intent.work);
+					return;
+			}
 			
 			if (job.equals("restaurant.DannyCustomer")) {
 				// newRole = new DannyCustomer();

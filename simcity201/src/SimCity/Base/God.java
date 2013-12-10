@@ -59,7 +59,7 @@ public class God {
 	    public SimCityGui getSimGui(){return simGui;}
 	    
 	    //List of God thingies
-	    public int day = 1;
+	    public int day = 5;
 	    public int hour;
 	    public boolean isWeekend = false;
 	    Timer hourTimer;
@@ -69,10 +69,10 @@ public class God {
 	    
 	    public void addPerson(Person p){ 
 	    	if (persons.size() > 0){
-		    	//AlertLog.getInstance().logDebug(AlertTag.God, "DEBUG", persons.size() + "");
-		    	/*for (Person per: persons){
-		    		if (per.getMainRoleString().equals("brianRest.BrianHostRole"))
-		    		//AlertLog.getInstance().logWarning(AlertTag.God, "Warning", per.getMainRoleString());
+		    	/*AlertLog.getInstance().logDebug(AlertTag.God, "DEBUG", persons.size() + "");
+		    	for (Person per: persons){
+		    		if (per.getMainRoleString().equals("Bank.bankManagerRole"))
+		    		AlertLog.getInstance().logWarning(AlertTag.God, "Warning", per.getMainRoleString() + ", work at: " + per.getWorkPlace().getID());
 		    	}*/
 	    	
 	    	//If we are dealing with a manager. make sure to check if there is already a manager that exists.
@@ -88,9 +88,9 @@ public class God {
 	
 		    	for (Person pe:persons){
 		    		if (pe.getMainRoleString().equals(p.getMainRoleString())){
-		    			if (pe.getShift() == p.getShift()){
-		    				if (pe.getWorkPlace() == p.getWorkPlace())
-		    				AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
+		    			if (pe.getWorkPlace().getID() == p.getWorkPlace().getID())
+		    				if (pe.getShift() == p.getShift()){
+		    					AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
 		    				return;
 		    			}
 		    		}
@@ -220,7 +220,7 @@ public class God {
 	    	case "Danny": return simGui.buildingList.get(9); //Danny
 	    	case "Tim": return simGui.buildingList.get(10); //Tim
 	    	case "Eric": return simGui.buildingList.get(11); //Eric
-	    	default : return simGui.buildingList.get(6);
+	    	default : return simGui.buildingList.get(11);
 	    	}
 	    }
 	    
@@ -325,7 +325,7 @@ public class God {
 					   }
 					   else {
 						   if (banksClosed)
-							   	//notifyBanksOpen(); //handled by hosts now.
+							  // 	notifyBanksOpen(); //handled by hosts now.
 						   isWeekend = false;
 					   }
 				   }
@@ -496,7 +496,7 @@ public class God {
 	    	for (Building b: buildings){
 	    		if (b.getTag().equals("B_Bank")){
 	    			B_Bank bank = (B_Bank)b;
-	    			bank.setOpen(false);
+	    			bank.setForceClose(true);
 	    		}
 	    	}
 	    }
@@ -505,7 +505,7 @@ public class God {
 	    	for (Building b: buildings){
 	    		if (b.getTag().equals("B_Bank")){
 	    			B_Bank bank = (B_Bank)b;
-	    			bank.setOpen(true);
+	    			bank.setForceClose(false);
 	    		}
 	    	}
 	    }

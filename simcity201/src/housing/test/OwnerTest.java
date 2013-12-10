@@ -37,7 +37,6 @@ public class OwnerTest extends TestCase {
 		ownerPerson = new MockHousingPerson("housing.roles.OwnerRole");
 
 		owner.myPerson = ownerPerson;
-		owner.myPerson.house = "Apartment";
 	}
 
 	/*
@@ -178,15 +177,6 @@ public class OwnerTest extends TestCase {
 				owner.myTenants.get(0).rentOwed.dollars);
 		assertEquals("Tenant state should be InDebt. It's not.",
 				TenantState.InDebt, owner.myTenants.get(0).state);
-
-		owner.myTenants.get(0).strikes = 4;
-
-		// PickAndExecuteAnAction should return true
-		assertTrue(owner.pickAndExecuteAnAction());
-		// Check Post Conditions
-		assertEquals(
-				"Owner should have evicted the tenant, and have no tenants.",
-				0, owner.myTenants.size());
 	}
 
 	/*

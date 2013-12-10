@@ -43,7 +43,8 @@ public class SetupPanel extends JFrame {
 
 	private AnimationPanel animationPanel;
 
-	private JLabel numPeople = new JLabel();
+	private JLabel numPeople = new JLabel("# People : 0");
+	private JComboBox<Integer> bankMarketBuilding = new JComboBox<Integer>();
 	private JComboBox<Integer> hungerLevel = new JComboBox<Integer>();
 	private JComboBox<Integer> money = new JComboBox<Integer>();
 	private JTextField enterName = new JTextField("Enter Name of Person");
@@ -226,6 +227,9 @@ public class SetupPanel extends JFrame {
 		modeNormal.setSelected(true);
 
 		// ------------- Combo Boxes --------------
+		
+		bankMarketBuilding.addItem(1);
+		bankMarketBuilding.addItem(2);
 
 		for (int i = 0; i <= 10; i++) {
 			hungerLevel.addItem(i * 10);
@@ -235,6 +239,7 @@ public class SetupPanel extends JFrame {
 			money.addItem(i * 100);
 		}
 
+		bankMarketBuilding.setSelectedIndex(0);
 		hungerLevel.setSelectedIndex(3);
 		money.setSelectedIndex(5);
 
@@ -365,6 +370,8 @@ public class SetupPanel extends JFrame {
 		// ----------------- Main Panel ----------------
 		// ---------------------------------------------
 
+		mainPanel.add(new JLabel("Bank/Market #"));
+		mainPanel.add(bankMarketBuilding);
 		mainPanel.add(new JLabel("Hunger Level"));
 		mainPanel.add(hungerLevel);
 		mainPanel.add(new JLabel("Money"));
@@ -603,12 +610,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close02.isSelected()){
 					animationPanel.getGui().buildingList.get(2).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #2");
+				}
+				else{
 					animationPanel.getGui().buildingList.get(2).setForceClose(
 							false);
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #2");
+				}
 				// ================================================================================
 			}
 		});
@@ -619,13 +630,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close03.isSelected()){
 					animationPanel.getGui().buildingList.get(3).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #3");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(3).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #3");
+				}// ================================================================================
 			}
 		});
 		close05.addActionListener(new ActionListener() {
@@ -635,13 +649,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close05.isSelected()){
 					animationPanel.getGui().buildingList.get(5).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #5");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(5).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #5");
+				}
+					// ================================================================================
 			}
 		});
 		close06.addActionListener(new ActionListener() {
@@ -651,12 +669,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close06.isSelected()){
 					animationPanel.getGui().buildingList.get(6).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #6");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(6).setForceClose(
 							false);
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #6");	
+				}
 				// ================================================================================
 			}
 		});
@@ -667,12 +689,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close07.isSelected()){
 					animationPanel.getGui().buildingList.get(7).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #7");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(7).setForceClose(
 							false);
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #7");	
+				}
 				// ================================================================================
 			}
 		});
@@ -683,13 +709,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close08.isSelected()){
 					animationPanel.getGui().buildingList.get(8).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #8");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(8).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #8");
+				}// ================================================================================
 			}
 		});
 		close09.addActionListener(new ActionListener() {
@@ -699,13 +728,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close09.isSelected()){
 					animationPanel.getGui().buildingList.get(9).setForceClose(
 							true);
-				else
+					
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #9");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(9).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #9");
+				}// ================================================================================
 			}
 		});
 		close10.addActionListener(new ActionListener() {
@@ -715,13 +748,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close10.isSelected()){
 					animationPanel.getGui().buildingList.get(10).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #10");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(10).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #10");
+				}
+					// ================================================================================
 			}
 		});
 		close11.addActionListener(new ActionListener() {
@@ -731,13 +768,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close11.isSelected()){
 					animationPanel.getGui().buildingList.get(11).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #11");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(11).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #11");
+				}// ================================================================================
 			}
 		});
 
@@ -999,6 +1039,7 @@ public class SetupPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
 				String name = enterName.getText();
 				String role = "usto";
 				Vehicle v = Vehicle.walk;
@@ -1122,10 +1163,26 @@ public class SetupPanel extends JFrame {
 
 				// Set Workplace Building
 
-				if (role.contains("bank"))
-					b = getWorkplace("bank");
-				else if (role.contains("market"))
-					b = getWorkplace("market");
+				if (role.contains("bank")) {
+					if (bankMarketBuilding.getSelectedIndex() == 0) {
+						b = animationPanel.getGui().buildingList.get(2);
+						System.out.println("Bank Building 2");
+					}
+					else {
+						b = animationPanel.getGui().buildingList.get(8);
+						System.out.println("Bank Building 8");
+					}
+				}
+				else if (role.contains("market")) {
+					if (bankMarketBuilding.getSelectedIndex() == 0) {
+						b = animationPanel.getGui().buildingList.get(3);
+						System.out.println("Market Building 3");
+					}
+					else {
+						b = animationPanel.getGui().buildingList.get(5);
+						System.out.println("Market Building 5");
+					}
+				}					
 				else if (role.contains("Danny"))
 					b = getWorkplace("Danny");
 				else if (role.contains("Jesse"))
