@@ -77,6 +77,21 @@ public class B_BrianRestaurant extends Building{
 		// TODO Auto-generated method stub
 		return "brianRest.BrianCustomerRole";
 	}
+	@Override
+	public void setForceClose(boolean t){
+		forceClose = t; 
+		isOpen =false; 
+		God.Get().flushBuilding(this);
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)buildingPanel;
+		brp.setRestOpenInfo(isOpen && !forceClose);
+		}
+	
+	@Override
+	public void setOpen(boolean open){
+		isOpen = open;
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)buildingPanel;
+		brp.setRestOpenInfo(isOpen && !forceClose);
+	}
 
 	@Override
 	public boolean areAllNeededRolesFilled() {

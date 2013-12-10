@@ -721,9 +721,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-            	 createPerson("Customer", "none", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
+            	 //createPerson("Customer", "none", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
 
-            	 /*createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
+            	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
             	 createPerson("Customer", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
             	 createPerson("Customer", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
             	 createPerson("PCWaiter", "brianRest.BrianPCWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 1);
@@ -739,7 +739,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
             	 createPerson("Cashier", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
             	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2); 
-             */
+             
              }
         };
         String stringCtrlR = "CTRL R";

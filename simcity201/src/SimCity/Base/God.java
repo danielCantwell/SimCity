@@ -89,9 +89,9 @@ public class God {
 		    	for (Person pe:persons){
 		    		if (pe.getMainRoleString().equals(p.getMainRoleString())){
 		    			if (pe.getShift() == p.getShift()){
-		    				//if (pe.getWorkPlace() == p.getWorkPlace())
-		    				//AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
-		    				//return;
+		    				if (pe.getWorkPlace() == p.getWorkPlace())
+		    				AlertLog.getInstance().logError(AlertTag.God, "ERROR", "Can only spawn 1 of type: " + p.getMainRoleString());
+		    				return;
 		    			}
 		    		}
 		    		
@@ -480,7 +480,7 @@ public class God {
 	    
 	    public void getOffWork(Building b){
 	    	announcedTime = true;
-	    	AlertLog.getInstance().logWarning(AlertTag.God, "USER", "Closing " + b.getTag());
+	    	//AlertLog.getInstance().logWarning(AlertTag.God, "USER", "Closing " + b.getTag());
 	    	for (Person p: persons){
 	    		if (p.getBuilding() == b){
 	    		p.msgGoHome();
@@ -506,6 +506,15 @@ public class God {
 	    		if (b.getTag().equals("B_Bank")){
 	    			B_Bank bank = (B_Bank)b;
 	    			bank.setOpen(true);
+	    		}
+	    	}
+	    }
+	    
+	    public void flushBuilding(Building b){
+	    	for (Person p: persons){
+	    		if (p.getBuilding() == b){
+	    			p.mainRole.workOver();
+	    			p.msgGoHome();
 	    		}
 	    	}
 	    }

@@ -37,6 +37,9 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 	JLabel food4;
 	JLabel rightInfoLabel = new JLabel("Waiter Break Panel");
 	JLabel rightInfoLabel2 = new JLabel("Can only break once.");
+	JLabel restOpenInfo = new JLabel("##### RESTAURANT CLOSED #####");
+	
+	JButton dumpInventory = new JButton("Dump Inventory");
 	
 	public JScrollPane pane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -84,6 +87,9 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 	   leftInfo.setMaximumSize(dim);
 	   leftInfo.setMinimumSize(dim);
 	   leftInfo.setLayout(new BoxLayout(leftInfo, BoxLayout.Y_AXIS));
+	   
+	   leftInfo.add(restOpenInfo);
+	   
 	   leftInfo.add(leftInfoLabel);
 	   
 	   
@@ -96,7 +102,17 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 	   leftInfo.add(food2);
 	   leftInfo.add(food3);
 	   leftInfo.add(food4);
+	   leftInfo.add(dumpInventory);
 	   
+	   
+   }
+   
+   public void setRestOpenInfo(boolean t){
+	   if (t){
+		   restOpenInfo.setText("##### RESTAURANT OPEN #####");
+	   }
+	   else 
+		   restOpenInfo.setText("##### RESTAURANT CLOSED #####");
    }
    
    public void updateCookInfo(BrianCookRole cook){

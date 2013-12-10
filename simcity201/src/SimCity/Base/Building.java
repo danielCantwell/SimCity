@@ -27,6 +27,10 @@ public abstract class Building extends SimObject {
 	protected boolean isOpen = false; //if the building is closed, then a person cannot go into the building.
 	protected JPanel buildingPanel; //The card layout that is associated with the building.
 	
+	protected boolean forceClose = false;
+	public void setForceClose(boolean t){forceClose = t; isOpen =false; God.Get().flushBuilding(this);}
+	public boolean getForceClose(){return forceClose;}
+	
 	public JPanel getPanel() {return buildingPanel;}
 	
 	protected String tag = "";
@@ -74,6 +78,10 @@ public abstract class Building extends SimObject {
     public void EnterBuilding(Person person, String job){
     		Role newRole = null;
 			try {
+				if (forceClose){
+					person.msgGoHome();
+					return;
+				}
 				newRole = (Role)Class.forName(job).newInstance();
 				newRole.setActive(true);
 				newRole.setPerson(person);

@@ -187,7 +187,18 @@ public class SetupPanel extends JFrame {
 	private JRadioButton showDannyRest = new JRadioButton("Danny");
 	private JRadioButton showTimRest = new JRadioButton("Tim");
 
-	private JButton nuke = new JButton("Close All Buildings");
+	//All closed building related things here
+	private JPanel closeBuildings = new JPanel();
+	private JRadioButton close02 = new JRadioButton("02-Bank");
+	private JRadioButton close03 = new JRadioButton("03-Market");
+	private JRadioButton close05 = new JRadioButton("05-Market");
+	private JRadioButton close06 = new JRadioButton("06-BrianRest");
+	private JRadioButton close07 = new JRadioButton("07-JesseRest");
+
+	private JRadioButton close08 = new JRadioButton("08-Bank");
+	private JRadioButton close09 = new JRadioButton("09-Danny");
+	private JRadioButton close10= new JRadioButton("10-TimRest");
+	private JRadioButton close11 = new JRadioButton("11-EricRest");
 
 	/**
 	 * Constructor
@@ -299,7 +310,7 @@ public class SetupPanel extends JFrame {
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
 		mainPanel.add(createWanderer);
-		mainPanel.add(nuke);
+		//mainPanel.add(nuke);
 
 		// ---------------------------------------------
 		// ------------ Bank | Market panels -----------
@@ -495,8 +506,37 @@ public class SetupPanel extends JFrame {
 		// --center panel
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		centerPanel.add(mainPanel);
+		centerPanel.add(closeBuildings);
 		centerPanel.add(logsPanel);
 		add(centerPanel, BorderLayout.CENTER);
+		
+		//--initialize close buildings here
+		closeBuildings.add(close02);
+		closeBuildings.add(close03);
+		closeBuildings.add(close05);
+		closeBuildings.add(close06);
+		closeBuildings.add(close07);
+		closeBuildings.add(close08);
+		closeBuildings.add(close09);
+		closeBuildings.add(close10);
+		closeBuildings.add(close11);
+		
+		close06.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// ============================ TUTORIAL
+				// ==========================================
+				// This is how you make messages with a certain Level (normal
+				// MESSAGE here) show up in the trace panel.
+				if (showErrors.isSelected())
+					animationPanel.getGui().buildingList.get(6).setForceClose(true);
+				else
+					animationPanel.getGui().buildingList.get(6).setForceClose(false);
+				// ================================================================================
+			}
+		});
+		
+		
 
 		// ------------------------------------------------
 		// --------- Trace Panel Action Listeners ---------
@@ -743,14 +783,14 @@ public class SetupPanel extends JFrame {
 			}
 		});
 
-		nuke.addActionListener(new ActionListener() {
+		/*.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				animationPanel.getGui().HardReset();
 				animationPanel.SendMangersHome();
 			}
 
-		});
+		});*/
 
 		// ------------------------------------------------
 		// ------------- Create Person Button -------------
