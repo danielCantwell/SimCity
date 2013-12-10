@@ -472,7 +472,6 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	
 	private void LeaveTable() {
 		Do(AlertTag.TimRest,"Leaving table.");
-		waiter.msgLeavingTable(this);
 	}
 
 	private void WaitedTooLong()
@@ -484,6 +483,9 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	
 	private void LeaveRestaurant()
 	{
+	    // put here so host doesn't leave until customer is done.
+        waiter.msgLeavingTable(this);
+        
 		Do(AlertTag.TimRest,"Bye!");
 		customerGui.DoExitRestaurant();
 		state = AgentState.DoingNothing;
@@ -534,7 +536,6 @@ public class TimCustomerRole extends Role implements TimCustomer{
 	@Override
 	public void workOver() {
         myPerson.Do("The restaurant is closing...");
-        exitBuilding(myPerson);
 	}
 }
 
