@@ -1,6 +1,7 @@
 package exterior.gui;
 
 import java.awt.*;
+import java.util.Random;
 
 import SimCity.Base.Person;
 import SimCity.trace.AlertLog;
@@ -17,16 +18,23 @@ public class CarGui implements Gui {
 	private boolean isPresent = false;
 	private Person person;
 	private int myID;
-	private boolean accidentProne = true;
+	private boolean accidentProne;
 	private boolean switchGui = false;
 	
-	public CarGui(SimCityGui gui, int id) {
+	public CarGui(SimCityGui gui, int id, boolean createAccidents) {
 		this.gui = gui;
+		
+		this.accidentProne = createAccidents;
+		Random rand = new Random();
+		int chooseAccidentProne = rand.nextInt(10);
+		if (chooseAccidentProne < 2) {
+			this.accidentProne = true;
+		}
+		
 		myID = id;
 		int random = (int)(Math.random() * 8);
 		int random2 = (int)(Math.random() * 8) + 8;
 		DoTravel(random, random2);
-		
 	}
 
 	public void updatePosition() {
