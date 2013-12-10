@@ -745,7 +745,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
-	   	 	 standees.get(p.building.getID()-1).add(p);
+	   	 	 enterBus(p);
 	   	 	 
 	   	 	 return p;
 	   	 }
@@ -790,6 +790,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setScrollPane(JScrollPane s) {
     	scrollPane = s;
+    }
+    
+    public void enterBus(Person p) {
+  	 	 standees.get(p.building.getID()).add(p);
     }
     
     public void clearVGrid(int id) {

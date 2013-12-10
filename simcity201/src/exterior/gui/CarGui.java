@@ -201,7 +201,7 @@ public class CarGui implements Gui {
     }
     
     public void carAccident() {
-		AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A car (" + this + ") got into an accident and paid a $250 fee. The driver (" + person + ") will walk from now on.");
+		AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A car (" + this + ") got into an accident.");
 		accidentProne = false;
 		switchGui = true;
     }

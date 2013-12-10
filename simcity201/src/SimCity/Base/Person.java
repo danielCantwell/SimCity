@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JPanel;
@@ -549,6 +550,8 @@ public class Person extends Agent {
 		if (gui instanceof PersonGui) {
 			if (vehicle != Vehicle.bus) {
 				((PersonGui) gui).DoTravel(building.id, b.id);
+			} else {
+				animPanel.enterBus(this);
 			}
 		} else if (gui instanceof CarGui) {
 			((CarGui) gui).DoTravel(building.id, b.id);
@@ -591,13 +594,23 @@ public class Person extends Agent {
 		if (vehicle == Vehicle.car)return;
 		if (vehicle == Vehicle.walk);
 		//changes person gui's image. based on vehicle.
-		
 	}
 	
 	public void loseCar() {
+		// Pay a 250 dollar fine.
 		setMoney(getMoney().subtract(250, 0));
+		
 		if (gui instanceof CarGui) {
-			vehicle = Vehicle.walk;
+			Random rand = new Random();
+			int newTransportation = rand.nextInt(10);
+			
+			if (newTransportation < 5) {
+				vehicle = Vehicle.walk;
+				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will walk henceforth. Paid $250 fee.");
+			} else {
+				vehicle = Vehicle.bus;
+				AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A person (" + this + ") lost their car in an accident and will take the bus henceforth. Paid $250 fee.");
+			}
 			gui = animPanel.getNewGui(this);
 		}
 	}
