@@ -203,13 +203,23 @@ public class God {
 	    
 	    //Fix this laters
 	    public Building findRandomRestaurant(){
-	    	int r = (int)(Math.round((Math.random() * 4)));
-	    	switch (r){
-	    	case 0: return simGui.buildingList.get(6);
-	    	case 1: return simGui.buildingList.get(7);
-	    	case 2: return simGui.buildingList.get(9);
-	    	case 3: return simGui.buildingList.get(10);
-	    	case 4: return simGui.buildingList.get(11);
+	    	int s = (int)(Math.round((Math.random() * 4)));
+	    	switch (s){
+	    	case 0: return simGui.buildingList.get(6); //Brian
+	    	case 1: return simGui.buildingList.get(7); // Jesse
+	    	case 2: return simGui.buildingList.get(9); //Danny
+	    	case 3: return simGui.buildingList.get(10); //Tim
+	    	case 4: return simGui.buildingList.get(11); //Eric
+	    	default : return simGui.buildingList.get(6);
+	    	}
+	    }
+	    public Building findRandomRestaurant(String s){
+	    	switch (s){
+	    	case "Brian": return simGui.buildingList.get(6); //Brian
+	    	case "Jesse": return simGui.buildingList.get(7); // Jesse
+	    	case "Danny": return simGui.buildingList.get(9); //Danny
+	    	case "Tim": return simGui.buildingList.get(10); //Tim
+	    	case "Eric": return simGui.buildingList.get(11); //Eric
 	    	default : return simGui.buildingList.get(6);
 	    	}
 	    }

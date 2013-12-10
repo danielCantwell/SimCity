@@ -45,7 +45,7 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     
     private ImageIcon iconFloor = new ImageIcon("images/floor3.png");
     
-    B_BrianRestaurant building;
+    public B_BrianRestaurant building;
     
     private BrianHost host;
     public void setHost(BrianHost host){

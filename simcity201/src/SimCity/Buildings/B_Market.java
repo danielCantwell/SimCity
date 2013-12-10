@@ -11,6 +11,7 @@ import market.gui.MarketAnimationPanel;
 import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 /**
@@ -127,12 +128,9 @@ public class B_Market extends Building{
             panel.repaint();
             setOpen(areAllNeededRolesFilled());
         } catch(Exception e){
-            e.printStackTrace();
-            int goTo = person.getBuilding().getID() + -3;
-			if (goTo > God.Get().buildings.size() - 1){
-				goTo = 0;
-			}
-			person.msgGoToBuilding(God.Get().getBuilding(goTo), Intent.work);
+           // e.printStackTrace();
+           
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Restaurant), Intent.work);
 			ExitBuilding(person);
 
             //System.out.println ("God: no class found");

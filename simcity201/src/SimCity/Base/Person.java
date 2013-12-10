@@ -379,10 +379,10 @@ public class Person extends Agent {
 			
 			//Check if he is hungry
 			if (hungerLevel < hungerThreshold){
-				//goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); handled in tenant role now!!
+				goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); //handled in tenant role now!!
 				return false;
 			}
-			goTo(new Action(GoAction.goHome, Intent.customer));
+			goHome();
 			
 		}
 		

@@ -95,7 +95,7 @@ public class B_JesseRestaurant extends Building{
 		}
 		catch(Exception e) {
 			//e.printStackTrace();
-			person.msgGoToBuilding(God.Get().getBuilding(1), Intent.work);
+			person.msgGoToBuilding(God.Get().getBuilding(11), Intent.work);
 			ExitBuilding(person);
 
 			//System.out.println ("Building: no class found");

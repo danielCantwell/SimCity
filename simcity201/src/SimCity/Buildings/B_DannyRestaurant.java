@@ -14,6 +14,7 @@ import restaurant.OrderStand;
 import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
@@ -185,7 +186,7 @@ public class B_DannyRestaurant extends Building {
 			if (goTo > God.Get().buildings.size() - 1){
 				goTo = 0;
 			}
-			person.msgGoToBuilding(God.Get().getBuilding(goTo), Intent.work);
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Market), Intent.work);
 			ExitBuilding(person);
 
 			//System.out.println("Building: no class found");

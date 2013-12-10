@@ -51,7 +51,7 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	OrderStand orderstand;
 
 	//A map containing all the foods and their cook times. Implement in Constructor pls!
-	private Map<String, Food> foodDictionary = new HashMap<String, Food>();
+	public Map<String, Food> foodDictionary = new HashMap<String, Food>();
 	
 	private String searchMarketsFor = "";
 	
@@ -76,6 +76,7 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	  
 	  markets.add((B_Market) God.Get().findBuildingOfType(BuildingType.Market));
 	  
+
 	}
 		
 //########## Messages  ###############
@@ -200,6 +201,8 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
          }
          
          temp.amount --;
+         BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.getBuilding().getPanel();
+         brp.updateCookInfo(this);
          
            Do(AlertTag.BrianRest, "is cooking " + o.choice + ".");
            o.setTimer(foodDictionary.get(o.choice).cookTime);
@@ -299,7 +302,7 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 //######################## End of Class Cook#############################
 	
 	//#### Inner Class ####	
-	private class Food {
+	public class Food {
 		   private String choice;
 		   private int cookTime;
 		   private int amount;
@@ -311,6 +314,11 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 			   choice = c;
 			   cookTime = ct;
 			   amount = amt;
+		   }
+		   
+		   //for gui stuff
+		   public int getAmount(){
+			return amount;   
 		   }
 	}
 	
@@ -380,6 +388,8 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 		Food f = foodDictionary.get(food);
 		f.amount = foodDictionary.get(food).amount+amount;
 		foodDictionary.put(food, f);
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.getBuilding().getPanel();
+		brp.updateCookInfo(this);
 	}
 
 

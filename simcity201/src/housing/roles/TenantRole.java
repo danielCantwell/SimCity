@@ -299,7 +299,17 @@ public class TenantRole extends Role implements Tenant {
 				+ " Tenant is going to a restaurant to eat");
 		DoLeaveHouse();
 		// God selects a random restaurant for Tenant to go to
-		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(),
+		int r = (int)(Math.round((Math.random() * 4)));
+		String craving = "";
+		switch (r){
+		case 0: craving = "Brian"; //Brian
+    	case 1: craving = "Jesse"; // Jesse
+    	case 2: craving = "Danny"; //Danny
+    	case 3:craving = "Tim"; //Tim
+    	case 4: craving = "Eric"; //Eric
+    	default : craving = "Brian";
+		}
+		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(craving),
 				Intent.customer);
 
 		HousingAnimation myPanel = (HousingAnimation) myPerson.myHouse

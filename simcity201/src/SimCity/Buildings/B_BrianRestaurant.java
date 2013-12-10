@@ -60,6 +60,9 @@ public class B_BrianRestaurant extends Building{
 		y = yCoord;
 		tag = "B_Restaurant";
 		orderstand = new OrderStand(this, cookRole);
+		
+		  //gui stuff
+		  brp.updateCookInfo(cookRole);
 	}
 
 	@Override
@@ -147,11 +150,7 @@ public class B_BrianRestaurant extends Building{
 			person.msgEnterBuilding(this);
 		} catch(Exception e){
 			//e.printStackTrace();
-			int goTo = person.getBuilding().getID() - 5;
-			if (goTo > God.Get().buildings.size() - 1){
-				goTo = 0;
-			}
-			person.msgGoToBuilding(God.Get().getBuilding(goTo), Intent.work);
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.work);
 			ExitBuilding(person);
 
 			
