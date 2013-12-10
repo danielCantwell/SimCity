@@ -300,7 +300,7 @@ public class God {
 						   catch(Exception e1){};
 					   }
 					   
-					   if (day % 6 == 0 || day % 7 == 0 && !banksClosed){
+					   if (day % 7 == 6 || day % 7 == 0 && !banksClosed){
 						   //notifyBanksClosed(); //handled by hosts now.
 						   isWeekend = true;
 					   }

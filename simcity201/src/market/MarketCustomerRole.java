@@ -207,11 +207,20 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
             numOrders++;
             Do(AlertTag.Market, "I think it's time for me to buy a car.");
 	    }
+	    if (myPerson.name.equals("Wilczynski"))
+	    {
+            clerk.msgWantFood(God.Get().persons.indexOf(myPerson), "Wilczynski's Brain on Ice", 1);
+	    }
+	    if (numOrders == 0)
+	    {
+	        clerk.msgWantFood(God.Get().persons.indexOf(myPerson), "Pizza", 1);
+	    }
 	    state = AgentState.BeingServed;
 	}
 	
 	private void pay()
 	{
+        Info(AlertTag.Market, myPerson.name + " paid " + amountOwed + ".");
 	    clerk.msgHereIsMoney(God.Get().persons.indexOf(myPerson), amountOwed);
 	    // subtract appropriate money
 	    System.out.println(myPerson.getMoney());//debug
@@ -222,6 +231,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	private void leave()
 	{
+        Do(AlertTag.Market, "Thank you!");
 	    gui.DoGoToDoor();
 	    try
         {

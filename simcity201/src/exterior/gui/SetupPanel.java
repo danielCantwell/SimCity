@@ -1327,11 +1327,11 @@ public class SetupPanel extends JFrame {
 				vehicle, Morality.good,
 				selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 2);
-		animationPanel.createPerson("T_Host_One", "timRest.TimWaiterRole",
+		animationPanel.createPerson("T_Waiter_One", "timRest.TimWaiterRole",
 				vehicle, Morality.good,
 				selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 1);
-		animationPanel.createPerson("T_Host_Two", "timRest.TimWaiterRole",
+		animationPanel.createPerson("T_Waiter_Two", "timRest.TimWaiterRole",
 				vehicle, Morality.good,
 				selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 2);

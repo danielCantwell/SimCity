@@ -11,6 +11,8 @@ import market.gui.MarketAnimationPanel;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 /**
  * @author Brian
  *         Timothy So
@@ -82,6 +84,11 @@ public class B_Market extends Building{
                 managerRole = marketRole;
                 panel.manager = person;
                 panel.addGui(marketRole.getGui());
+                
+                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Manager entering Market.");
+                person.msgEnterBuilding(this);
+                panel.repaint();
+                setOpen(areAllNeededRolesFilled());
             }
             else if (managerRole != null)
             {
@@ -92,14 +99,14 @@ public class B_Market extends Building{
                     managerRole.addClerk(marketRole);
                     panel.addGui(marketRole.getGui());
                 }
-                if (newRole instanceof MarketPackerRole)
+                else if (newRole instanceof MarketPackerRole)
                 {
                     MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
                     marketRole.setManager(managerRole);
                     managerRole.addPacker(marketRole);
                     panel.addGui(marketRole.getGui());
                 }
-                if (newRole instanceof MarketDeliveryPersonRole)
+                else if (newRole instanceof MarketDeliveryPersonRole)
                 {
                     MarketDeliveryPersonRole marketRole = (MarketDeliveryPersonRole) person.mainRole;
                     marketRole.setManager(managerRole);
@@ -107,23 +114,41 @@ public class B_Market extends Building{
                     managerRole.addDeliveryPerson(marketRole);
                     panel.addGui(marketRole.getGui());
                 }
-                if (getOpen() && newRole instanceof MarketCustomerRole)
+                else if (newRole instanceof MarketCustomerRole)
                 {
-                    MarketCustomerRole marketRole = null;
-                    for (Role r : person.roles)
+                    if (getOpen())
                     {
-                        if (r instanceof MarketCustomerRole)
+                        MarketCustomerRole marketRole = null;
+                        for (Role r : person.roles)
                         {
-                            marketRole = (MarketCustomerRole) r;
-                            marketRole.setManager(managerRole);
-                            panel.addGui(marketRole.getGui());
+                            if (r instanceof MarketCustomerRole)
+                            {
+                                marketRole = (MarketCustomerRole) r;
+                                marketRole.setManager(managerRole);
+                                panel.addGui(marketRole.getGui());
+                            }
                         }
                     }
+                    else
+                    {
+                        AlertLog.getInstance().logWarning(AlertTag.Market, person.getName(), "Market Closed.");
+                        return;
+                    }
                 }
+                else
+                {
+                    AlertLog.getInstance().logError(AlertTag.Market, person.getName(), "Wrong class entering market.");
+                    return;
+                }
+                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Entering Market.");
                 person.msgEnterBuilding(this);
+                panel.repaint();
+                setOpen(areAllNeededRolesFilled());
             }
-            panel.repaint();
-            setOpen(areAllNeededRolesFilled());
+            else
+            {
+                AlertLog.getInstance().logError(AlertTag.Market, person.getName(), "MarketManager = null");
+            }
         } catch(Exception e){
             e.printStackTrace();
             System.out.println ("God: no class found");

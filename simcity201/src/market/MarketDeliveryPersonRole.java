@@ -73,6 +73,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     public void msgGuiRestaurantClosed()
     {
+        Do(AlertTag.Market, "Restaurant is closed.");
         location = AgentLocation.Closed;
         stateChanged();
     }
@@ -130,7 +131,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
                 }
             }
         }
-	    if(location == AgentLocation.Destination)
+	    if(location == AgentLocation.Closed)
         {
 	        goToMarket();
 	        return false;
@@ -269,6 +270,10 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
             {
                 System.err.println("JesseCashier doesn't implement MarketDeliveryCashier.");
             }
+        }
+        else
+        {
+            Error(AlertTag.Market, "Not making delivery to restaurant.");
         }
 	}
     
