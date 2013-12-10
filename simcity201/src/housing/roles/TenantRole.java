@@ -302,12 +302,12 @@ public class TenantRole extends Role implements Tenant {
 		int r = (int)(Math.round((Math.random() * 4)));
 		String craving = "";
 		switch (r){
-		case 0: craving = "Brian"; //Brian
-    	case 1: craving = "Jesse"; // Jesse
-    	case 2: craving = "Danny"; //Danny
-    	case 3:craving = "Tim"; //Tim
-    	case 4: craving = "Eric"; //Eric
-    	default : craving = "Brian";
+		case 0: craving = "Brian";break; //Brian
+    	case 1: craving = "Jesse";break; // Jesse
+    	case 2: craving = "Danny";break; //Danny
+    	case 3:craving = "Tim";break; //Tim
+    	case 4: craving = "Eric";break; //Eric
+    	default : craving = "Brian";break;
 		}
 		myPerson.msgGoToBuilding(God.Get().findRandomRestaurant(craving),
 				Intent.customer);

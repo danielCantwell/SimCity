@@ -59,7 +59,7 @@ public class God {
 	    public SimCityGui getSimGui(){return simGui;}
 	    
 	    //List of God thingies
-	    public int day = 1;
+	    public int day = 5;
 	    public int hour;
 	    public boolean isWeekend = false;
 	    Timer hourTimer;
@@ -220,7 +220,7 @@ public class God {
 	    	case "Danny": return simGui.buildingList.get(9); //Danny
 	    	case "Tim": return simGui.buildingList.get(10); //Tim
 	    	case "Eric": return simGui.buildingList.get(11); //Eric
-	    	default : return simGui.buildingList.get(6);
+	    	default : return simGui.buildingList.get(11);
 	    	}
 	    }
 	    
@@ -320,12 +320,12 @@ public class God {
 					   }
 					   
 					   if (day % 7 == 6 || day % 7 == 0 && !banksClosed){
-						   notifyBanksClosed(); //handled by hosts now.
+						   //notifyBanksClosed(); //handled by hosts now.
 						   isWeekend = true;
 					   }
 					   else {
 						   if (banksClosed)
-							   	notifyBanksOpen(); //handled by hosts now.
+							  // 	notifyBanksOpen(); //handled by hosts now.
 						   isWeekend = false;
 					   }
 				   }
