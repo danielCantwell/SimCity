@@ -6,6 +6,7 @@ import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_Bank;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import timRest.gui.TimCookGui;
 import timRest.gui.TimHostGui;
 import timRest.interfaces.TimCustomer;
@@ -386,6 +387,7 @@ public class TimHostRole extends Role {
             cook.msgLeaveWork();
         }
         myPerson.money.add(new Money(100, 00));
+        Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         wantsLeave = false;
         exitBuilding(myPerson);
     }

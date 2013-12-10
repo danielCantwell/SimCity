@@ -26,6 +26,7 @@ public class TimAnimationPanel extends JPanel implements ActionListener
 
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
     private TimHostRole hostRole;
+    private ImageIcon iconFloor = new ImageIcon("images/floor1.png");
     
     //public Person host;
     private B_TimRest restaurant;
@@ -66,6 +67,12 @@ public class TimAnimationPanel extends JPanel implements ActionListener
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
+		for (int x = 0; x < WINDOWX/128; x++) {
+		for (int y = 0; y < WINDOWY/128; y++) {
+			iconFloor.paintIcon(this, g, x * 128, y * 128);
+		}
+		}
+		
         //Here are the tables
         g2.setColor(Color.ORANGE);
         //Prevent null pointer

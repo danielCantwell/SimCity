@@ -491,7 +491,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
         {
             waiter.msgLeavingTable(this);
         }
-        
+        Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
 		Do(AlertTag.TimRest,"Bye!");
 		customerGui.DoExitRestaurant();
 		state = AgentState.DoingNothing;

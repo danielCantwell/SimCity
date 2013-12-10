@@ -48,6 +48,8 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	private List<Alert> newAlerts = Collections.synchronizedList(new ArrayList<Alert>());
 	private Set<AlertLevel> visibleLevels = Collections.synchronizedSet(EnumSet.allOf(AlertLevel.class));
 	private Set<AlertTag> visibleTags = Collections.synchronizedSet(EnumSet.noneOf(AlertTag.class));
+	
+	private boolean scrollDown;
 
 	Dimension size;
 	Style errorStyle;
@@ -184,6 +186,9 @@ public class TracePanel extends JScrollPane implements AlertListener {
 		}
 
 		updateTracePanel();	//update the panel to now reflect the correct alerts
+        Document d = this.traceTextPane.getDocument();
+        this.traceTextPane.select(d.getLength(), d.getLength());
+        scrollDown = true;
 	}
 
 	/**
@@ -243,7 +248,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	 */
 	public void addNewAlert(Alert alert) {
 		//This should make it only scroll down if we are already at the bottom.  Like a scroll lock kinda thing.
-		boolean scrollDown = (this.getVerticalScrollBar().getValue() + this
+		scrollDown = (this.getVerticalScrollBar().getValue() + this
 				.getVerticalScrollBar().getVisibleAmount()) == this
 				.getVerticalScrollBar().getMaximum();
 
