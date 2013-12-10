@@ -355,8 +355,14 @@ public class TimHostRole extends Role {
     
     private void leaveBuilding()
     {
-        cashier.msgLeaveWork();
-        cook.msgLeaveWork();
+        if (cashier != null)
+        {
+            cashier.msgLeaveWork();
+        }
+        if (cook != null)
+        {
+            cook.msgLeaveWork();
+        }
         wantsLeave = false;
         exitBuilding(myPerson);
     }
