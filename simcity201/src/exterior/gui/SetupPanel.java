@@ -157,10 +157,8 @@ public class SetupPanel extends JFrame {
 
 	// --------------- Scenarios -------------------
 
-	private JButton dannyRestScenario = new JButton("Test Danny Restaurant");
-	private JButton ericRestScenario = new JButton("Test Eric Restaurant");
-	private JButton s1 = new JButton("Normative Scenario One");
-	private JButton s2 = new JButton("Normative Scenario Two");
+	private JButton s1 = new JButton("S1 : All Roles : 1 Wanderer : All Walking");
+	private JButton s2 = new JButton("S2 : All Roles : 3 Wanderers : Various Transportation");
 	private JButton s3 = new JButton("Scenario Three - Does Nothing");
 	private JButton s4 = new JButton("Scenario Four - Does Nothing");
 
@@ -452,8 +450,6 @@ public class SetupPanel extends JFrame {
 
 		scenarioPanel.setLayout(new GridLayout(2, 3));
 
-		scenarioPanel.add(dannyRestScenario);
-		scenarioPanel.add(ericRestScenario);
 		scenarioPanel.add(s1);
 		scenarioPanel.add(s2);
 		scenarioPanel.add(s3);
@@ -1129,7 +1125,6 @@ public class SetupPanel extends JFrame {
 				Vehicle v = Vehicle.walk;
 				Morality m = Morality.good;
 				Building house = animationPanel.getGui().buildingList.get(0);
-				Building b = animationPanel.getGui().buildingList.get(2);
 
 				// transportation selection
 				if (vehicleBus.isSelected())
@@ -1161,28 +1156,6 @@ public class SetupPanel extends JFrame {
 		// ------------------------------------------------
 		// --------------- SCENARIO BUTTONS ---------------
 		// ------------------------------------------------
-
-		dannyRestScenario.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				createDannyRestaurantPeople(Vehicle.walk);
-				createMarketPeople(Vehicle.walk);
-				createBankPeople(Vehicle.walk);
-				numPeople.setText("# People :  " + God.Get().persons.size());
-			}
-		});
-
-		ericRestScenario.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				createEricRestaurantPeople(Vehicle.walk);
-				createMarketPeople(Vehicle.walk);
-				createBankPeople(Vehicle.walk);
-				numPeople.setText("# People :  " + God.Get().persons.size());
-			}
-		});
 
 		s1.addActionListener(new ActionListener() {
 
@@ -1392,6 +1365,9 @@ public class SetupPanel extends JFrame {
 
 		createMarketPeople(Vehicle.walk);
 
+		animationPanel.createPerson("Customer", "usto", Vehicle.walk,
+				Morality.good, selectHouse(),
+				animationPanel.getGui().buildingList.get(6), 1);
 	}
 
 	private void runScenarioTwo() {
@@ -1408,6 +1384,18 @@ public class SetupPanel extends JFrame {
 		createBankPeople(Vehicle.bus);
 
 		createMarketPeople(Vehicle.walk);
+
+		animationPanel.createPerson("Customer", "usto", Vehicle.walk,
+				Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(6), 1);
+		
+		animationPanel.createPerson("Customer", "usto", Vehicle.car,
+				Morality.good, selectHouse(),
+				animationPanel.getGui().buildingList.get(6), 1);
+		
+		animationPanel.createPerson("Customer", "usto", Vehicle.bus,
+				Morality.good, selectHouse(),
+				animationPanel.getGui().buildingList.get(6), 1);
 	}
 
 	private void runScenarioThree() {
