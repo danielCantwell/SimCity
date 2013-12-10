@@ -42,6 +42,7 @@ public class SetupPanel extends JFrame {
 
 	private JTextField enterName = new JTextField("Enter Name of Person");
 	private JButton createPerson = new JButton("Create Person");
+	private JButton createWanderer = new JButton("Create Wandering Person");
 
 	private JPanel professionsPanel = new JPanel();
 	private JPanel optionsPanel = new JPanel();
@@ -297,6 +298,7 @@ public class SetupPanel extends JFrame {
 		mainPanel.add(shiftTwo);
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
+		mainPanel.add(createWanderer);
 		mainPanel.add(nuke);
 
 		// ---------------------------------------------
