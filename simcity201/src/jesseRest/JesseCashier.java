@@ -1,17 +1,16 @@
 package jesseRest;
 
-import SimCity.Base.Role;
-import SimCity.Globals.Money;
-import agent.Agent;
-import jesseRest.Check;
-import jesseRest.Menu;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import jesseRest.interfaces.Cashier;
 import jesseRest.interfaces.Customer;
-import jesseRest.interfaces.Market;
 import jesseRest.interfaces.Waiter;
+import market.MarketManagerRole;
+import SimCity.Base.Role;
+import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 
 /**
  * Restaurant Cashier Agent
@@ -64,10 +63,25 @@ public class JesseCashier extends Role implements Cashier {
 		}
 	}
 	
+	/*
 	public void msgPayForItems(Market m, Money orderPrice) {
 		MyBill bill = new MyBill(m, orderPrice);
 		bills.add(bill);
 		stateChanged();
+	}
+	*/
+	
+	public void msgPayMarket(int amount, Money pricePerUnit, MarketManagerRole manager)
+	{
+	    Do(AlertTag.JesseRest, "Recieved bill from Market " + manager + " for amount " + amount + ". Verifying check before payment.");
+	    // multiply amount by pricePerUnit
+	    Money money = new Money(0, 0);
+	    for (int i = 0; i < amount; i++)
+	    {
+	        money.add(pricePerUnit);
+	    }
+	    bills.add(new MyBill(manager, money));
+	    stateChanged();
 	}
 
 	/**
@@ -124,8 +138,8 @@ public class JesseCashier extends Role implements Cashier {
 	private void PayMarket(MyBill b) {
 		bills.remove(b);
 		money.subtract(b.amountOwed);
-		print("Cashier can pay bill from Market. Money left: " + money);
-		b.market.msgHereIsPayment(b.amountOwed);
+	    Do(AlertTag.JesseRest, "Check verified. Paying market. Money left: " + money + ".");
+		b.market.msgHereIsTheMoney(b.amountOwed);
 	}
 	
 	/**
@@ -147,10 +161,10 @@ public class JesseCashier extends Role implements Cashier {
 	
 	// MyBill Class - represents a payment due to Market. Especially useful if you dont have enough cash at hand.
 	public class MyBill {
-		Market market;
+		MarketManagerRole market;
 		public Money amountOwed;
 		
-		public MyBill(Market m, Money i) {
+		public MyBill(MarketManagerRole m, Money i) {
 			market = m;
 			amountOwed = i;
 		}

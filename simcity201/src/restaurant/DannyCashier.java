@@ -302,5 +302,7 @@ public class DannyCashier extends Role implements Cashier,
 		marketsToPay.add(new MyMarket(manager, money));
 		stateChanged();
 	}
+	
+	
 
 }
