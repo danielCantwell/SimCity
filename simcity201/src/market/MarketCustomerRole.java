@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import market.gui.MarketCustomerGui;
 import market.interfaces.MarketCustomer;
 
@@ -95,7 +96,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
     public void workOver()
     {
         myPerson.Do("Market has closed for the day...");
-        exitBuilding(myPerson);
     }
 
 	/**
@@ -188,10 +188,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	private void order()
 	{
-	    //for ()
+	    for (int i = 0; i < myPerson.groceryList.size(); i++)
 	    {
-    	    clerk.msgWantFood(God.Get().persons.indexOf(myPerson), "Pizza", 1);
+    	    clerk.msgWantFood(God.Get().persons.indexOf(myPerson), myPerson.groceryList.get(i).item, myPerson.groceryList.get(i).amount);
     	    numOrders++;
+    	    Do(AlertTag.Market, "I would like " + myPerson.groceryList.get(i).amount + " " + myPerson.groceryList.get(i).item + "(s).");
 	    }
 	    state = AgentState.BeingServed;
 	}

@@ -46,6 +46,7 @@ public class B_JesseRestaurant extends Building{
 				setOpen(areAllNeededRolesFilled());
 				}
 			else if(role.equals("jesseRest.JesseWaiter")) {
+				if(hostFilled) {
 				newRole = new JesseWaiter("JWaiter");
 				numWaiter++;
 				host.addWaiter((JesseWaiter) newRole);
@@ -53,23 +54,35 @@ public class B_JesseRestaurant extends Building{
 				((JesseWaiter) newRole).setCashier(cashier);
 				((JesseWaiter) newRole).setHost(host);
 				setOpen(areAllNeededRolesFilled());
+				} else { ExitBuilding(person); person.msgGoHome(); return; }
 			}
 			else if(role.equals("jesseRest.JesseCook")) { 
+				if(hostFilled) {
 				newRole = cook;
 				cookFilled = true;
 				jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)person.building.getPanel();
 				((JesseCook) newRole).setAnimationPanel(ap);
 				setOpen(areAllNeededRolesFilled());
+				} else { ExitBuilding(person); person.msgGoHome(); return; }
 			}
 			else if(role.equals("jesseRest.JesseCashier")) {
+				if(hostFilled) {
 				newRole = cashier;
 				cashier.setMoney(host.getMoney());
 				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());
+				} else { ExitBuilding(person); person.msgGoHome(); return; }
 			}
 			else if(role.equals("jesseRest.JesseCustomer")) {
+				if(areAllNeededRolesFilled()) {
 				newRole = new JesseCustomer("JCustomer");
 				System.out.println("JCustomer Made");
+				}
+				else {
+					setOpen(false);
+					System.out.println("Eric Restaurant is closed, leaving...");
+					ExitBuilding(person);person.msgGoHome(); return;
+				}
 			}
 			newRole.setActive(true);
 			newRole.setPerson(person);

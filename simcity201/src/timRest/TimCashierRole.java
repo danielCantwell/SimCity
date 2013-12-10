@@ -25,6 +25,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	public HashMap<String, Money> priceMap = new HashMap<String, Money>();
 	
 	private Money cashInRegister;
+	private boolean canLeave = false;
 	
 	public enum AgentState { idle, calculating };
 	public AgentState state = AgentState.idle;
@@ -36,7 +37,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	public TimCashierRole()
 	{
 		super();
-		cashInRegister = new Money(300, 0);
+		//cashInRegister = new Money(300, 0);
 	}
 	
 	public void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber)
@@ -91,6 +92,12 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 		stateChanged();
 	}
 	
+	public void msgLeaveWork()
+	{
+	    canLeave = true;
+	    stateChanged();
+	}
+	
 //	public void msgHereIsTheBill(Market market, double price)
 //	{
 //		billsToPay.add(new Bill(market, price));
@@ -100,6 +107,11 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	@Override
 	public boolean pickAndExecuteAnAction()
 	{
+	    if (canLeave)
+	    {
+	        leaveBuilding();
+	        return false;
+	    }
 		if (state == AgentState.idle)
 		{
 			synchronized(billsToPay)
@@ -177,6 +189,12 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 		bill.manager.msgHereIsTheMoney(bill.price);
 		cashInRegister.subtract(bill.price);
 	}
+    
+    private void leaveBuilding()
+    {
+        canLeave = false;
+        exitBuilding(myPerson);
+    }
 	
 	public void addItemToMenu(String choice, Money price)
 	{
@@ -244,4 +262,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 		return "TimCashierRole";
 	}
 
+	public void setMoney(Money m) {
+		cashInRegister = m;
+	}
 }

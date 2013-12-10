@@ -37,6 +37,8 @@ public class MarketClerkRole extends Role implements MarketClerk {
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     
     public Money money = new Money(0, 0);
+    
+    private boolean canLeave = false;
 	    
 	public MarketClerkRole() {
 		super();
@@ -94,11 +96,17 @@ public class MarketClerkRole extends Role implements MarketClerk {
         }
         stateChanged();
     }
+    
+    public void msgLeaveMarket()
+    {
+        canLeave = true;
+        stateChanged();
+    }
 
     public void workOver()
     {
         myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+        //exitBuilding(myPerson);
     }
 
 	/**
@@ -162,6 +170,11 @@ public class MarketClerkRole extends Role implements MarketClerk {
             giveOrder(order);
             return true;
         }
+        if (canLeave)
+        {
+            leaveBuilding();
+            return false;
+        }
 	    
 		return false;
 		// we have tried all our rules and found
@@ -215,6 +228,12 @@ public class MarketClerkRole extends Role implements MarketClerk {
 	        manager.msgHereIsTheMoney(money.subtract(amountToKeep));
 	        money = amountToKeep;
 	    }
+	}
+	
+	private void leaveBuilding()
+	{
+	    canLeave = false;
+	    exitBuilding(myPerson);
 	}
 	
     /**

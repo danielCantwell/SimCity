@@ -10,4 +10,5 @@ public interface MarketDeliveryPerson
     void msgMakeDelivery(int id, String choice, int amount);
     void msgGuiArrivedAtMarket();
     void msgGuiArrivedAtDestination();
+    void msgLeaveMarket();
 }

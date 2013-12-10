@@ -35,6 +35,7 @@ import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_House;
 import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
+import SimCity.Buildings.B_TimRest;
 import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
 import exterior.gui.AnimationPanel;
@@ -426,6 +427,10 @@ public class God {
 	    		}
 	    	if (p.getMainRoleString().equals("restaurant.DannyHost")){
 	    		B_DannyRestaurant rest = (B_DannyRestaurant) God.Get().getBuilding(9);
+	    		rest.hostRole.setBM();
+	    		}
+	    	if (p.getMainRoleString().equals("timRest.TimHostRole")){
+	    		B_TimRest rest = (B_TimRest) God.Get().getBuilding(10);
 	    		rest.hostRole.setBM();
 	    		}
 	    	}

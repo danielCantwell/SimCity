@@ -28,6 +28,8 @@ public class MarketPackerRole extends Role implements MarketPacker {
     public enum AgentLocation { Counter, Item, Transit };
     public AgentLocation location;
     public int destination;
+
+    private boolean canLeave = false;
     
     /**
      * Constructors
@@ -69,11 +71,17 @@ public class MarketPackerRole extends Role implements MarketPacker {
         // TODO Auto-generated method stub
         
     }
+    
+    public void msgLeaveMarket()
+    {
+        canLeave  = true;
+        stateChanged();
+    }
 	
     public void workOver()
     {
         myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+        //exitBuilding(myPerson);
     }
 
 	/**
@@ -147,6 +155,10 @@ public class MarketPackerRole extends Role implements MarketPacker {
                 }
     	    }
 	    }
+	    if (canLeave)
+	    {
+	        leaveBuilding();
+	    }
 	    
 		return false;
 		// we have tried all our rules and found
@@ -174,6 +186,12 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	    destination = order.location;
 	    gui.DoGoToItem(order.location);
 	}
+    
+    private void leaveBuilding()
+    {
+        canLeave = false;
+        exitBuilding(myPerson);
+    }
 	
 	private void grabItem(Order order)
 	{

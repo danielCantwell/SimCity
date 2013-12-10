@@ -12,6 +12,7 @@ import java.util.*;
 import market.interfaces.MarketDeliveryCook;
 import restaurant.gui.CookGui;
 import restaurant.gui.DannyRestaurantAnimationPanel;
+import restaurant.interfaces.Waiter;
 
 /**
  * Restaurant Cook Agent
@@ -35,6 +36,8 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 	Timer timer = new Timer();
 	
 	public boolean workOver = false;
+	
+	OrderStand orderstand;
 
 	// type. timer. inventory. low. cap
 	private Food steak = new Food("Steak", 8000, 3, 2, 8);
@@ -64,6 +67,10 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 	}
 
 	// Messages
+	
+	public void msgStateChanged() {
+		stateChanged();
+	}
 
 	public void msgLeaveRestaurant() {
 		workOver = true;
@@ -124,6 +131,10 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 				}
 			}
 		}
+		if (orderstand.getSize() > 0){
+			makeCookOrder(orderstand.popFirstOrder());
+			return true;
+		}
 		// If there is an order that needs to be cooked, cook it
 		synchronized (orders) {
 			for (Order order : orders) {
@@ -151,6 +162,8 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 				}
 			}
 		}
+		
+		
 
 		return false;
 		// we have tried all our rules and found
@@ -171,6 +184,14 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 		ap.removeGui(cookGui);
 		exitBuilding(myPerson);
 		workOver = false;
+	}
+	
+	private void makeCookOrder(restaurant.OrderStand.Orders o) {
+		Do(AlertTag.DannyRest, "Getting order from order stand");
+		
+		Order order = new Order(o.getWaiter(), o.choice, o.getTableNumber());
+		orders.add(order);
+		stateChanged();
 	}
 
 	private void tryToCookIt(final Order order) {
@@ -201,7 +222,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 
 	private void plateFood(Order order) {
 		DoPlating(order);
-		order.waiter.msgOrderReady(order.choice, order.table);
+		((DannyWaiter) order.waiter).msgOrderReady(order.choice, order.table);
 		order.state = State.Plated;
 	}
 
@@ -212,7 +233,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 
 	private void notifyWaiterOutOfStock(Order order) {
 		Do(AlertTag.DannyRest, order.choice + " is out of stock");
-		order.waiter.msgOutOf(order.choice, order.table);
+		((DannyWaiter) order.waiter).msgOutOf(order.choice, order.table);
 		orders.remove(order);
 	}
 	
@@ -265,12 +286,12 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 
 	public class Order {
 
-		DannyWaiter waiter;
+		Waiter waiter;
 		String choice;
 		int table;
 		State state = State.Pending;
 
-		Order(DannyWaiter waiter, String choice, int table) {
+		Order(Waiter waiter, String choice, int table) {
 			this.waiter = waiter;
 			this.choice = choice;
 			this.table = table;
@@ -324,6 +345,9 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 				.getPanel();
 		ap.addGui(cookGui);
 		ap.cookPresent = true;
+		
+		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
+		orderstand = rest.getOrderStand();
 	}
 
 	@Override

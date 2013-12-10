@@ -51,7 +51,6 @@ public class TimWaiterGui implements Gui {
 
         if (xPos == xDestination && yPos == yDestination)
         {
-            System.out.print("Waiter reached destination.");
         	if (command==Command.GoToTable)
 			{
 				agent.msgAnimationFinishedGoToTable();

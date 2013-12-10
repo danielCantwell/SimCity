@@ -206,7 +206,9 @@ public class Person extends Agent {
 		this.house = houseType; 
 		this.name = name;
 		if (gui != null){
-			this.building = God.Get().getBuilding(2);
+			Random rand = new Random();
+			int spawnPoint = rand.nextInt(16);
+			this.building = God.Get().getBuilding(spawnPoint);
 		}
 		myHouse = house;
 		this.workPlace = workplace;

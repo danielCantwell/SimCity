@@ -1,6 +1,11 @@
 package timRest;
 
+import Bank.tellerRole;
+import EricRestaurant.EricHost.bankstate;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Bank;
+import SimCity.Globals.Money;
 import timRest.gui.TimCookGui;
 import timRest.gui.TimHostGui;
 import timRest.interfaces.TimCustomer;
@@ -8,6 +13,8 @@ import timRest.interfaces.TimWaiter;
 
 import java.awt.Point;
 import java.util.*;
+
+import brianRest.BrianCustomerRole.CustomerState;
 
 /**
  * Restaurant Host Agent
@@ -24,14 +31,20 @@ public class TimHostRole extends Role {
 	public List<MyCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public Map<Integer, Table> tables = Collections.synchronizedMap(new Hashtable<Integer, Table>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
-
+	public enum bankstate {none, gotManager, sent};
+	private bankstate bs = bankstate.none;
     private TimCookRole cook;
     private TimCashierRole cashier;
-	
+    public int TAccNum;
+	public Money TRestMoney;
+	B_Bank bank;
+	tellerRole bm;
 	public List<Integer> openWaitSeats = Collections.synchronizedList(new ArrayList<Integer>());
 	//public Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
+	
+	private boolean wantsLeave = false;
 
 	public TimHostGui hostGui = new TimHostGui(this);
 
@@ -137,7 +150,7 @@ public class TimHostRole extends Role {
 	{
         synchronized(waitingCustomers)
         {
-		waitingCustomers.remove(cust);
+            waitingCustomers.remove(cust);
         }
 		stateChanged();
 	}
@@ -146,6 +159,17 @@ public class TimHostRole extends Role {
 	{
 		//print(cust + " leaving " + table);
 		tables.get(new Integer(tableNumber)).setUnoccupied();
+        synchronized(waitingCustomers)
+        {
+            for (MyCustomer c : waitingCustomers)
+            {
+                if (c.seat == tableNumber)
+                {
+                    waitingCustomers.remove(c);
+                    break;
+                }
+            }
+        }
 		stateChanged();
 	}
 
@@ -181,11 +205,19 @@ public class TimHostRole extends Role {
 			}
 		}
 	}
-
+	public void transDone(Money m) {
+		TRestMoney = m;
+		System.out.println("Host finished bank interaction and TRest has : $"+TRestMoney.getDollar());
+	}
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
+	    if (wantsLeave && waitingCustomers.isEmpty())
+	    {
+	        leaveBuilding();
+	        return false;
+	    }
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -259,14 +291,24 @@ public class TimHostRole extends Role {
 					{
 						if (!table.isOccupied())
 						{
-							openWaitSeats.add(waitingCustomers.get(0).seat);
-							assignCustomer(waitingCustomers.get(0));
-							return true;
-							//return true to the abstract agent to reinvoke the scheduler.
+						    for (MyCustomer customer : waitingCustomers)
+						    {
+						        if (customer.state == CustomerState.Waiting)
+    							{
+						            openWaitSeats.add(customer.seat);
+        							assignCustomer(customer);
+        							return true;
+        							//return true to the abstract agent to reinvoke the scheduler.
+    							}
+						    }
 						}
 					}
 				}
 			}
+		}
+		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+			msgBank();
+			return true;
 		}
 		return false;
 		//we have tried all our rules and found
@@ -275,7 +317,13 @@ public class TimHostRole extends Role {
 	}
 
 	// Actions
-
+	public void msgBank() {
+		bank = (B_Bank) God.Get().getBuilding(2);
+		bm = (tellerRole) bank.getOneTeller();
+		bm.restMoney(TAccNum, TRestMoney, this);
+		bs = bankstate.sent;
+	}
+	
 	private void assignCustomer(MyCustomer customer)
 	{
 		Table table = null;
@@ -304,7 +352,7 @@ public class TimHostRole extends Role {
 			{
 				myWaiter.waiter.msgSeatAtTable(customer.customerRef, table.tableNumber, new Point(table.x, table.y));//the action
 				table.customer = customer.customerRef;
-				waitingCustomers.remove(customer);
+				customer.state = CustomerState.Seated;
 			}
 		}
 	}
@@ -326,6 +374,20 @@ public class TimHostRole extends Role {
 		waiter.state = WaiterState.onJob;
 		waiter.waiter.msgCannotBreak();
 	}
+    
+    private void leaveBuilding()
+    {
+        if (cashier != null)
+        {
+            cashier.msgLeaveWork();
+        }
+        if (cook != null)
+        {
+            cook.msgLeaveWork();
+        }
+        wantsLeave = false;
+        exitBuilding(myPerson);
+    }
 
 	//utilities
 
@@ -421,15 +483,19 @@ public class TimHostRole extends Role {
 		}
 	}
 	
+	private enum CustomerState {Waiting, Seated};
+	
 	public class MyCustomer
 	{
 		TimCustomer customerRef;
 		int seat;
+		CustomerState state;
 		
 		public MyCustomer(TimCustomer customer)
 		{
 			this.customerRef = customer;
 			this.seat = -1;
+			state = CustomerState.Waiting;
 		}
 	}
 	
@@ -456,7 +522,8 @@ public class TimHostRole extends Role {
 	@Override
 	public void workOver() {
         myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+        wantsLeave = true;
+        stateChanged();
 	}
 
     public boolean isRestaurantReady()
@@ -468,6 +535,21 @@ public class TimHostRole extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "TimeHostRole";
+	}
+
+	public void setBM() {
+		bs = bankstate.gotManager;
+		stateChanged();
+	}
+	
+	public void setMoney(Money m) {
+		TRestMoney = m;
+	}
+	public Money getMoney() {
+		return TRestMoney;
+	}
+	public void setAcc(int acc) {
+		TAccNum = acc;
 	}
 }
 
