@@ -184,7 +184,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	    
 	    location = AgentLocation.Transit;
 	    destination = order.location;
-	    gui.DoGoToItem(order.location);
+	    gui.DoGoToItem(order.location, order.choice);
 	}
     
     private void leaveBuilding()
