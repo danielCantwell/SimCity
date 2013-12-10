@@ -7,7 +7,9 @@ import EricRestaurant.EricCustomer;
 import EricRestaurant.EricHost;
 import EricRestaurant.EricWaiter;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import EricRestaurant.interfaces.*;
@@ -125,7 +127,13 @@ public class B_EricRestaurant extends Building {
 			person.msgEnterBuilding(this);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			int goTo = person.getBuilding().getID() + 1;
+			if (goTo > God.Get().buildings.size() - 1){
+				goTo = 0;
+			}
+			person.msgGoToBuilding(God.Get().findRandomRestaurant(), Intent.work);
+			person.msgExitBuilding();
 			System.out.println ("Building: no class found");
 		}
 	}

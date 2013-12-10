@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 
 import restaurant.gui.DannyRestaurantAnimationPanel;
 import market.gui.MarketAnimationPanel;
+import SimCity.Base.God.BuildingType;
+import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_House;
 import SimCity.gui.Gui;
 import restaurant.*;
@@ -79,7 +81,9 @@ public abstract class Building extends SimObject {
 				fillNeededRoles(person, newRole);
 				person.msgEnterBuilding(this);
 			} catch(Exception e){
-				e.printStackTrace();
+				//e.printStackTrace();
+				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Market), Intent.work);
+				person.msgExitBuilding();
 				System.out.println ("Building: no class found");
 			}
     }

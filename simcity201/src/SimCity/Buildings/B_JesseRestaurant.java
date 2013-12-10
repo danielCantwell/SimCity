@@ -3,7 +3,10 @@ import javax.swing.JPanel;
 
 import jesseRest.*;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.God.BuildingType;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 /***
@@ -91,7 +94,9 @@ public class B_JesseRestaurant extends Building{
 			person.msgEnterBuilding(this);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.House), Intent.work);
+			person.msgExitBuilding();
 			System.out.println ("Building: no class found");
 			System.out.println("Checking is newRole actually exists : "+newRole);
 		}

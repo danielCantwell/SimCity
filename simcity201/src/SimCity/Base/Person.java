@@ -177,7 +177,7 @@ public class Person extends Agent {
 				mainRole = newRole;
 				mainRole.myPerson = this;
 			} catch(Exception e){
-				e.printStackTrace();
+				//e.printStackTrace();
 				AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no class found");
 
 				
