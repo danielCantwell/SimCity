@@ -29,7 +29,7 @@ public class JesseCustomer extends Role implements Customer {
 	private int currentTable;
 
 	private JesseHost host;
-	private JesseWaiter waiter;
+	private JesseAbstractWaiter waiter;
 	private JesseCashier cashier;
 	public Menu menu;
 	public int position;
@@ -89,7 +89,7 @@ public class JesseCustomer extends Role implements Customer {
 		System.out.println(string);
 	}
 
-	public void msgFollowMeToTable(Menu _menu, JesseWaiter _waiter) {
+	public void msgFollowMeToTable(Menu _menu, JesseAbstractWaiter _waiter) {
 		event = AgentEvent.followHost;
 		menu = _menu;
 		waiter = _waiter;
@@ -209,11 +209,11 @@ public class JesseCustomer extends Role implements Customer {
 	 * ACTIONS  ====================================================
 	 */
 
-	public void leaveRestaurant(){
-		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
-		ap.removeGui(customerGui);
+	public void leaveRestaurant(){	
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
+		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
+		ap.removeGui(customerGui);
 	}
 
 	private void ExitRestaurantLine() {

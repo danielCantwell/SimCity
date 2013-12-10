@@ -1,6 +1,7 @@
 package SimCity.Buildings;
 import javax.swing.JPanel;
 
+import brianRest.OrderStand;
 import jesseRest.*;
 import SimCity.Base.Building;
 import SimCity.Base.God;
@@ -22,6 +23,9 @@ public class B_JesseRestaurant extends Building{
 	public JesseCook cook = new JesseCook("JCook");
 	int numWaiter = 0;
 	
+	public JesseOrderStand orderstand;
+	public JesseOrderStand getOrderStand(){return orderstand;}
+	
 	public boolean hostFilled = false, cashierFilled = false, cookFilled = false;
 
 	
@@ -36,6 +40,7 @@ public class B_JesseRestaurant extends Building{
 		x = xCoord;
 		y = yCoord;
 		tag = "B_JesseRestaurant";
+		orderstand = new JesseOrderStand(this, cook);
 	}
 	
 	public void EnterBuilding(Person person, String role) {
@@ -59,9 +64,23 @@ public class B_JesseRestaurant extends Building{
 				setOpen(areAllNeededRolesFilled());
 				} else { ExitBuilding(person); person.msgGoHome(); return; }
 			}
+			else if(role.equals("jesseRest.JessePCWaiter")) {
+				if(hostFilled) {
+					System.out.println("---------------1----------");
+					newRole = new JessePCWaiter("JPCWaiter");
+					numWaiter++;
+					System.out.println("---------------2----------numWaiter : "+numWaiter);
+					host.addWaiter((JessePCWaiter) newRole);
+					((JesseWaiter) newRole).setCook(cook);
+					((JesseWaiter) newRole).setCashier(cashier);
+					((JesseWaiter) newRole).setHost(host);
+					setOpen(areAllNeededRolesFilled());
+					} else { ExitBuilding(person); person.msgGoHome(); return; }
+			}
 			else if(role.equals("jesseRest.JesseCook")) { 
 				if(hostFilled) {
 				newRole = cook;
+				cook.setOrderStand(orderstand);
 				cookFilled = true;
 				jesseRest.gui.AnimationPanel ap = (jesseRest.gui.AnimationPanel)person.building.getPanel();
 				((JesseCook) newRole).setAnimationPanel(ap);
@@ -83,7 +102,7 @@ public class B_JesseRestaurant extends Building{
 				}
 				else {
 					setOpen(false);
-					System.out.println("Eric Restaurant is closed, leaving...");
+					System.out.println("Jesse Restaurant is closed, leaving...");
 					ExitBuilding(person);person.msgGoHome(); return;
 				}
 			}
@@ -136,7 +155,7 @@ public class B_JesseRestaurant extends Building{
 			JRestMoney = host.getMoney();
 			hostFilled = false;
 		}
-		if(person.getMainRoleString().equals("jesseRest.JesseWaiter")) numWaiter--;
+		if(person.getMainRoleString().equals("jesseRest.JesseWaiter")||person.getMainRoleString().equals("jesseRest.JessePCWaiter")) numWaiter--;
 		if(person.getMainRoleString().equals("jesseRest.JesseCashier")) cashierFilled = false;
 		if(person.getMainRoleString().equals("jesseRest.JesseCook")) cookFilled = false;
 		person.resetActiveRoles();

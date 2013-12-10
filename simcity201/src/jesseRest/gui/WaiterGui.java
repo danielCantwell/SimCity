@@ -2,13 +2,15 @@ package jesseRest.gui;
 
 
 import java.awt.*;
+
 import jesseRest.gui.AnimationPanel;
+import jesseRest.JesseAbstractWaiter;
 import jesseRest.JesseCustomer;
 import jesseRest.JesseWaiter;
 
 public class WaiterGui implements Gui {
 
-    private JesseWaiter agent = null;
+    private JesseAbstractWaiter agent = null;
     private String icon = "";
     private int xCook = 800-180, yCook = 290; //Cooking area position
     private int speed = 5;
@@ -24,7 +26,7 @@ public class WaiterGui implements Gui {
     public static final int yTable = TABLESIZE;
     private final int SPRITE_SIZE = 20;
     
-    public WaiterGui(JesseWaiter agent) {
+    public WaiterGui(JesseAbstractWaiter agent) {
         this.agent = agent;
     }
     
@@ -58,25 +60,25 @@ public class WaiterGui implements Gui {
 
         if (tableNumber != 0 && xPos == xDestination && yPos == yDestination
         		& (xDestination == xTable*2 + 2*TABLESIZE*(tableNumber - 1) + SPRITE_SIZE) & (yDestination == yTable*2 - SPRITE_SIZE)) {
-           agent.msgAtTable();
+           ((JesseWaiter) agent).msgAtTable();
         }
         
         if (tableNumber != 0 && xPos == xDestination && yPos == yDestination 
         		&& (xDestination == xFront) && (yDestination == yFront)) {
         	tableNumber = 0;
-        	agent.msgAtFrontDesk();
+        	((JesseWaiter) agent).msgAtFrontDesk();
         }
         
         if (xPos == xCook && yPos == yCook) {
-        	agent.msgAtKitchen();
+        	((JesseWaiter) agent).msgAtKitchen();
         }
         
         if (xPos == -SPRITE_SIZE && yPos == yCook) {
-        	agent.msgAtCashier();
+        	((JesseWaiter) agent).msgAtCashier();
         }
         
         if (xPos == xCustomer && yPos == yCustomer) {
-        	agent.msgAtCustomer();
+        	((JesseWaiter) agent).msgAtCustomer();
         }
     }
 
@@ -93,7 +95,7 @@ public class WaiterGui implements Gui {
 
     public void DoGoToTable(JesseCustomer customer, int tableToVisit) {
     	speed = 1;
-    	agent.leavingFrontDesk();
+    	((JesseWaiter) agent).leavingFrontDesk();
     	tableNumber = tableToVisit;
 		xDestination = xTable*2 + 2*TABLESIZE*(tableNumber - 1) + SPRITE_SIZE;
 		yDestination = yTable*2 - SPRITE_SIZE;
@@ -101,7 +103,7 @@ public class WaiterGui implements Gui {
     
     public void DoGoToCustomer(int position) {
     	speed = 1;
-    	agent.leavingFrontDesk();
+    	((JesseWaiter) agent).leavingFrontDesk();
     	xCustomer = SPRITE_SIZE*2;
     	yCustomer = SPRITE_SIZE*2 + position*40;
     	xDestination = xCustomer;
@@ -110,7 +112,7 @@ public class WaiterGui implements Gui {
     
     public void DoGoToKitchen() {
     	speed = 2;
-    	agent.leavingFrontDesk();
+    	((JesseWaiter) agent).leavingFrontDesk();
     	xDestination = xCook;
     	yDestination = yCook;
     }
