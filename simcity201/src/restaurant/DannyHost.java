@@ -8,8 +8,8 @@ import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
-import restaurant.DannyWaiter.WaiterEvent;
-import restaurant.DannyWaiter.WaiterState;
+import restaurant.DannyAbstractWaiter.WaiterEvent;
+import restaurant.DannyAbstractWaiter.WaiterState;
 import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 
