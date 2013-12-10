@@ -197,8 +197,8 @@ public class TenantRole extends Role implements Tenant {
 		}
 		if (myPerson.getMoney().isGreaterThan(rentOwed)) {
 			// if the tenant has enough money, pay rent
-			myPerson.getMoney().subtract(rentOwed);
 			owner.msgHereIsRent(this, rentOwed);
+			myPerson.getMoney().subtract(rentOwed);
 		} else {
 			// if the tenant does not have enough money
 			// tell the owner and change state to needMoney

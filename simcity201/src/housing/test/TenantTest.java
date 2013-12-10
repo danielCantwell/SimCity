@@ -44,13 +44,14 @@ public class TenantTest extends TestCase {
 
 		tenant.myPerson = new MockHousingPerson("housing.roles.TenantRole");
 		tenant.owner = mockOwner;
-
+		
+		tenant.tenantNumber = 1;
 		appliances = new OwnerRole().appliances;
 
 		SimCityGui scg = new SimCityGui();
 	}
 
-	public void test() {
+	public void testOne() {
 		try {
 			setUp();
 		} catch (Exception e) {
@@ -79,11 +80,15 @@ public class TenantTest extends TestCase {
 		// Receive Message
 		tenant.msgMorning();
 		// Check Post Conditions
+		assertEquals("Tenant state should be getReady. It's not.",
+				Time.getReady, tenant.time);
+		tenant.msgAtTable();
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(tenant.pickAndExecuteAnAction());
+		// Check Post Conditions
 		assertEquals("Tenant state should be awake. It's not.", Time.awake,
 				tenant.time);
-
-		// PickAndExecuteAnAction should return false
-		assertFalse(tenant.pickAndExecuteAnAction());
 
 		// Receive Message
 		tenant.msgSleeping();
@@ -104,6 +109,13 @@ public class TenantTest extends TestCase {
 
 		// Receive Message
 		tenant.msgMorning();
+		// Check Post Conditions
+		assertEquals("Tenant state should be getReady. It's not.",
+				Time.getReady, tenant.time);
+		tenant.msgAtTable();
+
+		// PickAndExecuteAnAction should return true
+		assertTrue(tenant.pickAndExecuteAnAction());
 		// Check Post Conditions
 		assertEquals("Tenant state should be awake. It's not.", Time.awake,
 				tenant.time);
@@ -128,7 +140,7 @@ public class TenantTest extends TestCase {
 		// Use Appliance
 		tenant.useAppliance("Bed");
 		// Check Post Condition
-		assertEquals("Appliance durability should be 0. It's not.", 0,
+		assertEquals("Appliance durability should be 20. It's not.", 20,
 				tenant.appliances.get(3).durability);
 		assertTrue(
 				"Mock Owner should have logged Received msgApplianceBroken from tenant. He didn't.",
@@ -150,7 +162,50 @@ public class TenantTest extends TestCase {
 				"Mock Owner should have logged Received msgHereIsRent from tenant. He didn't.",
 				mockOwner.log
 						.containsString("Received msgHereIsRent from tenant."));
+	}
 
+	public void testTwo() {
+		try {
+			setUp();
+		} catch (Exception e) {
+			System.out.println("setUp failed");
+			e.printStackTrace();
+		}
+
+		tenant.myPerson.setMainRoleString("restaurant.DannyCustomer");
+
+		// Receive Message
+		tenant.msgSleeping();
+		// Check Post Conditions
+		assertEquals("Tenant state should be msgSleep. It's not.",
+				Time.msgSleep, tenant.time);
+
+		tenant.msgAtBed(); // release semaphore since gui is not being used
+		// PickAndExecuteAnAction should return true
+		assertTrue(tenant.pickAndExecuteAnAction());
+
+		// Check Post Conditions
+		assertEquals("Tenant state should be sleeping. It's not.",
+				Time.sleeping, tenant.time);
+
+		// PickAndExecuteAnAction should return false
+		assertFalse(tenant.pickAndExecuteAnAction());
+
+		// Receive Message
+		tenant.msgMorning();
+		// Check Post Conditions
+		assertEquals("Tenant state should be getReady. It's not.",
+				Time.getReady, tenant.time);
+		tenant.msgAtTable();
+
+		tenant.msgAtFridge();
+		tenant.msgAtStove();
+		tenant.msgAtTable();
+		// PickAndExecuteAnAction should return true
+		assertTrue(tenant.pickAndExecuteAnAction());
+		// Check Post Conditions
+		assertEquals("Tenant should have increased hunger level by 20. It's not.",
+				20, tenant.myPerson.hungerLevel);
 	}
 
 }

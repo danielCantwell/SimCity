@@ -42,7 +42,7 @@ public class SetupPanel extends JFrame {
 
 	private AnimationPanel animationPanel;
 
-	private JLabel numPeople = new JLabel();
+	private JLabel numPeople = new JLabel("# People : 0");
 	private JComboBox<Integer> hungerLevel = new JComboBox<Integer>();
 	private JComboBox<Integer> money = new JComboBox<Integer>();
 	private JTextField enterName = new JTextField("Enter Name of Person");
