@@ -82,6 +82,11 @@ public class B_EricRestaurant extends Building {
 	public void EnterBuilding(Person person, String role) {
 		Role newRole = null;
 		try {
+			if (forceClose){
+				person.msgGoHome();
+				return;
+			}
+			
 			if(role.equals("EricRestaurant.EricHost")) { 
 				newRole = host;
 				hostFilled = true;
