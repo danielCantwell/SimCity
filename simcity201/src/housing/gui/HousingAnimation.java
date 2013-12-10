@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -58,6 +59,8 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	
 	static final int TENANT_SPEED = 1;
 	
+    private ImageIcon iconFloor = new ImageIcon("images/floor1.png");
+	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	public List<Gui> getGuis(){
 		return guis;
@@ -94,6 +97,12 @@ public class HousingAnimation extends JPanel implements ActionListener {
 		// Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.DARK_GRAY);
 		g2.fillRect(0, 0, WINDOW_X, WINDOW_Y);
+		
+		for (int x = 0; x < WINDOW_X/128; x++) {
+		for (int y = 0; y < WINDOW_Y/128; y++) {
+			iconFloor.paintIcon(this, g, x * 128, y * 128);
+		}
+		}
 		
 		// Draw Housing Layout
 		g.setColor(Color.WHITE);
