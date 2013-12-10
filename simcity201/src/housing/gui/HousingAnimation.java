@@ -60,6 +60,9 @@ public class HousingAnimation extends JPanel implements ActionListener {
 	static final int TENANT_SPEED = 1;
 	
     private ImageIcon iconFloor = new ImageIcon("images/floor1.png");
+    private ImageIcon iconTable = new ImageIcon("images/table.png");
+    private ImageIcon iconBed = new ImageIcon("images/bed.png");
+    private ImageIcon iconStove = new ImageIcon("images/stove.png");
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	public List<Gui> getGuis(){
@@ -107,20 +110,22 @@ public class HousingAnimation extends JPanel implements ActionListener {
 		// Draw Housing Layout
 		g.setColor(Color.WHITE);
 		g.fillRect(xDoorPos, yDoorPos, xDoorSize, yDoorSize);
-		g.fillRect(xBedPos, yBedPos, xBedSize, yBedSize);
-		g.fillRect(xBedPos + 120, yBedPos, xBedSize, yBedSize);
-		g.fillRect(xBedPos + 240, yBedPos, xBedSize, yBedSize);
-		g.fillRect(xBedPos + 360, yBedPos, xBedSize, yBedSize);
-		g.fillRect(xBedPos, yBedPos + 140, xBedSize, yBedSize);
-		g.fillRect(xBedPos + 120, yBedPos + 140, xBedSize, yBedSize);
-		g.fillRect(xBedPos + 240, yBedPos + 140, xBedSize, yBedSize);
-		g.fillRect(xBedPos + 360, yBedPos + 140, xBedSize, yBedSize);
+		iconBed.paintIcon(this, g, xBedPos, yBedPos);
+		iconBed.paintIcon(this, g, xBedPos + 120, yBedPos);
+		iconBed.paintIcon(this, g, xBedPos + 240, yBedPos);
+		iconBed.paintIcon(this, g, xBedPos + 360, yBedPos);
+		iconBed.paintIcon(this, g, xBedPos, yBedPos + 140);
+		iconBed.paintIcon(this, g, xBedPos + 120, yBedPos + 140);
+		iconBed.paintIcon(this, g, xBedPos + 240, yBedPos + 140);
+		iconBed.paintIcon(this, g, xBedPos + 360, yBedPos + 140);
+		g.setColor(Color.GRAY);
 		g.fillRect(xFridgePos, yFridgePos, xFridgeSize, yFridgeSize);
-		g.fillRect(xStovePos, yStovePos, xStoveSize, yStoveSize);
-		g.fillRect(xTablePos, yTablePos, xTableSize, yTableSize);
-		g.fillRect(xTablePos + 200, yTablePos, xTableSize, yTableSize);
-		g.fillRect(xTablePos, yTablePos + 130, xTableSize, yTableSize);
-		g.fillRect(xTablePos + 200, yTablePos + 130, xTableSize, yTableSize);
+		iconStove.paintIcon(this, g, xStovePos, yStovePos);
+		iconTable.paintIcon(this, g, xTablePos, yTablePos);
+		iconTable.paintIcon(this, g, xTablePos + 200, yTablePos);
+		iconTable.paintIcon(this, g, xTablePos, yTablePos + 130);
+		iconTable.paintIcon(this, g, xTablePos + 200, yTablePos + 130);
+		g.setColor(Color.DARK_GRAY);
 		g.fillRect(xMailPos, yMailPos, xMailSize, yMailSize);
 		
 		// Draw Names for Housing Appliances
