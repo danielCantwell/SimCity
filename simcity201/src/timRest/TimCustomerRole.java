@@ -430,11 +430,13 @@ public class TimCustomerRole extends Role implements TimCustomer{
 			public void run() {
 				print("Done eating.");
 				state = AgentState.DoneEating;
+				myPerson.hungerLevel += 25;
+				Do(AlertTag.TimRest, "Hunger level: " + myPerson.hungerLevel + ".");
 				//isHungry = false;
 				stateChanged();
 			}
 		},
-		10000);//getHungerLevel() * 1000);//how long to wait before running task
+		10000 - myPerson.hungerLevel * 100);//getHungerLevel() * 1000);//how long to wait before running task
 	}
 	
 
