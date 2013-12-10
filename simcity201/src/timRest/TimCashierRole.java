@@ -37,7 +37,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	public TimCashierRole()
 	{
 		super();
-		//cashInRegister = new Money(300, 0);
+		cashInRegister = new Money(0, 0);
 	}
 	
 	public void msgHereIsACheck(TimWaiter waiter, String choice, int tableNumber)
@@ -193,6 +193,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
     private void leaveBuilding()
     {
         myPerson.money.add(new Money(75, 00));
+        Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave = false;
         exitBuilding(myPerson);
     }

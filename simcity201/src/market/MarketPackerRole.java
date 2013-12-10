@@ -5,6 +5,7 @@ import java.util.*;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertTag;
 import market.gui.MarketPackerGui;
 import market.interfaces.MarketManager;
 import market.interfaces.MarketPacker;
@@ -191,6 +192,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
     private void leaveBuilding()
     {
         myPerson.money.add(new Money(75, 00));
+        Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave = false;
         exitBuilding(myPerson);
     }

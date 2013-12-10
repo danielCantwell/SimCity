@@ -366,6 +366,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
     private void leaveBuilding()
     {
         myPerson.money.add(new Money(75, 00));
+        Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave = false;
         exitBuilding(myPerson);
     }

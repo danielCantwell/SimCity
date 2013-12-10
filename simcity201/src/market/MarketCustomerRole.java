@@ -143,6 +143,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 		else if (state == AgentState.Left)
 		{
+	        Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
 		    exitBuilding(myPerson);
 		    return true;
 		}
