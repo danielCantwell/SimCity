@@ -562,12 +562,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close02.isSelected()){
 					animationPanel.getGui().buildingList.get(2).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #2");
+				}
+				else{
 					animationPanel.getGui().buildingList.get(2).setForceClose(
 							false);
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #2");
+				}
 				// ================================================================================
 			}
 		});
@@ -578,13 +582,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close03.isSelected()){
 					animationPanel.getGui().buildingList.get(3).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #3");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(3).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #3");
+				}// ================================================================================
 			}
 		});
 		close05.addActionListener(new ActionListener() {
@@ -594,13 +601,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close05.isSelected()){
 					animationPanel.getGui().buildingList.get(5).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #5");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(5).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #5");
+				}
+					// ================================================================================
 			}
 		});
 		close06.addActionListener(new ActionListener() {
@@ -610,12 +621,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close06.isSelected()){
 					animationPanel.getGui().buildingList.get(6).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #6");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(6).setForceClose(
 							false);
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #6");	
+				}
 				// ================================================================================
 			}
 		});
@@ -626,12 +641,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close07.isSelected()){
 					animationPanel.getGui().buildingList.get(7).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #7");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(7).setForceClose(
 							false);
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #7");	
+				}
 				// ================================================================================
 			}
 		});
@@ -642,13 +661,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close08.isSelected()){
 					animationPanel.getGui().buildingList.get(8).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #8");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(8).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #8");
+				}// ================================================================================
 			}
 		});
 		close09.addActionListener(new ActionListener() {
@@ -658,13 +680,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close09.isSelected()){
 					animationPanel.getGui().buildingList.get(9).setForceClose(
 							true);
-				else
+					
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #9");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(9).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #9");
+				}// ================================================================================
 			}
 		});
 		close10.addActionListener(new ActionListener() {
@@ -674,13 +700,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close10.isSelected()){
 					animationPanel.getGui().buildingList.get(10).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #10");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(10).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #10");
+				}
+					// ================================================================================
 			}
 		});
 		close11.addActionListener(new ActionListener() {
@@ -690,13 +720,16 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (showErrors.isSelected())
+				if (close11.isSelected()){
 					animationPanel.getGui().buildingList.get(11).setForceClose(
 							true);
-				else
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #11");	
+				}
+				else{
 					animationPanel.getGui().buildingList.get(11).setForceClose(
 							false);
-				// ================================================================================
+					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #11");
+				}// ================================================================================
 			}
 		});
 

@@ -45,6 +45,7 @@ SimCity201 Project Repository for CS 201 students
  + Fully integrated trace panel.
  + Refactor all team's print statements to work with trace panel.
  + Implemented Brian Restaurant working with Market.
+ + Implemented closing individual buildings through the setup panel.
 
 ####Timothy So
 + Market Roles and Guis

@@ -103,6 +103,7 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 	   leftInfo.add(food3);
 	   leftInfo.add(food4);
 	   leftInfo.add(dumpInventory);
+	   dumpInventory.addActionListener(this);
 	   
 	   
    }
@@ -177,6 +178,12 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 
 @Override
 public void actionPerformed(ActionEvent arg0) {
+	
+	if (arg0.getSource() == dumpInventory){
+		
+		
+	}
+	
 	for (People p: list){
 		
 		if (p.button == arg0.getSource()){

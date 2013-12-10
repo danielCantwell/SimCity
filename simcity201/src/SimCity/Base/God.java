@@ -320,12 +320,12 @@ public class God {
 					   }
 					   
 					   if (day % 7 == 6 || day % 7 == 0 && !banksClosed){
-						   //notifyBanksClosed(); //handled by hosts now.
+						   notifyBanksClosed(); //handled by hosts now.
 						   isWeekend = true;
 					   }
 					   else {
 						   if (banksClosed)
-							   	//notifyBanksOpen(); //handled by hosts now.
+							   	notifyBanksOpen(); //handled by hosts now.
 						   isWeekend = false;
 					   }
 				   }
@@ -496,7 +496,7 @@ public class God {
 	    	for (Building b: buildings){
 	    		if (b.getTag().equals("B_Bank")){
 	    			B_Bank bank = (B_Bank)b;
-	    			bank.setOpen(false);
+	    			bank.setForceClose(true);
 	    		}
 	    	}
 	    }
@@ -505,7 +505,7 @@ public class God {
 	    	for (Building b: buildings){
 	    		if (b.getTag().equals("B_Bank")){
 	    			B_Bank bank = (B_Bank)b;
-	    			bank.setOpen(true);
+	    			bank.setForceClose(false);
 	    		}
 	    	}
 	    }
