@@ -666,10 +666,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Will", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
-                 createPerson("Johnson", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
-                 createPerson("Rob", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
-                 createPerson("Alex", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
+                 createPerson("THost", "timRest.TimHostRole", Vehicle.car, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
+                 createPerson("TWaiter", "timRest.TimWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
+                 createPerson("TCook", "timRest.TimCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
+                 createPerson("TCashier", "timRest.TimCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(13), gui.buildingList.get(10), 1);
              }
         };
         
@@ -677,7 +677,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
-                 createPerson("Tim", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(10),1);
+                 createPerson("TCustomer", "timRest.TimCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(10),1);
                  timScenarioPerson("Graham", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3));
              }
         };

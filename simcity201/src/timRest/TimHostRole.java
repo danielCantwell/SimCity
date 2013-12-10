@@ -306,7 +306,8 @@ public class TimHostRole extends Role {
 				}
 			}
 		}
-		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+		System.out.println("-------------------Bankstate ; "+bs+"----------customerSize : "+waitingCustomers.size()+" ------"+God.Get().getHour());
+		if(bs == bankstate.gotManager &&  God.Get().getHour()==11) {
 			msgBank();
 			return true;
 		}
