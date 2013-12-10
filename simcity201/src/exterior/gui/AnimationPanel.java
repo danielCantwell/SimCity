@@ -925,6 +925,17 @@ public class AnimationPanel extends JPanel implements ActionListener {
   		addGui(g);
         return g;
     }
+    
+    public CarGui getNewCarGui(Person p) {
+    	guis.remove(p.gui);
+  		currentID++;
+  		CarGui g = new CarGui(gui, currentID, createAccidents);
+  		idList.put(currentID, g);
+  		g.setPerson(p);
+  		addGui(g);
+        return g;
+    }
+    
     public void SendMangersHome(){
     	God.Get().getOffWork(God.Get().getBuilding(6));
     }
