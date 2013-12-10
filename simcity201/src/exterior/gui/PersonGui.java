@@ -192,4 +192,9 @@ public class PersonGui implements Gui {
 	public int getID() {
 		return myID;
 	}
+
+	@Override
+	public Person getPerson() {
+		return person;
+	}
 }
