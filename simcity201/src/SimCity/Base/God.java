@@ -463,8 +463,11 @@ public class God {
 	    	announcedTime = true;
 	    	AlertLog.getInstance().logWarning(AlertTag.God, "USER", "Closing " + b.getTag());
 	    	for (Person p: persons){
-	    		if (p.getBuilding() == b)
-	    		p.msgWorkOver();
+	    		if (p.getBuilding() == b){
+	    		p.msgGoHome();
+	    		p.getBuilding().ExitBuilding(p);
+	    		}
+	    		
 	    	}
 	    }
 	    

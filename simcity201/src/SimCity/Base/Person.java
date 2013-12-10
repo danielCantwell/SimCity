@@ -270,7 +270,7 @@ public class Person extends Agent {
 	//If the person is in the interior world, the person will continue to do whatever he is currently doing.
 	public void msgGoToBuilding(Building b, Intent i){
 		if (b == null) return;
-		//Do("msgGoToBuilding "+ b.toString());
+		//AlertLog.getInstance().logError(AlertTag., name, message);
 		if (b instanceof B_Bank){ addAction(new Action(GoAction.goBank, i));}
 		else if (b instanceof B_House){ addAction(new Action(GoAction.goHome, i));}
 		else if (b instanceof B_DannyRestaurant){ addAction(new Action(GoAction.goDannyRestaurant, i));}
