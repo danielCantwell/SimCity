@@ -162,7 +162,10 @@ public class God {
 	    		for(Building b : buildings){
 	    			if (b instanceof B_Bank) buildings.add(b);
 	    		}
-                return buildings.get(random.nextInt(buildings.size()));
+                if (!buildings.isEmpty())
+                {
+                    return buildings.get(random.nextInt(buildings.size()));
+                }
 	    	}else
 	    	if (bt == BuildingType.House){
 	    		//Find a market
@@ -170,14 +173,20 @@ public class God {
 	    			if (b instanceof B_House) buildings.add(b);
 	    		}
 	    		AlertLog.getInstance().logWarning(AlertTag.God, "God", "Be careful when using findHouse; Do not use it to find a house to live in.");
-	    		return buildings.get(random.nextInt(buildings.size()));
+                if (!buildings.isEmpty())
+                {
+                    return buildings.get(random.nextInt(buildings.size()));
+                }
 	    	}else
             if (bt == BuildingType.Market){
                 //Find a market
                 for(Building b : buildings){
                     if (b instanceof B_Market) buildings.add(b);
                 }
-                return buildings.get(random.nextInt(buildings.size()));
+                if (!buildings.isEmpty())
+                {
+                    return buildings.get(random.nextInt(buildings.size()));
+                }
             }else
 	    	if (bt == BuildingType.Restaurant){
 	    		//Find a bank
