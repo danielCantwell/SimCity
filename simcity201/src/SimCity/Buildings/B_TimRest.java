@@ -169,7 +169,7 @@ public class B_TimRest extends Building{
             setOpen(areAllNeededRolesFilled());
             panel.repaint();
         } catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             int goTo = (int)(person.getBuilding().getID() *2 / 3 - 1);
 			if (goTo > God.Get().buildings.size() - 1){
 				goTo = 0;

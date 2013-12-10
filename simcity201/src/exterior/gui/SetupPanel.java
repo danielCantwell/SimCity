@@ -818,7 +818,7 @@ public class SetupPanel extends JFrame {
 				else if (jesseRestWaiter.isSelected())
 					role = "jesseRest.JesseWaiter";
 				//else if (jesseRestPCWaiter.isSelected())
-				//	role = "jesseRest.JessePCWaiter";   TODO
+				// role = "jesseRest.JessePCWaiter"; TODO
 				else if (jesseRestCustomer.isSelected())
 					role = "jesseRest.JesseCustomer";
 
@@ -913,6 +913,17 @@ public class SetupPanel extends JFrame {
 				}
 
 				animationPanel.createPerson(name, role, v, m, house, b, shift);
+			}
+		});
+		
+		createWanderer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				animationPanel.createPerson("Customer", "none", Vehicle.walk, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.walk, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.car, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.bus, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
 			}
 		});
 
