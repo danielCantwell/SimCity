@@ -40,6 +40,8 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     public enum AgentLocation { Market, Destination, InTransit, Closed };
     public AgentLocation location;
     public B_Market home;
+
+    private boolean canLeave = false;
 	
 	public MarketDeliveryPersonRole() {
 		super();
@@ -74,9 +76,15 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
         stateChanged();
     }
 
+    public void msgLeaveMarket()
+    {
+        canLeave = true;
+        stateChanged();
+    }
+    
     public void workOver()
     {
-        exitBuilding(myPerson);
+        //exitBuilding(myPerson);
         stateChanged();
     }
 
@@ -126,6 +134,11 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 	        goToMarket();
 	        return false;
         }
+	    if (canLeave)
+	    {
+	        leaveBuilding();
+	        return false;
+	    }
 	    
 		return false;
 		// we have tried all our rules and found
@@ -257,6 +270,12 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
             }
         }
 	}
+    
+    private void leaveBuilding()
+    {
+        canLeave  = false;
+        exitBuilding(myPerson);
+    }
 
     private void goToMarket()
     {
