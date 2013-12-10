@@ -27,7 +27,7 @@ import java.util.*;
 // the HostAgent. A Host is the manager of a restaurant who sees that all
 // is proceeded as he wishes.
 public class DannyHost extends Role {
-	public enum bankstate {none, gotManager, sent};
+	public enum bankstate {none, gotManager, sent, noTeller};
 	private bankstate bs = bankstate.none;
 	Money DRestMoney;
 	public int DAccNum;
@@ -213,8 +213,13 @@ public class DannyHost extends Role {
 	public void msgBank() {
 		bank = (B_Bank) God.Get().getBuilding(2);
 		bm = (tellerRole) bank.getOneTeller();
+		if(bm == null) {
+			bs = bankstate.noTeller;
+		}
+		else {
 		bm.restMoney(DAccNum, DRestMoney, this);
 		bs = bankstate.sent;
+		}
 	}
 	
 	public void transDone(Money m) {

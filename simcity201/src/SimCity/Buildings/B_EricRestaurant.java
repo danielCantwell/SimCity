@@ -1,10 +1,12 @@
 package SimCity.Buildings;
 import javax.swing.JPanel;
 
+import EricRestaurant.EricOrderStand;
 import EricRestaurant.EricCashier;
 import EricRestaurant.EricCook;
 import EricRestaurant.EricCustomer;
 import EricRestaurant.EricHost;
+import EricRestaurant.EricPCWaiter;
 import EricRestaurant.EricWaiter;
 import SimCity.Base.Building;
 import SimCity.Base.God;
@@ -26,7 +28,8 @@ public class B_EricRestaurant extends Building {
 	public EricCook cook = new EricCook("Cook");
 	public EricCashier cashier = new EricCashier();
 	public int numWaiter = 0;
-	
+	public EricOrderStand orderstand;
+	public EricOrderStand getOrderStand(){return orderstand;}
 //	Person pHost = null;
 //	Person pWaiter = null;
 //	Person pCashier = null;
@@ -45,6 +48,7 @@ public class B_EricRestaurant extends Building {
 		x = xCoord;
 		y = yCoord;
 		tag = "B_EricRestaurant";
+		orderstand = new EricOrderStand(this, cook);
 	}
 
 
@@ -91,6 +95,14 @@ public class B_EricRestaurant extends Building {
 				host.newWaiter((EricWaiter) newRole);
 				numWaiter++;
 				setOpen(areAllNeededRolesFilled());
+				} else {ExitBuilding(person);person.msgGoHome(); return;}
+			}
+			else if(role.equals("EricRestaurant.EricPCWaiter")) {
+				if(hostFilled) {
+					newRole = new EricPCWaiter("PCWaiter",host,cashier);
+					host.newWaiter((EricPCWaiter) newRole);
+					numWaiter++;
+					setOpen(areAllNeededRolesFilled());
 				} else {ExitBuilding(person);person.msgGoHome(); return;}
 			}
 			else if(role.equals("EricRestaurant.EricCook")) { 
