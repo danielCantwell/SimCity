@@ -79,7 +79,7 @@ public class PersonGui implements Gui {
 			if (command == Command.traveling) {
 				command = Command.none;
 		    	guiMoveFromCurrentPositionTo(new Position(getBuildingX(iDestination), getBuildingY(iDestination)));
-			} 
+			}
 		}
 		if (currentPosition != null && xPos == getBuildingX(iDestination)*SPRITE_SIZE && yPos == getBuildingY(iDestination)*SPRITE_SIZE) {
 			isPresent = false;

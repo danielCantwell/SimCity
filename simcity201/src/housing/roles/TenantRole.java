@@ -290,7 +290,7 @@ public class TenantRole extends Role implements Tenant {
 	public boolean tenantShouldEatOut() {
 		return (rentOwed.isZero()
 				&& myPerson.getMoney().isGreaterThan(
-						myPerson.getMoneyThreshold()) && God.Get().hour < 21);
+						myPerson.getMoneyThreshold()) && God.Get().hour > 7 && God.Get().hour < 21);
 	}
 
 	public void DoGoToRestaurant() {

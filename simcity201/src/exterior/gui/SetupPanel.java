@@ -42,6 +42,7 @@ public class SetupPanel extends JFrame {
 
 	private JTextField enterName = new JTextField("Enter Name of Person");
 	private JButton createPerson = new JButton("Create Person");
+	private JButton createWanderer = new JButton("Create Wandering Person");
 
 	private JPanel professionsPanel = new JPanel();
 	private JPanel optionsPanel = new JPanel();
@@ -112,6 +113,12 @@ public class SetupPanel extends JFrame {
 	private JRadioButton timRestCook = new JRadioButton("Tim Cook");
 	private JRadioButton timRestCashier = new JRadioButton("Tim Cashier");
 	private JRadioButton timRestCustomer = new JRadioButton("Tim Customer");
+	
+	// --------------- Shift Number ----------------
+	private ButtonGroup shifts = new ButtonGroup();
+	
+	private JRadioButton shiftOne = new JRadioButton("Shift 1");
+	private JRadioButton shiftTwo = new JRadioButton("Shift 2");
 
 	// --------------- Living Arrangement ----------
 
@@ -256,6 +263,13 @@ public class SetupPanel extends JFrame {
 		profession.add(timRestWaiter);
 		profession.add(timRestPCWaiter);
 		profession.add(timRestCustomer);
+		
+		
+		//   SHIFTS
+		shifts.add(shiftOne);
+		shifts.add(shiftTwo);
+		
+		shiftOne.setSelected(true);
 
 		// ----------------------------------------------------------------
 		// --- Housing | Transportation | Morality | Mode buttons group ---
@@ -280,8 +294,11 @@ public class SetupPanel extends JFrame {
 
 		// ------------- Panels -------------
 
+		mainPanel.add(shiftOne);
+		mainPanel.add(shiftTwo);
 		mainPanel.add(enterName);
 		mainPanel.add(createPerson);
+		mainPanel.add(createWanderer);
 		mainPanel.add(nuke);
 
 		// ---------------------------------------------
@@ -801,7 +818,7 @@ public class SetupPanel extends JFrame {
 				else if (jesseRestWaiter.isSelected())
 					role = "jesseRest.JesseWaiter";
 				//else if (jesseRestPCWaiter.isSelected())
-				//	role = "jesseRest.JessePCWaiter";   TODO
+				// role = "jesseRest.JessePCWaiter"; TODO
 				else if (jesseRestCustomer.isSelected())
 					role = "jesseRest.JesseCustomer";
 
@@ -883,8 +900,30 @@ public class SetupPanel extends JFrame {
 					b = getWorkplace("Eric");
 				else if (role.contains("tim") || role.contains("Tim"))
 					b = getWorkplace("Tim");
+				
+				// shifts
+				
+				int shift = 1;
+				
+				if (shiftOne.isSelected()) {
+					shift = 1;
+				}
+				else if (shiftTwo.isSelected()) {
+					shift = 2;
+				}
 
-				animationPanel.createPerson(name, role, v, m, house, b, 1);
+				animationPanel.createPerson(name, role, v, m, house, b, shift);
+			}
+		});
+		
+		createWanderer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				animationPanel.createPerson("Customer", "usto", Vehicle.walk, Morality.good, selectApartment(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.walk, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.car, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.bus, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
 			}
 		});
 
