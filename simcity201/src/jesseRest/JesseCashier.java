@@ -20,7 +20,7 @@ import jesseRest.interfaces.Waiter;
 public class JesseCashier extends Role implements Cashier {
 	public List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
 	public List<MyBill> bills = Collections.synchronizedList(new ArrayList<MyBill>());
-	public Money money = new Money(100, 0);
+	public Money money;
 	public enum CheckState {Created, Pending, Paid, Closed, Debt};
 	private Menu mymenu = new Menu();
 	private String name;
@@ -175,6 +175,10 @@ public class JesseCashier extends Role implements Cashier {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "JesseCashier";
+	}
+
+	public void setMoney(Money money2) {
+		money = money2;
 	}
 }
 

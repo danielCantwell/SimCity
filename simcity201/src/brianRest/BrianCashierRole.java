@@ -23,7 +23,7 @@ public class BrianCashierRole extends Role implements BrianCashier, MarketDelive
 	
 	String name;
 	
-	private int money = Integer.MAX_VALUE;
+	private int money;
 	
 	public List<Check> checks;
 	public BrianMenu menu;
@@ -201,6 +201,10 @@ public boolean pickAndExecuteAnAction() {
 		Check ch = new Check(totalCost.getDollar() + totalCost.cents / 100.0, manager);
 		checks.add(ch);	
 		stateChanged();
+	}
+
+	public void setMoney(Money money2) {
+		money = money2.getDollar();
 	}
 
 }

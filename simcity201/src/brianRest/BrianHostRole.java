@@ -1,7 +1,12 @@
 package brianRest;
 
+import Bank.tellerRole;
+import EricRestaurant.EricHost.bankstate;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.interfaces.BrianCustomer;
@@ -21,10 +26,14 @@ import restaurant.interfaces.Waiter;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class BrianHostRole extends Role implements BrianHost {
-	
+	Money BRestMoney;
+	B_Bank bank;
+	tellerRole bm;
+	public int BAccNum;
 	private final int WINDOWX = 640;
 	private final int WINDOWY = 640;
-	
+	public enum bankstate {none, gotManager, sent};
+	private bankstate bs = bankstate.none;
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -174,7 +183,10 @@ public class BrianHostRole extends Role implements BrianHost {
 				}
 			}
 		}
-		
+		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+			msgBank();
+			return true;
+		}
 		if (wantToGoHome){
 			leaveRestaurant();
 		}
@@ -186,6 +198,13 @@ public class BrianHostRole extends Role implements BrianHost {
 	}
 
 // ######################   Actions  ##################
+	public void msgBank() {
+		bank = (B_Bank) God.Get().getBuilding(2);
+		bm = (tellerRole) bank.getOneTeller();
+		bm.restMoney(BAccNum, BRestMoney, this);
+		bs = bankstate.sent;
+	}
+	
 	private void notifyWaiter(BrianTable t, MyWaiter w){
 		 System.out.println("BrianHost is notifying BrianWaiter");
 		   w.numberOfCustomers++;
@@ -329,6 +348,27 @@ public class BrianHostRole extends Role implements BrianHost {
 	@Override
 	public String toString() {
 		return "BrianHost";
+	}
+
+	public void setBM() {
+		bs = bankstate.gotManager;
+		stateChanged();
+	}
+	
+	public void setMoney(Money m) {
+		BRestMoney = m;
+	}
+	
+	public Money getMoney() {
+		return BRestMoney;
+	}
+	public void setAccNum(int num) {
+		BAccNum = num;
+		System.out.println("Host got Brian Resturant Acc Num: "+BAccNum);
+	}
+	public void transDone(Money m) {
+		BRestMoney = m;
+		System.out.println("Host finished bank interaction and BRest has : $"+BRestMoney.getDollar());
 	}
 }
 

@@ -126,7 +126,6 @@ public class B_EricRestaurant extends Building {
 
 	@Override
 	public void ExitBuilding(Person person) {
-		System.out.println(person.getMainRoleString().toString());
 		if(person.getMainRoleString().equals("EricRestaurant.EricHost")){
 			E_Money = host.getMoney();
 			hostFilled = false;

@@ -1,6 +1,11 @@
 package jesseRest;
 
+import Bank.tellerRole;
+import EricRestaurant.EricHost.bankstate;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Bank;
+import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
 import agent.Agent;
 
@@ -19,11 +24,17 @@ public class JesseHost extends Role {
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	public Collection<Table> tables;
 	private String name;
+	private Money JRestMoney;
+	tellerRole bm;
+	B_Bank bank;
+	public int JAccNum;
 	private int NTABLES = 3;
 	private int MAXTABLES = 7;
 	private int nextWaiter = 0;
 	public enum WaiterState {Normal, WantsBreak};
-		
+	public enum bankstate {none, gotManager, sent};
+	private bankstate bs = bankstate.none;
+
 	public JesseHost(String name) {
 		super();
 		this.name = name;
@@ -51,6 +62,15 @@ public class JesseHost extends Role {
 		}
 	}
 	
+	public void setMoney(Money m) {
+		JRestMoney = m;
+	}
+	public void setAcc(int acc) {
+		JAccNum = acc;
+	}
+	public Money getMoney() {
+		return JRestMoney;
+	}
 	public String getMaitreDName() {
 		return name;
 	}
@@ -180,12 +200,23 @@ public class JesseHost extends Role {
 				}
 			}
 		}
+		//System.out.println("The bankstate is : "+bs+" and the cust size is : "+waitingCustomers.size()+" and the time is "+God.Get().getHour());
+		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+			msgBank();
+			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * ACTIONS  ====================================================
 	 */
+	public void msgBank() {
+		bank = (B_Bank) God.Get().getBuilding(2);
+		bm = (tellerRole) bank.getOneTeller();
+		bm.restMoney(JAccNum, JRestMoney, this);
+		bs = bankstate.sent;
+	}
 	
 	void seatCustomer(JesseCustomer c, Table t, JesseWaiter w) {
 		Do(AlertTag.JesseRest, "Message 2: Sending SitAtTable from Host to Waiter.");
@@ -212,6 +243,16 @@ public class JesseHost extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "JesseHost";
+	}
+
+	public void setBM() {
+		bs = bankstate.gotManager;
+		stateChanged();		
+	}
+
+	public void transDone(Money m) {
+		JRestMoney = m;
+		System.out.println("Host finished bank interaction and JRest has : $"+JRestMoney.getDollar());		
 	}
 }
 

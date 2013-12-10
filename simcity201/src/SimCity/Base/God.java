@@ -29,8 +29,11 @@ import EricRestaurant.EricCustomer;
 import EricRestaurant.EricHost;
 import SimCity.Base.Person.TimeState;
 import SimCity.Buildings.B_Bank;
+import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Buildings.B_EricRestaurant;
 import SimCity.Buildings.B_House;
+import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.Buildings.B_Market;
 import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
@@ -356,6 +359,18 @@ public class God {
 	    	if (p.getMainRoleString().equals("EricRestaurant.EricHost")){
 	    		B_EricRestaurant rest = (B_EricRestaurant) God.Get().getBuilding(11);
 	    		rest.host.setBM();
+	    		}
+	    	if (p.getMainRoleString().equals("jesseRest.JesseHost")){
+	    		B_JesseRestaurant rest = (B_JesseRestaurant) God.Get().getBuilding(7);
+	    		rest.host.setBM();
+	    		}
+	    	if (p.getMainRoleString().equals("brianRest.BrianHostRole")){
+	    		B_BrianRestaurant rest = (B_BrianRestaurant) God.Get().getBuilding(6);
+	    		rest.hostRole.setBM();
+	    		}
+	    	if (p.getMainRoleString().equals("restaurant.DannyHost")){
+	    		B_DannyRestaurant rest = (B_DannyRestaurant) God.Get().getBuilding(9);
+	    		rest.hostRole.setBM();
 	    		}
 	    	}
 	    }

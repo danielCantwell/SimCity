@@ -113,6 +113,7 @@ public class EricWaiter extends Role implements Waiter {
 		mycust.table = table;
 		print("Host called me to seat " + cust.getCustomerName()+" at table: "+mycust.table);
 		customer.add(mycust);
+		print(hashCode()+"THE CUSTOMER STATE IS "+mycust.s+" and the size os customer : "+customer.size());
 		stateChanged();
 	}
 
@@ -274,8 +275,11 @@ public class EricWaiter extends Role implements Waiter {
 	 */
 	protected boolean pickAndExecuteAnAction() {
 		//System.out.println("customer size "+customer.size()+" and myPerson is this: "+myPerson.toString());
+		print(hashCode()+"INDEI PEI THE CUSTOMER STATE IS ");
+
 		try {
 			for(myCustomer mc : customer) {
+
 				if(mc.s == state.hostcalled) {
 					seatCustomer(mc.c, mc.table);//the action
 					return true;//return true to the abstract agent to reinvoke the scheduler.
