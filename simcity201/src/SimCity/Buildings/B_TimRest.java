@@ -13,8 +13,11 @@ import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
 /**
  * @author Timothy So
  *
@@ -106,7 +109,7 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToInventory("Pizza", 4, 2000);
                     restaurantRole.addMarket(m.getManager());
                 }
-                if (newRole instanceof TimCashierRole)
+                else if (newRole instanceof TimCashierRole)
                 {
                     TimCashierRole restaurantRole = (TimCashierRole) person.mainRole;
                     hostRole.setCashier(restaurantRole);
@@ -119,7 +122,7 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToMenu("Salad", new Money(5, 99));
                     restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
                 }
-                if (newRole instanceof TimWaiterRole)
+                else if (newRole instanceof TimWaiterRole)
                 {
                     TimWaiterRole restaurantRole = (TimWaiterRole) person.mainRole;
                     restaurantRole.setHost(hostRole);
@@ -130,7 +133,7 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
                     panel.addGui(restaurantRole.getGui());
                 }
-                if (newRole instanceof MarketDeliveryPersonRole)
+                else if (newRole instanceof MarketDeliveryPersonRole)
                 {
                     MarketDeliveryPersonRole restaurantRole = (MarketDeliveryPersonRole) person.mainRole;
                     if (getOpen())
@@ -149,7 +152,7 @@ public class B_TimRest extends Building{
                         }
                     }
                 }
-                if (getOpen() && newRole instanceof TimCustomerRole)
+                else if (getOpen() && newRole instanceof TimCustomerRole)
                 {
                     TimCustomerRole restaurantRole = null;
                     for (Role r : person.roles)
@@ -163,13 +166,22 @@ public class B_TimRest extends Building{
                         }
                     }
                 }
-                person.msgEnterBuilding(this);
+                else
+                {
+                    return;
+                }
             }
+            AlertLog.getInstance().logInfo(AlertTag.TimRest, person.getName(), "Entering Restaurant.");
+            person.msgEnterBuilding(this);
             setOpen(areAllNeededRolesFilled());
             panel.repaint();
         } catch(Exception e){
-            e.printStackTrace();
-            System.out.println ("God: no class found");
+            //e.printStackTrace();
+            
+			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.work);
+			ExitBuilding(person);
+
+            //System.out.println ("God: no class found");
         }
     }
 

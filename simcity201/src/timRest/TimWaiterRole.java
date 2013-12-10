@@ -830,6 +830,8 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	
 	private void leaveBuilding()
 	{
+        myPerson.money.add(new Money(75, 00));
+        Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         wantsLeave = false;
 	    exitBuilding(myPerson);
 	}

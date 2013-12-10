@@ -229,4 +229,9 @@ public class BusGui implements Gui {
 	public int getID() {
 		return myID;
 	}
+
+	@Override
+	public Person getPerson() {
+		return null;
+	}
 }

@@ -722,6 +722,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
              public void actionPerformed(ActionEvent e)
              {
+            	 //createPerson("Customer", "none", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
+
             	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
             	 createPerson("Customer", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
             	 createPerson("Customer", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
@@ -732,12 +734,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);   
             	 
             	 //shift 2
-            	 //createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
+            	 createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
             	 createPerson("Waiter", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
             	 createPerson("Waiter", "brianRest.BrianWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
 
             	 createPerson("Cashier", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2);
             	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2); 
+             
              }
         };
         String stringCtrlR = "CTRL R";
@@ -792,7 +795,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
 	   		 idList.put(currentID, g);
 	   		 
-	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
@@ -807,7 +810,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 CarGui g = new CarGui(gui, currentID, createAccidents);
 	   		 idList.put(currentID, g);
 	   		 
-	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);
@@ -822,7 +825,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
 	   		 idList.put(currentID, g);
 	   		 
-	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
+	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 30, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
 	   		 addGui(g);

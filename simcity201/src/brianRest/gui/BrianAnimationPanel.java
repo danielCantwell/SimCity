@@ -43,7 +43,9 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     public Timer timer;
     private List<Gui> guis = new ArrayList<Gui>();
     
-    B_BrianRestaurant building;
+    private ImageIcon iconFloor = new ImageIcon("images/floor3.png");
+    
+    public B_BrianRestaurant building;
     
     private BrianHost host;
     public void setHost(BrianHost host){
@@ -93,6 +95,12 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
         
+		for (int x = 0; x < WINDOWX/128; x++) {
+		for (int y = 0; y < WINDOWY/128; y++) {
+			iconFloor.paintIcon(this, g, x * 128, y * 128);
+		}
+		}
+		
         if(building.hostFilled){
         	g2.setColor(Color.black);
         	g2.drawString("Host is in", 300, 20);

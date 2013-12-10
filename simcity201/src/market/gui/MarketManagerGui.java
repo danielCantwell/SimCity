@@ -14,7 +14,7 @@ public class MarketManagerGui implements Gui {
 
 	private MarketManagerRole role = null;
 
-    private int xPos = 300, yPos = 100;// default waiter position
+    private int xPos = 500, yPos = 250;// default waiter position
     private int xDestination = xPos, yDestination = yPos;// default start position
 
 	private Map<String, Inventory> inventory = Collections.synchronizedMap(new HashMap<String, Inventory>());

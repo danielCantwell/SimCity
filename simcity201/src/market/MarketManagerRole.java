@@ -43,6 +43,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     public int accountNumber;
 
     private boolean wantsLeave = false;
+    private int workCount = 0;
     
     /**
      * Constructors
@@ -58,6 +59,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 
     public void msgWantClerk(MarketCustomer customer, int id)
     {
+        workCount++;
         synchronized(clerks)
         {
 	        for (MyClerk c : clerks)
@@ -78,6 +80,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
 	public void msgWantFood(int id, String choice, int amount)
 	{
+	    workCount++;
 	    Order o = new Order(id, choice, amount, OrderType.Restaurant);
 	    o.state = OrderState.Pending;
 	    orders.add(o);
@@ -89,7 +92,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     {
         Order o = new Order(id, choice, amount, OrderType.Customer);
         o.state = OrderState.Pending;
-        orders.add(o);   
+        orders.add(o);
         synchronized(clerks)
         {
             for (MyClerk c : clerks)
@@ -124,6 +127,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     {
         money.add(amount);
         Do(AlertTag.TimRest, "Market now has " + money + ".");
+        workCount--;
         stateChanged();
     }
     
@@ -183,33 +187,6 @@ public class MarketManagerRole extends Role implements MarketManager {
 	    // if money > MAX_AMOUNT
 	    
 	    // if money < MIN_AMOUNT
-
-	    if (wantsLeave && customers.isEmpty())
-	    {
-	        synchronized(clerks)
-	        {
-	            for (MyClerk c : clerks)
-	            {
-	                c.clerk.msgLeaveMarket();
-	            }
-	        }
-            synchronized(packers)
-            {
-                for (MyPacker p : packers)
-                {
-                    p.packer.msgLeaveMarket();
-                }
-            }
-            synchronized(deliveryPeople)
-            {
-                for (MyDeliveryPerson d : deliveryPeople)
-                {
-                    d.deliveryPerson.msgLeaveMarket();
-                }
-            }
-	        leaveBuilding();
-	        return true;
-	    }
 	    
 	    synchronized(clerks)
 	    {
@@ -323,6 +300,35 @@ public class MarketManagerRole extends Role implements MarketManager {
             giveOrder(order);
             return true;
         }
+
+        Info(AlertTag.Market, "workCount = " + workCount + ".");
+        if (wantsLeave && workCount <= 0)
+        {
+            synchronized(clerks)
+            {
+                for (MyClerk c : clerks)
+                {
+                    c.clerk.msgLeaveMarket();
+                }
+            }
+            synchronized(packers)
+            {
+                for (MyPacker p : packers)
+                {
+                    p.packer.msgLeaveMarket();
+                }
+            }
+            synchronized(deliveryPeople)
+            {
+                for (MyDeliveryPerson d : deliveryPeople)
+                {
+                    d.deliveryPerson.msgLeaveMarket();
+                }
+            }
+            workCount = 0;
+            leaveBuilding();
+            return true;
+        }
 	    
 		return false;
 		// we have tried all our rules and found
@@ -346,6 +352,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void startOrder(Order order)
     {
+        Do(AlertTag.Market, "Start an order: " + order.choice + ", " + order.amount + ".");
         MyPacker myPacker = null;
         int minOrder = Integer.MAX_VALUE;
         for (MyPacker mP : packers)
@@ -365,6 +372,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void deliverOrder(Order order)
     {
+        Do(AlertTag.Market, "Make a delivery.");
         MyDeliveryPerson myDP = null;
         for (MyDeliveryPerson mD : deliveryPeople)
         {
@@ -384,6 +392,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void giveOrder(Order order)
     {
+        Do(AlertTag.Market, "Here is the customer's order.");
         MyClerk myClerk = null;
         for (MyClerk mC : clerks)
         {
@@ -405,6 +414,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void putInLine(MyCustomer c)
     {
+        Do(AlertTag.Market, "Please wait over there.");
         // TODO: Create waiting room
         c.customer.msgPleaseTakeANumber(new Point (100, 400));
         c.state = CustomerState.Waiting;
@@ -412,6 +422,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	
     private void giveToClerk(MyCustomer c)
     {
+        Do(AlertTag.Market, "Next in line.");
         c.clerk.msgTakeOrder(c.customer);
         c.state = CustomerState.Processing;
         customers.remove(c);
@@ -419,6 +430,8 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void leaveBuilding()
     {
+        myPerson.money.add(new Money(100, 00));
+        Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
         wantsLeave = false;
         exitBuilding(myPerson);
     }
