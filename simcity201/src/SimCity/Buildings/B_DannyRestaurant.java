@@ -10,7 +10,9 @@ import restaurant.DannyHost;
 import restaurant.DannyWaiter;
 import restaurant.OrderStand;
 import SimCity.Base.Building;
+import SimCity.Base.God;
 import SimCity.Base.Person;
+import SimCity.Base.Person.Intent;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 
@@ -158,7 +160,13 @@ public class B_DannyRestaurant extends Building {
 			if (newRole instanceof DannyCustomer)
 				((DannyCustomer) newRole).setName(newRole.myPerson.name);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			int goTo = person.getBuilding().getID() + 1;
+			if (goTo > God.Get().buildings.size() - 1){
+				goTo = 0;
+			}
+			person.msgGoToBuilding(God.Get().getBuilding(goTo), Intent.work);
+			person.msgExitBuilding();
 			System.out.println("Building: no class found");
 		}
 	}
