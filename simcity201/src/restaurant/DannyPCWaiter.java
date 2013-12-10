@@ -1,30 +1,28 @@
+/**
+ * 
+ */
 package restaurant;
 
 import java.util.ConcurrentModificationException;
 
+import SimCity.Base.Person.Intent;
+import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.trace.AlertTag;
 import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
-import SimCity.Base.Person.Intent;
-import SimCity.Buildings.B_DannyRestaurant;
-import SimCity.trace.AlertTag;
 
 /**
- * Restaurant Waiter Agent
+ * @author Daniel
+ * 
  */
-// We only have 2 types of agents in this prototype. A customer and an agent
-// that
-// does all the rest. Rather than calling the other agent a waiter, we called
-// him
-// the HostAgent. A Host is the manager of a restaurant who sees that all
-// is proceeded as he wishes.
-public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
+public class DannyPCWaiter extends DannyAbstractWaiter implements Waiter {
 
-	public DannyWaiter() {
-		
+	public DannyPCWaiter() {
+
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -32,12 +30,12 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	/*
 	 * MESSAGES
 	 */
-	
+
 	public void msgWorkOver() {
 		System.out.println("Waiter workOver");
 		workOver = true;
 	}
-	
+
 	public void msgLeaveRestaurant() {
 		leftRestaurant.release();
 	}
@@ -183,7 +181,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
-		
+
 		if (workOver) {
 			leaveRestaurant();
 			return true;
@@ -325,7 +323,6 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	}
 
 	protected void processOrder(MyCustomer myCustomer) {
-		print("Going to tell cook order");
 		DoTellCookOrder(myCustomer);
 		try {
 			walkingToCook.acquire();
@@ -333,9 +330,8 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 			e.printStackTrace();
 		}
 		myCustomer.event = CookEvent.None;
-		print("Processing Order");
-		// cook.startThread();
-		cook.msgHereIsAnOrder(this, myCustomer.choice, myCustomer.table);
+		B_DannyRestaurant dr = (B_DannyRestaurant)myPerson.getBuilding();
+		dr.getOrderStand().addOrder(myCustomer.choice, this, myCustomer.table);
 	}
 
 	private void deliverFood(MyCustomer myCustomer) {
@@ -376,24 +372,24 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 		myCustomer.cashierEvent = CashierEvent.None;
 		myCustomer.customer.msgHereIsYourBill(myCustomer.dues);
 	}
-	
+
 	private void leaveRestaurant() {
 		waiterGui.DoLeaveRestaurant();
-		
+
 		try {
 			leftRestaurant.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		waiterGui.setPresent(false);
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		ap.removeGui(waiterGui);
-		
+
 		B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
 		rest.numWaiters--;
-		
+
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
 		workOver = false;
@@ -401,7 +397,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 
 	private void askHostForBreak() {
 		if (host != null) {
-			host.msgWantToGoOnBreak(this);
+			//host.msgWantToGoOnBreak(this);
 			event = WaiterEvent.None;
 		} else {
 			print("No host has been assigned. Cannot request to go off break.");
@@ -419,13 +415,13 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	private void goOnBreak() {
 		Do(AlertTag.DannyRest, "Going On Break");
 		state = WaiterState.OnBreak;
-		host.msgGoingOnBreak(this);
+		//host.msgGoingOnBreak(this);
 		// TODO getGui().gui.restPanel.enableOnBreak(this);
 	}
 
 	private void goOffBreak() {
 		Do(AlertTag.DannyRest, "Going Off Break");
-		host.msgGoingOffBreak(this);
+		//host.msgGoingOffBreak(this);
 		event = WaiterEvent.None;
 	}
 
@@ -479,7 +475,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	public void setHost(DannyHost host) {
 		this.host = host;
 	}
-	
+
 	public DannyHost getHost() {
 		return host;
 	}
@@ -491,7 +487,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	public void setCashier(DannyCashier c) {
 		cashier = c;
 	}
-	
+
 	public DannyCashier getCashier() {
 		return cashier;
 	}
@@ -499,7 +495,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	public void setCook(DannyCook c) {
 		cook = c;
 	}
-	
+
 	public DannyCook getCook() {
 		return cook;
 	}
@@ -517,33 +513,30 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 				.getPanel();
 		ap.addGui(waiterGui);
 		System.out.println("Waiter: " + hashCode() + " enterBuilding");
-		System.out.println("WaiterGUI " + waiterGui.hashCode() + " added to Danny Rest Panel " + ap.hashCode());
+		System.out.println("WaiterGUI " + waiterGui.hashCode()
+				+ " added to Danny Rest Panel " + ap.hashCode());
 	}
 
 	@Override
 	public void workOver() {
-		//System.out.println("Waiter workOver");
-		//B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
-		//rest.numWaiters--;
-		
-		//waiterGui.DoLeaveRestaurant();
+		// System.out.println("Waiter workOver");
+		// B_DannyRestaurant rest = (B_DannyRestaurant) myPerson.getBuilding();
+		// rest.numWaiters--;
+
+		// waiterGui.DoLeaveRestaurant();
 		/*
-		try {
-			leftRestaurant.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		*/
-		//workOver = true;
+		 * try { leftRestaurant.acquire(); } catch (InterruptedException e) {
+		 * e.printStackTrace(); }
+		 */
+		// workOver = true;
 		/*
-		waiterGui.setPresent(false);
-		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
-				.getPanel();
-		ap.removeGui(waiterGui);
-		
-		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
-		exitBuilding(myPerson);
-		*/
+		 * waiterGui.setPresent(false); DannyRestaurantAnimationPanel ap =
+		 * (DannyRestaurantAnimationPanel) myPerson.building .getPanel();
+		 * ap.removeGui(waiterGui);
+		 * 
+		 * myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		 * exitBuilding(myPerson);
+		 */
 	}
 
 	@Override

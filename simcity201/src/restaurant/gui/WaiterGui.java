@@ -1,5 +1,6 @@
 package restaurant.gui;
 
+import restaurant.DannyAbstractWaiter;
 import restaurant.DannyWaiter;
 
 import java.awt.*;
@@ -13,7 +14,7 @@ public class WaiterGui implements Gui {
 	private boolean pause = false;
 	private boolean isPresent = false;
 
-	private DannyWaiter agent = null;
+	private DannyAbstractWaiter agent = null;
 
 	private int xPos = -20, yPos = -20;// default waiter position
 	private int xDestination = -20, yDestination = -20;// default start position
@@ -49,7 +50,7 @@ public class WaiterGui implements Gui {
 	static final int xWaiterSize = 20;
 	static final int yWaiterSize = 20;
 
-	public WaiterGui(DannyWaiter agent, int num) {
+	public WaiterGui(DannyAbstractWaiter agent, int num) {
 		System.out.println("WaiterGUI created : " + hashCode());
 		numWaiter = num;
 		this.agent = agent;

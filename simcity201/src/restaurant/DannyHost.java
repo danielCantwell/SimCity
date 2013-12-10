@@ -3,8 +3,8 @@ package restaurant;
 import SimCity.Base.Role;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.trace.AlertTag;
-import restaurant.DannyWaiter.WaiterEvent;
-import restaurant.DannyWaiter.WaiterState;
+import restaurant.DannyAbstractWaiter.WaiterEvent;
+import restaurant.DannyAbstractWaiter.WaiterState;
 import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 

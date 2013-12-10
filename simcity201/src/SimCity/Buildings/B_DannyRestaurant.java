@@ -1,8 +1,5 @@
 package SimCity.Buildings;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JPanel;
 
 import market.MarketDeliveryPersonRole;
@@ -11,13 +8,13 @@ import restaurant.DannyCook;
 import restaurant.DannyCustomer;
 import restaurant.DannyHost;
 import restaurant.DannyWaiter;
-import restaurant.gui.DannyRestaurantAnimationPanel;
+import restaurant.OrderStand;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
 
 /**
- * @author Brian
+ * @author Danny
  * 
  */
 public class B_DannyRestaurant extends Building {
@@ -32,6 +29,8 @@ public class B_DannyRestaurant extends Building {
 	public boolean hostFilled = false;
 	public boolean cookFilled = false;
 	public boolean cashierFilled = false;
+	
+	public OrderStand orderStand;
 
 	public B_DannyRestaurant(int id, JPanel jp) {
 		super(id, jp);
@@ -44,6 +43,7 @@ public class B_DannyRestaurant extends Building {
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
+		orderStand = new OrderStand(this, cookRole);
 	}
 
 	@Override
@@ -157,8 +157,11 @@ public class B_DannyRestaurant extends Building {
 
 	@Override
 	public Role getManagerRole() {
-		// TODO Auto-generated method stub
 		return hostRole;
+	}
+
+	public OrderStand getOrderStand() {
+		return orderStand;
 	}
 
 }
