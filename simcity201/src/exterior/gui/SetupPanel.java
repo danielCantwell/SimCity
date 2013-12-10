@@ -920,7 +920,7 @@ public class SetupPanel extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				animationPanel.createPerson("Customer", "none", Vehicle.walk, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
+				animationPanel.createPerson("Customer", "usto", Vehicle.walk, Morality.good, selectApartment(), animationPanel.getGui().buildingList.get(6), 1);
 				animationPanel.createPerson("Customer", "usto", Vehicle.walk, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
 				animationPanel.createPerson("Customer", "usto", Vehicle.car, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
 				animationPanel.createPerson("Customer", "usto", Vehicle.bus, Morality.good, selectHouse(), animationPanel.getGui().buildingList.get(6), 1);
