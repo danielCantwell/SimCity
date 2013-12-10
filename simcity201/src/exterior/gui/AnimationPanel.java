@@ -823,13 +823,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
-	   	 	 enterBus(p);
 	   	 	 
 	   	 	 return p;
 	   	 }
-	   	 
-	   	 //test market
-	   	 //p.testMarket();
 	   	 
 	   	 return null;
     }
