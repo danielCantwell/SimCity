@@ -112,6 +112,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
     private ImageIcon iconPedL = new ImageIcon("images/a_pedestrian_l.gif");
     private ImageIcon iconPedU = new ImageIcon("images/a_pedestrian_u.gif");
+    private ImageIcon iconPedW = new ImageIcon("images/ped_waiting.png");
     private ImageIcon iconRoad = new ImageIcon("images/t_road.png");
     private ImageIcon iconRoadVL = new ImageIcon("images/t_road_vl.png");
     private ImageIcon iconRoadVR = new ImageIcon("images/t_road_vr.png");
@@ -121,6 +122,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private ImageIcon iconCrossH = new ImageIcon("images/t_cross_h.png");
     private ImageIcon iconBuildingA = new ImageIcon("images/t_building1.png");
     private ImageIcon iconBuildingB = new ImageIcon("images/t_building2.png");
+    private ImageIcon iconBuildingHouse = new ImageIcon("images/housetop.png");
+    private ImageIcon iconBuildingBank = new ImageIcon("images/banktop.png");
+    private ImageIcon iconBuildingRest = new ImageIcon("images/restauranttop.png");
+    private ImageIcon iconBuildingMark = new ImageIcon("images/markettop.png");
     private ImageIcon iconCar1R = new ImageIcon("images/car1_r.png");
     private ImageIcon iconCar1D = new ImageIcon("images/car1_d.png");
     private ImageIcon iconCar1L = new ImageIcon("images/car1_l.png");
@@ -145,6 +150,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private ImageIcon iconCar6D = new ImageIcon("images/car6_d.png");
     private ImageIcon iconCar6L = new ImageIcon("images/car6_l.png");
     private ImageIcon iconCar6U = new ImageIcon("images/car6_u.png");
+    private ImageIcon iconBusR = new ImageIcon("images/bus_r.png");
+    private ImageIcon iconBusD = new ImageIcon("images/bus_d.png");
+    private ImageIcon iconBusL = new ImageIcon("images/bus_l.png");
+    private ImageIcon iconBusU = new ImageIcon("images/bus_u.png");
     private ImageIcon iconSun = new ImageIcon("images/iconSun.png");
     private ImageIcon iconMoon = new ImageIcon("images/iconMoon.png");
     private ImageIcon iconClock = new ImageIcon("images/iconClock.png");
@@ -401,14 +410,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
 								&& MAP[x + 1][y + 1] == 'B') {
 							for (int i = 0; i < 16; i++) {
 								if (getBuildingRect(i).contains(x * TILESIZE + TILESIZE * 2, y * TILESIZE + TILESIZE * 2)) {
-									if (gui.buildingList.get(i).getTag() == "B_Bank"
-											|| gui.buildingList.get(i).getTag() == "B_Market"
-											|| gui.buildingList.get(i).getTag() == "B_Restaurant") {
-										iconBuildingB.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+									if (gui.buildingList.get(i).getTag() == "B_Bank") {
+										iconBuildingBank.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+									} else if (gui.buildingList.get(i).getTag() == "B_Market") {
+										iconBuildingMark.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+									} else if (gui.buildingList.get(i).getTag() == "B_House") {
+										iconBuildingHouse.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
 									} else {
-										iconBuildingA.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
+										iconBuildingRest.paintIcon(this, g, x * TILESIZE, y * TILESIZE);
 									}
-									
+
 									if (consoleText.indexOf(i + "") != -1) {
 										g2.drawString(consoleText, (x+1) * TILESIZE, (y+1) * TILESIZE - 10);
 									}
@@ -466,7 +477,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
 			for (int j = 0; (j < standees.get(i).size() && j < 6); j++) {
-				iconClock.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
+				iconPedW.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
 			}
 		}
 
@@ -502,6 +513,21 @@ public class AnimationPanel extends JPanel implements ActionListener {
 									gui.getY());
 						} else if (gui.getRotation() == 3) {
 							carsU.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
+									gui.getY());
+						}
+					}
+					else if (gui.getType() == "Bus") {
+						if (gui.getRotation() == 0) {
+							iconBusR.paintIcon(this, g, gui.getX(),
+									gui.getY());
+						} else if (gui.getRotation() == 1) {
+							iconBusD.paintIcon(this, g, gui.getX(),
+									gui.getY());
+						} else if (gui.getRotation() == 2) {
+							iconBusL.paintIcon(this, g, gui.getX(),
+									gui.getY());
+						} else if (gui.getRotation() == 3) {
+							iconBusU.paintIcon(this, g, gui.getX(),
 									gui.getY());
 						}
 					}
