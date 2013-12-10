@@ -13,6 +13,7 @@ import brianRest.BrianPCWaiterRole;
 import brianRest.BrianWaiterRole;
 import brianRest.OrderStand;
 import brianRest.gui.BrianAnimationPanel;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianHost;
 import restaurant.DannyCashier;
@@ -23,12 +24,14 @@ import restaurant.interfaces.Waiter;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 /**
  * @author Brian
  *
  */
 public class B_BrianRestaurant extends Building{
-	
+	public int B_BrianAccNum = 3000;
+	Money BRestMoney = new Money(700,0);
 	public BrianHostRole hostRole = new BrianHostRole("Host");
 	public BrianCashierRole cashierRole = new BrianCashierRole("Cashier");
 	public BrianCookRole cookRole = new BrianCookRole("Cook");
@@ -47,7 +50,8 @@ public class B_BrianRestaurant extends Building{
 	public B_BrianRestaurant(int id, JPanel jp, int xCoord, int yCoord){
 		this.id = id;
 		buildingPanel = jp;
-		BrianAnimationPanel bap = (BrianAnimationPanel)jp;
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)jp;
+		BrianAnimationPanel bap = (BrianAnimationPanel)brp.bap;
 		bap.setRestaurant(this);
 		x = xCoord;
 		y = yCoord;
@@ -81,6 +85,9 @@ public class B_BrianRestaurant extends Building{
 
 	@Override
 	public void ExitBuilding(Person person) {
+		if(person.getMainRoleString().equals("brianRest.BrianHostRole")){
+			BRestMoney = hostRole.getMoney();
+		}
 		person.resetActiveRoles();
     	person.msgExitBuilding();
 	}
@@ -94,6 +101,8 @@ public class B_BrianRestaurant extends Building{
 				System.out.println("#cust created");}
 			else if (job.equals("brianRest.BrianHostRole")) {
 				newRole = hostRole; 
+				hostRole.setMoney(BRestMoney);
+				hostRole.setAccNum(B_BrianAccNum);
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianWaiterRole")){ 
@@ -108,6 +117,7 @@ public class B_BrianRestaurant extends Building{
 				setOpen(areAllNeededRolesFilled());}
 			else if (job.equals("brianRest.BrianCashierRole")) { 
 				newRole = cashierRole; 
+				cashierRole.setMoney(hostRole.getMoney());
 				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());}
 			else  if (job.equals("brianRest.BrianPCWaiterRole")){ 

@@ -1,7 +1,12 @@
 package restaurant;
 
+import Bank.tellerRole;
+import EricRestaurant.EricHost.bankstate;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
 import restaurant.DannyWaiter.WaiterEvent;
 import restaurant.DannyWaiter.WaiterState;
@@ -20,6 +25,12 @@ import java.util.*;
 // the HostAgent. A Host is the manager of a restaurant who sees that all
 // is proceeded as he wishes.
 public class DannyHost extends Role {
+	public enum bankstate {none, gotManager, sent};
+	private bankstate bs = bankstate.none;
+	Money DRestMoney;
+	public int DAccNum;
+	B_Bank bank;
+	tellerRole bm;
 	public static final int NTABLES = 4;// a global for the number of tables.
 	// Notice that we implement waitingCustomers using ArrayList, but type it
 	// with List semantics.
@@ -181,7 +192,10 @@ public class DannyHost extends Role {
 				}
 			}
 		}
-
+		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+			msgBank();
+			return true;
+		}
 		if (workOver) {
 			leaveRestaurant();
 			return true;
@@ -194,7 +208,18 @@ public class DannyHost extends Role {
 	}
 
 	// Actions
-
+	public void msgBank() {
+		bank = (B_Bank) God.Get().getBuilding(2);
+		bm = (tellerRole) bank.getOneTeller();
+		bm.restMoney(DAccNum, DRestMoney, this);
+		bs = bankstate.sent;
+	}
+	
+	public void transDone(Money m) {
+		DRestMoney = m;
+		System.out.println("Host finished bank interaction and DRest has : $"+DRestMoney.getDollar());
+	}
+	
 	private void seatCustomer(DannyCustomer customer, Table table,
 			DannyWaiter waiter) {
 		System.out.println("Danny Host -- Seat Customer");
@@ -365,5 +390,23 @@ public class DannyHost extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "Danny Host";
+	}
+
+	public void setBM() {
+		bs = bankstate.gotManager;
+		stateChanged();		
+	}
+
+	public void setMoney(Money dRestMoney) {
+		DRestMoney = dRestMoney;
+	}
+	
+	public Money getMoney() {
+		return DRestMoney;
+	}
+	
+	public void setAcc(int acc) {
+		DAccNum = acc;
+		System.out.println("Host got Danny Resturant Acc Num: "+DAccNum);
 	}
 }

@@ -30,11 +30,21 @@ SimCity201 Project Repository for CS 201 students
 
 + Finished:
  + Bulding Wrappers and base Building Class for each building
- + God Class that holds everthing in the city
- + Integrated Housing into exterior gui
- + Integrated buildings being closed if not enough employees.
- + Put a restaurant in the city. It doesn't actually work.
+ + God Class that holds every building and person in the city.
+ + Implemented time for the city.
+ + Implemented work-shifts for the city (role swapping).
+ + Integrated House into exterior gui
+ + Integrated House and Person class and gui transition between both.
+ + Implemented buildings being closed if not enough employees.
+ + Implemented certain buildings being closed on weekends.
+ + Implemented a button to manually close Brian Restaurant to show functionality of closing.
  + Keybinds for spawning manager and bank customer.
+ + Keybinds for spawning brian restaurant workers and customers.
+ + Integrated Brian Restaurant and implemented scenario for it to work.
+ + Integrated new features for Brian Rest including PCWaiter.
+ + Fully integrated trace panel.
+ + Refactor all team's print statements to work with trace panel.
+ + Implemented Brian Restaurant working with Market.
 
 ####Timothy So
 + Market Roles and Guis

@@ -3,6 +3,10 @@ package Bank;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import restaurant.DannyHost;
+import timRest.TimHostRole;
+import brianRest.BrianHostRole;
+import jesseRest.JesseHost;
 import SimCity.Globals.*;
 import SimCity.trace.AlertTag;
 import SimCity.Base.*;
@@ -41,7 +45,11 @@ public class tellerRole extends Role implements Teller {
 	public class Rest {
 		int acc;
 		Money m;
-		EricHost h;
+		EricHost eh;
+		JesseHost jh;
+		BrianHostRole bh;
+		DannyHost dh;
+		TimHostRole th;
 	}
 	Money initial = new Money(500,0);
 	public enum state{ none, ready, atCounter, added, noAcc, yesAcc, setUp, robbed, askedService, called, inTrans, withdraw, deposit, leaving };
@@ -66,6 +74,7 @@ public class tellerRole extends Role implements Teller {
 	@Override
 	public void managerMap(Map<Integer, Money> managerAccs){
 		bankAccs.putAll(managerAccs);
+		System.out.println("bankAccs and managerAccs tranfered" +bankAccs.get(1000));
 	}
 	
 	@Override
@@ -155,11 +164,34 @@ public class tellerRole extends Role implements Teller {
 		Rest r = new Rest();
 		r.acc = acc;
 		r.m = m;
-		r.h = host;
+		r.eh = host;
 		rest.add(r);
 		stateChanged();
 	}
-	
+	public void restMoney(int acc, Money m, JesseHost host) {
+		Rest r = new Rest();
+		r.acc = acc;
+		r.m = m;
+		r.jh = host;
+		rest.add(r);
+		stateChanged();
+	}
+	public void restMoney(int acc, Money m, BrianHostRole host) {
+		Rest r = new Rest();
+		r.acc = acc;
+		r.m = m;
+		r.bh = host;
+		rest.add(r);
+		stateChanged();
+	}
+	public void restMoney(int acc, Money m, DannyHost host) {
+		Rest r = new Rest();
+		r.acc = acc;
+		r.m = m;
+		r.dh = host;
+		rest.add(r);
+		stateChanged();
+	}
 	@Override
 	public void workOver() {
 		s = state.leaving;
@@ -238,6 +270,10 @@ public class tellerRole extends Role implements Teller {
 
 		synchronized(rest) {
 			for(Rest r : rest) {
+				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #1000 Amount : $ "+bankAccs.get(1000).getDollar());
+				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #2000 Amount : $ "+bankAccs.get(2000).getDollar());
+				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #3000 Amount : $ "+bankAccs.get(3000).getDollar());
+				System.out.println("THIS IS A MOFO TEST--------------PAE------------------ Bank Account #4000 Amount : $ "+bankAccs.get(4000).getDollar());
 				transaction(r);
 				return true;
 			}
@@ -299,13 +335,24 @@ public class tellerRole extends Role implements Teller {
 			Money temp = r.m.subtract(300, 0);
 			bankAccs.put(r.acc,bankAccs.get(r.acc).add(temp));
 			r.m = new Money(300,0);
-			System.out.println("Eric Restaurant Bank Account Amount : $ "+bankAccs.get(r.acc).getDollar());
-			r.h.transDone(r.m);
+			if (r.acc == 1000) { System.out.println("Eric Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.eh.transDone(r.m); }
+			if (r.acc == 2000) { System.out.println("Jesse Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.jh.transDone(r.m); }
+			if (r.acc == 3000) { System.out.println("Brian Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.bh.transDone(r.m); }
+			if (r.acc == 4000) { System.out.println("Danny Restaurant Bank Account #"+r.acc+" Amount : $ "+bankAccs.get(r.acc).getDollar()); r.dh.transDone(r.m); }
+			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #1000 Amount : $ "+bankAccs.get(1000).getDollar());
+			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #2000 Amount : $ "+bankAccs.get(2000).getDollar());
+			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #3000 Amount : $ "+bankAccs.get(3000).getDollar());
+			System.out.println("THIS IS A MOFO TEST-------------------------------- Bank Account #4000 Amount : $ "+bankAccs.get(4000).getDollar());
+
 		}
 		else {
 			bankAccs.put(r.acc, bankAccs.get(r.acc).subtract(100, 0));
 			r.m.add(100, 0);
-			r.h.transDone(r.m);
+			if (r.acc == 1000) r.eh.transDone(r.m);
+			if (r.acc == 2000) r.jh.transDone(r.m);
+			if (r.acc == 3000) r.bh.transDone(r.m);
+			if (r.acc == 4000) r.dh.transDone(r.m);
+
 		}
 		rest.remove(r);
 	}

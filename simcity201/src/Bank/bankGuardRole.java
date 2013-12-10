@@ -78,7 +78,7 @@ public class bankGuardRole extends Role implements Guard {
 	}
 	
 	public void RobberEnter(Robber newR) {
-		Do(AlertTag.BANK,"Guard: Robber is forcing entry");
+		Do(AlertTag.BANK,"Guard: Believes there might be an invisible robber who entered but doesn't get paid enough to really care.");
 		Entry c = new Entry();
 		c.s = state.robber;
 		c.r = newR;
@@ -131,6 +131,7 @@ public class bankGuardRole extends Role implements Guard {
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
 				if (c.s == state.robber) {
+					System.out.println("Made it into the Guard PAE robber");
 					forcedEntry(c);
 					return true;
 				}

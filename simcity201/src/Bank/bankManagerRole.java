@@ -78,6 +78,7 @@ public class bankManagerRole extends Role implements  Manager{
 		t.tellerNum = tellers.size();
 		t.busy = state.no;
 		tellers.add(t);
+		t.teller.managerMap(ManagerAccs);
 		stateChanged();
 		Do(AlertTag.BANK,"Manager: New teller has been added: "+t.teller);
 		//Brian adding some code to make sure the bank is open
@@ -127,7 +128,6 @@ public class bankManagerRole extends Role implements  Manager{
 
 	@Override
 	public void callTeller(Customer c, Teller t) {
-		t.teller.managerMap(ManagerAccs);
 		if (c.getAccNum() == -1) {
 			t.teller.tellerAssigned(c, accNum);
 			accNum++;

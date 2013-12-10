@@ -5,13 +5,15 @@ import jesseRest.*;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Globals.Money;
 /***
  * 
  * @author Eric
  *
  */
 public class B_JesseRestaurant extends Building{
-	
+	public int B_JesseAccNum = 2000;
+	public Money JRestMoney = new Money(700,0);
 	public JesseHost host = new JesseHost("JHost");
 	public JesseCashier cashier = new JesseCashier("JCashier");
 	public JesseCook cook = new JesseCook("JCook");
@@ -38,6 +40,8 @@ public class B_JesseRestaurant extends Building{
 		try {
 			if(role.equals("jesseRest.JesseHost")) { 
 				newRole = host;
+				host.setMoney(JRestMoney);
+				host.setAcc(B_JesseAccNum);
 				hostFilled = true;
 				setOpen(areAllNeededRolesFilled());
 				}
@@ -59,6 +63,7 @@ public class B_JesseRestaurant extends Building{
 			}
 			else if(role.equals("jesseRest.JesseCashier")) {
 				newRole = cashier;
+				cashier.setMoney(host.getMoney());
 				cashierFilled = true;
 				setOpen(areAllNeededRolesFilled());
 			}
@@ -107,6 +112,14 @@ public class B_JesseRestaurant extends Building{
 
 	@Override
 	public void ExitBuilding(Person person) {
+		System.out.println(person.getMainRoleString().toString());
+		if(person.getMainRoleString().equals("jesseRest.JesseHost")){
+			JRestMoney = host.getMoney();
+			hostFilled = false;
+		}
+		if(person.getMainRoleString().equals("jesseRest.JesseWaiter")) numWaiter--;
+		if(person.getMainRoleString().equals("jesseRest.JesseCashier")) cashierFilled = false;
+		if(person.getMainRoleString().equals("jesseRest.JesseCook")) cookFilled = false;
 		person.resetActiveRoles();
     	person.msgExitBuilding();		
 

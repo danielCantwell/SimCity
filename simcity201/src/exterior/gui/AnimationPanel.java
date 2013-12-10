@@ -564,20 +564,37 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("BCustomer", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+            	 createPerson("BRobber", "Bank.RobberRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+
             	 //Second Shift 
-            	 createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 2);
-            	 createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 2);
-            	 createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 2);
+//            	 createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 2);
+//            	 createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 2);
+//            	 createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 2);
              }
         };
-        
+        Action keyCtrlR = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+
+            	 //First Shift
+            	 createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+            	 createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+            	 createPerson("BRobber", "Bank.RobberRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+            	 //createPerson("BCustomer", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+            	 createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+             }
+        };
         Action keyCtrlE = new AbstractAction()
         {
         	public void actionPerformed(ActionEvent e)
         	{
         		//First Shift
+           	    createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+        		createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+                createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
         		createPerson("EHost", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
-        		//createPerson("ECustomer", "EricRestaurant.EricCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+        		createPerson("ECustomer", "EricRestaurant.EricCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("EWaiter", "EricRestaurant.EricWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECook", "EricRestaurant.EricCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1); 
@@ -592,11 +609,19 @@ public class AnimationPanel extends JPanel implements ActionListener {
         {
         	public void actionPerformed(ActionEvent e)
         	{
-        		createPerson("JHost", "jesseRest.JesseHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
-        		createPerson("JCustomer", "jesseRest.JesseCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
-           	 	createPerson("JWaiter", "jesseRest.JesseWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
-           	 	createPerson("JCashier", "jesseRest.JesseCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
-           	 	createPerson("JCook", "jesseRest.JesseCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1); 
+        		createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+        		createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+                createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+//        		createPerson("JHost", "jesseRest.JesseHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+//        		createPerson("JCustomer", "jesseRest.JesseCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+//           	 	createPerson("JWaiter", "jesseRest.JesseWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+//           	 	createPerson("JCashier", "jesseRest.JesseCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1);
+//           	 	createPerson("JCook", "jesseRest.JesseCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(7), 1); 
+                createPerson("Host", "brianRest.BrianHostRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
+           	 createPerson("Customer", "brianRest.BrianCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
+           	 createPerson("PCWaiter", "brianRest.BrianPCWaiterRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 1);
+           	 createPerson("Cashier", "brianRest.BrianCashierRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1);
+           	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(6), 1); 
         	}
         };
        
@@ -713,6 +738,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("Cook", "brianRest.BrianCookRole", Vehicle.walk, Morality.good, gui.buildingList.get(4), gui.buildingList.get(6), 2); 
              }
         };
+        String stringCtrlR = "CTRL R";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_MASK), stringCtrlR);
+        getActionMap().put(stringCtrlR, keyCtrlR);
         String stringCtrl0 = "CTRL 0";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_0, KeyEvent.CTRL_MASK), stringCtrl0);
         getActionMap().put(stringCtrl0, keyCtrl0);

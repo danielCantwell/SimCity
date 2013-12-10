@@ -60,14 +60,15 @@ public class DannyCashier extends Role implements Cashier,
 		foods.put("Chicken", chicken);
 		foods.put("Pizza", pizza);
 		foods.put("Salad", salad);
-		
-		restaurantMoney = new Money(1000, 0);
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public void setMoney(Money m) {
+		restaurantMoney = m;
+	}
 	// Messages
 
 	public void msgLeaveRestaurant() {

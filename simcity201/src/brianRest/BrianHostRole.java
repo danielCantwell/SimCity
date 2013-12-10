@@ -1,9 +1,15 @@
 package brianRest;
 
+import Bank.tellerRole;
+import EricRestaurant.EricHost.bankstate;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_BrianRestaurant;
+import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
 import agent.Agent;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
 import brianRest.interfaces.BrianWaiter;
@@ -21,10 +27,14 @@ import restaurant.interfaces.Waiter;
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
 public class BrianHostRole extends Role implements BrianHost {
-	
+	Money BRestMoney;
+	B_Bank bank;
+	tellerRole bm;
+	public int BAccNum;
 	private final int WINDOWX = 640;
-	private final int WINDOWY = 640;
-	
+	private final int WINDOWY = 540;
+	public enum bankstate {none, gotManager, sent};
+	private bankstate bs = bankstate.none;
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -51,7 +61,7 @@ public class BrianHostRole extends Role implements BrianHost {
 		// make some tables
 		tables = new ArrayList<BrianTable>(NTABLES);
 		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new BrianTable(ix, WINDOWX/(NTABLES+2) * ix, 7*WINDOWY/10)); // animation for later
+			tables.add(new BrianTable(ix, WINDOWX/(NTABLES+2) * ix, 5*WINDOWY/10)); // animation for later
 		}
 	}
 
@@ -174,7 +184,10 @@ public class BrianHostRole extends Role implements BrianHost {
 				}
 			}
 		}
-		
+		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+			msgBank();
+			return true;
+		}
 		if (wantToGoHome){
 			leaveRestaurant();
 		}
@@ -186,6 +199,13 @@ public class BrianHostRole extends Role implements BrianHost {
 	}
 
 // ######################   Actions  ##################
+	public void msgBank() {
+		bank = (B_Bank) God.Get().getBuilding(2);
+		bm = (tellerRole) bank.getOneTeller();
+		bm.restMoney(BAccNum, BRestMoney, this);
+		bs = bankstate.sent;
+	}
+	
 	private void notifyWaiter(BrianTable t, MyWaiter w){
 		 System.out.println("BrianHost is notifying BrianWaiter");
 		   w.numberOfCustomers++;
@@ -271,6 +291,8 @@ public class BrianHostRole extends Role implements BrianHost {
 	
 	public void addWaiter(BrianWaiter newRole){
 		waiters.add(new MyWaiter(newRole));
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.building.getPanel();
+		brp.addWaiter(newRole.toString(), newRole);
 		workingWaiters++;
 		stateChanged();
 	}
@@ -329,6 +351,27 @@ public class BrianHostRole extends Role implements BrianHost {
 	@Override
 	public String toString() {
 		return "BrianHost";
+	}
+
+	public void setBM() {
+		bs = bankstate.gotManager;
+		stateChanged();
+	}
+	
+	public void setMoney(Money m) {
+		BRestMoney = m;
+	}
+	
+	public Money getMoney() {
+		return BRestMoney;
+	}
+	public void setAccNum(int num) {
+		BAccNum = num;
+		System.out.println("Host got Brian Resturant Acc Num: "+BAccNum);
+	}
+	public void transDone(Money m) {
+		BRestMoney = m;
+		System.out.println("Host finished bank interaction and BRest has : $"+BRestMoney.getDollar());
 	}
 }
 
