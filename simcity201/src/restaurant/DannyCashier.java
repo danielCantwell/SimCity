@@ -15,7 +15,9 @@ import restaurant.gui.DannyRestaurantAnimationPanel;
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_DannyRestaurant;
 import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
@@ -162,6 +164,7 @@ public class DannyCashier extends Role implements Cashier,
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
 		ap.cashierPresent = false;
+		myPerson.msgGoHome();
 		exitBuilding(myPerson);
 		workOver = false;
 	}
