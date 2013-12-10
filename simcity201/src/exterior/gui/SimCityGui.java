@@ -97,7 +97,7 @@ public class SimCityGui extends JFrame{
     		}
     		// Add Restaurants:
     		if (i==6){
-    			buildingPanel = new brianRest.gui.BrianAnimationPanel();
+    			buildingPanel = new brianRest.gui.BrianRestaurantPanel();
     			b = new B_BrianRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
     		}
     		if (i == 7) {

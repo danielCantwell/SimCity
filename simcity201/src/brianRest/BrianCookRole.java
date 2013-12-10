@@ -12,6 +12,7 @@ import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.OrderStand.Orders;
 import brianRest.gui.BrianAnimationPanel;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.gui.CookGui;
 import brianRest.interfaces.BrianCook;
 import brianRest.interfaces.BrianWaiter;
@@ -158,6 +159,10 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 		
 //########## Actions ###############
 	private void makeCookOrder(Orders o){
+		Do(AlertTag.BrianRest, "Going to order stand");
+		DoGoToStand();
+		DoGoToGrill();
+		
 		Order order = new Order(o.getChoice(), o.getWaiter(), o.getTableNumber());
 		 orders.add(order);
 		 stateChanged();
@@ -172,7 +177,10 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
                  Do(AlertTag.BrianRest, "Out of "+ o.choice);
                  AlertLog.getInstance().logWarning(AlertTag.BrianRest, name, "Ordering more food");
                  if (temp.orderFromIndex < markets.size())
-                 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+                 {
+                	 if (markets.get(temp.orderFromIndex).getManager() !=null)
+                	 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+                 }
                  return;
          }
          DoGoToGrill();
@@ -181,11 +189,14 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
                  //order more for the restaurant;
                  Do(AlertTag.BrianRest, "Last "+ o.choice+". Ordering more.");
                  if (temp.orderFromIndex < markets.size())
+                 {
+                 if (markets.get(temp.orderFromIndex).getManager() !=null)
                  markets.get(temp.orderFromIndex).
                  getManager().msgWantFood(
                 		 myPerson.building.getID(),
                 		 temp.choice, 
                 		 max_Capacity - temp.amount);
+                 }
          }
          
          temp.amount --;
@@ -225,6 +236,11 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	
 	private void DoGoToPlates(){
 		gui.DoGoToPlates();
+		atLocAcquire();
+	}
+	
+	private void DoGoToStand(){
+		gui.DoGoToStand();
 		atLocAcquire();
 	}
 	
@@ -341,7 +357,8 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	protected void enterBuilding() {
 		
 		brianRest.gui.CookGui wg = new brianRest.gui.CookGui(this);
-		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.building.getPanel();
+		BrianAnimationPanel bap = (BrianAnimationPanel)brp.bap;
 		gui = wg;
 		bap.addGui(wg);
 		

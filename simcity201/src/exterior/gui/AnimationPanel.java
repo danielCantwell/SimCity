@@ -103,6 +103,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private Semaphore[][] pedestrianGrid = new Semaphore[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
     public int[][] vehicleGrid = new int[WINDOWX/(TILESIZE)][WINDOWY/(TILESIZE)];
     public boolean horizontalRedLight = true;
+    public boolean createAccidents = false;
     private String consoleText = "";
     private Font font;
     public int currentID = 1;
@@ -655,13 +656,24 @@ public class AnimationPanel extends JPanel implements ActionListener {
              }
         };
         
+        Action keyCtrlA = new AbstractAction()
+        {
+             public void actionPerformed(ActionEvent e)
+             {
+            	createAccidents = !createAccidents;
+            	if (createAccidents) {
+        			AlertLog.getInstance().logDebug(AlertTag.God, "God (GUI)", "Cars' accident chance set to 100%.");
+            	} else {
+        			AlertLog.getInstance().logDebug(AlertTag.God, "God (GUI)", "Cars' accident chance reset to default 20%.");
+            	}
+             }
+        };
+        
         Action keyCtrlQ = new AbstractAction()
         {
              public void actionPerformed(ActionEvent e)
              {
-            	 //CarGui g = new CarGui(gui, currentID);
               	 createPerson("Matt", "Bank.bankCustomerRole", Vehicle.bus, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
-
              }
         };
         
@@ -726,6 +738,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         String stringCtrlQ = "CTRL Q";
         getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_MASK), stringCtrlQ);
         getActionMap().put(stringCtrlQ, keyCtrlQ);
+        String stringCtrlA = "CTRL A";
+        getInputMap(this.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK), stringCtrlA);
+        getActionMap().put(stringCtrlA, keyCtrlA);
     }
     
     public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b, int shift){
@@ -743,7 +758,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 	 return p;
 	   	 } else if (v == Vehicle.car) {
 	   		 currentID++;
-	   		 CarGui g = new CarGui(gui, currentID);
+	   		 CarGui g = new CarGui(gui, currentID, createAccidents);
 	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
@@ -760,7 +775,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   		 addGui(g);
 	   	 	 God.Get().addPerson(p);
 	   	 	 p.startThread();
-	   	 	 standees.get(p.building.getID()-1).add(p);
+	   	 	 enterBus(p);
 	   	 	 
 	   	 	 return p;
 	   	 }
@@ -805,6 +820,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     public void setScrollPane(JScrollPane s) {
     	scrollPane = s;
+    }
+    
+    public void enterBus(Person p) {
+  	 	 standees.get(p.building.getID()).add(p);
     }
     
     public void clearVGrid(int id) {

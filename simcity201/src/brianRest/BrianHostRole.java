@@ -4,6 +4,7 @@ import SimCity.Base.Role;
 import SimCity.Buildings.B_BrianRestaurant;
 import SimCity.trace.AlertTag;
 import agent.Agent;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.interfaces.BrianCustomer;
 import brianRest.interfaces.BrianHost;
 import brianRest.interfaces.BrianWaiter;
@@ -23,7 +24,7 @@ import restaurant.interfaces.Waiter;
 public class BrianHostRole extends Role implements BrianHost {
 	
 	private final int WINDOWX = 640;
-	private final int WINDOWY = 640;
+	private final int WINDOWY = 540;
 	
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -51,7 +52,7 @@ public class BrianHostRole extends Role implements BrianHost {
 		// make some tables
 		tables = new ArrayList<BrianTable>(NTABLES);
 		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new BrianTable(ix, WINDOWX/(NTABLES+2) * ix, 7*WINDOWY/10)); // animation for later
+			tables.add(new BrianTable(ix, WINDOWX/(NTABLES+2) * ix, 5*WINDOWY/10)); // animation for later
 		}
 	}
 
@@ -271,6 +272,8 @@ public class BrianHostRole extends Role implements BrianHost {
 	
 	public void addWaiter(BrianWaiter newRole){
 		waiters.add(new MyWaiter(newRole));
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.building.getPanel();
+		brp.addWaiter(newRole.toString(), newRole);
 		workingWaiters++;
 		stateChanged();
 	}

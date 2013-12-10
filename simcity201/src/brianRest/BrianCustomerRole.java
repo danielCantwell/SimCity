@@ -8,6 +8,7 @@ import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
 import agent.Agent;
 import brianRest.gui.BrianAnimationPanel;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.gui.CustomerGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCustomer;
@@ -440,7 +441,8 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 		//add the gui
 		brianRest.gui.CustomerGui wg = new brianRest.gui.CustomerGui(this, rest.hostRole);
 		customerGui = wg;
-		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.building.getPanel();
+		BrianAnimationPanel bap = (BrianAnimationPanel)brp.bap;
 		bap.addGui(wg);
 		
 		if (!myPerson.building.getOpen()){

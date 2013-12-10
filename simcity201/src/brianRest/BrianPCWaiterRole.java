@@ -7,6 +7,7 @@ import agent.Agent;
 
 
 import brianRest.gui.BrianAnimationPanel;
+import brianRest.gui.BrianRestaurantPanel;
 import brianRest.gui.WaiterGui;
 import brianRest.interfaces.BrianCashier;
 import brianRest.interfaces.BrianCook;
@@ -487,7 +488,8 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 		//add gui
 		brianRest.gui.WaiterGui wg = new brianRest.gui.WaiterGui(this);
 		gui = wg;
-		BrianAnimationPanel bap = (BrianAnimationPanel)myPerson.building.getPanel();
+		BrianRestaurantPanel brp = (BrianRestaurantPanel)myPerson.building.getPanel();
+		BrianAnimationPanel bap = brp.bap;
 		bap.addGui(wg);
 	}
 
