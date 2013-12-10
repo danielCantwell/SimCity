@@ -35,4 +35,11 @@ public class MockMarketClerk implements MarketClerk
         
     }
 
+    @Override
+    public void msgLeaveMarket()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

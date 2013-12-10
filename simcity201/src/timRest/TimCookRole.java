@@ -38,6 +38,8 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	enum CookState { idle, cooking };
 	private CookState state = CookState.idle;
 	
+	private boolean canLeave = false;
+	
 	enum OrderState { pending, cooking, justFinished, ready }
 	
 	public TimCookRole()
@@ -236,9 +238,20 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 		}
 	}
 	
+	public void msgLeaveWork()
+	{
+	    canLeave = true;
+        stateChanged();
+	}
+	
 	@Override
 	protected boolean pickAndExecuteAnAction()
 	{
+	    if (canLeave)
+	    {
+	        leaveBuilding();
+	        return false;
+	    }
         /*if (!deliveries.isEmpty())
         {
             askCashierToPay(deliveries.get(0));
@@ -252,13 +265,13 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 				{
 					if (order.state == OrderState.justFinished)
 					{
-						print("Order up! Table " + order.tableNumber + "!");
+						Do(AlertTag.TimRest, "Order up! Table " + order.tableNumber + "!");
 						orderDone(order);
 						return true;
 					}
 					else if (order.state ==  OrderState.pending)
 					{
-						Do(AlertTag.TimRest,"Cooking " + order.choice + ".");
+						Do(AlertTag.TimRest, "Cooking " + order.choice + ".");
 						state = CookState.cooking;
 						cook(order);
 						return true;
@@ -349,6 +362,12 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 			}
 		}
 	}
+    
+    private void leaveBuilding()
+    {
+        canLeave = false;
+        exitBuilding(myPerson);
+    }
 	
 	public void addItemToInventory(String choice, int amount, int cookingTime)
 	{
@@ -457,7 +476,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	@Override
 	public void workOver() {
         myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+        //exitBuilding(myPerson);
 	}
 
 	@Override

@@ -46,6 +46,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 	private int currentTable;
 	
 	private boolean wantsBreak = false;
+	private boolean wantsLeave = false;
 	
 	enum AgentState { idle, seating, takingOrder, serving, reorder, outOfFood, putOnBreak, onBreak, gettingCheck };
 	enum TravelState { idle, toHost, atHost, toTable, atTable, toCook, atCook, toCashier, atCashier };
@@ -345,6 +346,11 @@ public class TimWaiterRole extends Role implements TimWaiter{
 			openTables();
 			return true;
 		}
+        if (wantsLeave && myCustomers.isEmpty())
+        {
+            leaveBuilding();
+            return false;
+        }
 		if (state == AgentState.idle)
 		{
 			if (myCustomers != null)
@@ -822,6 +828,12 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		waiterGui.GoToBreak();
 		state = AgentState.onBreak;
 	}
+	
+	private void leaveBuilding()
+	{
+        wantsLeave = false;
+	    exitBuilding(myPerson);
+	}
 
 	// The animation DoXYZ() routines
 	private void DoSeatCustomer(MyCustomer customer) {
@@ -858,7 +870,7 @@ public class TimWaiterRole extends Role implements TimWaiter{
 		{
 			text = text.concat("?");
 		}
-		//panel.setTableIcon(tableNumber, text);
+		host.tables.get(tableNumber).icon = text;
 	}
 	
 	private void DoSetWaiterIcon(int tableNumber, String choice)
@@ -999,7 +1011,8 @@ public class TimWaiterRole extends Role implements TimWaiter{
     public void workOver()
     {
         myPerson.Do("Closing time.");
-        exitBuilding(myPerson);
+        wantsLeave = true;
+        stateChanged();
     }
 
 	@Override

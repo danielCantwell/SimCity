@@ -26,4 +26,11 @@ public class MockMarketDeliveryPerson implements MarketDeliveryPerson
         
     }
 
+    @Override
+    public void msgLeaveMarket()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

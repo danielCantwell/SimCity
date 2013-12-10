@@ -95,7 +95,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
     public void workOver()
     {
         myPerson.Do("Market has closed for the day...");
-        exitBuilding(myPerson);
     }
 
 	/**
