@@ -236,6 +236,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	}
 	
 	private void leaveRestaurant() {
+		/*
 		waiterGui.DoLeaveRestaurant();
 		
 		try {
@@ -243,7 +244,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		*/
 		waiterGui.setPresent(false);
 		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 				.getPanel();
