@@ -619,7 +619,7 @@ public class Person extends Agent {
 	}
 	
 	Timer hungerTimer;
-	int hungerOffset = 50000;
+	int hungerOffset = 6000;
 	boolean hasActiveRole = false;
 	void setUpHungerTimer(){
 		 hungerTimer = new Timer(hungerOffset, new ActionListener() {

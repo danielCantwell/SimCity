@@ -424,6 +424,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     
     private void leaveBuilding()
     {
+        myPerson.money.add(new Money(100, 00));
         wantsLeave = false;
         exitBuilding(myPerson);
     }

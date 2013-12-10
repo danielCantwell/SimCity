@@ -365,6 +365,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
     
     private void leaveBuilding()
     {
+        myPerson.money.add(new Money(75, 00));
         canLeave = false;
         exitBuilding(myPerson);
     }
