@@ -425,6 +425,7 @@ public class MarketManagerRole extends Role implements MarketManager {
     private void leaveBuilding()
     {
         myPerson.money.add(new Money(100, 00));
+        Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
         wantsLeave = false;
         exitBuilding(myPerson);
     }
