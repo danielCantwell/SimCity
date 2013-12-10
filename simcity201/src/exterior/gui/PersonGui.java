@@ -33,20 +33,40 @@ public class PersonGui implements Gui {
 
 	public void updatePosition() {
 		if (xPos < xDestination) {
-			xPos+=2;
-			rotation = 0;
+			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)]) instanceof CarGui || 
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)]) instanceof PersonGui &&  
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)]).getRotation() == rotation) {
+			} else {
+				xPos+=2;
+				rotation = 0;
+			}
 		}
 		else if (xPos > xDestination) {
-			xPos-=2;
-			rotation = 2;
+			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)]) instanceof CarGui || 
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)]) instanceof PersonGui &&  
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)]).getRotation() == rotation) {
+			} else {
+				xPos-=2;
+				rotation = 2;
+			}
 		}
 		if (yPos < yDestination) {
-			yPos+=2;
-			rotation = 1;
+			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1]) instanceof CarGui || 
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1]) instanceof PersonGui &&  
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1]).getRotation() == rotation) {
+			} else {
+				yPos+=2;
+				rotation = 1;
+			}
 		}
 		else if (yPos > yDestination) {
-			yPos-=2;
-			rotation = 3;
+			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1]) instanceof CarGui || 
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1]) instanceof PersonGui &&  
+					gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1]).getRotation() == rotation) {
+			} else {
+				yPos-=2;
+				rotation = 3;
+			}
 		}
 
 		if (xPos == xDestination && yPos == yDestination) {
@@ -59,6 +79,7 @@ public class PersonGui implements Gui {
 			isPresent = false;
             currentPosition.release(aStar.getGrid());
 			command = Command.none;
+			gui.animationPanel.clearVGrid(myID);
 			person.animation.release();
 		}
 		

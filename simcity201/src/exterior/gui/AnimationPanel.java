@@ -107,6 +107,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private String consoleText = "";
     private Font font;
     public int currentID = 1;
+    public HashMap<Integer, Gui> idList = new HashMap<Integer, Gui>();
     
     private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
     private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
@@ -788,6 +789,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 if (v == Vehicle.walk) {
 	   		 currentID++;
 	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
+	   		 idList.put(currentID, g);
+	   		 
 	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
@@ -799,6 +802,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 } else if (v == Vehicle.car) {
 	   		 currentID++;
 	   		 CarGui g = new CarGui(gui, currentID, createAccidents);
+	   		 idList.put(currentID, g);
+	   		 
 	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
@@ -810,6 +815,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 } else if (v == Vehicle.bus) {
 	   		 currentID++;
 	   		 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
+	   		 idList.put(currentID, g);
+	   		 
 	   		 Person p = new Person(name, g, role, v, m, new Money(500, 0), new Money(10, 0), 10, 4, bHouse.type, bHouse, b, shift);
 	   		 p.setAnimPanel(this);
 	   		 g.setPerson(p);
@@ -831,6 +838,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
    		 currentID++;
 	   	 PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
+   		 idList.put(currentID, g);
+   		 
 	   	 Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b, 1);
    		 p.setAnimPanel(this);
 	   	 g.setPerson(p);
@@ -848,6 +857,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
          AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
    		 currentID++;
          PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
+   		 idList.put(currentID, g);
+   		 
          Person p = new Person(name, g, role, v, m, new Money(100, 0), new Money(10, 0), 10, 4, "Apartment", (B_House)house, b, 1);
    		 p.setAnimPanel(this);
          g.setPerson(p);
@@ -900,10 +911,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	 	currentID++;
 	 	BusGui g1 = new BusGui(gui, currentID);
 	 	addGui(g1);
+  		idList.put(currentID, g1);
 	 	
 	 	currentID++;
 	 	BusGui g2 = new BusGui(gui, currentID);
 	 	addGui(g2);
+  		idList.put(currentID, g2);
     }
     
     public PersonGui getNewGui(Person p) {
@@ -911,6 +924,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
   		currentID++;
         PersonGui g = new PersonGui(gui, currentID, aStarTraversal);
+  		idList.put(currentID, g);
   		g.setPerson(p);
   		addGui(g);
         return g;
