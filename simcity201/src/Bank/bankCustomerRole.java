@@ -52,7 +52,7 @@ public class bankCustomerRole extends Role implements Customer{
 	@Override
 	public void enterBuilding() {
 		B_Bank bank = (B_Bank)myPerson.building;
-		if(!(bank.getBankManager() == null) || !(bank.getBankGuard() == null) || !(bank.getOneTeller() == null)){
+		if(!(bank.getBankManager() == null && bank.getBankGuard() == null && bank.getOneTeller() == null)){
 		s = state.enter;
 		wMoney = myPerson.getMoney();
 		accNum = myPerson.getAccNum();
