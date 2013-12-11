@@ -8,6 +8,7 @@ import jesseRest.interfaces.Cashier;
 import jesseRest.interfaces.Customer;
 import jesseRest.interfaces.Waiter;
 import market.MarketManagerRole;
+import market.interfaces.MarketDeliveryCashier;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
@@ -16,7 +17,7 @@ import SimCity.trace.AlertTag;
  * Restaurant Cashier Agent
  */
 
-public class JesseCashier extends Role implements Cashier {
+public class JesseCashier extends Role implements Cashier, MarketDeliveryCashier {
 	public List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
 	public List<MyBill> bills = Collections.synchronizedList(new ArrayList<MyBill>());
 	public Money money;

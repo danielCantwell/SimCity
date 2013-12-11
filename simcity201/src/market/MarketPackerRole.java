@@ -196,6 +196,7 @@ public class MarketPackerRole extends Role implements MarketPacker {
         Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave = false;
         exitBuilding(myPerson);
+        myPerson.msgGoHome();
     }
 	
 	private void grabItem(Order order)

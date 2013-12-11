@@ -197,6 +197,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
         Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave = false;
         exitBuilding(myPerson);
+        myPerson.msgGoHome();
     }
 	
 	public void addItemToMenu(String choice, Money price)
