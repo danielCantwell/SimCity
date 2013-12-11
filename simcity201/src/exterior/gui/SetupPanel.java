@@ -1166,7 +1166,7 @@ public class SetupPanel extends JFrame {
 				else if (marketPacker.isSelected())
 					role = "market.MarketPackerRole";
 				else if (marketDelivery.isSelected())
-					role = "market.MarketDeliveryRole";
+					role = "market.MarketDeliveryPersonRole";
 				else if (marketManager.isSelected())
 					role = "market.MarketManagerRole";
 				else if (marketCustomer.isSelected())
@@ -1237,8 +1237,8 @@ public class SetupPanel extends JFrame {
 					role = "timRest.TimCookRole";
 				else if (timRestWaiter.isSelected())
 					role = "timRest.TimWaiterRole";
-				// else if (timRestPCWaiter.isSelected())
-				// role = "timRest.TimPCWaiterRole"; TODO - tim pc waiter
+				else if (timRestPCWaiter.isSelected())
+				    role = "timRest.TimPCWaiterRole";
 				else if (timRestCustomer.isSelected())
 					role = "timRest.TimCustomerRole";
 
