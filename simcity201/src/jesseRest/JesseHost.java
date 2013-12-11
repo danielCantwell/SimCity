@@ -225,7 +225,7 @@ public class JesseHost extends Role {
 	
 	void seatCustomer(JesseCustomer c, Table t, JesseAbstractWaiter w) {
 		Do(AlertTag.JesseRest, "Message 2: Sending SitAtTable from Host to Waiter.");
-		((JesseWaiter) w).msgSitAtTable(c, t);
+		w.msgSitAtTable(c, t);
 		waitingCustomers.remove(0);
 		t.setOccupant(c);
 	}

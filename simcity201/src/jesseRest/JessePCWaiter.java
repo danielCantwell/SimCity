@@ -62,7 +62,7 @@ public class JessePCWaiter extends JesseAbstractWaiter implements Waiter {
 		System.out.println("Adding customer. List: " + customers);
 		stateChanged();
 	}
-
+	
 	public void msgImReadyToOrder(JesseCustomer cust) {
 		for (MyCustomer mc : customers) {
 			if (mc.customer == cust) {
