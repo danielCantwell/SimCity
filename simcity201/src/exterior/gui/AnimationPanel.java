@@ -588,11 +588,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
              {
 
             	 //First Shift
-            	 createPerson("EHost", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+            	 createPerson("EHost", "EricRestaurant.EricHost", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
          		 createPerson("ECustomer", "EricRestaurant.EricCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+         		 createPerson("EECustomer", "EricRestaurant.EricCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+            	 createPerson("EWaiter", "EricRestaurant.EricWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
             	 createPerson("EPCWaiter", "EricRestaurant.EricPCWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
             	 createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
             	 createPerson("ECook", "EricRestaurant.EricCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1); 
+            	 
             	 //Second Shift 
              }
         };
@@ -621,7 +624,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
                 createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
         		createPerson("EHost", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
         		createPerson("ECustomer", "EricRestaurant.EricCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
-           	 	createPerson("EWaiter", "EricRestaurant.EricWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+           	 	createPerson("EWPCaiter", "EricRestaurant.EricPCWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECook", "EricRestaurant.EricCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1); 
            	 	//Second Shift
