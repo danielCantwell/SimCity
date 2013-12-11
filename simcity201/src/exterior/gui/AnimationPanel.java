@@ -252,7 +252,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	    }});
 		trafficTimer.start();
 		
-		Timer busTimer = new Timer(2000, new ActionListener() {
+		Timer busTimer = new Timer(500, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   if (currentID == 1) {
 					   spawnBuses();

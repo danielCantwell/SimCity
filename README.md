@@ -8,6 +8,10 @@ SimCity201 Project Repository for CS 201 students
   * Owner Role
   * Tenant Role
 + Global Money Class
++ Setup Panel
+  * Creating Individual People with various options
+  * Creating Scenarios
+  * Changing mode options
 + Junit Testing
   * All the above listed roles
 
