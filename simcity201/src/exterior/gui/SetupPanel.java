@@ -1611,10 +1611,10 @@ public class SetupPanel extends JFrame {
 	private void createDannyRestaurantPeople(Vehicle vehicle) {
 		// housing building 0
 		animationPanel.createPerson("D_Host_One", "restaurant.DannyHost",
-				vehicle, Morality.good, selectHouse(),
+				Vehicle.walk, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(9), 1);
 		animationPanel.createPerson("D_Host_Two", "restaurant.DannyHost",
-				vehicle, Morality.good, selectHouse(),
+				Vehicle.walk, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(9), 2);
 		animationPanel.createPerson("D_Cashier_One", "restaurant.DannyCashier",
 				vehicle, Morality.good, selectHouse(),
@@ -1650,10 +1650,10 @@ public class SetupPanel extends JFrame {
 
 	private void createEricRestaurantPeople(Vehicle vehicle) {
 		animationPanel.createPerson("E_Host_One", "EricRestaurant.EricHost",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(11), 1);
 		animationPanel.createPerson("E_Host_Two", "EricRestaurant.EricHost",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(11), 2);
 		animationPanel.createPerson("E_Customer",
 				"EricRestaurant.EricCustomer", vehicle, Morality.good,
@@ -1663,12 +1663,18 @@ public class SetupPanel extends JFrame {
 				"EricRestaurant.EricWaiter", vehicle, Morality.good,
 				selectApartment(),
 				animationPanel.getGui().buildingList.get(11), 1);
-		// TODO add EricPCWaiter shift one
+		animationPanel.createPerson("E_PC_Waiter_One",
+				"EricRestaurant.EricPCWaiter", vehicle, Morality.good,
+				selectApartment(),
+				animationPanel.getGui().buildingList.get(11), 1);
 		animationPanel.createPerson("E_Waiter_Two",
 				"EricRestaurant.EricWaiter", vehicle, Morality.good,
 				selectApartment(),
 				animationPanel.getGui().buildingList.get(11), 2);
-		// TODO add EricPCWaiter shift two
+		animationPanel.createPerson("E_PC_Waiter_Two",
+				"EricRestaurant.EricPCWaiter", vehicle, Morality.good,
+				selectApartment(),
+				animationPanel.getGui().buildingList.get(11), 2);
 		animationPanel.createPerson("E_Cashier_One",
 				"EricRestaurant.EricCashier", vehicle, Morality.good,
 				selectApartment(),
@@ -1687,10 +1693,10 @@ public class SetupPanel extends JFrame {
 
 	private void createBrianRestaurantPeople(Vehicle vehicle) {
 		animationPanel.createPerson("B_Host_One", "brianRest.BrianHostRole",
-				vehicle, Morality.good, selectHouse(),
+				Vehicle.walk, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(6), 1);
 		animationPanel.createPerson("B_Host_Two", "brianRest.BrianHostRole",
-				vehicle, Morality.good, selectHouse(),
+				Vehicle.walk, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(6), 2);
 		animationPanel.createPerson("B_Customer",
 				"brianRest.BrianCustomerRole", vehicle, Morality.good,
@@ -1723,10 +1729,10 @@ public class SetupPanel extends JFrame {
 
 	private void createJesseRestaurantPeople(Vehicle vehicle) {
 		animationPanel.createPerson("J_Host_One", "jesseRest.JesseHost",
-				vehicle, Morality.good, selectHouse(),
+				Vehicle.walk, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(7), 1);
 		animationPanel.createPerson("J_Host_Two", "jesseRest.JesseHost",
-				vehicle, Morality.good, selectHouse(),
+				Vehicle.walk, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(7), 2);
 		animationPanel.createPerson("J_Customer", "jesseRest.JesseCustomer",
 				vehicle, Morality.good, selectHouse(),
@@ -1734,11 +1740,15 @@ public class SetupPanel extends JFrame {
 		animationPanel.createPerson("J_Waiter_One", "jesseRest.JesseWaiter",
 				vehicle, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(7), 1);
-		// TODO add JessePCWaiter shift one
+		animationPanel.createPerson("J_PC_Waiter_One", "jesseRest.JessePCWaiter",
+				vehicle, Morality.good, selectHouse(),
+				animationPanel.getGui().buildingList.get(7), 1);
 		animationPanel.createPerson("J_Waiter_Two", "jesseRest.JesseWaiter",
 				vehicle, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(7), 2);
-		// TODO add JessePCWaiter shift two
+		animationPanel.createPerson("J_PC_Waiter_Two", "jesseRest.JessePCWaiter",
+				vehicle, Morality.good, selectHouse(),
+				animationPanel.getGui().buildingList.get(7), 2);
 		animationPanel.createPerson("J_Cashier_One", "jesseRest.JesseCashier",
 				vehicle, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(7), 1);
@@ -1755,19 +1765,23 @@ public class SetupPanel extends JFrame {
 
 	private void createTimRestaurantPeople(Vehicle vehicle) {
 		animationPanel.createPerson("T_Host_One", "timRest.TimHostRole",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 1);
 		animationPanel.createPerson("T_Host_Two", "timRest.TimHostRole",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 2);
 		animationPanel.createPerson("T_Waiter_One", "timRest.TimWaiterRole",
 				vehicle, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 1);
-		// TODO add TimPCWaiter shift one
+		animationPanel.createPerson("T_PC_Waiter_One", "timRest.TimPCWaiterRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(10), 1);
 		animationPanel.createPerson("T_Waiter_Two", "timRest.TimWaiterRole",
 				vehicle, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 2);
-		// TODO add TimPCWaiter shift two
+		animationPanel.createPerson("T_PC_Waiter_Two", "timRest.TimPCWaiterRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(10), 2);
 		animationPanel.createPerson("T_Cook_One", "timRest.TimCookRole",
 				vehicle, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(10), 1);
@@ -1794,10 +1808,10 @@ public class SetupPanel extends JFrame {
 		 * Building 2
 		 */
 		animationPanel.createPerson("BankManager_One", "Bank.bankManagerRole",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(2), 1);
 		animationPanel.createPerson("BankManager_Two", "Bank.bankManagerRole",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(2), 2);
 		animationPanel.createPerson("BankTeller_One", "Bank.tellerRole",
 				vehicle, Morality.good, selectApartment(),
@@ -1819,10 +1833,10 @@ public class SetupPanel extends JFrame {
 		 * Building 8
 		 */
 		animationPanel.createPerson("BankManager_One", "Bank.bankManagerRole",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(8), 1);
 		animationPanel.createPerson("BankManager_Two", "Bank.bankManagerRole",
-				vehicle, Morality.good, selectApartment(),
+				Vehicle.walk, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(8), 2);
 		animationPanel.createPerson("BankTeller_One", "Bank.tellerRole",
 				vehicle, Morality.good, selectApartment(),
@@ -1846,10 +1860,10 @@ public class SetupPanel extends JFrame {
 		 * Building 3
 		 */
 		animationPanel.createPerson("MarketManager_One",
-				"market.MarketManagerRole", vehicle, Morality.good,
+				"market.MarketManagerRole", Vehicle.walk, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(3), 1);
 		animationPanel.createPerson("MarketManager_Two",
-				"market.MarketManagerRole", vehicle, Morality.good,
+				"market.MarketManagerRole", Vehicle.walk, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(3), 2);
 		animationPanel.createPerson("MarketClerk_One",
 				"market.MarketClerkRole", vehicle, Morality.good,
@@ -1876,10 +1890,10 @@ public class SetupPanel extends JFrame {
 		 * Building 5
 		 */
 		animationPanel.createPerson("MarketManager_One",
-				"market.MarketManagerRole", vehicle, Morality.good,
+				"market.MarketManagerRole", Vehicle.walk, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
 		animationPanel.createPerson("MarketManager_Two",
-				"market.MarketManagerRole", vehicle, Morality.good,
+				"market.MarketManagerRole", Vehicle.walk, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
 		animationPanel.createPerson("MarketClerk_One",
 				"market.MarketClerkRole", vehicle, Morality.good,

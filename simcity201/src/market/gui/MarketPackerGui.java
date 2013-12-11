@@ -39,14 +39,14 @@ public class MarketPackerGui implements Gui {
 		if (!pause) {
 
 			if (xPos < xDestination)
-				xPos++;
+				xPos+=2;
 			else if (xPos > xDestination)
-				xPos--;
+				xPos-=2;
 
 			if (yPos < yDestination)
-				yPos++;
+				yPos+=2;
 			else if (yPos > yDestination)
-				yPos--;
+				yPos-=2;
 
 			if (xPos == xDestination && yPos == yDestination)
 			{
@@ -68,8 +68,8 @@ public class MarketPackerGui implements Gui {
 		g.fillRect(xPos, yPos, xPersonSize, yPersonSize);
 		if (action == Action.Returning)
 		{
-		    g.setColor(Color.BLACK);
-		    g.drawString(itemName, xPos-10, yPos+23);
+		    g.setColor(Color.WHITE);
+		    g.drawString(itemName, xPos-10, yPos+30);
 		}
 	}
 

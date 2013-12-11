@@ -494,6 +494,7 @@ public class TimCustomerRole extends Role implements TimCustomer{
         Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
 		Do(AlertTag.TimRest,"Bye!");
 		customerGui.DoExitRestaurant();
+        myPerson.msgGoHome();
 		state = AgentState.DoingNothing;
 		choices = null;
 	}

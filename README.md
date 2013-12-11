@@ -8,6 +8,11 @@ SimCity201 Project Repository for CS 201 students
   * Owner Role
   * Tenant Role
 + Global Money Class
++ Building - Danny Restaurant
++ Integrated Restaurant
+  * Added PC Waiter
+  * Added bank interaction
+  * Added market interaction
 + Setup Panel
   * Creating Individual People with various options
   * Creating Scenarios
@@ -26,6 +31,7 @@ SimCity201 Project Repository for CS 201 students
   * Person animation
   * Houses and other Buildings
   * Street, sidewalk, and road textures
+  * Traffic lights, cars, and buses
 
 ####Brian Chen
 + Assigned and Completed:
@@ -85,43 +91,20 @@ SimCity201 Project Repository for CS 201 students
 + Upon clicking on a building, its interior is displayed.
 
 ###How To Run It
-1.Keyboard Shortcuts to spawn people
-  * CNTL - N : Spawns a bank customer
-  * CNTL - M : Spawns a bank Manager
-  * CNTL - T : Spawns a bank Teller
-  * CNTL - G : Spawns a bank Guard
-  * CNTL - C : Toggles compatibility mode (draws solid rectangles instead of images). Use this if the simulation is lagging or your images are broken.
+1.Setup Panel to Select a Scenario
+  * Select a scenario
+  
+2.Setup Panel to Spawn Individual People
+  * Select a Role and create individual people
+  * Housing, Vehicle, Morality, Money, Hunger Level, and Name can be changed
+  * If bank or market role is selected, choose building number as well
+  * Click "Create Person"
+  * If "Create Wanderer" is clicked, creates a person without a job
 
-2.Layout of Windows
+3.Layout of Windows
   * City grid is resizable. 
   * Hover on a building to see what it is. Click it to view it.
 
-3.[VERY IMPORTANT] Showing Images
+4.[VERY IMPORTANT] Showing Images
   * Currently images do not draw without a tiny bit of extra setup. This is a currently unresolved issue that many students are still facing. In order for images to work, find the 'images' folder under the 'simcity201' folder. Drag it into Eclipse, under the top folder. It should show up next to 'src'. Right click 'images' in Eclipse and select 'Build Path > Use as Source Folder'. Refresh and run SimCityGui. It should work.
   * If the above instructions do not work at all, go into Gui.java under 'exterior.gui' and change SHOW_RECT to TRUE. Run SimCityGui and press CTRL+C to enter compatibility mode. It will now draw placeholder rectangles instead of the graphics. 
-
-###What's Missing/left for V2
-####SimCity Roles
-+ All Restaurants need to be integrated and have working functionality.
-+ Market.DeliveryPerson
-  * Since restaurants and entering buildings was implemented late in the process, the normative scenario for the delivery person was difficult to implement. The interaction is designed, but could use a revision before more work is begun on it. That will probably occur when the restaurants are halfway implemented.
-
-####SimCity Interactions
-+ Integrate buildings with outer city.
-+ Make sure that people can walk in and out of buildings without trouble.
-+ Market Restaurant interaction.
-+ Bank is in the simulation, however it broke when trying to integrating. We are working to fix this bug.
-+ Market/Restaurant
-  * The delivery person is key to getting the goods from the market to the restaurant, so this interaction will be implemented when the delivery person is fully implemented.
-+ Market/Bank
-  * Also, since most of the time was spent getting the customer interactions completed for the city, we didn't have quite enough time to have the market deposit and withdraw funds. However, this should be a quick task and should be implemented soon after the customer interactions are completed.
-+ Market Non-norms
-  * A lot of the time was spent getting the normative scenarios finished. However, the market was designed with non-normative scenarios in mind, so implementing them will not require extensive overhauling of the code.
-
-
-####SimCity GUI
-+ Buses and bus stops
-+ Custom graphics for Cars and Buses
-+ Custom graphics for interiors
-+ Additional panel for instantiating and customizing Persons during runtime
-+ Sounds and 3D stuff as a nice-to-have

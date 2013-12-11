@@ -56,6 +56,23 @@ public class MarketManagerRole extends Role implements MarketManager {
 	/** 
 	 * Messages
 	 */
+	
+	public void msgIAmBack(MarketDeliveryPersonRole dp)
+	{
+	    synchronized(deliveryPeople)
+	    {
+	        for (MyDeliveryPerson d : deliveryPeople)
+	        {
+	            if (d.deliveryPerson == dp && d.state == DeliveryPersonState.Delivering)
+	            {
+	                d.state = DeliveryPersonState.Idle;
+	                workCount--;
+	                stateChanged();
+	                break;
+	            }
+	        }
+	    }
+	}
 
     public void msgWantClerk(MarketCustomer customer, int id)
     {
@@ -84,7 +101,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 	    Order o = new Order(id, choice, amount, OrderType.Restaurant);
 	    o.state = OrderState.Pending;
 	    orders.add(o);
-	    System.out.println("Order " + God.Get().getBuilding(id) + " added.");
+	    Do(AlertTag.Market, "Order " + God.Get().getBuilding(id) + " added.");
         stateChanged();
 	}
 	
@@ -119,7 +136,7 @@ public class MarketManagerRole extends Role implements MarketManager {
                 }
             }
         }
-        System.out.println("Recieved " + choice + ".");
+        Do(AlertTag.Market, "Recieved " + choice + ".");
         stateChanged();
     }
 	
@@ -127,7 +144,6 @@ public class MarketManagerRole extends Role implements MarketManager {
     {
         money.add(amount);
         Do(AlertTag.TimRest, "Market now has " + money + ".");
-        workCount--;
         stateChanged();
     }
     
@@ -159,6 +175,7 @@ public class MarketManagerRole extends Role implements MarketManager {
                 if (c.clerk.equals(marketClerkRole))
                 {
                     c.state = ClerkState.Idle;
+                    workCount--;
                     break;
                 }
             }
@@ -291,6 +308,7 @@ public class MarketManagerRole extends Role implements MarketManager {
                     else if (o.type == OrderType.Customer)
                     {
                         order = o;
+                        break;
                     }
                 }
             }
@@ -379,6 +397,7 @@ public class MarketManagerRole extends Role implements MarketManager {
             if (mD.state == DeliveryPersonState.Idle)
             {
                 myDP = mD;
+                mD.state = DeliveryPersonState.Delivering;
                 break;
             }
         }
@@ -387,6 +406,10 @@ public class MarketManagerRole extends Role implements MarketManager {
             myDP.deliveryPerson.msgMakeDelivery(order.id, order.choice, order.amount);
             order.state = OrderState.Ready;
             orders.remove(order);
+        }
+        else
+        {
+            Error(AlertTag.Market, "myDP == null!");
         }
     }
     
@@ -434,6 +457,7 @@ public class MarketManagerRole extends Role implements MarketManager {
         Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
         wantsLeave = false;
         exitBuilding(myPerson);
+        myPerson.msgGoHome();
     }
     
     /**
@@ -513,7 +537,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 
     public boolean isRestaurantReady()
     {
-        return (!clerks.isEmpty() && !packers.isEmpty() && !deliveryPeople.isEmpty());
+        return (!clerks.isEmpty() && !packers.isEmpty());
     }
 
     /**

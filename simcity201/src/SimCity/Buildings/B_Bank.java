@@ -75,6 +75,7 @@ public class B_Bank extends Building{
 		if (person == bankGuard) {manager =null; bankGuard.leaveBank();}
 		else if (person == bankManager) guard = null;
 		else if (person.getMainRoleString().equals("Bank.tellerRole")) {tellers.get(0).leaveBank();}
+		else if (person.getMainRoleString().equals("Bank.bankCustomer"))
 		person.msgGoToBuilding(person.getHouse(), Intent.customer);
     	person.resetActiveRoles();
     	person.msgExitBuilding();

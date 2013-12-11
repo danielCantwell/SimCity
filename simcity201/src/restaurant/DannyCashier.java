@@ -30,7 +30,7 @@ public class DannyCashier extends Role implements Cashier,
 		MarketDeliveryCashier {
 
 	private String name;
-	private Money restaurantMoney = new Money(700,0);
+	private Money restaurantMoney = new Money(700, 0);
 	public boolean workOver = false;
 
 	public List<PayingCustomer> payingCustomers = Collections
@@ -71,6 +71,7 @@ public class DannyCashier extends Role implements Cashier,
 	public void setMoney(Money m) {
 		restaurantMoney = m;
 	}
+
 	// Messages
 
 	public void msgLeaveRestaurant() {
@@ -123,7 +124,7 @@ public class DannyCashier extends Role implements Cashier,
 			leaveRestaurant();
 			return true;
 		}
-		
+
 		synchronized (marketsToPay) {
 			for (MyMarket m : marketsToPay) {
 				payMarket(m);
@@ -186,8 +187,11 @@ public class DannyCashier extends Role implements Cashier,
 				+ (myCustomer.inDebt ? " plus the debt" : ""));
 		print(myCustomer.customer.getCustomerName() + " pays "
 				+ myCustomer.cash);
-		
-		restaurantMoney.add(new Money(myCustomer.cash, 0));
+
+		try {
+			restaurantMoney.add(new Money(myCustomer.cash, 0));
+		} catch (NullPointerException e) {
+		}
 
 		myCustomer.state = State.none;
 		double change = myCustomer.cash
@@ -208,7 +212,7 @@ public class DannyCashier extends Role implements Cashier,
 		myCustomer.customer.msgHereIsYourChange(change);
 		restaurantMoney.subtract(new Money((int) change, 0));
 	}
-	
+
 	private void payMarket(MyMarket m) {
 		m.manager.msgHereIsTheMoney(m.cost);
 		marketsToPay.remove(m);
@@ -302,7 +306,5 @@ public class DannyCashier extends Role implements Cashier,
 		marketsToPay.add(new MyMarket(manager, money));
 		stateChanged();
 	}
-	
-	
 
 }

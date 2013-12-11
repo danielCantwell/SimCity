@@ -241,6 +241,7 @@ public class MarketClerkRole extends Role implements MarketClerk {
         Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
 	    canLeave = false;
 	    exitBuilding(myPerson);
+        myPerson.msgGoHome();
 	}
 	
     /**

@@ -103,10 +103,9 @@ public class B_Market extends Building{
                 
                 isOpen = true;
                 
-                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Manager entering Market.");
+                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Manager entering Market. " + hashCode());
                 person.msgEnterBuilding(this);
                 panel.repaint();
-                setOpen(areAllNeededRolesFilled());
             }
             else if (managerRole != null)
             {
@@ -137,8 +136,8 @@ public class B_Market extends Building{
                     {
                         marketRole.setManager(managerRole);
                         managerRole.addDeliveryPerson(marketRole);
-                        marketRole.setHomeMarket(this);
                     }
+                    marketRole.setHomeMarket(this);
                     panel.addGui(marketRole.getGui());
                     marketRole.msgGuiArrivedAtMarket();
                 }

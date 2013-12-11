@@ -58,8 +58,7 @@ public class bankGuardRole extends Role implements Guard {
 		B_Bank bank = (B_Bank)myPerson.building;
 		bank.setBankGuard(this);
 		manager = bank.getBankManager();
-		if(!(manager == null)){
-			 System.out.println("_______________________manager: "+manager);
+		if(!(manager == null) && bank.getGuard() == null){
 		manager.setGuard(this);
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);

@@ -40,14 +40,14 @@ public class MarketCustomerGui implements Gui {
 		if (!pause) {
 
 			if (xPos < xDestination)
-				xPos++;
+				xPos+=5;
 			else if (xPos > xDestination)
-				xPos--;
+				xPos-=5;
 
 			if (yPos < yDestination)
-				yPos++;
+				yPos+=5;
 			else if (yPos > yDestination)
-				yPos--;
+				yPos-=5;
 
 			if (xPos == xDestination && yPos == yDestination)
 			{
