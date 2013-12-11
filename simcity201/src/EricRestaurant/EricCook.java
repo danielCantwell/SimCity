@@ -321,6 +321,7 @@ public class EricCook extends Role implements MarketDeliveryCook {
 
 	@Override
 	public void workOver() {
+		myPerson.getMoney().add(50, 0);
 		cookGui.doLeaveBuilding();
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.removeGui(cookGui);

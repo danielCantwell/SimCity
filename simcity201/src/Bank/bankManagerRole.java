@@ -140,6 +140,7 @@ public class bankManagerRole extends Role implements  Manager{
 
 	public void workOver() {
 		// GUI call to leave bank
+		myPerson.getMoney().add(70, 0);
 		exitBuilding(myPerson);
 	}
 

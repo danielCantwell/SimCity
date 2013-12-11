@@ -375,6 +375,7 @@ public class tellerRole extends Role implements Teller {
 
 	@Override
 	public void leaveBank() {
+		myPerson.getMoney().add(50, 0);
 		manager.giveMap(bankAccs);
 		gui.doLeaveBank();
 		try {

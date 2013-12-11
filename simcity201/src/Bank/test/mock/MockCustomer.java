@@ -55,7 +55,7 @@ public class MockCustomer implements Customer{
 		
 	}
 
-	public void tellerCalled(Teller t) {
+	public void tellerCalled(Teller t, int x) {
 		log.add(new LoggedEvent ("Teller called for me"));
 	}
 
@@ -127,12 +127,6 @@ public class MockCustomer implements Customer{
 
 	@Override
 	public void doneMotion() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void tellerCalled(Teller t, int accNUm) {
 		// TODO Auto-generated method stub
 		
 	}

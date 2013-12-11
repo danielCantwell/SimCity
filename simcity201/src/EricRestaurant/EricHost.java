@@ -325,6 +325,7 @@ public class EricHost extends Role implements Host {
 
 	@Override
 	public void workOver() {
+		myPerson.getMoney().add(70, 0);
 		bs = bankstate.none;
 		exitBuilding(myPerson);
 	}
