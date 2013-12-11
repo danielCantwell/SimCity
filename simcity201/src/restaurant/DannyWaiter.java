@@ -72,7 +72,6 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 			}
 
 			for (MyCustomer myCustomer : myCustomers) {
-				System.out.println("Waiter: " + hashCode() + " myCustomer");
 				if (myCustomer.state == CustomerState.Waiting) {
 					print("seatCustomer");
 					seatCustomer(myCustomer);

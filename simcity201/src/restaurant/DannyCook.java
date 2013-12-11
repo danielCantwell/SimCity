@@ -1,5 +1,6 @@
 package restaurant;
 
+import SimCity.Base.Building;
 import SimCity.Base.God;
 import SimCity.Base.God.BuildingType;
 import SimCity.Base.Role;
@@ -9,6 +10,7 @@ import SimCity.Buildings.B_Market;
 
 import java.util.*;
 
+import market.MarketManagerRole;
 import market.interfaces.MarketDeliveryCook;
 import restaurant.gui.CookGui;
 import restaurant.gui.DannyRestaurantAnimationPanel;
@@ -81,6 +83,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 	public void msgHereIsAnOrder(DannyWaiter waiter, String choice, int table) {
 		print("MESSAGE 7 : Waiter -> Cook : HereIsAnOrder");
 		orders.add(new Order(waiter, choice, table));
+		System.out.println("COOK MSG PERSON = " + myPerson.hashCode());
 		stateChanged();
 	}
 
@@ -226,7 +229,7 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 
 	private void plateFood(Order order) {
 		DoPlating(order);
-		((DannyWaiter) order.waiter).msgOrderReady(order.choice, order.table);
+		order.waiter.msgOrderReady(order.choice, order.table);
 		order.state = State.Plated;
 	}
 
@@ -243,7 +246,14 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 	
 	private void orderFood(FoodNeeded f) {
 		B_Market market = (B_Market) God.Get().findBuildingOfType(BuildingType.Market);
-		market.getManager().msgWantFood(myPerson.getBuilding().getID(), f.type, f.amount);
+		//
+		Building building = myPerson.getBuilding();
+		int id = building.getID();
+		MarketManagerRole manager = market.getManager();
+		System.out.println("FOOD TYPE : " + f.type);
+		System.out.println("FOOD AMOUNT : " + f.amount);
+		manager.msgWantFood(id, f.type, f.amount);
+		//market.getManager().msgWantFood(myPerson.getBuilding().getID(), f.type, f.amount);
 		f.state = FoodNeededState.Ordered;
 	}
 

@@ -92,15 +92,17 @@ public class B_DannyRestaurant extends Building {
 	public void EnterBuilding(Person person, String job) {
 		Role newRole = null;
 		try {
-			if (forceClose){
+			if (forceClose) {
 				person.msgGoHome();
 				return;
 			}
-			if (job.equals("usto")){
-				person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Market), Intent.work);
-					return;
+			if (job.equals("usto")) {
+				person.msgGoToBuilding(
+						God.Get().findBuildingOfType(BuildingType.Market),
+						Intent.work);
+				return;
 			}
-			
+
 			if (job.equals("restaurant.DannyCustomer")) {
 				// newRole = new DannyCustomer();
 				newRole = (DannyCustomer) person.getMainRole();
@@ -130,6 +132,7 @@ public class B_DannyRestaurant extends Building {
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
+				System.out.println("WAITER : COOK = " + cookRole.hashCode());
 			} else if (job.equals("restaurant.DannyPCWaiter")) {
 				numWaiters++;
 				// newRole = new DannyWaiter();
@@ -143,6 +146,7 @@ public class B_DannyRestaurant extends Building {
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
+				System.out.println("PCWAITER : COOK = " + cookRole.hashCode());
 			} else if (job.equals("restaurant.DannyCook")) {
 				// newRole = cookRole;
 				newRole = (DannyCook) person.getMainRole();
@@ -153,6 +157,7 @@ public class B_DannyRestaurant extends Building {
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));
+				System.out.println("COOK = " + cookRole.hashCode());
 			} else if (job.equals("restaurant.DannyCashier")) {
 				// newRole = cashierRole;
 				newRole = (DannyCashier) person.getMainRole();
@@ -175,7 +180,6 @@ public class B_DannyRestaurant extends Building {
 			fillNeededRoles(person, newRole);
 			person.msgEnterBuilding(this);
 
-			
 			if (newRole instanceof DannyHost)
 				((DannyHost) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyWaiter)
@@ -184,21 +188,26 @@ public class B_DannyRestaurant extends Building {
 				((DannyPCWaiter) newRole).setName(newRole.myPerson.name);
 			if (newRole instanceof DannyCashier)
 				((DannyCashier) newRole).setName(newRole.myPerson.name);
-			if (newRole instanceof DannyCook)
+			if (newRole instanceof DannyCook) {
 				((DannyCook) newRole).setName(newRole.myPerson.name);
+				System.out.println("COOK PERSON = "
+						+ cookRole.myPerson.hashCode());
+			}
 			if (newRole instanceof DannyCustomer)
 				((DannyCustomer) newRole).setName(newRole.myPerson.name);
-				
+
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			int goTo = person.getBuilding().getID() + 1;
-			if (goTo > God.Get().buildings.size() - 1){
+			if (goTo > God.Get().buildings.size() - 1) {
 				goTo = 0;
 			}
-			person.msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Market), Intent.work);
+			person.msgGoToBuilding(
+					God.Get().findBuildingOfType(BuildingType.Market),
+					Intent.work);
 			ExitBuilding(person);
 
-			//System.out.println("Building: no class found");
+			// System.out.println("Building: no class found");
 		}
 	}
 
