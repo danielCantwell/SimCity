@@ -51,7 +51,7 @@ public class TimCookGui implements Gui {
         g.setColor(Color.BLACK);
         for (int i = 0; i < servingIcons.length; i++)
         {
-        	g.drawString(servingIcons[i], xPos - 5, yPos + 20*(i-1));
+        	g.drawString(servingIcons[i], xPos - 10, yPos + 20*(i-1)-5);
         }
     }
 
