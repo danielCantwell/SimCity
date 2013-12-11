@@ -446,6 +446,11 @@ public class DannyCustomer extends Role implements Customer {
 	@Override
 	public void workOver() {
 		//leaveRestaurant();
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.removeGui(customerGui);
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 
 	@Override

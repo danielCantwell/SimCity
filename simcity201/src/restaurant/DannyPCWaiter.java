@@ -395,6 +395,11 @@ public class DannyPCWaiter extends DannyAbstractWaiter implements Waiter {
 		 * myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		 * exitBuilding(myPerson);
 		 */
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.removeGui(waiterGui);
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 
 	@Override
