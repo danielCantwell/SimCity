@@ -49,8 +49,6 @@ public class RobberRole extends Role implements Robber{
 		rMoney = myPerson.getMoney();
 		B_Bank bank = (B_Bank)myPerson.building;
 		guard = (Guard)(bank.getBankGuard());
-		Do(AlertTag.BANK,"Robber: puts on his cloak of invisibility because duh, easiest way to rob.");
-		Do(AlertTag.BANK,"Robber: has entered the building");
 		stateChanged();
 		//bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		//bankgui.addGui(gui);		
@@ -106,8 +104,9 @@ public class RobberRole extends Role implements Robber{
 	@Override
 	public void openDoor() {
 //		if (!myPerson.building.getOpen()) {leaveBank(); System.out.println("BANK CLOSED MOFO CANT ROB DIS ISH");return;}
-		Do(AlertTag.BANK,"opened door");
 		if(!(guard==null)) {
+		Do(AlertTag.BANK,"Robber: puts on his cloak of invisibility because duh, easiest way to rob.");
+		Do(AlertTag.BANK,"Robber: has entered the building");
 		guard.RobberEnter(this);
 		s = state.waiting;
 		}
