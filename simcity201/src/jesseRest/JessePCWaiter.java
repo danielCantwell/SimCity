@@ -11,7 +11,6 @@ import jesseRest.Menu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurant.DannyAbstractWaiter.MyCustomer;
 import jesseRest.JesseCustomer.AgentEvent;
 import jesseRest.JesseCustomer.AgentState;
 import jesseRest.JesseHost.Table;
