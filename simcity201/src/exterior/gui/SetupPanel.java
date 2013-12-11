@@ -518,7 +518,7 @@ public class SetupPanel extends JFrame {
 		modePanel.add(causeAccidents);
 		modePanel.add(new JLabel("      "));
 		modePanel.add(showPersonLabels);
-		
+
 		causeAccidents.setSelected(false);
 		showPersonLabels.setSelected(true);
 
@@ -1104,9 +1104,9 @@ public class SetupPanel extends JFrame {
 		// ------------------------------------------------
 		// ------------- Mode Action Listeners ------------
 		// ------------------------------------------------
-		
+
 		causeAccidents.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (causeAccidents.isSelected()) {
@@ -1116,9 +1116,9 @@ public class SetupPanel extends JFrame {
 				}
 			}
 		});
-		
+
 		showPersonLabels.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (showPersonLabels.isSelected()) {
@@ -1789,6 +1789,10 @@ public class SetupPanel extends JFrame {
 		/*
 		 * Bank Robber is not created
 		 */
+
+		/*
+		 * Building 2
+		 */
 		animationPanel.createPerson("BankManager_One", "Bank.bankManagerRole",
 				vehicle, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(2), 1);
@@ -1810,9 +1814,37 @@ public class SetupPanel extends JFrame {
 		animationPanel.createPerson("BankGuard_Two", "Bank.bankGuardRole",
 				vehicle, Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(2), 2);
+
+		/*
+		 * Building 8
+		 */
+		animationPanel.createPerson("BankManager_One", "Bank.bankManagerRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(8), 1);
+		animationPanel.createPerson("BankManager_Two", "Bank.bankManagerRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(8), 2);
+		animationPanel.createPerson("BankTeller_One", "Bank.tellerRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(8), 1);
+		animationPanel.createPerson("BankTeller_Two", "Bank.tellerRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(8), 2);
+		animationPanel.createPerson("BankCustomer", "Bank.bankCustomerRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(8), 1);
+		animationPanel.createPerson("BankGuard_One", "Bank.bankGuardRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(8), 1);
+		animationPanel.createPerson("BankGuard_Two", "Bank.bankGuardRole",
+				vehicle, Morality.good, selectApartment(),
+				animationPanel.getGui().buildingList.get(8), 2);
 	}
 
 	private void createMarketPeople(Vehicle vehicle) {
+		/*
+		 * Building 3
+		 */
 		animationPanel.createPerson("MarketManager_One",
 				"market.MarketManagerRole", vehicle, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(3), 1);
@@ -1840,5 +1872,35 @@ public class SetupPanel extends JFrame {
 		animationPanel.createPerson("MarketCustomer",
 				"market.MarketCustomerRole", vehicle, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(3), 1);
+		/*
+		 * Building 5
+		 */
+		animationPanel.createPerson("MarketManager_One",
+				"market.MarketManagerRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
+		animationPanel.createPerson("MarketManager_Two",
+				"market.MarketManagerRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
+		animationPanel.createPerson("MarketClerk_One",
+				"market.MarketClerkRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
+		animationPanel.createPerson("MarketClerk_Two",
+				"market.MarketClerkRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
+		animationPanel.createPerson("MarketPacker_One",
+				"market.MarketPackerRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
+		animationPanel.createPerson("MarketPacker_Two",
+				"market.MarketPackerRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
+		animationPanel.createPerson("MarketDelivery_One",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
+		animationPanel.createPerson("MarketDelivery_Two",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
+		animationPanel.createPerson("MarketCustomer",
+				"market.MarketCustomerRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
 	}
 }

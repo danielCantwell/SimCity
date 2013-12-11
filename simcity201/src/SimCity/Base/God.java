@@ -367,7 +367,7 @@ public class God {
 	    	announcedTime = true;
 	    	AlertLog.getInstance().logInfo(AlertTag.God, "God", "Hour " + hour + " : Managers are going to work.");
 	    	for (Person p: persons){
-	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
+	    		if (p.mainRole instanceof bankManagerRole || p.mainRole instanceof DannyHost || p.mainRole instanceof DannyCook || p.mainRole instanceof DannyCashier || p.mainRole instanceof MarketManagerRole || p.mainRole instanceof TimHostRole){
 	    			if (!isWeekend) 
 	    			if (p.getShift() == shift) 
 	    			p.msgGoToWork();	    			

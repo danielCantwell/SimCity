@@ -19,5 +19,7 @@ public interface Waiter {
 	
 	public abstract void msgCantAffordAnythingElse(Customer customer);
 
+	public abstract void msgOrderReady(String choice, int table);
+
 
 }

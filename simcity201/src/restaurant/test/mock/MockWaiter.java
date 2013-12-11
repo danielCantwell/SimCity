@@ -46,4 +46,10 @@ public class MockWaiter extends Mock implements Waiter {
 		log.add(new LoggedEvent("Received msgCantAffordAnythingElse from customer."));
 	}
 
+	@Override
+	public void msgOrderReady(String choice, int table) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
