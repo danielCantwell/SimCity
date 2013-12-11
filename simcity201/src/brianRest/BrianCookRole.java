@@ -265,7 +265,12 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
                  Do(AlertTag.BrianRest, "Stopped searching for "+ temp.choice+".");
                  return; //If the cook searched all the markets, then forget about searching more.
          }
-         markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+         try{
+        	 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+         }
+         catch(Exception e){
+        	 
+         }
  }
  
 	

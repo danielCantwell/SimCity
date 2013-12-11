@@ -90,6 +90,8 @@ public class God {
 	    			|| p.mainRole instanceof MarketManagerRole 
 	    			|| p.mainRole instanceof TimHostRole
 	    			|| p.getMainRoleString().equals("brianRest.BrianHostRole")
+	    			|| p.getMainRoleString().equals("brianRest.BrianCashierRole")
+	    			|| p.getMainRoleString().equals("brianRest.BrianCookRole")
 	    			|| p.getMainRoleString().equals("EricRestaurant.EricHost")
 	    			|| p.getMainRoleString().equals("jesseRest.JesseHost")) 
 	    	{
