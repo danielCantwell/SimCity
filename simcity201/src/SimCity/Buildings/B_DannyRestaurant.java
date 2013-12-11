@@ -163,7 +163,10 @@ public class B_DannyRestaurant extends Building {
 				newRole = (DannyCashier) person.getMainRole();
 				cashierRole = (DannyCashier) person.getMainRole();
 				cashierFilled = true;
-				cashierRole.setMoney(hostRole.getMoney());
+				try {
+					cashierRole.setMoney(hostRole.getMoney());
+				} catch (NullPointerException e) {
+				}
 				setOpen(areAllNeededRolesFilled());
 				System.out
 						.println("All roles needed Danny Restaurant : "
