@@ -149,7 +149,7 @@ public class SetupPanel extends JFrame {
 	private JRadioButton moralityGood = new JRadioButton("Good");
 	private JRadioButton moralityBad = new JRadioButton("Bad");
 
-	// --------------- Compatibility Mode ----------
+	// --------------- Mode ----------
 
 	private ButtonGroup mode = new ButtonGroup();
 
@@ -157,10 +157,16 @@ public class SetupPanel extends JFrame {
 	private JRadioButton modeCompatibility = new JRadioButton(
 			"Compatibility Mode");
 
+	private JRadioButton causeAccidents = new JRadioButton("Cause Accidents");
+	private JRadioButton showPersonLabels = new JRadioButton(
+			"Show Person Labels");
+
 	// --------------- Scenarios -------------------
 
-	private JButton s1 = new JButton("S1 : All Roles : 1 Wanderer : All Walking");
-	private JButton s2 = new JButton("S2 : All Roles : 3 Wanderers : Various Transportation");
+	private JButton s1 = new JButton(
+			"S1 : All Roles : 1 Wanderer : All Walking");
+	private JButton s2 = new JButton(
+			"S2 : All Roles : 3 Wanderers : Various Transportation");
 	private JButton s3 = new JButton("Scenario Three - Does Nothing");
 	private JButton s4 = new JButton("Scenario Four - Does Nothing");
 
@@ -227,7 +233,7 @@ public class SetupPanel extends JFrame {
 		modeNormal.setSelected(true);
 
 		// ------------- Combo Boxes --------------
-		
+
 		bankMarketBuilding.addItem(1);
 		bankMarketBuilding.addItem(2);
 
@@ -252,90 +258,130 @@ public class SetupPanel extends JFrame {
 		// bank
 		profession.add(bankManager);
 		bankManager.setForeground(Color.red);
+		bankManager.setBackground(Color.DARK_GRAY);
 		profession.add(bankGuard);
 		bankGuard.setForeground(Color.red);
+		bankGuard.setBackground(Color.DARK_GRAY);
 		profession.add(bankTeller);
 		bankTeller.setForeground(Color.red);
+		bankTeller.setBackground(Color.DARK_GRAY);
 		profession.add(bankRobber);
 		bankRobber.setForeground(Color.red);
+		bankRobber.setBackground(Color.DARK_GRAY);
 		profession.add(bankCustomer);
 		bankCustomer.setForeground(Color.red);
+		bankCustomer.setBackground(Color.DARK_GRAY);
 		// market
 		profession.add(marketClerk);
 		marketClerk.setForeground(Color.orange);
+		marketClerk.setBackground(Color.DARK_GRAY);
 		profession.add(marketPacker);
 		marketPacker.setForeground(Color.orange);
+		marketPacker.setBackground(Color.DARK_GRAY);
 		profession.add(marketDelivery);
 		marketDelivery.setForeground(Color.orange);
+		marketDelivery.setBackground(Color.DARK_GRAY);
 		profession.add(marketManager);
 		marketManager.setForeground(Color.orange);
+		marketManager.setBackground(Color.DARK_GRAY);
 		profession.add(marketCustomer);
 		marketCustomer.setForeground(Color.orange);
+		marketCustomer.setBackground(Color.DARK_GRAY);
 		// danny restaurant
 		profession.add(dannyRestCashier);
 		dannyRestCashier.setForeground(Color.yellow);
+		dannyRestCashier.setBackground(Color.DARK_GRAY);
 		profession.add(dannyRestCook);
 		dannyRestCook.setForeground(Color.yellow);
+		dannyRestCook.setBackground(Color.DARK_GRAY);
 		profession.add(dannyRestHost);
 		dannyRestHost.setForeground(Color.yellow);
+		dannyRestHost.setBackground(Color.DARK_GRAY);
 		profession.add(dannyRestWaiter);
 		dannyRestWaiter.setForeground(Color.yellow);
+		dannyRestWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(dannyRestPCWaiter);
 		dannyRestPCWaiter.setForeground(Color.yellow);
+		dannyRestPCWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(dannyRestCustomer);
 		dannyRestCustomer.setForeground(Color.yellow);
+		dannyRestCustomer.setBackground(Color.DARK_GRAY);
 		// brian restaurant
 		profession.add(brianRestCashier);
 		brianRestCashier.setForeground(Color.green);
+		brianRestCashier.setBackground(Color.DARK_GRAY);
 		profession.add(brianRestCook);
 		brianRestCook.setForeground(Color.green);
+		brianRestCook.setBackground(Color.DARK_GRAY);
 		profession.add(brianRestHost);
 		brianRestHost.setForeground(Color.green);
+		brianRestHost.setBackground(Color.DARK_GRAY);
 		profession.add(brianRestWaiter);
 		brianRestWaiter.setForeground(Color.green);
+		brianRestWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(brianRestPCWaiter);
 		brianRestPCWaiter.setForeground(Color.green);
+		brianRestPCWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(brianRestCustomer);
 		brianRestCustomer.setForeground(Color.green);
+		brianRestCustomer.setBackground(Color.DARK_GRAY);
 		// jesse restaurant
 		profession.add(jesseRestCashier);
 		jesseRestCashier.setForeground(Color.blue);
+		jesseRestCashier.setBackground(Color.DARK_GRAY);
 		profession.add(jesseRestCook);
 		jesseRestCook.setForeground(Color.blue);
+		jesseRestCook.setBackground(Color.DARK_GRAY);
 		profession.add(jesseRestHost);
 		jesseRestHost.setForeground(Color.blue);
+		jesseRestHost.setBackground(Color.DARK_GRAY);
 		profession.add(jesseRestWaiter);
 		jesseRestWaiter.setForeground(Color.blue);
+		jesseRestWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(jesseRestPCWaiter);
 		jesseRestPCWaiter.setForeground(Color.blue);
+		jesseRestPCWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(jesseRestCustomer);
 		jesseRestCustomer.setForeground(Color.blue);
+		jesseRestCustomer.setBackground(Color.DARK_GRAY);
 		// eric restaurant
 		profession.add(ericRestCashier);
 		ericRestCashier.setForeground(Color.magenta);
+		ericRestCashier.setBackground(Color.DARK_GRAY);
 		profession.add(ericRestCook);
 		ericRestCook.setForeground(Color.magenta);
+		ericRestCook.setBackground(Color.DARK_GRAY);
 		profession.add(ericRestHost);
 		ericRestHost.setForeground(Color.magenta);
+		ericRestHost.setBackground(Color.DARK_GRAY);
 		profession.add(ericRestWaiter);
 		ericRestWaiter.setForeground(Color.magenta);
+		ericRestWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(ericRestPCWaiter);
 		ericRestPCWaiter.setForeground(Color.magenta);
+		ericRestPCWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(ericRestCustomer);
 		ericRestCustomer.setForeground(Color.magenta);
+		ericRestCustomer.setBackground(Color.DARK_GRAY);
 		// tim restaurant
 		profession.add(timRestCashier);
 		timRestCashier.setForeground(Color.pink);
+		timRestCashier.setBackground(Color.DARK_GRAY);
 		profession.add(timRestCook);
 		timRestCook.setForeground(Color.pink);
+		timRestCook.setBackground(Color.DARK_GRAY);
 		profession.add(timRestHost);
 		timRestHost.setForeground(Color.pink);
+		timRestHost.setBackground(Color.DARK_GRAY);
 		profession.add(timRestWaiter);
 		timRestWaiter.setForeground(Color.pink);
+		timRestWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(timRestPCWaiter);
 		timRestPCWaiter.setForeground(Color.pink);
+		timRestPCWaiter.setBackground(Color.DARK_GRAY);
 		profession.add(timRestCustomer);
 		timRestCustomer.setForeground(Color.pink);
+		timRestCustomer.setBackground(Color.DARK_GRAY);
 
 		// SHIFTS
 		shifts.add(shiftOne);
@@ -389,6 +435,7 @@ public class SetupPanel extends JFrame {
 		// ---------------------------------------------
 
 		bankPanel.setLayout(new GridLayout(5, 1));
+		bankPanel.setBackground(Color.DARK_GRAY);
 		bankPanel.add(bankManager);
 		bankPanel.add(bankGuard);
 		bankPanel.add(bankTeller);
@@ -396,6 +443,7 @@ public class SetupPanel extends JFrame {
 		bankPanel.add(bankCustomer);
 
 		marketPanel.setLayout(new GridLayout(5, 1));
+		marketPanel.setBackground(Color.DARK_GRAY);
 		marketPanel.add(marketClerk);
 		marketPanel.add(marketPacker);
 		marketPanel.add(marketDelivery);
@@ -467,6 +515,13 @@ public class SetupPanel extends JFrame {
 		modePanel.setBorder(new EtchedBorder(Color.BLACK, Color.CYAN));
 		modePanel.add(modeNormal);
 		modePanel.add(modeCompatibility);
+		modePanel.add(new JLabel("      "));
+		modePanel.add(causeAccidents);
+		modePanel.add(new JLabel("      "));
+		modePanel.add(showPersonLabels);
+		
+		causeAccidents.setSelected(false);
+		showPersonLabels.setSelected(true);
 
 		// ------------------------------------------------
 		// --------------- Profession Panel ---------------
@@ -610,15 +665,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close02.isSelected()){
+				if (close02.isSelected()) {
 					animationPanel.getGui().buildingList.get(2).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #2");
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #2");
+				} else {
 					animationPanel.getGui().buildingList.get(2).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #2");
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #2");
 				}
 				// ================================================================================
 			}
@@ -630,15 +687,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close03.isSelected()){
+				if (close03.isSelected()) {
 					animationPanel.getGui().buildingList.get(3).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #3");	
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #3");
+				} else {
 					animationPanel.getGui().buildingList.get(3).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #3");
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #3");
 				}// ================================================================================
 			}
 		});
@@ -649,17 +708,19 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close05.isSelected()){
+				if (close05.isSelected()) {
 					animationPanel.getGui().buildingList.get(5).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #5");	
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #5");
+				} else {
 					animationPanel.getGui().buildingList.get(5).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #5");
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #5");
 				}
-					// ================================================================================
+				// ================================================================================
 			}
 		});
 		close06.addActionListener(new ActionListener() {
@@ -669,15 +730,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close06.isSelected()){
+				if (close06.isSelected()) {
 					animationPanel.getGui().buildingList.get(6).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #6");	
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #6");
+				} else {
 					animationPanel.getGui().buildingList.get(6).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #6");	
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #6");
 				}
 				// ================================================================================
 			}
@@ -689,15 +752,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close07.isSelected()){
+				if (close07.isSelected()) {
 					animationPanel.getGui().buildingList.get(7).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #7");	
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #7");
+				} else {
 					animationPanel.getGui().buildingList.get(7).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #7");	
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #7");
 				}
 				// ================================================================================
 			}
@@ -709,15 +774,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close08.isSelected()){
+				if (close08.isSelected()) {
 					animationPanel.getGui().buildingList.get(8).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #8");	
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #8");
+				} else {
 					animationPanel.getGui().buildingList.get(8).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #8");
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #8");
 				}// ================================================================================
 			}
 		});
@@ -728,16 +795,18 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close09.isSelected()){
+				if (close09.isSelected()) {
 					animationPanel.getGui().buildingList.get(9).setForceClose(
 							true);
-					
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #9");	
-				}
-				else{
+
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #9");
+				} else {
 					animationPanel.getGui().buildingList.get(9).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #9");
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #9");
 				}// ================================================================================
 			}
 		});
@@ -748,17 +817,19 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close10.isSelected()){
+				if (close10.isSelected()) {
 					animationPanel.getGui().buildingList.get(10).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #10");	
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #10");
+				} else {
 					animationPanel.getGui().buildingList.get(10).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #10");
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #10");
 				}
-					// ================================================================================
+				// ================================================================================
 			}
 		});
 		close11.addActionListener(new ActionListener() {
@@ -768,15 +839,17 @@ public class SetupPanel extends JFrame {
 				// ==========================================
 				// This is how you make messages with a certain Level (normal
 				// MESSAGE here) show up in the trace panel.
-				if (close11.isSelected()){
+				if (close11.isSelected()) {
 					animationPanel.getGui().buildingList.get(11).setForceClose(
 							true);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Closing Building #11");	
-				}
-				else{
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL", "Closing Building #11");
+				} else {
 					animationPanel.getGui().buildingList.get(11).setForceClose(
 							false);
-					AlertLog.getInstance().logWarning(AlertTag.God, "CONTROL PANEL",  "Force Open set to false or Building #11");
+					AlertLog.getInstance().logWarning(AlertTag.God,
+							"CONTROL PANEL",
+							"Force Open set to false or Building #11");
 				}// ================================================================================
 			}
 		});
@@ -1029,6 +1102,34 @@ public class SetupPanel extends JFrame {
 		 */
 
 		// ------------------------------------------------
+		// ------------- Mode Action Listeners ------------
+		// ------------------------------------------------
+		
+		causeAccidents.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (causeAccidents.isSelected()) {
+					animationPanel.createAccidents = true;
+				} else {
+					animationPanel.createAccidents = false;
+				}
+			}
+		});
+		
+		showPersonLabels.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (showPersonLabels.isSelected()) {
+					animationPanel.showRoleLabels = true;
+				} else {
+					animationPanel.showRoleLabels = false;
+				}
+			}
+		});
+
+		// ------------------------------------------------
 		// ------------- Create Person Button -------------
 		// ------------------------------------------------
 
@@ -1039,7 +1140,7 @@ public class SetupPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				String name = enterName.getText();
 				String role = "usto";
 				Vehicle v = Vehicle.walk;
@@ -1167,23 +1268,19 @@ public class SetupPanel extends JFrame {
 					if (bankMarketBuilding.getSelectedIndex() == 0) {
 						b = animationPanel.getGui().buildingList.get(2);
 						System.out.println("Bank Building 2");
-					}
-					else {
+					} else {
 						b = animationPanel.getGui().buildingList.get(8);
 						System.out.println("Bank Building 8");
 					}
-				}
-				else if (role.contains("market")) {
+				} else if (role.contains("market")) {
 					if (bankMarketBuilding.getSelectedIndex() == 0) {
 						b = animationPanel.getGui().buildingList.get(3);
 						System.out.println("Market Building 3");
-					}
-					else {
+					} else {
 						b = animationPanel.getGui().buildingList.get(5);
 						System.out.println("Market Building 5");
 					}
-				}					
-				else if (role.contains("Danny"))
+				} else if (role.contains("Danny"))
 					b = getWorkplace("Danny");
 				else if (role.contains("Jesse"))
 					b = getWorkplace("Jesse");
@@ -1486,11 +1583,11 @@ public class SetupPanel extends JFrame {
 		animationPanel.createPerson("Customer", "usto", Vehicle.walk,
 				Morality.good, selectApartment(),
 				animationPanel.getGui().buildingList.get(6), 1);
-		
+
 		animationPanel.createPerson("Customer", "usto", Vehicle.car,
 				Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(6), 1);
-		
+
 		animationPanel.createPerson("Customer", "usto", Vehicle.bus,
 				Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(6), 1);
