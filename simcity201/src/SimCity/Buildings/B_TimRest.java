@@ -3,10 +3,12 @@ package SimCity.Buildings;
 import javax.swing.JPanel;
 
 import market.MarketDeliveryPersonRole;
+import timRest.OrderStand;
 import timRest.TimHostRole;
 import timRest.TimCookRole;
 import timRest.TimCustomerRole;
 import timRest.TimCashierRole;
+import timRest.TimPCWaiterRole;
 import timRest.TimWaiterRole;
 import timRest.gui.TimAnimationPanel;
 import SimCity.Base.Building;
@@ -28,6 +30,8 @@ public class B_TimRest extends Building{
 	
 	public TimHostRole hostRole;
     public TimAnimationPanel panel;
+    
+    public OrderStand orderStand = new OrderStand();
 
     public void setManager(TimHostRole h){
         hostRole = h;
@@ -118,6 +122,7 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToInventory("Salad", 4, 1000);
                     restaurantRole.addItemToInventory("Pizza", 4, 2000);
                     restaurantRole.addMarket(m.getManager());
+                    restaurantRole.setOrderStand(orderStand);
                 }
                 else if (newRole instanceof TimCashierRole)
                 {
@@ -142,6 +147,18 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToMenu("Salad", new Money(5, 99));
                     restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
                     panel.addGui(restaurantRole.getGui());
+                }
+                else if (newRole instanceof TimPCWaiterRole)
+                {
+                    TimPCWaiterRole restaurantRole = (TimPCWaiterRole) person.mainRole;
+                    restaurantRole.setHost(hostRole);
+                    hostRole.addWaiter(restaurantRole);
+                    restaurantRole.addItemToMenu("Steak", new Money(15, 99));
+                    restaurantRole.addItemToMenu("Chicken", new Money(10, 99));
+                    restaurantRole.addItemToMenu("Salad", new Money(5, 99));
+                    restaurantRole.addItemToMenu("Pizza", new Money(7, 99));
+                    panel.addGui(restaurantRole.getGui());
+                    restaurantRole.setOrderStand(orderStand);
                 }
                 else if (newRole instanceof MarketDeliveryPersonRole)
                 {

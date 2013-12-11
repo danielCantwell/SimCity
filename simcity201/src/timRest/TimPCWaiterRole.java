@@ -21,22 +21,26 @@ import timRest.interfaces.TimCustomer;
 import timRest.interfaces.TimWaiter;
 import timRest.interfaces.TimCustomer;
 
-public class TimWaiterRole extends TimAbstractWaiterRole{
+public class TimPCWaiterRole extends TimAbstractWaiterRole{
 
-	// actions
-	
+    private OrderStand orderStand;
+    
+    public void setOrderStand(OrderStand orderStand)
+    {
+        this.orderStand = orderStand;
+    }
+    
 	protected void dropOffOrder()
 	{
 		int tableNumber = pendingOrders.keys().nextElement();
-		cook.msgHereIsAnOrder(this, pendingOrders.get(tableNumber), tableNumber);
+		orderStand.push(this, pendingOrders.get(tableNumber), tableNumber);
 		pendingOrders.remove(tableNumber);
 	}
 	
-
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "TWtr";
+		return "TPCW";
 	}
 
 }

@@ -400,7 +400,7 @@ public class TimHostRole extends Role {
 		return hostGui;
 	}
 
-	public void addWaiter(TimWaiterRole waiter)
+	public void addWaiter(TimAbstractWaiterRole waiter)
 	{
 		MyWaiter myWaiter = new MyWaiter(waiter);
 		myWaiter.waiter.setHost(this);
@@ -498,10 +498,10 @@ public class TimHostRole extends Role {
 	
 	public class MyWaiter
 	{
-		TimWaiterRole waiter;
+		TimAbstractWaiterRole waiter;
 		WaiterState state;
 		
-		public MyWaiter(TimWaiterRole waiter)
+		public MyWaiter(TimAbstractWaiterRole waiter)
 		{
 			this.waiter = waiter;
 			this.state = WaiterState.onJob;
