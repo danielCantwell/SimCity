@@ -25,6 +25,9 @@ public class B_Market extends Building{
 	
 	private MarketManagerRole managerRole;
     public MarketAnimationPanel panel;
+    
+
+    private boolean isOpen = true;
 
     public void setManager(MarketManagerRole m){
         managerRole = m;
@@ -63,7 +66,7 @@ public class B_Market extends Building{
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		return (managerRole != null && managerRole.isRestaurantReady());
+		return (isOpen && managerRole != null && managerRole.isRestaurantReady());
 	}
 
 	@Override
@@ -97,6 +100,8 @@ public class B_Market extends Building{
                 managerRole = marketRole;
                 panel.manager = person;
                 panel.addGui(marketRole.getGui());
+                
+                isOpen = true;
                 
                 AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Manager entering Market.");
                 person.msgEnterBuilding(this);
@@ -201,7 +206,7 @@ public class B_Market extends Building{
                 ((B_Market) person.building).panel.removeGui(cRole.getGui());
                 if (managerRole == cRole)
                 {
-                    managerRole = null;
+                    isOpen = false;
                 }
                 person.msgExitBuilding();
             }
