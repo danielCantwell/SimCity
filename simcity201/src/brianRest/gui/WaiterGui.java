@@ -5,6 +5,7 @@ import restaurant.interfaces.Customer;
 
 import java.awt.*;
 
+import SimCity.Base.God;
 import SimCity.gui.Gui;
 import brianRest.BrianAbstractWaiter;
 import brianRest.BrianHostRole;
@@ -18,6 +19,7 @@ public class WaiterGui implements Gui {
 
     private BrianWaiter agent = null;
     
+    int backUpTime = 0;
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
@@ -52,6 +54,11 @@ public class WaiterGui implements Gui {
 
     public void updatePosition() {
     	if (receivedAction){
+    		if (God.Get().hour == backUpTime+2){
+    			agent.atLocation();
+    			receivedAction = false;
+    			return;
+    		}
 	        if (xPos < xDestination)
 	            xPos++;
 	        else if (xPos > xDestination)
@@ -93,6 +100,11 @@ public class WaiterGui implements Gui {
     	displayText = text;
     }
     
+    
+    private void receivedAction(){
+    	backUpTime = God.Get().hour;
+    }
+    
     public void DoTakeABreak(){
     	xDestination = -20; //Top Left of the screen
     	yDestination = -20; //Top Left of the screen
@@ -101,6 +113,7 @@ public class WaiterGui implements Gui {
     }
 
     public void DoBringToTable(BrianCustomer customer, int tableNumber) {
+    	receivedAction();
     	for (BrianTable myTable : ((BrianHostRole)(agent.getHost())).tables){
     		if (myTable.getTableNumber() == tableNumber){
     			xTable = myTable.getPosX();
@@ -114,6 +127,7 @@ public class WaiterGui implements Gui {
     }
     
     public void DoIdle(){
+    	
     	xDestination = 200 + 25 * (agent.getWaiterNumber() % 10); //Idle destination
     	yDestination = 50 + 25 * (agent.getWaiterNumber() / 10); //Idle destination
     	receivedAction = true;
@@ -128,6 +142,7 @@ public class WaiterGui implements Gui {
     }
     
     public void DoGetCustomer(){
+    	receivedAction();
     	xDestination = 20; //Host destination
     	yDestination = 20; // Host Destination
     	receivedAction = true;
@@ -139,6 +154,7 @@ public class WaiterGui implements Gui {
     }
     
     public void DoGiveOrderToCook(){
+    	receivedAction();
     	xDestination = 510; //Destination of cook
     	yDestination = 70; //Destination of cook
     	receivedAction = true;
@@ -146,6 +162,7 @@ public class WaiterGui implements Gui {
     }
     
     public void DoGoToCashier(){
+    	receivedAction();
     	xDestination = 100; //Host destination
     	yDestination = 30; // Host Destination
     	receivedAction = true;
@@ -153,6 +170,7 @@ public class WaiterGui implements Gui {
     }
     
     public void DoWalkToCustomer(BrianTable table, String text){
+    	receivedAction();
     	xDestination = table.getPosX() + movementOffset;
     	yDestination = table.getPosY() - movementOffset;
     	displayText = text;
@@ -168,6 +186,7 @@ public class WaiterGui implements Gui {
     }
 
     public void DoLeaveCustomer() {
+    	receivedAction();
         xDestination = -movementOffset;
         yDestination = -movementOffset;
         receivedAction = true;

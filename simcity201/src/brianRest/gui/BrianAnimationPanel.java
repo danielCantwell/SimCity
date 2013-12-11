@@ -39,7 +39,7 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
     private final int CashierW = 20;
     private final int CashierH = 20;
     
-    private final int timerint = 1;
+    private final int timerint = 2;
     public Timer timer;
     private List<Gui> guis = new ArrayList<Gui>();
     
