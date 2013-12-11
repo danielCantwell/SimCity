@@ -31,6 +31,8 @@ public class B_TimRest extends Building{
 	public TimHostRole hostRole;
     public TimAnimationPanel panel;
     
+    private boolean isOpen = false;
+    
     public OrderStand orderStand = new OrderStand();
 
     public void setManager(TimHostRole h){
@@ -69,7 +71,7 @@ public class B_TimRest extends Building{
 
 	@Override
 	public boolean areAllNeededRolesFilled() {
-		return (hostRole != null && hostRole.isRestaurantReady());
+		return (isOpen && hostRole != null && hostRole.isRestaurantReady());
 	}
 
 	@Override
@@ -102,6 +104,9 @@ public class B_TimRest extends Building{
                 hostRole = restaurantRole;
                 hostRole.setAcc(TAccNum);
                 hostRole.setMoney(TRestMoney);
+                
+                isOpen = true;
+                
                 panel.setHost(restaurantRole);
                 panel.addGui(restaurantRole.getGui());
                 person.msgEnterBuilding(this);
@@ -224,7 +229,7 @@ public class B_TimRest extends Building{
                 ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
                 if (hostRole == cRole)
                 {
-                    hostRole = null;
+                    isOpen = false;
                 }
                 person.msgExitBuilding();
             }
