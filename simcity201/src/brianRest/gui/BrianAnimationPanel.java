@@ -147,13 +147,17 @@ public class BrianAnimationPanel extends JPanel implements ActionListener {
             g2.fillRect(t.getPosX(), t.getPosY(), TABLEWIDTH, TABLEHEIGHT);//200 and 250 need to be table params
         }
 
-        
-        synchronized (guis){
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw(g2);
-            }
-        }
+        try{
+	        synchronized (guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
+	        
+	        }
+        }catch (ConcurrentModificationException e){
+        	
         }
     }
 

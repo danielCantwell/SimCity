@@ -202,7 +202,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 		if (state == CustomerState.DoingNothing && event == CustomerEvent.gotHungry ){
 			state = CustomerState .WaitingInRestaurant;
 			goToRestaurant();
-			return true;
+			return false;
 		}
 		
 		if (state==CustomerState.tiredOfWaiting && event == CustomerEvent.ReceivedCheck){
@@ -215,42 +215,42 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 			state = CustomerState.Seated;
 			Do(AlertTag.BrianRest, state.toString());
 			followWaiter();
-			return true;
+			return false;
 		}
 		if (state == CustomerState.Seated && event == CustomerEvent.gotMenu){
 			state = CustomerState.ReadingMenu;
 			ChooseFood();
-			return true;
+			return false;
 		}
 		if (state == CustomerState.ReadingMenu && event == CustomerEvent.readyToOrder){
 			state = CustomerState.Ordering;
 			CallWaiter();
-			return true;
+			return false;
 		}
 		if (state == CustomerState.Ordering && event == CustomerEvent.ordered){
 			state = CustomerState.WaitingForFood;
 			TellWaiterMyChoice();
-			return true;
+			return false;
 		}
 		if (state == CustomerState.WaitingForFood && event == CustomerEvent.foodArrived){
 			state = CustomerState.Eating;
 			EatFood();
-			return true;
+			return false;
 		}
 		if (state == CustomerState.Eating && event == CustomerEvent.doneEating){
 			state = CustomerState.RequestingCheck;
 			RequestCheck();
-			return true;
+			return false;
 		}
 		if (state==CustomerState.RequestingCheck && event == CustomerEvent.ReceivedCheck){
 			state = CustomerState.Leaving;
 			leaveTable();
-			return true;
+			return false;
 		}
 		if (state == CustomerState.Leaving && event == CustomerEvent.doneLeaving){
 			state = CustomerState.DoingNothing;
 			Paying();
-			return true;
+			return false;
 		}
 		if (state==CustomerState.NotEnoughmoney && event == CustomerEvent.ReceivedCheck){
 			leaveTable();
