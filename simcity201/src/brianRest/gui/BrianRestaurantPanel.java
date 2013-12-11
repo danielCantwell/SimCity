@@ -173,6 +173,7 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 			}
 		view.validate();
 		view.revalidate();
+		view.repaint();
 
    }
 
