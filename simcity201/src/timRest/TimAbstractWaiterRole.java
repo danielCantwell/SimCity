@@ -345,11 +345,6 @@ public abstract class TimAbstractWaiterRole extends Role implements TimWaiter{
 			openTables();
 			return true;
 		}
-        if (wantsLeave && myCustomers.isEmpty())
-        {
-            leaveBuilding();
-            return false;
-        }
 		if (state == AgentState.idle)
 		{
 			if (myCustomers != null)
@@ -679,6 +674,11 @@ public abstract class TimAbstractWaiterRole extends Role implements TimWaiter{
 				return true;
 			}
 		}
+        if (wantsLeave && myCustomers.isEmpty())
+        {
+            leaveBuilding();
+            return false;
+        }
 		if (state == AgentState.onBreak)
 		{
 			if (!wantsBreak)

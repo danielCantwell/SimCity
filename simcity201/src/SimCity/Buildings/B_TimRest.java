@@ -53,7 +53,7 @@ public class B_TimRest extends Building{
 		buildingPanel = jp;
 		x = xCoord;
 		y = yCoord;
-		tag = "B_Restaurant";
+		tag = "B_TimRestaurant";
 		setOpen(areAllNeededRolesFilled());
 	}
 	
@@ -222,6 +222,10 @@ public class B_TimRest extends Building{
             	TRestMoney = cRole.getMoney();
                 cRole.setActive(false);
                 ((B_TimRest) person.building).panel.removeGui(cRole.getGui());
+                if (hostRole == cRole)
+                {
+                    hostRole = null;
+                }
                 person.msgExitBuilding();
             }
             if (person.roles.get(i) instanceof TimCookRole)

@@ -199,6 +199,10 @@ public class B_Market extends Building{
                 MarketManagerRole cRole = (MarketManagerRole)person.roles.get(i);
                 cRole.setActive(false);
                 ((B_Market) person.building).panel.removeGui(cRole.getGui());
+                if (managerRole == cRole)
+                {
+                    managerRole = null;
+                }
                 person.msgExitBuilding();
             }
             if (person.roles.get(i) instanceof MarketClerkRole)
