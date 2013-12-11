@@ -30,7 +30,7 @@ public class DannyCashier extends Role implements Cashier,
 		MarketDeliveryCashier {
 
 	private String name;
-	private Money restaurantMoney;
+	private Money restaurantMoney = new Money(700,0);
 	public boolean workOver = false;
 
 	public List<PayingCustomer> payingCustomers = Collections
