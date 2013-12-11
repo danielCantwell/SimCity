@@ -13,13 +13,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -27,11 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -50,7 +42,6 @@ import SimCity.Globals.Money;
 import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
 import exterior.astar.AStarTraversal;
-import brianRest.*;
 
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
@@ -120,6 +111,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public int currentID = 1;
     public HashMap<Integer, Gui> idList = new HashMap<Integer, Gui>();
     
+    // Image icon variables:
     private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
     private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
     private ImageIcon iconPedL = new ImageIcon("images/a_pedestrian_l.gif");
@@ -179,6 +171,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		timer.start();
 		God.Get().playSound("ambience", true);
 		
+		// Add cars to their respective lists
 		carsL.add(iconCar1L);
 		carsL.add(iconCar2L);
 		carsL.add(iconCar3L);
@@ -206,6 +199,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		
 		God.Get().setAnimationPanel(this);
 		
+		// Map a number of bus standees to each building
 		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
 			List<Person> l = new ArrayList<Person>();
 			standees.put(i, l);
@@ -231,6 +225,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 		addCommands();
 
+		// Import font
 		InputStream is;
 		try {
 			is = new FileInputStream("images/Minecraftia.ttf");
@@ -246,12 +241,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			e1.printStackTrace();
 		}
 
+		// This switches horizontal / vertical roads' red lights
 		Timer trafficTimer = new Timer(5000, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   horizontalRedLight = !horizontalRedLight;
 	    }});
 		trafficTimer.start();
 		
+		// Spawn the buses at the beginning
 		Timer busTimer = new Timer(500, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   if (currentID == 1) {
@@ -260,35 +257,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	    }});
 		busTimer.start();
      
-		this.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
-					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-						gui.buildingFrame.setVisible(true);
-						gui.buildingFrame.setTitle("Building #" + i
-								+ " - " + gui.buildingList.get(i).getTag());
-					}
-				}
-			}
-		});
-		
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
