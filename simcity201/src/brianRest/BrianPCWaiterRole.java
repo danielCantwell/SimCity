@@ -260,7 +260,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 			}
 			
 			DoIdle();
-			return true;
+			return false;
 			}
 		
 			if (state == WaiterState.wantABreak){
