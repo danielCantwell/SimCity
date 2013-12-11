@@ -282,6 +282,11 @@ public class DannyCashier extends Role implements Cashier,
 		 * (B_DannyRestaurant)myPerson.getBuilding(); rest.cashierFilled =
 		 * false; exitBuilding(myPerson);
 		 */
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.cashierPresent = false;
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 
 	@Override

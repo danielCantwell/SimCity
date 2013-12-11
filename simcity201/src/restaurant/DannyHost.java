@@ -397,7 +397,12 @@ public class DannyHost extends Role {
 							 * 
 							 * exitBuilding(myPerson);
 							 */
-		workOver = true;
+		//workOver = true;
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.hostPresent = false;
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 
 	@Override

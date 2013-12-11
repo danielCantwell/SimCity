@@ -376,6 +376,12 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 		ap.removeGui(cookGui);
 		exitBuilding(myPerson);
 		*/
+		DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
+				.getPanel();
+		ap.cookPresent = false;
+		ap.removeGui(cookGui);
+		myPerson.msgGoHome();
+		exitBuilding(myPerson);
 	}
 
 	@Override
