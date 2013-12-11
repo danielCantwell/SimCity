@@ -12,6 +12,7 @@ public abstract class JesseAbstractWaiter extends Role implements Waiter {
 	public abstract void msgHereIsMyOrder(String choice, JesseCustomer jesseCustomer);
 	public abstract void msgOutOfFood(String choice, int table);
 	public abstract void msgOrderIsReady(String choice, int table);
+	public abstract void msgSitAtTable(JesseCustomer cust, Table table);
 
 	public enum CustomerState {DoingNothing, Waiting, Seated, Ready, AskedToOrder, AskedToReorder, Ordered, GettingFood, Eating, Done};
 

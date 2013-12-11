@@ -11,6 +11,7 @@ import jesseRest.Menu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import restaurant.DannyAbstractWaiter.MyCustomer;
 import jesseRest.JesseCustomer.AgentEvent;
 import jesseRest.JesseCustomer.AgentState;
 import jesseRest.JesseHost.Table;
@@ -62,7 +63,7 @@ public class JessePCWaiter extends JesseAbstractWaiter implements Waiter {
 		System.out.println("Adding customer. List: " + customers);
 		stateChanged();
 	}
-
+	
 	public void msgImReadyToOrder(JesseCustomer cust) {
 		for (MyCustomer mc : customers) {
 			if (mc.customer == cust) {
