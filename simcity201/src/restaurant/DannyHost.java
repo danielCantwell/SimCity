@@ -27,7 +27,10 @@ import java.util.*;
 // the HostAgent. A Host is the manager of a restaurant who sees that all
 // is proceeded as he wishes.
 public class DannyHost extends Role {
-	public enum bankstate {none, gotManager, sent, noTeller};
+	public enum bankstate {
+		none, gotManager, sent, noTeller
+	};
+
 	private bankstate bs = bankstate.none;
 	Money DRestMoney;
 	public int DAccNum;
@@ -89,7 +92,8 @@ public class DannyHost extends Role {
 	}
 
 	public void msgWantToGoOnBreak(DannyAbstractWaiter waiter) {
-		print("Waiter " + ((Host) waiter).getName() + " is requesting to go on break");
+		print("Waiter " + ((Host) waiter).getName()
+				+ " is requesting to go on break");
 		synchronized (waiters) {
 			for (MyWaiter myWaiter : waiters) {
 				if (myWaiter.waiter == waiter) {
@@ -135,7 +139,7 @@ public class DannyHost extends Role {
 			}
 		}
 	}
-	
+
 	public void msgCustomerLeaving() {
 		stateChanged();
 	}
@@ -144,12 +148,12 @@ public class DannyHost extends Role {
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {
-		
+
 		if (workOver) {
 			leaveRestaurant();
 			return true;
 		}
-		
+
 		/*
 		 * Think of this next rule as: Does there exist a table, customer and
 		 * waiter, so that table is unoccupied, the customer is waiting, and
@@ -194,7 +198,8 @@ public class DannyHost extends Role {
 				}
 			}
 		}
-		if(bs == bankstate.gotManager && waitingCustomers.isEmpty() && God.Get().getHour()==11) {
+		if (bs == bankstate.gotManager && waitingCustomers.isEmpty()
+				&& God.Get().getHour() == 11) {
 			msgBank();
 			return true;
 		}
@@ -213,20 +218,20 @@ public class DannyHost extends Role {
 	public void msgBank() {
 		bank = (B_Bank) God.Get().getBuilding(2);
 		bm = (tellerRole) bank.getOneTeller();
-		if(bm == null) {
+		if (bm == null) {
 			bs = bankstate.noTeller;
-		}
-		else {
-		bm.restMoney(DAccNum, DRestMoney, this);
-		bs = bankstate.sent;
+		} else {
+			bm.restMoney(DAccNum, DRestMoney, this);
+			bs = bankstate.sent;
 		}
 	}
-	
+
 	public void transDone(Money m) {
 		DRestMoney = m;
-		System.out.println("Host finished bank interaction and DRest has : $"+DRestMoney.getDollar());
+		System.out.println("Host finished bank interaction and DRest has : $"
+				+ DRestMoney.getDollar());
 	}
-	
+
 	private void seatCustomer(DannyCustomer customer, Table table,
 			DannyAbstractWaiter waiter) {
 		System.out.println("Danny Host -- Seat Customer");
@@ -273,12 +278,13 @@ public class DannyHost extends Role {
 			Do(AlertTag.DannyRest, "Leaving Restaurant");
 			// msg all waiters that they are allowed to leave
 			for (MyWaiter w : waiters) {
+				Do(AlertTag.DannyRest, "Telling Waiter " + w.waiter.name + " to leave restaurant");
 				w.waiter.msgLeaveRestaurant();
 			}
 			DannyRestaurantAnimationPanel ap = (DannyRestaurantAnimationPanel) myPerson.building
 					.getPanel();
 			ap.hostPresent = false;
-			
+
 			rest.cashierRole.msgLeaveRestaurant();
 			rest.cookRole.msgLeaveRestaurant();
 			myPerson.msgGoHome();
@@ -402,19 +408,19 @@ public class DannyHost extends Role {
 
 	public void setBM() {
 		bs = bankstate.gotManager;
-		stateChanged();		
+		stateChanged();
 	}
 
 	public void setMoney(Money dRestMoney) {
 		DRestMoney = dRestMoney;
 	}
-	
+
 	public Money getMoney() {
 		return DRestMoney;
 	}
-	
+
 	public void setAcc(int acc) {
 		DAccNum = acc;
-		System.out.println("Host got Danny Resturant Acc Num: "+DAccNum);
+		System.out.println("Host got Danny Resturant Acc Num: " + DAccNum);
 	}
 }
