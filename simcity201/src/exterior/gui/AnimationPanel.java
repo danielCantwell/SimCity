@@ -546,7 +546,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	}
     
 	public Color getColorFromChar(char s) {
-		System.out.println(s);
 		if (s == 'B') {
 			return Color.red;
 		} else if (s == 'M') {
