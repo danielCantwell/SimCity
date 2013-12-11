@@ -2,6 +2,8 @@ package jesseRest.gui;
 
 import javax.swing.*;
 
+import SimCity.Buildings.B_DannyRestaurant;
+import SimCity.Buildings.B_JesseRestaurant;
 import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
 
@@ -35,7 +37,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private Dimension bufferSize;
     
     private ImageIcon iconFloor = new ImageIcon("images/floor2.png");
-
+	private B_JesseRestaurant building;
     private List<Gui> guis = new ArrayList<Gui>();
 
     public AnimationPanel() {
@@ -65,6 +67,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		repaint();  //Will have paintComponent called
 	}
 
+	public void setRestaurant(B_JesseRestaurant building) {
+		this.building = building;
+	}
+	
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
 
@@ -104,8 +110,17 @@ public class AnimationPanel extends JPanel implements ActionListener {
         	}
         }
         
-        g2.setColor(Color.blue);
-        g2.fillRect(WINDOWX - 90, WINDOWY - COUNTER_H/2 - 20, 20, 20);
+        if(building.cookFilled){
+        	g2.setColor(Color.blue);
+        	g2.drawString("Cook", WINDOWX - 90, WINDOWY - COUNTER_H/2 - 40);
+        	g2.fillRect(WINDOWX - 90, WINDOWY - COUNTER_H/2 - 20, 20, 20);
+        }
+        
+        if(building.hostFilled){
+        	g2.setColor(Color.red);
+        	g2.drawString("Host", WINDOWX - 90, 20);
+        	g2.fillRect(WINDOWX - 90, 40, 20, 20);
+        }
 
        
         synchronized(guis)

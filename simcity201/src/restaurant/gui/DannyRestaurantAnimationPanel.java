@@ -226,7 +226,7 @@ public class DannyRestaurantAnimationPanel extends JPanel implements
 	public void setRestaurant(B_DannyRestaurant building) {
 		this.building = building;
 	}
-
+	
 	public class Table {
 		DannyCustomer occupiedBy;
 		int tableNumber;

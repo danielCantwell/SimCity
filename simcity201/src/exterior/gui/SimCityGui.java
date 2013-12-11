@@ -106,6 +106,7 @@ public class SimCityGui extends JFrame{
     		if (i == 7) {
         		buildingPanel = new jesseRest.gui.AnimationPanel();
         		b = new B_JesseRestaurant(i, buildingPanel, ((i % 4) * 7 + 3)*64, ((i / 4) * 7 + 3)*64);
+        		((jesseRest.gui.AnimationPanel) buildingPanel).setRestaurant((B_JesseRestaurant)b);
     		}
     		if (i == 9) {
         		buildingPanel = new restaurant.gui.DannyRestaurantAnimationPanel();
