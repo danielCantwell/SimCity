@@ -51,7 +51,6 @@ public class B_DannyRestaurant extends Building {
 		x = xCoord;
 		y = yCoord;
 		tag = "B_Restaurant";
-		orderStand = new OrderStand(this, cookRole);
 	}
 
 	@Override
@@ -150,6 +149,7 @@ public class B_DannyRestaurant extends Building {
 				cookRole = (DannyCook) newRole;
 				cookFilled = true;
 				setOpen(areAllNeededRolesFilled());
+				orderStand = new OrderStand(this, cookRole);
 				System.out
 						.println("All roles needed Danny Restaurant : "
 								+ (hostFilled && cookFilled && cashierFilled && numWaiters > 0));

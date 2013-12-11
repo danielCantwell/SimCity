@@ -214,11 +214,14 @@ public class DannyCook extends Role implements MarketDeliveryCook {
 
 		// Start cooking food
 		order.state = State.Cooking;
+		msgFoodDone(order);
+		/*
 		timer.schedule(new TimerTask() {
 			public void run() {
 				msgFoodDone(order);
 			}
 		}, 100);
+		*/
 	}
 
 	private void plateFood(Order order) {
