@@ -829,6 +829,7 @@ public abstract class TimAbstractWaiterRole extends Role implements TimWaiter{
         Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         wantsLeave = false;
 	    exitBuilding(myPerson);
+        myPerson.msgGoHome();
 	}
 
 	// The animation DoXYZ() routines

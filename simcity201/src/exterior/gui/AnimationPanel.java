@@ -467,9 +467,47 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					gui.draw(g2);
 					// Draw Person GUIs and their labels
 					if (gui.getType() == "Person") {
-						if (showRoleLabels && gui.getPerson().getMainRole() != null) {
-							g.setColor(getColorFromChar(gui.getPerson().getMainRole().toString().substring(0,1).toCharArray()[0]));
-							g.drawString(gui.getPerson().getMainRole().toString().substring(1), gui.getX() + 16, gui.getY());
+						if (showRoleLabels) {
+							g.setColor(getColorFromString(gui.getPerson().mainRoleString.substring(0, 3)));
+							String stype = "";
+							String target = gui.getPerson().getMainRoleString();
+							if (target.equals("timRest.TimHostRole") || target.equals("EricRestaurant.EricHost") || target.equals("brianRest.BrianHostRole") || target.equals("jesseRest.JesseHost") || target.equals("restaurant.DannyHost")) {
+								stype = "Host";
+							} else if (target.equals("restaurant.DannyCashier") || target.equals("jesseRest.JesseCashier") || target.equals("brianRest.BrianCashierRole") || target.equals("EricRestaurant.EricCashier") || target.equals("timRest.timCashier")) {
+								stype = "Cash";
+							} else if (target.equals("restaurant.DannyCook") || target.equals("jesseRest.JesseCook") || target.equals("brianRest.BrianCookRole") || target.equals("EricRestaurant.EricCook") || target.equals("timRest.TimCookRole")) {
+								stype = "Cook";
+							} else if (target.equals("restaurant.DannyWaiter") || target.equals("jesseRest.JesseWaiter") || target.equals("brianRest.BrianWaiterRole") || target.equals("EricRestaurant.EricWaiter") || target.equals("timRest.TimWaiterRole")) {
+								stype = "Wait";
+							} else if (target.equals("restaurant.DannyPCWaiter") || target.equals("jesseRest.JessePCWaiter") || target.equals("brianRest.BrianPCWaiterRole") || target.equals("EricRestaurant.EricPCWaiter") || target.equals("timRest.TimPCWaiterRole")) {
+								stype = "PCWr";
+							} else if (target.equals("restaurant.DannyCustomer") || target.equals("jesseRest.JesseCustomer") || target.equals("briantRest.BrianCustomerRole") || target.equals("EricRestaurant.EricCustomer") || target.equals("timRest.TimCustomerRole")) {
+								stype = "Cust";
+							} else if (target.equals("Bank.bankManagerRole")) {
+								stype = "Mngr";
+							} else if (target.equals("Bank.bankGuardRole")) {
+								stype = "Guard";
+							} else if (target.equals("Bank.tellerRole")) {
+								stype = "Telr";
+							} else if (target.equals("Bank.RobberRole")) {
+								stype = "Robr";
+							} else if (target.equals("Bank.bankCustomerRole")) {
+								stype = "Cust";
+							} else if (target.equals("market.MarketClerkRole")) {
+								stype = "Clrk";
+							} else if (target.equals("market.MarketPackerRole")) {
+								stype = "Pckr";
+							} else if (target.equals("market.MarketDeliveryPersonRole")) {
+								stype = "Dlvy";
+							} else if (target.equals("market.MarketManagerRole")) {
+								stype = "Mngr";
+							} else if (target.equals("market.MarketCustomerRole")) {
+								stype = "Cust";
+							} else {
+								stype = "Wndr";
+							}
+							
+							g.drawString(stype, gui.getX() + 16, gui.getY());
 						}
 						
 						if (gui.getRotation() == 0) {
@@ -488,10 +526,46 @@ public class AnimationPanel extends JPanel implements ActionListener {
 					}
 					// Draw Car GUIs and their labels
 					else if (gui.getType() == "Car") {
-						if (showRoleLabels && gui.getPerson().getMainRole() != null) {
-							g.setColor(getColorFromChar(gui.getPerson().getMainRole().toString().substring(0,1).toCharArray()[0]));
-							g.drawString(gui.getPerson().getMainRole().toString().substring(1), gui.getX() + 16, gui.getY());
+						g.setColor(getColorFromString(gui.getPerson().mainRoleString.substring(0, 3)));
+						String stype = "";
+						String target = gui.getPerson().getMainRoleString();
+						if (target.equals("timRest.TimHostRole") || target.equals("EricRestaurant.EricHost") || target.equals("brianRest.BrianHostRole") || target.equals("jesseRest.JesseHost") || target.equals("restaurant.DannyHost")) {
+							stype = "Host";
+						} else if (target.equals("restaurant.DannyCashier") || target.equals("jesseRest.JesseCashier") || target.equals("brianRest.BrianCashierRole") || target.equals("EricRestaurant.EricCashier") || target.equals("timRest.timCashier")) {
+							stype = "Cash";
+						} else if (target.equals("restaurant.DannyCook") || target.equals("jesseRest.JesseCook") || target.equals("brianRest.BrianCookRole") || target.equals("EricRestaurant.EricCook") || target.equals("timRest.TimCookRole")) {
+							stype = "Cook";
+						} else if (target.equals("restaurant.DannyWaiter") || target.equals("jesseRest.JesseWaiter") || target.equals("brianRest.BrianWaiterRole") || target.equals("EricRestaurant.EricWaiter") || target.equals("timRest.TimWaiterRole")) {
+							stype = "Wait";
+						} else if (target.equals("restaurant.DannyPCWaiter") || target.equals("jesseRest.JessePCWaiter") || target.equals("brianRest.BrianPCWaiterRole") || target.equals("EricRestaurant.EricPCWaiter") || target.equals("timRest.TimPCWaiterRole")) {
+							stype = "PCWr";
+						} else if (target.equals("restaurant.DannyCustomer") || target.equals("jesseRest.JesseCustomer") || target.equals("briantRest.BrianCustomerRole") || target.equals("EricRestaurant.EricCustomer") || target.equals("timRest.TimCustomerRole")) {
+							stype = "Cust";
+						} else if (target.equals("Bank.bankManagerRole")) {
+							stype = "Mngr";
+						} else if (target.equals("Bank.bankGuardRole")) {
+							stype = "Guard";
+						} else if (target.equals("Bank.tellerRole")) {
+							stype = "Telr";
+						} else if (target.equals("Bank.RobberRole")) {
+							stype = "Robr";
+						} else if (target.equals("Bank.bankCustomerRole")) {
+							stype = "Cust";
+						} else if (target.equals("market.MarketClerkRole")) {
+							stype = "Clrk";
+						} else if (target.equals("market.MarketPackerRole")) {
+							stype = "Pckr";
+						} else if (target.equals("market.MarketDeliveryPersonRole")) {
+							stype = "Dlvy";
+						} else if (target.equals("market.MarketManagerRole")) {
+							stype = "Mngr";
+						} else if (target.equals("market.MarketCustomerRole")) {
+							stype = "Cust";
+						} else {
+							stype = "Wndr";
 						}
+						
+						g.drawString(stype, gui.getX() + 16, gui.getY());
 						
 						if (gui.getRotation() == 0) {
 							carsR.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
@@ -529,20 +603,20 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	}
     
 	// Given a char, find a color (for labels)
-	public Color getColorFromChar(char s) {
-		if (s == 'B') {
+	public Color getColorFromString(String s) {
+		if (s.equals("Ban")) {
 			return Color.red;
-		} else if (s == 'M') {
+		} else if (s.equals("mar")) {
 			return Color.orange;
-		} else if (s == 'D') {
+		} else if (s.equals("res")) {
 			return Color.yellow;
-		} else if (s == 'R') {
+		} else if (s.equals("bri")) {
 			return Color.green;
-		} else if (s == 'J') {
+		} else if (s.equals("jes")) {
 			return Color.blue;
-		} else if (s == 'E') {
+		} else if (s.equals("Eri")) {
 			return Color.magenta;
-		} else if (s == 'T') {
+		} else if (s.equals("tim")) {
 			return Color.pink;
 		} else {
 			return Color.white;

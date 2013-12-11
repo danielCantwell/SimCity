@@ -145,6 +145,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		{
 	        Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
 		    exitBuilding(myPerson);
+	        myPerson.msgGoHome();
 		    return true;
 		}
 	    
@@ -264,6 +265,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
         if (!myPerson.building.getOpen()){
             myPerson.Do("Market is closed...");
             exitBuilding(myPerson);
+            myPerson.msgGoHome();
         }
     }
 

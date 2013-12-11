@@ -38,7 +38,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     public MarketManagerRole manager;
     public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
-    public enum AgentLocation { Market, Destination, InTransit, Closed };
+    public enum AgentLocation { Market, Destination, InTransit, Closed, Returned };
     public AgentLocation location;
     public B_Market home;
 
@@ -55,13 +55,15 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 
     public void msgMakeDelivery(int id, String choice, int amount)
     {
+        Do(AlertTag.Market, "Okay. Delivering to building #" + id + ".");
         orders.add(new Order(id, choice, amount));
         stateChanged();
     }
     
     public void msgGuiArrivedAtMarket()
     {
-        location = AgentLocation.Market;
+        Do(AlertTag.Market, "I have returned.");
+        location = AgentLocation.Returned;
         stateChanged();
     }
 
@@ -87,7 +89,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     public void workOver()
     {
         //exitBuilding(myPerson);
-        stateChanged();
+        //stateChanged();
     }
 
     @Override
@@ -99,7 +101,12 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 	 * Scheduler. Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
+		if(location == AgentLocation.Returned)
+		{
+		    manager.msgIAmBack(this);
+            location = AgentLocation.Market;
+	        return true;
+		}
 	    if(location == AgentLocation.Market)
 	    {
     	    synchronized(orders)
@@ -114,6 +121,11 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     	            }
     	        }
     	    }
+            if (canLeave)
+            {
+                leaveBuilding();
+                return false;
+            }
 	    }
 	    if(location == AgentLocation.Destination)
         {
@@ -136,11 +148,6 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 	        goToMarket();
 	        return false;
         }
-	    if (canLeave)
-	    {
-	        leaveBuilding();
-	        return false;
-	    }
 	    
 		return false;
 		// we have tried all our rules and found
@@ -274,7 +281,9 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
         else
         {
             Error(AlertTag.Market, "Not making delivery to restaurant.");
+            return;
         }
+	    orders.remove(order);
 	}
     
     private void leaveBuilding()
@@ -283,6 +292,7 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
         Info(AlertTag.Market, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave  = false;
         exitBuilding(myPerson);
+        myPerson.msgGoHome();
     }
 
     private void goToMarket()

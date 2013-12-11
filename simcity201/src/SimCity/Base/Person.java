@@ -51,7 +51,7 @@ public class Person extends Agent {
 	public B_House myHouse;
 	public String house;
 	public Role mainRole;
-	private String mainRoleString;
+	public String mainRoleString;
 	public Building workPlace = null;
 	public enum Intent {customer, work};
 	public enum Vehicle {car, delivery, walk, bus};

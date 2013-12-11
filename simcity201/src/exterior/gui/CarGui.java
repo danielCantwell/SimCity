@@ -38,12 +38,12 @@ public class CarGui implements Gui {
 			this.accidentProne = true;
 		}
 		
-		Timer accidentTimer = new Timer(7500, new ActionListener() {
+		Timer accidentTimer = new Timer(10000, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   Random rand = new Random();
 				   int chooseAccidentProne = rand.nextInt(10);
 					
-				   if (accidentProne == false && target == null && chooseAccidentProne <= 5) {
+				   if (accidentProne == false && target == null && chooseAccidentProne <= 3) {
 					   accidentProne = true;
 				   }
 	    }});
