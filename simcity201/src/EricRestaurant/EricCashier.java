@@ -7,13 +7,16 @@ import EricRestaurant.interfaces.Waiter;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import agent.Agent;
+import brianRest.BrianCashierRole.Check;
 
 import java.util.*;
 
+import market.MarketManagerRole;
+import market.interfaces.MarketDeliveryCashier;
 import restaurant.test.mock.EventLog;
 
 
-public class EricCashier extends Role {
+public class EricCashier extends Role implements MarketDeliveryCashier {
 	Money ERestMoney;
 	public EventLog log = new EventLog();
 	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
@@ -26,9 +29,13 @@ public class EricCashier extends Role {
 	}
 	public List <Bills> bill = Collections.synchronizedList(new ArrayList<Bills>());
 	public class Bills {
-		double price;
+		Money price;
+		MarketManagerRole manager;
 		//Market m;
-		
+		public Bills(Money m, MarketManagerRole man) {
+			price = m;
+			manager = man;
+		}
 	}
 	boolean bum = false;
 	Cashier b;
@@ -168,5 +175,16 @@ public class EricCashier extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "EricCashier";
+	}
+	@Override
+	public void msgPayMarket(int amount, Money pricePerUnit,
+			MarketManagerRole manager) {
+		Money marketCost = new Money(0,0);
+		for (int i = 0; i < amount; i++) {
+			marketCost = marketCost.add(pricePerUnit);
+		}
+		Bills b = new Bills(marketCost, manager);
+		bill.add(b);	
+		stateChanged();
 	}
 }

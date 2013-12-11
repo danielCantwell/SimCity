@@ -2,27 +2,36 @@ package EricRestaurant;
 import EricRestaurant.EricOrderStand.Orders;
 import EricRestaurant.gui.AnimationPanel;
 import EricRestaurant.gui.CookGui;
+
 import EricRestaurant.gui.HostGui;
 //import EricRestaurant.interfaces.Market;
 import EricRestaurant.interfaces.Waiter;
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Base.God.BuildingType;
 import SimCity.Base.Person.Intent;
 import SimCity.Buildings.B_EricRestaurant;
+import SimCity.Buildings.B_Market;
 import SimCity.trace.AlertTag;
 import agent.Agent;
+import brianRest.BrianCookRole.Food;
 
 import javax.swing.Timer;
 
+import market.interfaces.MarketDeliveryCook;
+
 import java.util.*;
 
-public class EricCook extends Role {
+public class EricCook extends Role implements MarketDeliveryCook {
 
 //	public Market market;
 	public CookGui cookGui = null;
 	private String name;
 	Map<String, Food> mymap = new HashMap<String, Food>();
 	EricOrderStand orderstand;
-	
+	private String searchMarketsFor = "";
+    private List<B_Market> markets = new ArrayList<B_Market>();
+
 	private List<Order>orders = Collections.synchronizedList(new ArrayList<Order>());
 	class Order {
 		EricAbstractWaiter w;
@@ -36,6 +45,7 @@ public class EricCook extends Role {
 		int cookingTime;
 		int amount;
 		int low;
+		   private int orderFromIndex = 0;
 
 		public Food(String t, int ct, int a, int l) {
 			type = t;
@@ -54,14 +64,16 @@ public class EricCook extends Role {
 		this.name = name;
 		Random generator = new Random(); 
 		int i = generator.nextInt(2)+1;
-		steakfood = new Food("Steak", 2, 2, 1);
-		chickenfood = new Food("Chicken", 2, 2, 1);
-		saladfood = new Food("Salad", 2, 2, 1);
-		pizzafood = new Food("Pizza", 2, 2, 1);
+		steakfood = new Food("Steak", 2, 6, 5);
+		chickenfood = new Food("Chicken", 2, 6, 5);
+		saladfood = new Food("Salad", 2, 6, 5);
+		pizzafood = new Food("Pizza", 2, 6, 5);
 		mymap.put("Steak", steakfood);
 		mymap.put("Pizza", pizzafood);
 		mymap.put("Chicken", chickenfood);
 		mymap.put("Salad", saladfood);
+	    markets.add((B_Market) God.Get().findBuildingOfType(BuildingType.Market));
+
 	}
 
 
@@ -85,7 +97,16 @@ public class EricCook extends Role {
 //	}
 
 	//messages
-
+	private void SearchMarkets(String choice){
+        Do(AlertTag.BrianRest, "Searching other markets for " + choice+ ".");
+        searchMarketsFor = "";
+        Food temp = mymap.get(choice);
+        if (temp.orderFromIndex == markets.size()) {
+                Do(AlertTag.BrianRest, "Stopped searching for "+ temp.type+".");
+                return; //If the cook searched all the markets, then forget about searching more.
+        }
+        markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.type, 4);
+}
 
 	public void giveCook(String choice, EricAbstractWaiter w) {
 		//		this.waiter = w;
@@ -141,15 +162,15 @@ public class EricCook extends Role {
 //			msgMarket("Pizza");
 //		}
 		synchronized(orders) {
-//			if (cs == cookState.ordering) {
-//				for (Order o : orders) {
-//					if(o.s == state.low) {
-//						msgMarket(o.choice);
-//					}
-//				}
-//
-//				return true;	
-//			}
+			if (cs == cookState.ordering) {
+				for (Order o : orders) {
+					if(o.s == state.low) {
+						msgMarket(o);
+					}
+				}
+
+				return true;	
+			}
 		}
 		synchronized(orders) {
 			for (Order o : orders) {
@@ -257,18 +278,27 @@ public class EricCook extends Role {
 		o.w.atCook(o.choice);
 		orders.remove(o);
 	}
-	//	public void notifyWaiter(String s){
-	//	for (Order o : orders) {
-	//		if(o.choice == s) {
-	//			o.w.restock(s);
-	//			orders.remove(o);
-	//		}
-	//	}
-	//	}
-//	public void msgMarket(String choice) {
-//		market.cookOrder(choice, 3, this);
-//		cs = cookState.idle;
-//	}
+		public void notifyWaiter(String s){
+		for (Order o : orders) {
+			if(o.choice == s) {
+				o.w.restock(s);
+				orders.remove(o);
+			}
+		}
+		}
+	public void msgMarket(Order o) {
+        Do(AlertTag.BrianRest, "Low amount of "+ o.choice+". Ordering more.");
+        Food temp = mymap.get(o.choice);
+        if (temp.orderFromIndex < markets.size())
+        {
+        if (markets.get(temp.orderFromIndex).getManager() !=null)
+        markets.get(temp.orderFromIndex).
+        getManager().msgWantFood(
+       		 myPerson.building.getID(),
+       		 temp.type, 5);
+        }
+		cs = cookState.idle;
+	}
 	public void setGui(CookGui gui) {
 		cookGui = gui;
 	}
@@ -304,5 +334,13 @@ public class EricCook extends Role {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "EricCook";
+	}
+
+	@Override
+	public void msgHereIsYourFood(String food, int amount) {
+		Do(AlertTag.EricRest, "Refilling " + food + " by " + amount+".");
+		Food f = mymap.get(food);
+		f.amount = mymap.get(food).amount+amount;
+		mymap.put(food,  f);
 	}
 }
