@@ -1883,6 +1883,18 @@ public class SetupPanel extends JFrame {
 		animationPanel.createPerson("MarketDelivery_Two",
 				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(3), 2);
+		animationPanel.createPerson("MarketDelivery_One",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(3), 1);
+		animationPanel.createPerson("MarketDelivery_Two",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(3), 2);
+		animationPanel.createPerson("MarketDelivery_One",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(3), 1);
+		animationPanel.createPerson("MarketDelivery_Two",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(3), 2);
 		animationPanel.createPerson("MarketCustomer",
 				"market.MarketCustomerRole", vehicle, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(3), 1);
@@ -1906,6 +1918,18 @@ public class SetupPanel extends JFrame {
 				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
 		animationPanel.createPerson("MarketPacker_Two",
 				"market.MarketPackerRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
+		animationPanel.createPerson("MarketDelivery_One",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
+		animationPanel.createPerson("MarketDelivery_Two",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
+		animationPanel.createPerson("MarketDelivery_One",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
+				selectHouse(), animationPanel.getGui().buildingList.get(5), 1);
+		animationPanel.createPerson("MarketDelivery_Two",
+				"market.MarketDeliveryPersonRole", vehicle, Morality.good,
 				selectHouse(), animationPanel.getGui().buildingList.get(5), 2);
 		animationPanel.createPerson("MarketDelivery_One",
 				"market.MarketDeliveryPersonRole", vehicle, Morality.good,

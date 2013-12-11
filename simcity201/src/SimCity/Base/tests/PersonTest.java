@@ -122,9 +122,9 @@ public class PersonTest extends TestCase {
 		
 
 		
-		//There should now be only one thing in the actions list.
+		//There should now be only 2 things in the actions list.
 		System.out.println(person.actions.size());
-		assertTrue("After PAEAA, the action list should be of size 1.", person.actions.size() == 1);
+		assertTrue("After PAEAA, the action list should be of size 2.", person.actions.size() == 2);
 		assertTrue("That action should have a GoAction of goBank and an intent of work.", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(0).getIntent() == Intent.work);
 		
 		assertTrue("There should be one role that is not active in the person because it has not been processed yet..", person.roles.get(0).getActive() == false);
@@ -176,12 +176,10 @@ public class PersonTest extends TestCase {
 		//After running the pick and execute, there should be a new action in the person's list of actions
 		assertTrue("The person's pick and execute returned true because his list of actions is now populated.", person.pickAndExecuteAnAction());
 		
+		person.pickAndExecuteAnAction();
 		
-		assertTrue ("The person should now have an action in his list to go to the bank to get money.", person.actions.size() == 1);
-		//He should be going to the bank because he needs money right?
-		assertTrue("Let us check that money action. The action's goAction should be to a bank", person.actions.get(0).getGoAction() == GoAction.goBank);
-		//Let me make sure he is going as a customer.
-		assertTrue("That GoAction should be as a customer", person.actions.get(0).getIntent() == Intent.customer);
+		//The person's action list should be zero because the 
+		assertTrue ("The person should now have 0 actiosn in his list to go to the bank to get money.", person.actions.size() == 0);
 		
 		
 
