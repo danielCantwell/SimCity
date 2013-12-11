@@ -3,6 +3,7 @@
  */
 package SimCity.Base;
 
+import housing.gui.HousingAnimation;
 import housing.roles.TenantRole;
 
 import java.awt.event.ActionEvent;
@@ -179,10 +180,6 @@ public class Person extends Agent {
 				mainRole = newRole;
 				mainRole.myPerson = this;
 			} catch(Exception e){
-				//e.printStackTrace();
-				//AlertLog.getInstance().logError(AlertTag.PERSON, name, "Error no class found");
-
-				
 			}
 		}
 		public void resetActiveRoles(){
@@ -212,7 +209,6 @@ public class Person extends Agent {
 		}
 		myHouse = house;
 		this.workPlace = workplace;
-		//God.Get().addPerson(this);
 		setUpHungerTimer();
 	}
 	
@@ -379,14 +375,16 @@ public class Person extends Agent {
 		if (timeState == TimeState.none && actions.size() == 0){
 			//check if he has enough money.
 			if (money.dollars < moneyThreshold.dollars){
-				goTo(new Action(GoAction.goBank, Intent.customer));
-				return false;
+				msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Bank), Intent.customer);
+				
+				//goTo(new Action(GoAction.goBank, Intent.customer));
+				return true;
 			}
 			
 			//Check if he is hungry
 			if (hungerLevel < hungerThreshold){
-				goTo(new Action(GoAction.goDannyRestaurant, Intent.customer)); //handled in tenant role now!!
-				return false;
+				msgGoToBuilding(God.Get().findBuildingOfType(BuildingType.Restaurant), Intent.customer);
+				return true;
 			}
 			goHome();
 			

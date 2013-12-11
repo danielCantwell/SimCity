@@ -180,7 +180,7 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
 public void actionPerformed(ActionEvent arg0) {
 	
 	if (arg0.getSource() == dumpInventory){
-		
+		bap.building.cookRole.DumpInventory();
 		
 	}
 	
