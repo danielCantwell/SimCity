@@ -266,7 +266,7 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	}
 //################    Utility     ##################
 	public String toString(){
-		return "Cook " + name;
+		return "RCok";
 	}
 	
 	public void leaveRestaurant(){

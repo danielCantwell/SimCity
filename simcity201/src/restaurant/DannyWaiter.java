@@ -407,7 +407,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 
 	@Override
 	public String toString() {
-		return "Danny Waiter";
+		return "DWtr";
 	}
 
 }

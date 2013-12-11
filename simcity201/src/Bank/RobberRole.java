@@ -136,7 +136,7 @@ public class RobberRole extends Role implements Robber{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "RobberRole";
+		return "BRbr";
 	}
 
 }

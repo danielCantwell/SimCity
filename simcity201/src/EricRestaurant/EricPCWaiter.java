@@ -467,6 +467,6 @@ public class EricPCWaiter extends EricAbstractWaiter implements Waiter {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "EricWaiter";
+		return "EPCW";
 	}
 }

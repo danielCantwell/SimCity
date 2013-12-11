@@ -374,7 +374,7 @@ public class BrianCustomerRole extends Role implements BrianCustomer{
 	}
 
 	public String toString() {
-		return "customer " + getName();
+		return "RCmr";
 	}
 	
 	public void exitBuildingFunction(){

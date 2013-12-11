@@ -265,6 +265,6 @@ public class MarketPackerRole extends Role implements MarketPacker {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "MarketPackerRole";
+		return "MPkr";
 	}
 }

@@ -394,7 +394,7 @@ public class DannyCustomer extends Role implements Customer {
 
 	@Override
 	public String toString() {
-		return "Danny Customer";
+		return "DCmr";
 	}
 
 	public void setGui(CustomerGui g) {

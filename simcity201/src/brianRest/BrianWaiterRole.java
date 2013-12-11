@@ -499,7 +499,7 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 
 	@Override
 	public String toString() {
-		return "BrianWaiterRole";
+		return "RWtr";
 	}
 
 

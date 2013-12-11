@@ -666,6 +666,6 @@ public class MarketManagerRole extends Role implements MarketManager {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "MarketManagerRole";
+		return "MMgr";
 	}
 }

@@ -351,6 +351,6 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		@Override
 		public String toString() {
 			// TODO Auto-generated method stub
-			return "MarketDeliveryPerson";
+			return "MDvy";
 		}
 }

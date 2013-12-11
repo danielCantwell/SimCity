@@ -262,7 +262,7 @@ public class TimCashierRole extends Role implements TimCashier, MarketDeliveryCa
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "TimCashierRole";
+		return "TCsr";
 	}
 
 	public void setMoney(Money m) {

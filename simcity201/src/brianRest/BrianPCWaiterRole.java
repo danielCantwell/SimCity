@@ -500,7 +500,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 
 	@Override
 	public String toString() {
-		return "BrianPCWaiter";
+		return "RPCW";
 	}
 
 

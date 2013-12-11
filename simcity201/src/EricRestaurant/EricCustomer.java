@@ -325,7 +325,7 @@ public class EricCustomer extends Role implements Customer, Cashier {
 	@Override
 
 	public String toString() {
-		return "customer " + getName();
+		return "ECmr";
 	}
 
 	@Override

@@ -150,7 +150,7 @@ public boolean pickAndExecuteAnAction() {
 	
 //################    Utility     ##################
 	public String toString(){
-		return "Cashier " + name;
+		return "RCsr";
 	}
 
 //######################## End of Class Cook#############################
