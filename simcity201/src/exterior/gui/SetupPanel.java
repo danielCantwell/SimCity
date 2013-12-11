@@ -5,7 +5,6 @@ package exterior.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -1080,6 +1079,7 @@ public class SetupPanel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				animationPanel.setShowRect(true);
+	    		God.Get().playSound("compatibility", false);
 			}
 		});
 

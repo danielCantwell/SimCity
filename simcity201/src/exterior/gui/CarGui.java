@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import SimCity.Base.God;
 import SimCity.Base.Person;
 import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
@@ -226,6 +227,13 @@ public class CarGui implements Gui {
     }
     
     public void carAccident(Person other) {
+    	if (other != null) {
+	    	if (other.gui instanceof PersonGui) {
+	    		God.Get().playSound("pedsplat", false);
+	    	} else {
+	    		God.Get().playSound("carcrash", false);
+	    	}
+    	}
 		AlertLog.getInstance().logWarning(AlertTag.God, "God (GUI)", "A car (" + this + ") got into an accident.");
 		accidentProne = false;
 		switchGui = true;

@@ -23,6 +23,9 @@ import SimCity.trace.AlertTag;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -147,6 +150,11 @@ public class SimCityGui extends JFrame{
     	buildingFrame.setPreferredSize(bframeDim);
     	buildingFrame.setMinimumSize(bframeDim);
     	buildingFrame.setMaximumSize(bframeDim);
+    	buildingFrame.addComponentListener(new ComponentAdapter() {
+	    		public void componentHidden(ComponentEvent e) {
+	    			God.Get().playSound("doorclose", false);
+	    		}
+    		});
     }
     
     public static void main(String[] args) {

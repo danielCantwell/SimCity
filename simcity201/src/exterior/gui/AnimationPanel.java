@@ -13,10 +13,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -24,6 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -169,7 +177,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		setVisible(true);
 		Timer timer = new Timer(3, this);
 		timer.start();
-
+		God.Get().playSound("ambience", true);
+		
 		carsL.add(iconCar1L);
 		carsL.add(iconCar2L);
 		carsL.add(iconCar3L);
@@ -305,6 +314,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						gui.buildingFrame.setTitle("Building #" + i
 								+ " - " + gui.buildingList.get(i).getTag());
 						gui.cardLayout.show(gui.buildingPanels, "" + i);
+						God.Get().playSound("dooropen", false);
 					}
 				}
 			}
@@ -485,7 +495,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		}
 
-
 		synchronized(guis) {
 			for (Gui gui : guis) {
 				if (gui.isPresent()) {
@@ -511,6 +520,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						}
 					}
 					else if (gui.getType() == "Car") {
+						if (showRoleLabels && gui.getPerson().getMainRole() != null) {
+							g.setColor(getColorFromChar(gui.getPerson().getMainRole().toString().substring(0,1).toCharArray()[0]));
+							g.drawString(gui.getPerson().getMainRole().toString().substring(1), gui.getX() + 16, gui.getY());
+						}
+						
 						if (gui.getRotation() == 0) {
 							carsR.get(gui.getID() % 6).paintIcon(this, g, gui.getX(),
 									gui.getY());
@@ -1029,5 +1043,4 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public void SendMangersHome(){
     	God.Get().getOffWork(God.Get().getBuilding(6));
     }
-
 }
