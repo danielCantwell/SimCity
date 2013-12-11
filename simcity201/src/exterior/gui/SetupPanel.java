@@ -1627,7 +1627,7 @@ public class SetupPanel extends JFrame {
 				animationPanel.getGui().buildingList.get(9), 1);
 		animationPanel.createPerson("D_Cook_Two", "restaurant.DannyCook",
 				vehicle, Morality.good, selectHouse(),
-				animationPanel.getGui().buildingList.get(9), 1);
+				animationPanel.getGui().buildingList.get(9), 2);
 		animationPanel.createPerson("D_Waiter_One", "restaurant.DannyWaiter",
 				vehicle, Morality.good, selectHouse(),
 				animationPanel.getGui().buildingList.get(9), 1);

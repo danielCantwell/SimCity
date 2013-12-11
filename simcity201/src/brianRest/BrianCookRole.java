@@ -62,9 +62,11 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	private Semaphore atTargetLocation = new Semaphore(0, true);
 	
 	boolean wantToGoHome = false;
+	
+	B_BrianRestaurant brp;
 
 	//Constructor
-	public BrianCookRole(String name){
+	public BrianCookRole(String name, B_BrianRestaurant brp){
 	  this.name = name;
 	  orders = new ArrayList<Order>();
 	  
@@ -73,6 +75,8 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	  foodDictionary.put("Chicken", new Food("Chicken", 1000, 1));
 	  foodDictionary.put("Salad", new Food("Salad", 1000, 1));
 	  foodDictionary.put("Pizza", new Food("Pizza", 1000, 1));
+	  
+	  this.brp = brp;
 	  
 	  markets.add((B_Market) God.Get().findBuildingOfType(BuildingType.Market));
 	  
@@ -207,6 +211,15 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
            Do(AlertTag.BrianRest, "is cooking " + o.choice + ".");
            o.setTimer(foodDictionary.get(o.choice).cookTime);
  }
+	
+	public void DumpInventory(){
+		foodDictionary.get("Steak").amount = 0;
+		foodDictionary.get("Chicken").amount = 0;
+		foodDictionary.get("Salad").amount = 0;
+		foodDictionary.get("Pizza").amount = 0;
+		BrianRestaurantPanel brpa = (BrianRestaurantPanel)brp.getPanel();
+		brpa.updateCookInfo(this);
+	}
  
  //Search markets is only called when the cook needs to iterate to more markets because another market ran out of the item he needed.
  private void SearchMarkets(String choice){

@@ -9,13 +9,10 @@ import java.util.TimerTask;
 
 import market.MarketManagerRole;
 import market.interfaces.MarketDeliveryCook;
-import SimCity.Base.God;
 import SimCity.Base.Role;
 import SimCity.Globals.Money;
 import SimCity.trace.AlertTag;
 import timRest.gui.TimCookGui;
-import timRest.gui.TimHostGui;
-import timRest.interfaces.TimWaiter;
 
 public class TimCookRole extends Role implements MarketDeliveryCook {
 	
@@ -26,6 +23,8 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	private TimHostRole host;
 	
 	private Timer timer = new Timer();
+	
+	private OrderStand orderStand;
 
 	private List<Order> itemsToCook = Collections.synchronizedList(new ArrayList<Order>());
 	private List<Food> foods = Collections.synchronizedList(new ArrayList<Food>());
@@ -175,8 +174,13 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 //		outOfFood = false;
 //		stateChanged();
 //	}
+
+    public void msgOrderIn()
+    {
+        stateChanged();
+    }
 	
-	public void msgHereIsAnOrder(TimWaiter waiter, String choice, int tableNumber)
+	public void msgHereIsAnOrder(TimAbstractWaiterRole waiter, String choice, int tableNumber)
 	{
 		// if food is out
 		if (outOfFood)
@@ -278,6 +282,12 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 					}
 				}
 			}
+			if (orderStand.size() > 0)
+			{
+	            Info(AlertTag.TimRest, "Checking order stand.");
+			    takeOrderFromStand();
+			    return true;
+			}
 		}
 		synchronized(foods)
 		{
@@ -312,7 +322,13 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 		return true;
 	}
 
-	// actions
+	private void takeOrderFromStand()
+    {
+	    OrderStand.Order o = orderStand.pop();
+	    itemsToCook.add(new TimCookRole.Order(o.waiter, o.order, o.tableNumber));
+    }
+
+    // actions
 	private void cook(Order order)
 	{
 		gui.setGrill(order.choice);
@@ -387,10 +403,10 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	{
 		String choice;
 		int tableNumber;
-		TimWaiter waiter;
+		TimAbstractWaiterRole waiter;
 		OrderState state;
 		
-		public Order(TimWaiter waiter, String choice, int tableNumber)
+		public Order(TimAbstractWaiterRole waiter, String choice, int tableNumber)
 		{
 			this.waiter = waiter;
 			this.choice = choice;
@@ -459,6 +475,11 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
 	public TimCookGui getGui()
 	{
 	    return gui;
+	}
+	
+	public void setOrderStand(OrderStand orderStand)
+	{
+	    this.orderStand = orderStand;
 	}
 	
 	public void setHost(TimHostRole host)

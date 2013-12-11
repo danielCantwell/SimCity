@@ -37,7 +37,7 @@ public class B_BrianRestaurant extends Building{
 	Money BRestMoney = new Money(700,0);
 	public BrianHostRole hostRole = new BrianHostRole("Host", this);
 	public BrianCashierRole cashierRole = new BrianCashierRole("Cashier");
-	public BrianCookRole cookRole = new BrianCookRole("Cook");
+	public BrianCookRole cookRole = new BrianCookRole("Cook", this);
 	public int numberOfWaiters = 0;
 	
 	public OrderStand orderstand;

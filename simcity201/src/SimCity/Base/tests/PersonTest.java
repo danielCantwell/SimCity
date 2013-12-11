@@ -11,6 +11,7 @@ import SimCity.Base.Person.Action;
 import SimCity.Base.Person.GoAction;
 import SimCity.Base.Person.Intent;
 import SimCity.Base.Person.Morality;
+import SimCity.Base.Person.TimeState;
 import SimCity.Base.Person.Vehicle;
 import SimCity.Buildings.B_Bank;
 import SimCity.Buildings.B_House;
@@ -45,7 +46,7 @@ public class PersonTest extends TestCase {
 	
 	public void set(){
 		try {
-			setUp();
+			//setUp();
 		} catch (Exception e) {
 			System.out.println("setUp failed");
 			e.printStackTrace();
@@ -53,7 +54,7 @@ public class PersonTest extends TestCase {
 	}
 	
 	public void test_CheckConstructor() {
-		set();
+		//set();
 		assertTrue("Name should be Briiiannn", person.name.equals("Briiiannn"));
 		//Test main role
 		assertTrue("Main role should be Bank.bankCustomerRole class: ", person.mainRole instanceof Bank.bankCustomerRole);
@@ -73,7 +74,7 @@ public class PersonTest extends TestCase {
 	}
 	
 	public void test_PersonEntersBank(){
-		set();
+		//set();
 		System.out.println(person.roles.toString());
 		//Lets set up a god class so that the person can enter the bank. First we need to create a bank!
 		God.Get();
@@ -91,7 +92,7 @@ public class PersonTest extends TestCase {
 		person.msgGoToBuilding(God.Get().getBuilding(2), Intent.customer);
 		//One roles should be in your roles list.
 		assertTrue("There should be one role in the roles list", person.roles.size() == 1);
-		//That role should be inactive
+		//I will force the role to be active so that I do not need to animate to the actual building.
 		assertTrue("That role should be inactive", person.roles.get(0).getActive() == false);
 		
 		
@@ -102,23 +103,35 @@ public class PersonTest extends TestCase {
 		
 		//Now what if we added a second action but it is work this time!
 		person.msgGoToBuilding(God.Get().getBuilding(2), Intent.work);
+		
+		
+		
+		//I have to release the semaphore manually because I do not have a person gui to do so.
+		
+		
+		
 		assertTrue("Are there now 2 things in the action list of the person?", person.actions.size() == 2);
 		assertTrue("Are they both of type bank?", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(1).getGoAction() == GoAction.goBank);
 		assertTrue("Is the first action's intent customer", person.actions.get(0).getIntent() == Intent.customer);
 		assertTrue("Is the second action's intent work?", person.actions.get(1).getIntent() == Intent.work);
 		
+		person.animation.release();
+		
 		//Now lets try the scheduler see if anything breaks
 		person.pickAndExecuteAnAction();
 		
+
+		
 		//There should now be only one thing in the actions list.
+		System.out.println(person.actions.size());
 		assertTrue("After PAEAA, the action list should be of size 1.", person.actions.size() == 1);
 		assertTrue("That action should have a GoAction of goBank and an intent of work.", person.actions.get(0).getGoAction() == GoAction.goBank && person.actions.get(0).getIntent() == Intent.work);
 		
-		assertTrue("There should be one role that is active in the person.", person.roles.get(0).getActive());
+		assertTrue("There should be one role that is not active in the person because it has not been processed yet..", person.roles.get(0).getActive() == false);
 	}
 	
 	public void testPersonMoneyLevel(){
-		set();
+		//set();
 		System.out.println(person.roles.toString());
 		
 		//Manually set the person's money level down low to 2, which is below the money threshold.
@@ -127,9 +140,51 @@ public class PersonTest extends TestCase {
 		//Make sure that the Money level is actually less than the Money threshold.
 		assertTrue ("Money level is less than the Money threshold.", person.moneyThreshold.isGreaterThan(person.money));
 		
-		person.pickAndExecuteAnAction();
+		//I am forced to manually release the animation because i do not have a gui on the person for the sake of tests.
+		person.animation.release();
 		
-		assertTrue ("The person should now have some kind of hunger action", person.actions.size() == 1);
+		assertTrue("The person's timestate shoudl be none.", person.timeState == TimeState.none);
+		
+		
+		assertTrue("The person's pick and execute returned true because his list of actions is now populated.", person.pickAndExecuteAnAction());
+		
+		
+		assertTrue ("The person should now have an action in his list to go to the bank to get money.", person.actions.size() == 1);
+		//He should be going to the bank because he needs money right?
+		assertTrue("Let us check that money action. The action's goAction should be to a bank", person.actions.get(0).getGoAction() == GoAction.goBank);
+		//Let me make sure he is going as a customer.
+		assertTrue("That GoAction should be as a customer", person.actions.get(0).getIntent() == Intent.customer);
+		
+		//The rest of the bank testing is a separate test.
+
+	}
+	
+	public void testPersonHungryLevel(){
+		
+		//manually force the hunger level to below the threshold which is currently set to 3.
+		person.hungerLevel = 2;
+		
+		//make sure that the hunger level is actually below the hunger threshold.
+		assertTrue ("Money level is less than the Money threshold.", person.hungerLevel < person.getHungerThreshold());
+		
+		//I am forced to manually release the animation because i do not have a gui on the person for the sake of tests.
+		person.animation.release();
+		
+		//Again the person's time state must be none in order for him to actually do things on his own.
+		assertTrue("The person's timestate shoudl be none.", person.timeState == TimeState.none);
+		
+		//After running the pick and execute, there should be a new action in the person's list of actions
+		assertTrue("The person's pick and execute returned true because his list of actions is now populated.", person.pickAndExecuteAnAction());
+		
+		
+		assertTrue ("The person should now have an action in his list to go to the bank to get money.", person.actions.size() == 1);
+		//He should be going to the bank because he needs money right?
+		assertTrue("Let us check that money action. The action's goAction should be to a bank", person.actions.get(0).getGoAction() == GoAction.goBank);
+		//Let me make sure he is going as a customer.
+		assertTrue("That GoAction should be as a customer", person.actions.get(0).getIntent() == Intent.customer);
+		
+		
+
 	}
 	
 }
