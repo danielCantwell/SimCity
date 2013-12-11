@@ -235,6 +235,7 @@ public class DannyWaiter extends DannyAbstractWaiter implements Waiter {
 	}
 	
 	private void leaveRestaurant() {
+		Do(AlertTag.DannyRest, "Leaving Restaurant");
 		/*
 		waiterGui.DoLeaveRestaurant();
 		
