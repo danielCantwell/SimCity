@@ -214,7 +214,6 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 				if (mc.state == MyCustomerState.ordered){ 
 					idle = false;
 					GiveOrderToCook(mc, true);
-					
 				}
 			}
 			
@@ -261,7 +260,7 @@ public class BrianWaiterRole extends BrianAbstractWaiter implements BrianWaiter 
 			}
 			
 			DoIdle();
-			return true;
+			return false;
 			}
 		
 			if (state == WaiterState.wantABreak){

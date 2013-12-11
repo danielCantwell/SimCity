@@ -78,9 +78,37 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
 	  
 	  this.brp = brp;
 	  
-	  markets.add((B_Market) God.Get().findBuildingOfType(BuildingType.Market));
+	  
+	  
+	 // markets.add((B_Market) God.Get().findBuildingOfType(BuildingType.Market));
 	  
 
+	}
+	
+	private void populateMarkets(){
+		markets.clear();
+		if (God.Get().getBuilding(0) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(0)));
+		  if (God.Get().getBuilding(1) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(1)));
+		  if (God.Get().getBuilding(2) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(2)));
+		  if (God.Get().getBuilding(3) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(3)));
+		  if (God.Get().getBuilding(4) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(4)));
+		  if (God.Get().getBuilding(5) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(5)));
+		  if (God.Get().getBuilding(6) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(6)));
+		  if (God.Get().getBuilding(7) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(7)));
+		  if (God.Get().getBuilding(8) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(8)));
+		  if (God.Get().getBuilding(9) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(9)));
+		  if (God.Get().getBuilding(10) instanceof B_Market)
+			  markets.add((B_Market)(God.Get().getBuilding(10)));
 	}
 		
 //########## Messages  ###############
@@ -181,10 +209,13 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
                  orders.remove(o);
                  Do(AlertTag.BrianRest, "Out of "+ o.choice);
                  AlertLog.getInstance().logWarning(AlertTag.BrianRest, name, "Ordering more food");
+                 populateMarkets();
                  if (temp.orderFromIndex < markets.size())
                  {
                 	 if (markets.get(temp.orderFromIndex).getManager() !=null)
-                	 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+                		 markets.get(temp.orderFromIndex).getManager().msgWantFood(myPerson.building.getID(), temp.choice, max_Capacity - temp.amount);
+                	 else
+                		 SearchMarkets(o.choice);
                  }
                  return;
          }
@@ -193,14 +224,18 @@ public class BrianCookRole extends Role implements BrianCook, MarketDeliveryCook
          if (temp.amount == 1){
                  //order more for the restaurant;
                  Do(AlertTag.BrianRest, "Last "+ o.choice+". Ordering more.");
+                 populateMarkets();
                  if (temp.orderFromIndex < markets.size())
                  {
-                 if (markets.get(temp.orderFromIndex).getManager() !=null)
-                 markets.get(temp.orderFromIndex).
-                 getManager().msgWantFood(
-                		 myPerson.building.getID(),
-                		 temp.choice, 
-                		 max_Capacity - temp.amount);
+                 if (markets.get(temp.orderFromIndex).getManager() !=null){
+	                 markets.get(temp.orderFromIndex).
+	                 getManager().msgWantFood(
+	                		 myPerson.building.getID(),
+	                		 temp.choice, 
+	                		 max_Capacity - temp.amount);
+	                 }
+                 else
+            		 SearchMarkets(o.choice);
                  }
          }
          

@@ -197,7 +197,6 @@ public boolean pickAndExecuteAnAction() {
 		for (int i=0; i<amount; i++){
 			totalCost = totalCost.add(pricePerUnit);
 		}
-		
 		Check ch = new Check(totalCost.getDollar() + totalCost.cents / 100.0, manager);
 		checks.add(ch);	
 		stateChanged();
