@@ -32,6 +32,7 @@ public class PersonGui implements Gui {
 	}
 
 	public void updatePosition() {
+		// Travel left
 		if (xPos < xDestination) {
 			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)]) instanceof CarGui || 
 					(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)]) instanceof PersonGui &&  
@@ -42,6 +43,7 @@ public class PersonGui implements Gui {
 				rotation = 0;
 			}
 		}
+		// Travel right
 		else if (xPos > xDestination) {
 			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)]) instanceof CarGui || 
 					(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)]) instanceof PersonGui &&  
@@ -52,6 +54,7 @@ public class PersonGui implements Gui {
 				rotation = 2;
 			}
 		}
+		// Travel down
 		if (yPos < yDestination) {
 			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1]) instanceof CarGui || 
 					(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1]) instanceof PersonGui &&  
@@ -62,6 +65,7 @@ public class PersonGui implements Gui {
 				rotation = 1;
 			}
 		}
+		// Travel up
 		else if (yPos > yDestination) {
 			if (gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1]) instanceof CarGui || 
 					(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1]) instanceof PersonGui &&  
@@ -72,15 +76,19 @@ public class PersonGui implements Gui {
 				rotation = 3;
 			}
 		}
+		
+		// Update position on grid
 		gui.animationPanel.clearVGrid(myID);
 		gui.animationPanel.setVGrid((int) Math.floor(xPos/64), (int) Math.floor(yPos/64), myID);
 		
+		// Start moving
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command == Command.traveling) {
 				command = Command.none;
 		    	guiMoveFromCurrentPositionTo(new Position(getBuildingX(iDestination), getBuildingY(iDestination)));
 			}
 		}
+		// Enter a building
 		if (currentPosition != null && xPos == getBuildingX(iDestination)*SPRITE_SIZE && yPos == getBuildingY(iDestination)*SPRITE_SIZE) {
 			isPresent = false;
             currentPosition.release(aStar.getGrid());
@@ -101,6 +109,7 @@ public class PersonGui implements Gui {
     	return isPresent;
     }
 
+    // Begin travel
     public void DoTravel(int position, int destination) {
     	isPresent = true;
     	xPos = getBuildingX(position)*SPRITE_SIZE;
@@ -120,6 +129,7 @@ public class PersonGui implements Gui {
     	return ((position / CITY_SIZE) * 7) + 6;
     }
 
+    // A* algorithm
     void guiMoveFromCurrentPositionTo(Position to) {
     	if (command != Command.traveling) {  
 	        AStarNode aStarNode = (AStarNode)aStar.generalSearch(currentPosition, to);

@@ -276,6 +276,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Upon mouse click, enter a building
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
@@ -289,13 +290,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		});
 
 		this.addMouseMotionListener(new MouseMotionListener() {
-
 			@Override
 			public void mouseDragged(MouseEvent e) {
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
+				// Hover over a building to display its title
 				consoleText = "";
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
@@ -307,6 +308,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	}
 	
 	@Override
+	// Update the GUIs
     public void actionPerformed(ActionEvent arg0) {
 		try {
 			synchronized(guis) {
@@ -326,20 +328,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
-
-		/*
-        for (int y = 0; y < 30; y++) {
-        	for (int x = 0; x < 30; x++) {
-        		System.out.print(vehicleGrid[x][y] + " ");
-        	}
-            System.out.println("");
-        }
-        System.out.println("====");
-		*/
 		
 		// Draw the city based on the map array
 		for (int y = 0; y < WINDOWY / TILESIZE; y++) {
 			for (int x = 0; x < WINDOWX / TILESIZE; x++) {
+				// Draw the road textures
 				if (MAP[x][y] == 'R') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.DARK_GRAY);
@@ -382,6 +375,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						}
 					}
 				}
+				// Draw the sidewalk textures
 				if (MAP[x][y] == 'S') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.LIGHT_GRAY);
@@ -410,6 +404,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						}
 					}
 				}
+				// Draw the crosswalk textures
 				if (MAP[x][y] == 'C') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.GRAY);
@@ -423,6 +418,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						}
 					}
 				}
+				// Draw the building textures
 				if (MAP[x][y] == 'B') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.ORANGE);
@@ -445,6 +441,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				}
 			}
 			
+			// Draw the time / day icons and text
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
 			g2.drawString("" + God.Get().getHour() + ":00", 46 + scrollPane.getHorizontalScrollBar().getValue(), 33 + scrollPane.getVerticalScrollBar().getValue());
@@ -457,6 +454,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		}
 
+		// Draw bus standee icons
 		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
 			for (int j = 0; (j < standees.get(i).size() && j < 6); j++) {
 				iconPedW.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
@@ -467,6 +465,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			for (Gui gui : guis) {
 				if (gui.isPresent()) {
 					gui.draw(g2);
+					// Draw Person GUIs and their labels
 					if (gui.getType() == "Person") {
 						if (showRoleLabels && gui.getPerson().getMainRole() != null) {
 							g.setColor(getColorFromChar(gui.getPerson().getMainRole().toString().substring(0,1).toCharArray()[0]));
@@ -487,6 +486,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 									gui.getY() + 16);
 						}
 					}
+					// Draw Car GUIs and their labels
 					else if (gui.getType() == "Car") {
 						if (showRoleLabels && gui.getPerson().getMainRole() != null) {
 							g.setColor(getColorFromChar(gui.getPerson().getMainRole().toString().substring(0,1).toCharArray()[0]));
@@ -507,6 +507,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 									gui.getY());
 						}
 					}
+					// Draw the Bus GUIs
 					else if (gui.getType() == "Bus") {
 						if (gui.getRotation() == 0) {
 							iconBusR.paintIcon(this, g, gui.getX(),
@@ -527,6 +528,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		}
 	}
     
+	// Given a char, find a color (for labels)
 	public Color getColorFromChar(char s) {
 		if (s == 'B') {
 			return Color.red;
@@ -558,10 +560,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	return gui;
     }
     
+    // Returns a rectangle boundary for a building number
     private Rectangle getBuildingRect(int buildingNumber) {
     	return new Rectangle(((buildingNumber % CITY_SIZE) * 7 + 3)*TILESIZE, ((buildingNumber / CITY_SIZE) * 7 + 3)*TILESIZE, TILESIZE*3, TILESIZE*3);
     }
     
+    // Keyboard shortcuts
     protected void addCommands()
     {
         Action keyCtrlZ = new AbstractAction()
@@ -577,8 +581,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("EPCWaiter", "EricRestaurant.EricPCWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
             	 createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
             	 createPerson("ECook", "EricRestaurant.EricCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1); 
-            	 
-            	 //Second Shift 
              }
         };
         Action keyCtrlR = new AbstractAction()
@@ -609,6 +611,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
            	 	createPerson("EWPCaiter", "EricRestaurant.EricPCWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECook", "EricRestaurant.EricCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1); 
+           	 	
            	 	//Second Shift
          		createPerson("EHost", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 2);
            	 	createPerson("EWaiter", "EricRestaurant.EricWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 2);
@@ -799,6 +802,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         getActionMap().put(stringCtrlA, keyCtrlA);
     }
     
+    // Create a person 
     public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b, int shift){
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 B_House bHouse = (B_House) house;
@@ -852,6 +856,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 return null;
     }
     
+    // Create a person
     public Person createPerson(String name, String role, Vehicle v, Morality m, Money money, int hunger, Building house, Building b, int shift){
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 B_House bHouse = (B_House) house;
@@ -951,6 +956,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
   	 	 standees.get(p.building.getID()).add(p);
     }
     
+    // Clears vehicle grid upon exiting a space
     public void clearVGrid(int id) {
 		for (int i = 0; i < 30; i++) {
 		for (int j = 0; j < 30; j++) {
@@ -990,6 +996,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
   		idList.put(currentID, g2);
     }
     
+    // In event of a PersonGui losing their car
     public PersonGui getNewGui(Person p) {
     	guis.remove(p.gui);
         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
@@ -1001,6 +1008,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         return g;
     }
     
+    // In event of a PersonGui gaining a car
     public CarGui getNewCarGui(Person p) {
     	guis.remove(p.gui);
   		currentID++;

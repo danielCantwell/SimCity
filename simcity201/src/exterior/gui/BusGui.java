@@ -37,6 +37,7 @@ public class BusGui implements Gui {
 	    {
 	        return;
 	    }
+	    // Move left validly
 		if (xPos < xDestination) {
 			if ((int) Math.floor(xPos/64) + 1 >= 29 || (int) Math.floor(yPos/64) + 1 >= 29 ) {
 				xPos+=4;
@@ -48,6 +49,7 @@ public class BusGui implements Gui {
 				rotation = 0;
 			}
 		}
+		// Move right validly
 		if (xPos > xDestination) {
 			if ((int) Math.floor(xPos/64) - 1 <= 0 || (int) Math.floor(yPos/64) - 1 <= 0) {
 				xPos-=4;
@@ -59,6 +61,7 @@ public class BusGui implements Gui {
 				rotation = 2;
 			}
 		}
+		// Move down validly
 		if (yPos < yDestination) {
 			if ((int) Math.floor(yPos/64) + 1 >= 29 || (int) Math.floor(xPos/64) - 1 <= 0) {
 				yPos+=4;
@@ -70,6 +73,7 @@ public class BusGui implements Gui {
 				rotation = 1;
 			}
 		}
+		// Move up validly
 		if (yPos > yDestination) {
 			if ((int) Math.floor(yPos/64) - 1 <= 0 || (int) Math.floor(xPos/64) + 1 >= 29) {
 				yPos-=4;
@@ -82,6 +86,7 @@ public class BusGui implements Gui {
 			}
 		}
 
+		// Update position
 		gui.animationPanel.clearVGrid(myID);
 		gui.animationPanel.setVGrid((int) Math.floor(xPos/64), (int) Math.floor(yPos/64), myID);
 		
@@ -139,6 +144,7 @@ public class BusGui implements Gui {
     	return isPresent;
     }
 
+    // Go to a specific address
     public void DoTravel(int position, int destination) {
     	isPresent = true;
     	iDestination = destination;
@@ -176,6 +182,7 @@ public class BusGui implements Gui {
     	return ((position / 4) * 7 + 7)*64;
     }
     
+    // Travel horizontally
     public int getNearestCornerX(int position) {
     	// Going left
     	if (xPos > getBuildingX(position)) {
