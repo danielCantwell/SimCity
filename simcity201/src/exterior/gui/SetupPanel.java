@@ -166,8 +166,8 @@ public class SetupPanel extends JFrame {
 			"S1 : All Roles : 1 Wanderer : All Walking");
 	private JButton s2 = new JButton(
 			"S2 : All Roles : 3 Wanderers : Various Transportation");
-	private JButton s3 = new JButton("Scenario Three - Does Nothing");
-	private JButton s4 = new JButton("Scenario Four - Does Nothing");
+	private JButton s3 = new JButton("Scenario Three - Spawns 50 Wanderers");
+	private JButton s4 = new JButton("Hard Reset (PUSH IF YOU DARE)");
 
 	// ---------------Trace Panel--------------------
 	TracePanel tracePanel;
@@ -1317,34 +1317,7 @@ public class SetupPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Vehicle v = Vehicle.walk;
-				Morality m = Morality.good;
-				Building house = animationPanel.getGui().buildingList.get(0);
-
-				// transportation selection
-				if (vehicleBus.isSelected())
-					v = Vehicle.bus;
-				else if (vehicleCar.isSelected())
-					v = Vehicle.car;
-				else if (vehicleWalk.isSelected())
-					v = Vehicle.walk;
-
-				// morality selection
-				if (moralityGood.isSelected())
-					m = Morality.good;
-				else if (moralityBad.isSelected())
-					m = Morality.crook;
-
-				// apartment selection
-				if (apartmentTenant.isSelected())
-					house = selectApartment();
-				else if (houseTenant.isSelected())
-					house = selectHouse();
-
-				animationPanel.createPerson("Customer", "usto", v, m, house,
-						animationPanel.getGui().buildingList.get(6), 1);
-
-				numPeople.setText("# People :  " + God.Get().persons.size());
+				createWanderingPerson();
 			}
 		});
 
@@ -1594,11 +1567,14 @@ public class SetupPanel extends JFrame {
 	}
 
 	private void runScenarioThree() {
-
+	    for (int i = 0; i < 50; i++)
+	    {
+	        createWanderingPerson();
+	    }
 	}
 
 	private void runScenarioFour() {
-
+	    animationPanel.getGui().HardReset();
 	}
 
 	// --------------------------------------------------------
@@ -1608,6 +1584,38 @@ public class SetupPanel extends JFrame {
 	//
 	// --------------------------------------------------------
 
+	private void createWanderingPerson()
+	{
+	    Vehicle v = Vehicle.walk;
+        Morality m = Morality.good;
+        Building house = animationPanel.getGui().buildingList.get(0);
+
+        // transportation selection
+        if (vehicleBus.isSelected())
+            v = Vehicle.bus;
+        else if (vehicleCar.isSelected())
+            v = Vehicle.car;
+        else if (vehicleWalk.isSelected())
+            v = Vehicle.walk;
+
+        // morality selection
+        if (moralityGood.isSelected())
+            m = Morality.good;
+        else if (moralityBad.isSelected())
+            m = Morality.crook;
+
+        // apartment selection
+        if (apartmentTenant.isSelected())
+            house = selectApartment();
+        else if (houseTenant.isSelected())
+            house = selectHouse();
+
+        animationPanel.createPerson("Customer", "usto", v, m, house,
+                animationPanel.getGui().buildingList.get(6), 1);
+
+        numPeople.setText("# People :  " + God.Get().persons.size());
+	}
+	
 	private void createDannyRestaurantPeople(Vehicle vehicle) {
 		// housing building 0
 		animationPanel.createPerson("D_Host_One", "restaurant.DannyHost",

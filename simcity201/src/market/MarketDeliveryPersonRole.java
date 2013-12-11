@@ -105,11 +105,6 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
 		{
 		    manager.msgIAmBack(this);
             location = AgentLocation.Market;
-	        if (canLeave)
-	        {
-	            leaveBuilding();
-	            return false;
-	        }
 	        return true;
 		}
 	    if(location == AgentLocation.Market)
@@ -126,6 +121,11 @@ public class MarketDeliveryPersonRole extends Role implements MarketDeliveryPers
     	            }
     	        }
     	    }
+            if (canLeave)
+            {
+                leaveBuilding();
+                return false;
+            }
 	    }
 	    if(location == AgentLocation.Destination)
         {
