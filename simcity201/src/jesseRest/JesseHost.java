@@ -240,7 +240,7 @@ public class JesseHost extends Role {
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
+		myPerson.getMoney().add(70, 0);
 		
 	}
 

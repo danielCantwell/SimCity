@@ -167,6 +167,7 @@ public class EricCashier extends Role implements MarketDeliveryCashier {
 
 	@Override
 	public void workOver() {
+		myPerson.getMoney().add(50, 0);
 		host.setMoney(ERestMoney);
 		exitBuilding(myPerson);
 	}

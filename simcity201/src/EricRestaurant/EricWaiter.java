@@ -455,6 +455,7 @@ public class EricWaiter extends EricAbstractWaiter implements Waiter {
 	}
 	@Override
 	public void workOver() {
+		myPerson.getMoney().add(50, 0);
 		hostGui.DoLeaveCustomer();
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.removeGui(hostGui);

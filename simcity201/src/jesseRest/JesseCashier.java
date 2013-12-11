@@ -181,7 +181,7 @@ public class JesseCashier extends Role implements Cashier {
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
+		myPerson.getMoney().add(50, 0);
 		
 	}
 

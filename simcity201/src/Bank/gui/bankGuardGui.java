@@ -48,7 +48,7 @@ public class bankGuardGui implements Gui{
 	
 	public void doEnterBank() {
 		xDest = 440;
-		yDest = 320;
+		yDest = 280;
 	}
 	
 	public void doLeaveBank() {

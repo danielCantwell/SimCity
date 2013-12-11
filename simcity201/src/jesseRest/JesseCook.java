@@ -257,7 +257,7 @@ public class JesseCook extends Role {
 
 	@Override
 	public void workOver() {
-		// TODO Auto-generated method stub
+		myPerson.getMoney().add(50, 0);
 		
 	}
 

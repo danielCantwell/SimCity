@@ -462,6 +462,8 @@ public class JesseWaiter extends JesseAbstractWaiter implements Waiter {
 	}
 	@Override
 	public void workOver() {
+		myPerson.getMoney().add(50, 0);
+
 		waiterGui.DoLeaveCustomer();
 		AnimationPanel ap = (AnimationPanel)myPerson.building.getPanel();
 		ap.removeGui(waiterGui);

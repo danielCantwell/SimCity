@@ -124,6 +124,8 @@ public class bankGuardRole extends Role implements Guard {
 			for (Entry c : custEnter) {
 				if (c.s == state.complied) {
 					Search(c);
+					System.out.println("Made it into the Guard PAE robber");
+
 					return true;
 				}
 			}
@@ -131,7 +133,6 @@ public class bankGuardRole extends Role implements Guard {
 		synchronized(custEnter) {
 			for (Entry c : custEnter) {
 				if (c.s == state.robber) {
-					System.out.println("Made it into the Guard PAE robber");
 					forcedEntry(c);
 					return true;
 				}
@@ -183,6 +184,7 @@ public class bankGuardRole extends Role implements Guard {
 			}
 		}
 		custEnter.remove(c);
+		stateChanged();
 	}
 
 	@Override
@@ -199,6 +201,7 @@ public class bankGuardRole extends Role implements Guard {
 
 	@Override
 	public void leaveBank() {
+		myPerson.getMoney().add(50, 0);
 		gui.doLeaveBank();
 		try {
 			moving.acquire();
