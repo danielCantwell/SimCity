@@ -172,6 +172,14 @@ public class B_Market extends Building{
             {
                 AlertLog.getInstance().logError(AlertTag.Market, person.getName(), "MarketManager = null");
             }
+            if (getOpen())
+            {
+                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Market Open.");
+            }
+            else
+            {
+                AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Market Close.");
+            }
         } catch(Exception e){
            // e.printStackTrace();
            
