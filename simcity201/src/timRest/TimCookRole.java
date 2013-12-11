@@ -385,6 +385,7 @@ public class TimCookRole extends Role implements MarketDeliveryCook {
         Info(AlertTag.TimRest, "I have " + myPerson.money + " and I'm leaving the building.");
         canLeave = false;
         exitBuilding(myPerson);
+        myPerson.msgGoHome();
     }
 	
 	public void addItemToInventory(String choice, int amount, int cookingTime)

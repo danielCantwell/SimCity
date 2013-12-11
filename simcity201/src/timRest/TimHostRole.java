@@ -386,6 +386,7 @@ public class TimHostRole extends Role {
         wantsLeave = false;
         workCount = 0;
         exitBuilding(myPerson);
+        myPerson.msgGoHome();
     }
 
 	//utilities

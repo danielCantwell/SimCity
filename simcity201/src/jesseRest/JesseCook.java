@@ -1,12 +1,16 @@
 package jesseRest;
 
+import SimCity.Base.God;
 import SimCity.Base.Role;
+import SimCity.Base.God.BuildingType;
 import SimCity.Buildings.B_JesseRestaurant;
+import SimCity.Buildings.B_Market;
 import agent.Agent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import market.interfaces.MarketDeliveryCook;
 import jesseRest.*;
 import jesseRest.JesseOrderStand.Orders;
 import jesseRest.gui.AnimationPanel;
@@ -15,7 +19,7 @@ import jesseRest.gui.AnimationPanel;
  * Restaurant Cook Agent
  */
 
-public class JesseCook extends Role {
+public class JesseCook extends Role implements MarketDeliveryCook {
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	public enum CookState {Pending, Cooking, Done};
 	public enum InventoryState {Ordering, Done, Reorder};
@@ -82,7 +86,7 @@ public class JesseCook extends Role {
 		animationPanel.counterItems.remove(choice.substring(0,2));
 	}
 	
-	public void msgDeliverFood(int quantity, String choice) {
+	public void msgHereIsYourFood(String choice, int quantity) {
 		foods.get(choice).inventory += quantity;
 		amountBought += quantity;
 		// Inventory is fully replenished.
@@ -175,12 +179,13 @@ public class JesseCook extends Role {
 		System.out.print("INVENTORY FOR " + foods.get(o.choice).item + ": " + foods.get(o.choice).inventory + '\n');
 		
 		// Checks when inventory is low
-//		if (foods.get(o.choice).inventory <= LOW && status == InventoryState.Done) {
-//			System.out.println("Message: Sending INeedFood from Cook to Market number " + (currentMarket+1));
-//			// Orders food from market
-//			markets.get(0).msgINeedFood(o.choice, ORDERSIZE);
-//			status = InventoryState.Ordering;
-//		}
+		if (foods.get(o.choice).inventory <= LOW && status == InventoryState.Done) {
+			System.out.println("Message: Sending INeedFood from Cook to Market number " + (currentMarket+1));
+			// Orders food from market
+			B_Market market = (B_Market)God.Get().findBuildingOfType(BuildingType.Market);
+			market.getManager().msgWantFood(myPerson.building.getID(), o.choice, ORDERSIZE);
+			status = InventoryState.Ordering;
+		}
 		
 		o.state = CookState.Cooking;
 		animationPanel.grillItems.add(o.choice.substring(0,2));
