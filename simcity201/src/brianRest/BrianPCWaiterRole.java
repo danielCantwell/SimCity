@@ -197,6 +197,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 						idle = false;
 						if (mc.table != null)
 						SeatCustomer(mc.table, mc);
+						return true;
 						
 				}
 			}
@@ -205,6 +206,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if (mc.state == MyCustomerState.readyToOrder){
 					idle = false;
 					TakeOrder(mc);
+					return true;
 					
 				}
 			}
@@ -213,7 +215,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if (mc.state == MyCustomerState.ordered){ 
 					idle = false;
 					GiveOrderToCook(mc, true);
-					
+					return true;
 				}
 			}
 			
@@ -221,6 +223,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if(mc.state == MyCustomerState.reordering){
 					idle = false;
 					TakeReorder(mc);
+					return true;
 				}
 			}
 			
@@ -228,6 +231,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if (mc.state == MyCustomerState.orderReady){
 					idle = false;
 					GiveFoodToCustomer(mc);
+					return true;
 				}
 			}
 			
@@ -235,6 +239,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if (mc.state == MyCustomerState.wantCheck){
 					idle = false;
 					AskCashierForTotal(mc);
+					return true;
 				}
 			}
 			
@@ -242,6 +247,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if (mc.state == MyCustomerState.gotCheck){
 					idle = false;
 					GiveCustomerCheck(mc);
+					return true;
 				}
 			}
 			
@@ -249,6 +255,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if (mc.state == MyCustomerState.doneEating){
 					idle = false;
 					CustomerLeaving(mc);
+					return true;
 				}
 			}
 			
@@ -256,6 +263,7 @@ public class BrianPCWaiterRole extends BrianAbstractWaiter implements BrianWaite
 				if (mc.state == MyCustomerState.dead){
 					idle = false;
 					CleanDeadCustomer(mc);
+					return true;
 				}
 			}
 			

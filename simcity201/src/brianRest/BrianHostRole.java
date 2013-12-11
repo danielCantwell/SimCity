@@ -104,7 +104,7 @@ public class BrianHostRole extends Role implements BrianHost {
 
 	@Override
 	public void msgIWantToEat(BrianCustomer c){
-		System.out.println("Customer wants to eat");
+		Do(AlertTag.BrianRest,"Customer wants to eat");
 		waitingCustomers.add(new WaitingCustomer(c));
 		stateChanged();
 	}
@@ -217,7 +217,7 @@ public class BrianHostRole extends Role implements BrianHost {
 	}
 	
 	private void notifyWaiter(BrianTable t, MyWaiter w){
-		 System.out.println("BrianHost is notifying BrianWaiter");
+		Do(AlertTag.BrianRest, "BrianHost is notifying BrianWaiter");
 		   w.numberOfCustomers++;
 		   WaitingCustomer c = waitingCustomers.remove(0);
 		   w.waiter.msgSeatAtTable(c.customer, t);
@@ -254,6 +254,7 @@ public class BrianHostRole extends Role implements BrianHost {
 			br.hostFilled = false;
 			br.cookFilled = false;
 			br.numberOfWaiters = 0;
+			waiters.clear();
 			wantToGoHome = false;
 			myPerson.msgGoHome();
 			exitBuilding(myPerson);
@@ -303,7 +304,6 @@ public class BrianHostRole extends Role implements BrianHost {
 	
 	public void addWaiter(BrianWaiter newRole){
 		waiters.add(new MyWaiter(newRole));
-		
 		((BrianRestaurantPanel) brianRest.getPanel()).addWaiter(newRole.toString(), newRole);
 		workingWaiters++;
 		stateChanged();

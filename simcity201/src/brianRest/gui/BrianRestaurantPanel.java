@@ -166,7 +166,7 @@ public class BrianRestaurantPanel extends JPanel implements ActionListener{
    }
    
    public void removeWaiter(){
-	   AlertLog.getInstance().logError(AlertTag.BrianRest, "Problem", "removing");
+	   //AlertLog.getInstance().logError(AlertTag.BrianRest, "Problem", "removing");
 	   for (People p: list){
 				view.remove(p.button);
 				list.remove(p.button);
