@@ -61,12 +61,26 @@ SimCity201 Project Repository for CS 201 students
 + Market Roles and Guis
   * Clerk Role
   * Customer Role
+    * EASTER EGG: A Customer named Wilczynski will purchase the brain from the extra credit scenario.
+    * Customers will purchase and use a car if they do not own one and they have at least $700.
   * Delivery Person Role
+    * Assisted with incorperation of all restaurant/market interaction.
+    * Created interface for restaurant cooks and cashiers to implement.
   * Manager Role
+    * Alerts people to leave when market is done with work.
   * Packer Role
+  * Notes:
+    * Although people stand on top of each other, it is possible to have any number of clerks, packers, delivery persons, or customers.
 + JUnit Testing
   * Packer Role
   * Clerk Role
++ Fixed issues with screen resolution
+  * NOTE: Sufficently large screens may have issues with the gui.
++ Money Class
+  * Integrated it into some restaurants.
++ Integration of Restaurant v2.2
+  * Integration of restaurant
+  * Producer/Consumer Waiter
 
 ####Eric Wu
 + Bank Roles and Guis
