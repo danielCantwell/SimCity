@@ -9,7 +9,7 @@ import SimCity.trace.AlertTag;
 
 public class OrderStand
 {
-    private TimCookRole cook;
+    public TimCookRole cook;
     
     private List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
     

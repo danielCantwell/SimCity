@@ -46,12 +46,12 @@ public class TimCookGui implements Gui {
         g.fillRect(xPos+20, yPos-20, 20, 60);
         
         g.setColor(Color.GRAY);
-        g.drawString(grillIcon, xPos+35, yPos);
+        g.drawString(grillIcon, xPos+22, yPos-20);
         
         g.setColor(Color.BLACK);
         for (int i = 0; i < servingIcons.length; i++)
         {
-        	g.drawString(servingIcons[i], xPos - 10, yPos + 20*(i-1)-5);
+        	g.drawString(servingIcons[i], xPos - 15, yPos + 20*(i-1)-20);
         }
     }
 

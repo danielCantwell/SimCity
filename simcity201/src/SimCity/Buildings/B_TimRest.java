@@ -128,6 +128,7 @@ public class B_TimRest extends Building{
                     restaurantRole.addItemToInventory("Pizza", 4, 2000);
                     restaurantRole.addMarket(m.getManager());
                     restaurantRole.setOrderStand(orderStand);
+            		orderStand.cook = restaurantRole;
                 }
                 else if (newRole instanceof TimCashierRole)
                 {
