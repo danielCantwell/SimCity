@@ -108,7 +108,7 @@ public class B_Market extends Building{
                 if (newRole instanceof MarketClerkRole)
                 {
                     MarketClerkRole marketRole = (MarketClerkRole) person.mainRole;
-                    if (managerRole == null)
+                    if (marketRole.manager == null)
                     {
                         marketRole.setManager(managerRole);
                         managerRole.addClerk(marketRole);
@@ -118,7 +118,7 @@ public class B_Market extends Building{
                 else if (newRole instanceof MarketPackerRole)
                 {
                     MarketPackerRole marketRole = (MarketPackerRole) person.mainRole;
-                    if (managerRole == null)
+                    if (marketRole.manager == null)
                     {
                         marketRole.setManager(managerRole);
                         managerRole.addPacker(marketRole);
@@ -128,7 +128,7 @@ public class B_Market extends Building{
                 else if (newRole instanceof MarketDeliveryPersonRole)
                 {
                     MarketDeliveryPersonRole marketRole = (MarketDeliveryPersonRole) person.mainRole;
-                    if (managerRole == null)
+                    if (marketRole.manager == null)
                     {
                         marketRole.setManager(managerRole);
                         managerRole.addDeliveryPerson(marketRole);
@@ -166,12 +166,12 @@ public class B_Market extends Building{
                 AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Entering Market.");
                 person.msgEnterBuilding(this);
                 panel.repaint();
-                setOpen(areAllNeededRolesFilled());
             }
             else
             {
                 AlertLog.getInstance().logError(AlertTag.Market, person.getName(), "MarketManager = null");
             }
+            setOpen(areAllNeededRolesFilled());
             if (getOpen())
             {
                 AlertLog.getInstance().logInfo(AlertTag.Market, person.getName(), "Market Open.");

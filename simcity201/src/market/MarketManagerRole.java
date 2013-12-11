@@ -513,7 +513,7 @@ public class MarketManagerRole extends Role implements MarketManager {
 
     public boolean isRestaurantReady()
     {
-        return (myPerson != null && !clerks.isEmpty() && !packers.isEmpty());// && !deliveryPeople.isEmpty());
+        return (!clerks.isEmpty() && !packers.isEmpty() && !deliveryPeople.isEmpty());
     }
 
     /**
