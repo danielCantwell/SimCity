@@ -30,6 +30,7 @@ public class CarGui implements Gui {
 	public CarGui(SimCityGui gui, int id, boolean createAccidents) {
 		this.gui = gui;
 		
+		// Decide whether the car gets in an accident
 		this.accidentProne = createAccidents;
 		Random rand = new Random();
 		int chooseAccidentProne = rand.nextInt(10);
@@ -55,6 +56,7 @@ public class CarGui implements Gui {
 	}
 
 	public void updatePosition() {
+		// Move left validly
 		if (xPos < xDestination) {
 			if ((int) Math.floor(xPos/64) + 1 >= 29 || (int) Math.floor(yPos/64) + 1 >= 29 ) {
 				xPos+=4;
@@ -66,11 +68,13 @@ public class CarGui implements Gui {
 					xPos+=4;
 					rotation = 0;
 				}
+				// Get in an accident
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)] > 1 && accidentProne) {
 					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) + 1][(int) Math.floor(yPos/64)]).getPerson());
 				}
 			}
 		}
+		// Move right validly
 		if (xPos > xDestination) {
 			if ((int) Math.floor(xPos/64) - 1 <= 0 || (int) Math.floor(yPos/64) - 1 <= 0) {
 				xPos-=4;
@@ -82,11 +86,13 @@ public class CarGui implements Gui {
 					xPos-=4;
 					rotation = 2;
 				}
+				// Get in an accident
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)] > 1 && accidentProne) {
 					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64) - 1][(int) Math.floor(yPos/64)]).getPerson());
 				}
 			}
 		}
+		// Move down validly
 		if (yPos < yDestination) {
 			if ((int) Math.floor(yPos/64) + 1 >= 29 || (int) Math.floor(xPos/64) - 1 <= 0) {
 				yPos+=4;
@@ -98,11 +104,13 @@ public class CarGui implements Gui {
 					yPos+=4;
 					rotation = 1;
 				}
+				// Get in an accident
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1] > 1 && accidentProne) {
 					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) + 1]).getPerson());
 				}
 			}
 		}
+		// Move up validly
 		if (yPos > yDestination) {
 			if ((int) Math.floor(yPos/64) - 1 <= 0 || (int) Math.floor(xPos/64) + 1 >= 29) {
 				yPos-=4;
@@ -114,15 +122,18 @@ public class CarGui implements Gui {
 					yPos-=4;
 					rotation = 3;
 				}
+				// Get in an accident
 				else if (gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1] > 1 && accidentProne) {
 					carAccident(gui.animationPanel.idList.get(gui.animationPanel.vehicleGrid[(int) Math.floor(xPos/64)][(int) Math.floor(yPos/64) - 1]).getPerson());
 				}
 			}
 		}
 
+		// Update position on grid
 		gui.animationPanel.clearVGrid(myID);
 		gui.animationPanel.setVGrid((int) Math.floor(xPos/64), (int) Math.floor(yPos/64), myID);
 		
+		// Decide next path in route
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command == Command.seekDest) {
 				command = Command.noCommand;
@@ -164,6 +175,7 @@ public class CarGui implements Gui {
     	return isPresent;
     }
 
+    // Initially start traveling to a given destination
     public void DoTravel(int position, int destination) {
     	isPresent = true;
     	iDestination = destination;
@@ -201,6 +213,7 @@ public class CarGui implements Gui {
     	return ((position / 4) * 7 + 7)*64;
     }
     
+    // Travel horizontally
     public int getNearestCornerX(int position) {
     	// Going left
     	if (xPos > getBuildingX(position)) {
@@ -226,6 +239,7 @@ public class CarGui implements Gui {
     	}
     }
     
+    // Get into an accident
     public void carAccident(Person other) {
     	if (other != null) {
 	    	if (other.gui instanceof PersonGui) {

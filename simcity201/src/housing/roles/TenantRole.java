@@ -425,7 +425,6 @@ public class TenantRole extends Role implements Tenant {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "Tenant Role";
+		return "HTen";
 	}
 }

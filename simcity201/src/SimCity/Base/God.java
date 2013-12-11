@@ -67,7 +67,7 @@ public class God {
 	    public SimCityGui getSimGui(){return simGui;}
 	    
 	    //List of God thingies
-	    public int day = 5;
+	    public int day = 1;
 	    public int hour;
 	    public boolean isWeekend = false;
 	    Timer hourTimer;

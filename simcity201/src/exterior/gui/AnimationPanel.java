@@ -13,13 +13,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -27,11 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -50,7 +42,6 @@ import SimCity.Globals.Money;
 import SimCity.trace.AlertLog;
 import SimCity.trace.AlertTag;
 import exterior.astar.AStarTraversal;
-import brianRest.*;
 
 public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
@@ -120,6 +111,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public int currentID = 1;
     public HashMap<Integer, Gui> idList = new HashMap<Integer, Gui>();
     
+    // Image icon variables:
     private ImageIcon iconPedR = new ImageIcon("images/a_pedestrian_r.gif");
     private ImageIcon iconPedD = new ImageIcon("images/a_pedestrian_d.gif");
     private ImageIcon iconPedL = new ImageIcon("images/a_pedestrian_l.gif");
@@ -179,6 +171,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		timer.start();
 		God.Get().playSound("ambience", true);
 		
+		// Add cars to their respective lists
 		carsL.add(iconCar1L);
 		carsL.add(iconCar2L);
 		carsL.add(iconCar3L);
@@ -206,6 +199,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		
 		God.Get().setAnimationPanel(this);
 		
+		// Map a number of bus standees to each building
 		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
 			List<Person> l = new ArrayList<Person>();
 			standees.put(i, l);
@@ -231,6 +225,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 		addCommands();
 
+		// Import font
 		InputStream is;
 		try {
 			is = new FileInputStream("images/Minecraftia.ttf");
@@ -246,12 +241,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			e1.printStackTrace();
 		}
 
+		// This switches horizontal / vertical roads' red lights
 		Timer trafficTimer = new Timer(5000, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   horizontalRedLight = !horizontalRedLight;
 	    }});
 		trafficTimer.start();
 		
+		// Spawn the buses at the beginning
 		Timer busTimer = new Timer(500, new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   if (currentID == 1) {
@@ -279,35 +276,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
-					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
-						gui.buildingFrame.setVisible(true);
-						gui.buildingFrame.setTitle("Building #" + i
-								+ " - " + gui.buildingList.get(i).getTag());
-					}
-				}
-			}
-		});
-		
-		this.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
+				// Upon mouse click, enter a building
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
 						gui.buildingFrame.setVisible(true);
@@ -321,13 +290,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		});
 
 		this.addMouseMotionListener(new MouseMotionListener() {
-
 			@Override
 			public void mouseDragged(MouseEvent e) {
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
+				// Hover over a building to display its title
 				consoleText = "";
 				for (int i = 0; i < CITY_SIZE * CITY_SIZE; i++) {
 					if (getBuildingRect(i).contains(e.getX(), e.getY())) {
@@ -339,6 +308,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	}
 	
 	@Override
+	// Update the GUIs
     public void actionPerformed(ActionEvent arg0) {
 		try {
 			synchronized(guis) {
@@ -358,20 +328,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, WINDOWX, WINDOWY);
-
-		/*
-        for (int y = 0; y < 30; y++) {
-        	for (int x = 0; x < 30; x++) {
-        		System.out.print(vehicleGrid[x][y] + " ");
-        	}
-            System.out.println("");
-        }
-        System.out.println("====");
-		*/
 		
 		// Draw the city based on the map array
 		for (int y = 0; y < WINDOWY / TILESIZE; y++) {
 			for (int x = 0; x < WINDOWX / TILESIZE; x++) {
+				// Draw the road textures
 				if (MAP[x][y] == 'R') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.DARK_GRAY);
@@ -414,6 +375,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						}
 					}
 				}
+				// Draw the sidewalk textures
 				if (MAP[x][y] == 'S') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.LIGHT_GRAY);
@@ -442,6 +404,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						}
 					}
 				}
+				// Draw the crosswalk textures
 				if (MAP[x][y] == 'C') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.GRAY);
@@ -455,6 +418,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 						}
 					}
 				}
+				// Draw the building textures
 				if (MAP[x][y] == 'B') {
 					if (SHOW_RECT) {
 						g2.setColor(Color.ORANGE);
@@ -477,6 +441,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 				}
 			}
 			
+			// Draw the time / day icons and text
 			g2.setColor(Color.WHITE);
 			g2.setFont(font);
 			g2.drawString("" + God.Get().getHour() + ":00", 46 + scrollPane.getHorizontalScrollBar().getValue(), 33 + scrollPane.getVerticalScrollBar().getValue());
@@ -489,6 +454,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			}
 		}
 
+		// Draw bus standee icons
 		for (int i = 0; i < CITY_SIZE*CITY_SIZE; i++) {
 			for (int j = 0; (j < standees.get(i).size() && j < 6); j++) {
 				iconPedW.paintIcon(this, g, getBuildingX(i) + j*32 + 64, getBuildingY(i) - 64);
@@ -499,6 +465,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			for (Gui gui : guis) {
 				if (gui.isPresent()) {
 					gui.draw(g2);
+					// Draw Person GUIs and their labels
 					if (gui.getType() == "Person") {
 						if (showRoleLabels && gui.getPerson().getMainRole() != null) {
 							g.setColor(getColorFromChar(gui.getPerson().getMainRole().toString().substring(0,1).toCharArray()[0]));
@@ -519,6 +486,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 									gui.getY() + 16);
 						}
 					}
+					// Draw Car GUIs and their labels
 					else if (gui.getType() == "Car") {
 						if (showRoleLabels && gui.getPerson().getMainRole() != null) {
 							g.setColor(getColorFromChar(gui.getPerson().getMainRole().toString().substring(0,1).toCharArray()[0]));
@@ -539,6 +507,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 									gui.getY());
 						}
 					}
+					// Draw the Bus GUIs
 					else if (gui.getType() == "Bus") {
 						if (gui.getRotation() == 0) {
 							iconBusR.paintIcon(this, g, gui.getX(),
@@ -559,6 +528,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		}
 	}
     
+	// Given a char, find a color (for labels)
 	public Color getColorFromChar(char s) {
 		if (s == 'B') {
 			return Color.red;
@@ -590,10 +560,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	return gui;
     }
     
+    // Returns a rectangle boundary for a building number
     private Rectangle getBuildingRect(int buildingNumber) {
     	return new Rectangle(((buildingNumber % CITY_SIZE) * 7 + 3)*TILESIZE, ((buildingNumber / CITY_SIZE) * 7 + 3)*TILESIZE, TILESIZE*3, TILESIZE*3);
     }
     
+    // Keyboard shortcuts
     protected void addCommands()
     {
         Action keyCtrlZ = new AbstractAction()
@@ -609,8 +581,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
             	 createPerson("EPCWaiter", "EricRestaurant.EricPCWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
             	 createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
             	 createPerson("ECook", "EricRestaurant.EricCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1); 
-            	 
-            	 //Second Shift 
              }
         };
         Action keyCtrlR = new AbstractAction()
@@ -619,7 +589,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
              {
 
             	 //First Shift
-            	 createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
+            	 //createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("BRobber", "Bank.RobberRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
             	 createPerson("BCustomer", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
@@ -631,17 +601,28 @@ public class AnimationPanel extends JPanel implements ActionListener {
         	public void actionPerformed(ActionEvent e)
         	{
         		//First Shift
-           	 	createPerson("BRobber", "Bank.RobberRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
-           	 	createPerson("BCustomer", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
-           	    createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
-        		createPerson("BManager", "Bank.bankManagerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
-                createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(2), 1);
-        		createPerson("EHost", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+                createPerson("MManager", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),1);
+                createPerson("MClerk", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3), 1);
+                createPerson("MPacker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),1);
+                createPerson("MDelivery", "market.MarketDeliveryPersonRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),1);
+           	 	createPerson("BRobber", "Bank.RobberRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2), 1);
+           	 	createPerson("BCustomer", "Bank.bankCustomerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2), 1);
+           	    createPerson("BGuard", "Bank.bankGuardRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2), 1);
+        		createPerson("BManager", "Bank.bankManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2), 1);
+                createPerson("BTeller", "Bank.tellerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(2), 1);
+        		createPerson("EHost", "EricRestaurant.EricHost", Vehicle.car, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
         		createPerson("ECustomer", "EricRestaurant.EricCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+        		createPerson("ECustomer2", "EricRestaurant.EricCustomer", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("EWPCaiter", "EricRestaurant.EricPCWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
+           	 	createPerson("EWaiter", "EricRestaurant.EricWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1);
            	 	createPerson("ECook", "EricRestaurant.EricCook", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 1); 
+           	 	
            	 	//Second Shift
+           	 	createPerson("MManager", "market.MarketManagerRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),2);
+           	 	createPerson("MClerk", "market.MarketClerkRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3), 2);
+           	 	createPerson("MPacker", "market.MarketPackerRole", Vehicle.walk, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),2);
+           	 	createPerson("MDelivery", "market.MarketDeliveryPersonRole", Vehicle.car, Morality.good, gui.buildingList.get(1), gui.buildingList.get(3),2);
          		createPerson("EHost", "EricRestaurant.EricHost", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 2);
            	 	createPerson("EWaiter", "EricRestaurant.EricWaiter", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 2);
            	 	createPerson("ECashier", "EricRestaurant.EricCashier", Vehicle.walk, Morality.good, gui.buildingList.get(0), gui.buildingList.get(11), 2);
@@ -831,6 +812,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         getActionMap().put(stringCtrlA, keyCtrlA);
     }
     
+    // Create a person 
     public Person createPerson(String name, String role, Vehicle v, Morality m, Building house, Building b, int shift){
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 B_House bHouse = (B_House) house;
@@ -884,6 +866,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	   	 return null;
     }
     
+    // Create a person
     public Person createPerson(String name, String role, Vehicle v, Morality m, Money money, int hunger, Building house, Building b, int shift){
 	   	 AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
 	   	 B_House bHouse = (B_House) house;
@@ -983,6 +966,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
   	 	 standees.get(p.building.getID()).add(p);
     }
     
+    // Clears vehicle grid upon exiting a space
     public void clearVGrid(int id) {
 		for (int i = 0; i < 30; i++) {
 		for (int j = 0; j < 30; j++) {
@@ -1022,6 +1006,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
   		idList.put(currentID, g2);
     }
     
+    // In event of a PersonGui losing their car
     public PersonGui getNewGui(Person p) {
     	guis.remove(p.gui);
         AStarTraversal aStarTraversal = new AStarTraversal(pedestrianGrid);
@@ -1033,6 +1018,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         return g;
     }
     
+    // In event of a PersonGui gaining a car
     public CarGui getNewCarGui(Person p) {
     	guis.remove(p.gui);
   		currentID++;

@@ -60,16 +60,18 @@ public class tellerRole extends Role implements Teller {
 	@Override
 	public void enterBuilding() {
 		s = state.ready;
-		Do(AlertTag.BANK,"Teller: I am a teller: "+this);
 		B_Bank bank = (B_Bank)myPerson.getBuilding();
-		manager = bank.getBankManager();
-		manager.newTeller(this);
 		bank.addTeller(this);
+		manager = bank.getBankManager();
+		if(!(manager == null)){
+		Do(AlertTag.BANK,"Teller: I am a teller: "+this);
+		manager.newTeller(this);
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
 		bankgui.repaint();
 		gui.setText("Teller");
 		stateChanged();
+		} else bank.ExitBuilding(myPerson);
 	}
 	@Override
 	public void managerMap(Map<Integer, Money> managerAccs){
@@ -375,6 +377,11 @@ public class tellerRole extends Role implements Teller {
 
 	@Override
 	public void leaveBank() {
+		if(manager == null) {
+			System.out.println("Teller: leaving Bank because there is no manager");
+			myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		}
+		else {
 		myPerson.getMoney().add(50, 0);
 		manager.giveMap(bankAccs);
 		gui.doLeaveBank();
@@ -388,6 +395,7 @@ public class tellerRole extends Role implements Teller {
 		bg.removeGui(gui);
 		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
+		}
 	}
 
 	@Override

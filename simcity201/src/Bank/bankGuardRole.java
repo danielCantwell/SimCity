@@ -55,16 +55,19 @@ public class bankGuardRole extends Role implements Guard {
 	public void enterBuilding() {
 		//Do(AlertTag.BANK,"---------------------"+this);
 		s = state.ready;
-		Do(AlertTag.BANK,"I am a guard");
 		B_Bank bank = (B_Bank)myPerson.building;
 		bank.setBankGuard(this);
 		manager = bank.getBankManager();
+		if(!(manager == null)){
+			 System.out.println("_______________________manager: "+manager);
 		manager.setGuard(this);
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
 		bankgui.repaint();
+		Do(AlertTag.BANK,"I am a guard");
 		gui.setText("Guard");
 		stateChanged();
+		} else exitBuilding(myPerson);
 	}
 
 	public void wantEnter(Customer newC) {
@@ -124,8 +127,6 @@ public class bankGuardRole extends Role implements Guard {
 			for (Entry c : custEnter) {
 				if (c.s == state.complied) {
 					Search(c);
-					System.out.println("Made it into the Guard PAE robber");
-
 					return true;
 				}
 			}
@@ -201,6 +202,13 @@ public class bankGuardRole extends Role implements Guard {
 
 	@Override
 	public void leaveBank() {
+		if(manager == null) { System.out.println("Guard: Leaving because there is no Manager");
+		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
+		bankGui bg = (bankGui)myPerson.building.getPanel();
+		bg.removeGui(gui);
+		exitBuilding(myPerson);
+		}
+		else {
 		myPerson.getMoney().add(50, 0);
 		gui.doLeaveBank();
 		try {
@@ -209,11 +217,11 @@ public class bankGuardRole extends Role implements Guard {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		s = state.offD;
+		s = state.offD;		
 		bankGui bg = (bankGui)myPerson.building.getPanel();
 		bg.removeGui(gui);
-		myPerson.msgGoToBuilding(myPerson.getHouse(), Intent.customer);
 		exitBuilding(myPerson);
+		}
 	}
 
 	@Override

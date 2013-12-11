@@ -51,17 +51,19 @@ public class bankCustomerRole extends Role implements Customer{
 
 	@Override
 	public void enterBuilding() {
+		B_Bank bank = (B_Bank)myPerson.building;
+		if(!(bank.getBankManager() == null)){
 		s = state.enter;
 		wMoney = myPerson.getMoney();
 		accNum = myPerson.getAccNum();
 		Do(AlertTag.BANK,"This Customer has entered the building with: $"+wMoney.dollars+"."+wMoney.cents);
-		B_Bank bank = (B_Bank)myPerson.building;
 		guard = bank.getBankGuard();
 		Do(AlertTag.BANK,"messaging this guard: " + " "+ guard.toString());
 		bankGui bankgui = (bankGui)myPerson.building.getPanel();
 		bankgui.addGui(gui);
 		gui.setText("Customer");
 		stateChanged();
+		} else leaveBank();
 	}
 
 	@Override
