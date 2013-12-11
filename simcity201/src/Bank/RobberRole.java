@@ -107,8 +107,11 @@ public class RobberRole extends Role implements Robber{
 	public void openDoor() {
 //		if (!myPerson.building.getOpen()) {leaveBank(); System.out.println("BANK CLOSED MOFO CANT ROB DIS ISH");return;}
 		Do(AlertTag.BANK,"opened door");
+		if(!(guard==null)) {
 		guard.RobberEnter(this);
 		s = state.waiting;
+		}
+		else leaveBank();
 	}
 
 	public void robBank() {
@@ -124,7 +127,9 @@ public class RobberRole extends Role implements Robber{
 
 	@Override
 	public void leaveBank() {
+		if(!(guard==null))
 		Do(AlertTag.BANK,"Robber has made it out with : $"+rMoney.getDollar());
+		else Do(AlertTag.BANK,"Robber sees that he cannot get in the bank");
 		exitBuilding(myPerson);
 	}
 

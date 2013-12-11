@@ -14,6 +14,7 @@ import Bank.tellerRole;
 import SimCity.Base.Building;
 import SimCity.Base.Person;
 import SimCity.Base.Role;
+import SimCity.Base.Person.Intent;
 /**
  * @author Brian
  *
@@ -71,8 +72,10 @@ public class B_Bank extends Building{
 	}
 	@Override
 	public void ExitBuilding(Person person) {
-		if (person == bankGuard) manager =null;
+		if (person == bankGuard) {manager =null; bankGuard.leaveBank();}
 		else if (person == bankManager) guard = null;
+		else if (person.getMainRoleString().equals("Bank.tellerRole")) {tellers.get(0).leaveBank();}
+		person.msgGoToBuilding(person.getHouse(), Intent.customer);
     	person.resetActiveRoles();
     	person.msgExitBuilding();
 	}
