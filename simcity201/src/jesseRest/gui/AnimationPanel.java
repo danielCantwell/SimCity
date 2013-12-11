@@ -2,6 +2,9 @@ package jesseRest.gui;
 
 import javax.swing.*;
 
+import SimCity.trace.AlertLog;
+import SimCity.trace.AlertTag;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,11 +51,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    synchronized(guis)
 	    {
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.updatePosition();
-	            }
+            try {
+    	        for(Gui gui : guis) {
+    	            if (gui.isPresent()) {
+    	                gui.updatePosition();
+    	            }
+    	        }
 	        }
+            catch(Exception exception) {
+                AlertLog.getInstance().logError(AlertTag.JesseRest, "J_AnimationPanel", "CM error.");
+            }
 	    }
 		repaint();  //Will have paintComponent called
 	}
