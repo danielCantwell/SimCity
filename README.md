@@ -97,7 +97,18 @@ SimCity201 Project Repository for CS 201 students
   * Manager Role
   * Teller Role
 + Junit Testing
-  * All the above listed roles
+  * Guard Role
+  * Teller Role
++ Integration of Restaurant v2.2
+  * Integrated Jesse and My restaruants
+  * added Bank and Restaurant interaction to all restaurants.
+  * Integrated new market 
+  * Integrated money class 
+  * Producer/Consumer waiter
++ Buildings
+  * Jesse and Eric Restaurant
+  * Banks
+
 
 ####The following was done by everyone
 + Attended and contributed to each group meeting
